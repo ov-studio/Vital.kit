@@ -112,9 +112,8 @@ CNetwork.public.addInstanceMethod("off", (self, exec) => {
     const private = CNetwork.instance.get(self)
     if (!vKit.isFunction(exec)) return false
     if (!private.isCallback) {
-        const execVID = vKit.vid.fetch(exec, null, true)
-        if (!execVID || !private.handler[execVID]) return false
-        delete private.handler[execVID]
+        if (!private.handler.get(exec)) return false
+        private.handler.delete(exec)
     }
     else {
         if (!private.handler || (exec != private.handler.exec)) return false
