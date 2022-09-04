@@ -49,6 +49,7 @@ vKit.isClass = (data) => {
     return (isType && (isType.type == "class") && true) || false
 }
 
+// @Desc: Clones specified parent
 vKit.clone = (parent, isRecursive) => {
     if (!vKit.isObject(parent)) return parent
     const result = {}
