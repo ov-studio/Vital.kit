@@ -272,14 +272,19 @@ B: "X"
 //console.log(decodedText[1])
 
 const cObject = vKit.Object()
-const testValue = {}
-const testValue2 = {}
+const testValue = {A: 'XD'}
+const testValue2 = {B: 'XD'}
 cObject.set(1, "This is int")
 cObject.set("1", "This is string")
 cObject.set(testValue, "yep")
 cObject.set(testValue2, "yep2")
 
 cObject.forAll((i, j) => {
+    cObject.delete(i)
+})
+
+cObject.forAll((i, j) => {
+    console.log(i)
     console.log(i + " : " + j)
 })
 
