@@ -271,36 +271,7 @@ const decodedText = CVCL.public.decode(test)
 //console.log(decodedText)
 //console.log(decodedText[1])
 
-
-vObject = () => {
-    const vRefs = [[], {}, new WeakMap()]
-    return {
-        set: (property, value) => {
-            const propType = typeof(property)
-            if (propType == "number") {
-                vRefs[0][property] = value
-                return true
-            }
-            else if (propType == "object") {
-                vRefs[2].set(property, value)
-                return true
-            }
-            else {
-                vRefs[1][property] = value
-                return true
-            }
-        },
-        get: (property) => {
-            const propType = typeof(property)
-            if (propType == "number") return vRefs[0][property]
-            else if (propType == "object") return vRefs[2].get(property)
-            else return vRefs[1][property]
-        }
-    }
-}
-
-
-const cObject = vObject()
+const cObject = vKit.Object()
 const testValue = {}
 cObject.set(1, "This is int")
 cObject.set("1", "This is string")
