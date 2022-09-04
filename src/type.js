@@ -111,6 +111,7 @@ vKit.Object = () => {
                 return true
             }
         },
+        length: () => __R[0].length,
         forEach: (exec) => __L(exec, true) || false,
         forAll: (exec) => (__L(exec) && __L(exec, true)) || false
     }

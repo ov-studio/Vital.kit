@@ -274,9 +274,14 @@ const cObject = vKit.Object()
 const testValue = {A: 'XD'}
 const testValue2 = {B: 'XD'}
 cObject.set(1, "This is int")
+cObject.set(5, "This is int")
+cObject.delete(5, "This is int")
+
+/*
 cObject.set("1", "This is string")
 cObject.set(testValue, "yep")
 cObject.set(testValue2, "yep2")
+*/
 
 /*
 console.log(cObject.get(1))
