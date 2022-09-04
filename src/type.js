@@ -111,8 +111,8 @@ vKit.Object = () => {
                 return true
             }
         },
-        forEach: (exec) => (__L(exec, true) || false),
-        forAll: (exec) => ((__L(exec) && __L(exec, true)) || false)
+        forEach: (exec) => __L(exec, true) || false,
+        forAll: (exec) => (__L(exec) && __L(exec, true)) || false
     }
     CCache.set(__I, {type: "object", ref: __R})
     return __I
