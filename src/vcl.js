@@ -100,10 +100,11 @@ CVCL.private.parseBoolean = (parser, buffer, rw) => {
 // @Desc: Parses number
 CVCL.private.parseNumber = (parser, buffer, rw) => {
     if (!parser.isType || (parser.isType == "number")) {
-        const isNumber = Number(rw)
+        var isNumber = Number(rw)
+        if (isNumber.isNaN()) isNumber = false 
         if (!parser.isType) {
             const isNegative = rw == CVCL.private.types.negative
-            if (isNegative || isNumber) parser.isType = "number", parser.isTypeNegative = (isNegative && parser.ref) || false
+            if (isNegative || !vKit.isBool(isNumber)) parser.isType = "number", parser.isTypeNegative = (isNegative && parser.ref) || false
         }
         else {
             if (rw == CVCL.private.types.decimal) {
@@ -114,7 +115,7 @@ CVCL.private.parseNumber = (parser, buffer, rw) => {
                 parser.ref = parser.isTypeNegative - 1, parser.index = "", parser.isType = "object", parser.isTypeFloat = false, parser.isTypeNegative = false
             }
             else if (rw == CVCL.private.types.newline) parser.isParsed = true
-            else if (!isNumber) return false
+            else if (vKit.isBool(isNumber)) return false
         }
     }
     return true
