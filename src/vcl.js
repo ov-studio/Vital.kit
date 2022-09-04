@@ -216,7 +216,7 @@ function CVCL.private.encode(buffer, padding)
     end
     return result
 end
-CVCL.public.encode = (buffer) => {return CVCL.private.encode(buffer)}
+CVCL.public.encode = (buffer) => CVCL.private.encode(buffer)
 */
 
 CVCL.private.decode = (buffer, ref, padding, isChild) => {
@@ -247,10 +247,7 @@ CVCL.private.decode = (buffer, ref, padding, isChild) => {
     }
     return CVCL.private.parseReturn(parser, buffer)
 }
-CVCL.public.decode = (buffer) => {
-    const result = CVCL.private.decode(buffer)
-    return result[0]
-}
+CVCL.public.decode = (buffer) => CVCL.private.decode(buffer)
 
 
 var test = `
