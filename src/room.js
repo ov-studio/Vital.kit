@@ -19,6 +19,7 @@ const vKit = require(".")
 // Class: Room //
 //////////////////
 
+// TODO: MAKE IT DYNAMIC BASED ON CATEGORY AND IDENTIFIER
 const CRoom = vKit.Class()
 module.exports = CRoom.public
 CRoom.private.buffer = vKit.Object()
