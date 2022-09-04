@@ -71,6 +71,7 @@ vKit.Object = () => {
                 exec(i, __R[1][i])
             }
         }
+        return true
     }
     const __I = {
         set: (property, value) => {
