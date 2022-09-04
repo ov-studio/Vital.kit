@@ -21,7 +21,7 @@ const CHTTPS = require("https")
 
 const vKit = {
     print: console.log,
-    loadString: eval,
+    load: eval,
     queryString: require("querystring")
 }
 Object.defineProperty(vKit, "isServer", {value: ((typeof(process) != "undefined") && !process.browser && true) || false, enumerable: true, configurable: false, writable: false})
