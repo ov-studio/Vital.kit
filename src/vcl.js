@@ -19,7 +19,7 @@ const vKit = require(".")
 // Class: VCL //
 /////////////////
 
-const CVCL = vNetworkify.util.Class()
+const CVCL = vKit.Class()
 vKit.vcl = CVCL.public
 CVCL.private.types = {
     init: ":",
@@ -186,8 +186,8 @@ CVCL.private.parseReturn = (parser, buffer) => {
     parser.isParsed = (!parser.isChildErrored && ((parser.isType == "object") || parser.isParsed) && true) || false
     if (!parser.isParsed) {
         if (!parser.isChildErrored || (parser.isChildErrored == 0)) {
-            parser.isErrored = vNetworkify.util.string.format(parser.isErrored, CVCL.private.fetchLine(buffer, parser.ref), (parser.isType && "Malformed " + parser.isType) || "Invalid declaration")
-            vNetworkify.util.print(parser.isErrored)
+            parser.isErrored = vKit.string.format(parser.isErrored, CVCL.private.fetchLine(buffer, parser.ref), (parser.isType && "Malformed " + parser.isType) || "Invalid declaration")
+            vKit.print(parser.isErrored)
         }
         return [false, false, true]
     }
@@ -226,14 +226,14 @@ CVCL.public.encode = (buffer) => {return CVCL.private.encode(buffer)}
 
 CVCL.private.decode = (buffer, ref, padding, isChild) => {
     if (!buffer || (typeof(buffer) != "string")) return false
-    if (vNetworkify.util.string.isVoid(buffer)) return {} //TODO: ...
+    if (vKit.string.isVoid(buffer)) return {} //TODO: ...
     const parser = {
         ref: ref || 1, padding: padding,
         index: "", pointer: vKit.Object(), value: "",
         isErrored: "Failed to decode vcl. [Line: %s] [Reason: %s]"
     }
     if (!isChild) {
-        buffer = vNetworkify.util.string.detab(buffer).replace(CVCL.private.types.carriageline, "")
+        buffer = vKit.string.detab(buffer).replace(CVCL.private.types.carriageline, "")
         buffer = (!isChild && (CVCL.private.fetch(buffer, buffer.length) != CVCL.private.types.newline) && (buffer + CVCL.private.types.newline)) || buffer   
     }
     while(parser.ref <= buffer.length) {
@@ -267,7 +267,7 @@ B: "X"
 -: "Hey"
 `
 //console.log(test)
-const decodedText = CVCL.public.decode(test)
+//const decodedText = CVCL.public.decode(test)
 //console.log(decodedText)
 //console.log(decodedText[1])
 

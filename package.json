@@ -29,6 +29,10 @@
         "socket",
         "rest"
     ],
+    "scripts": {
+        "debug": "node ./src",
+        "build": "webpack"
+    },
     "main": "./src",
     "dependencies": {}
 }
