@@ -100,7 +100,6 @@ vKit.Class = (parent) => {
             vKit.exec(__C.constructor, this, ...cArgs)
         }
     }
-    CCache.set(__C, {type: "class", ref: __C})
     if (vKit.isObject(parent)) {
         for (const i in parent) {
             __C[i] = parent[i]
@@ -135,5 +134,6 @@ vKit.Class = (parent) => {
     __C.createInstance = (...cArgs) => new __C(...cArgs)
     __C.addInstanceMethod("isInstance", (self) => __I.has(self))
     __C.addInstanceMethod("destroyInstance", (self) => __I.delete(self))
+    CCache.set(__C, {type: "class", ref: __C})
     return {public: __C, private: {}, instance: __I}
 }
