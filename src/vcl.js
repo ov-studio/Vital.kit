@@ -168,7 +168,8 @@ CVCL.private.parseObject = (parser, buffer, rw, isChild) => {
                     if (!CVCL.private.isVoid(parser.index)) {
                         const [value, __index, error] = CVCL.private.decode(buffer, parser.ref + 1, indexPadding, true)
                         if (!error) {
-                            parser.pointer[(parser.index)] = value, parser.ref = __index - 1, parser.index = ""
+                            parser.pointer.set(parser.index, value)
+                            parser.ref = __index - 1, parser.index = ""
                         }
                         else parser.isChildErrored = 1
                     }
