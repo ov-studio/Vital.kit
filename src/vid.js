@@ -43,7 +43,7 @@ CVID.public.addMethod("create", () => {
 // @Desc: Blacklists a VID
 CVID.public.addMethod("blacklist", (vid) => {
     if (!vKit.isString(vid) || CVID.private.buffer.get(vid)) return false
-    CVID.private.buffer.set(vid) = true
+    CVID.private.buffer.set(vid, true)
     return true
 })
 

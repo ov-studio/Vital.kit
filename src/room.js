@@ -20,7 +20,7 @@ const vKit = require(".")
 //////////////////
 
 const CRoom = vKit.Class()
-CRoom.private.buffer = {}
+CRoom.private.buffer = vKit.Object()
 
 
 /////////////////////
@@ -28,16 +28,17 @@ CRoom.private.buffer = {}
 /////////////////////
 
 // @Desc: Verifies whether the room is void
-CRoom.public.addMethod("isVoid", (name) => (vKit.isString(name) && !CRoom.private.buffer[name] && true) || false)
+CRoom.public.addMethod("isVoid", (name) => (vKit.isString(name) && !CRoom.private.buffer.get(name) && true) || false)
 
 // @Desc: Fetches room instance by name
-CRoom.public.addMethod("fetch", (name) => (!CRoom.public.isVoid(name) && CRoom.private.buffer[name]) || false)
+CRoom.public.addMethod("fetch", (name) => (!CRoom.public.isVoid(name) && CRoom.private.buffer.get(name)) || false)
 
 // @Desc: Creates a fresh room w/ specified name
 CRoom.public.addMethod("create", (name, ...cArgs) => {
     if (!CRoom.public.isVoid(name)) return false
-    CRoom.private.buffer[name] = CRoom.public.createInstance(name, ...cArgs)
-    return CRoom.private.buffer[name]
+    const cInstance = CRoom.public.createInstance(name, ...cArgs)
+    CRoom.private.buffer.set(name, cInstance)
+    return cInstance
 })
 
 // @Desc: Destroys an existing room by specified name
