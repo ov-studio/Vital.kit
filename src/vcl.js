@@ -273,17 +273,21 @@ B: "X"
 
 const cObject = vKit.Object()
 const testValue = {}
+const testValue2 = {}
 cObject.set(1, "This is int")
 cObject.set("1", "This is string")
 cObject.set(testValue, "yep")
+cObject.set(testValue2, "yep2")
 
-cObject.forEach((i, j) => {
+cObject.forAll((i, j) => {
     console.log(i + " : " + j)
 })
+
 /*
 console.log(cObject.get(1))
 console.log(cObject.get("1"))
 console.log(cObject.get(testValue))
+console.log(cObject.get(testValue2))
 */
 
 //vRefs[1].set(1, "valueA")

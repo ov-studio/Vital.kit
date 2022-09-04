@@ -62,15 +62,11 @@ vKit.cloneObject = (parent, isRecursive) => {
 
 // @Desc: Creates a new dynamic object
 vKit.Object = () => {
-    const __R = [[], {}, new WeakMap()]
+    const __R = [[], {}, [[], new WeakMap()]]
     const __L = (exec, isOrdered) => {
         if (!vKit.isFunction(exec)) return false
         if (isOrdered)  __R[0].forEach((j, i) => exec(i, j))
-        else {
-            for (const i in __R[1]) {
-                exec(i, __R[1][i])
-            }
-        }
+        else __R[2][0].forEach((j, i) => exec(j, __R[2][1].get(j)))
         return true
     }
     const __I = {
@@ -81,7 +77,10 @@ vKit.Object = () => {
                 return true
             }
             else if (pType == "object") {
-                __R[2].set(property, value)
+                let pIndex = __R[2][0].indexOf(property)
+                pIndex = ((pIndex != -1) && pIndex) || __R[2][0].length
+                __R[2][0][pIndex] = property
+                __R[2][1].set(property, value)
                 return true
             }
             else {
@@ -92,7 +91,7 @@ vKit.Object = () => {
         get: (property) => {
             const pType = typeof(property)
             if (pType == "number") return __R[0][property]
-            else if (pType == "object") return __R[2].get(property)
+            else if (pType == "object") return __R[2][1].get(property)
             else return __R[1][property]
         },
         forEach: (exec) => {
