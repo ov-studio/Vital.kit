@@ -80,7 +80,7 @@ CNetwork.public.addMethod("constructor", (self, name, isCallback) => {
     private.name = name
     private.isCallback = (vKit.isBool(isCallback) && true) || false
     self.isCallback = private.isCallback
-    private.handler = (!private.isCallback && {}) || false
+    private.handler = (!private.isCallback && vKit.Object()) || false
 })
 
 // @Desc: Destroys the instance
@@ -127,9 +127,9 @@ CNetwork.public.addInstanceMethod("off", (self, exec) => {
 CNetwork.public.addInstanceMethod("emit", (self, ...cArgs) => {
     const private = CNetwork.instance.get(self)
     if (private.isCallback) return false
-    for (const i in private.handler) {
-        private.handler[i].exec(...cArgs)
-    }
+    private.handler.forAll((i, j) => {
+        j.exec(...cArgs)
+    })
     return true
 })
 
