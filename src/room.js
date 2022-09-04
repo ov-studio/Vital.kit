@@ -20,6 +20,7 @@ const vKit = require(".")
 //////////////////
 
 const CRoom = vKit.Class()
+module.exports = CRoom.public
 CRoom.private.buffer = vKit.Object()
 
 
@@ -65,10 +66,3 @@ CRoom.public.addInstanceMethod("destroy", (self) => {
     self.destroyInstance()
     return true
 })
-
-
-//////////////
-// Exports //
-//////////////
-
-module.exports = CRoom.public

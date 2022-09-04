@@ -20,6 +20,7 @@ const vKit = require(".")
 /////////////////////
 
 const CNetwork = vKit.Class()
+module.exports = CNetwork.public
 CNetwork.private.buffer = vKit.Object()
 
 
@@ -138,10 +139,3 @@ CNetwork.public.addInstanceMethod("emitCallback", async (self, ...cArgs) => {
     if (!private.isCallback || !private.handler) return false
     return await private.handler.exec(...cArgs)
 })
-
-
-//////////////
-// Exports //
-//////////////
-
-module.exports = CNetwork.public
