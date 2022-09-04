@@ -15,9 +15,9 @@
 const CHTTPS = require("https")
 
 
-/////////////////////
-// Class: Utility //
-/////////////////////
+//////////////////
+// Class: vKit //
+//////////////////
 
 const vKit = {
     print: console.log,
