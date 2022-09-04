@@ -20,7 +20,7 @@ const vKit = require(".")
 /////////////////////
 
 const CNetwork = vKit.Class()
-CNetwork.private.buffer = {}
+CNetwork.private.buffer = vKit.Object()
 
 
 /////////////////////
@@ -28,22 +28,23 @@ CNetwork.private.buffer = {}
 /////////////////////
 
 // @Desc: Verifies whether the network is void
-CNetwork.public.addMethod("isVoid", (name) => (vKit.isString(name) && !CNetwork.private.buffer[name] && true) || false)
+CNetwork.public.addMethod("isVoid", (name) => (vKit.isString(name) && !CNetwork.private.buffer.get(name) && true) || false)
 
 // @Desc: Fetches network instance by name
-CNetwork.public.addMethod("fetch", (name) => (!CNetwork.public.isVoid(name) && CNetwork.private.buffer[name]) || false)
+CNetwork.public.addMethod("fetch", (name) => (!CNetwork.public.isVoid(name) && CNetwork.private.buffer.get(name)) || false)
 
 // @Desc: Creates a fresh network w/ specified name
 CNetwork.public.addMethod("create", (name, ...cArgs) => {
     if (!CNetwork.public.isVoid(name)) return false
-    CNetwork.private.buffer[name] = CNetwork.public.createInstance(name, ...cArgs)
-    return CNetwork.private.buffer[name]
+    const cInstance = CNetwork.public.createInstance(name, ...cArgs)
+    CNetwork.private.buffer.set(name, cInstance)
+    return cInstance
 })
 
 // @Desc: Destroys an existing network by specified name
 CNetwork.public.addMethod("destroy", (name) => {
     if (CNetwork.public.isVoid(name)) return false
-    return CNetwork.private.buffer[name].destroy()
+    return CNetwork.private.buffer.get(name).destroy()
 })
 
 // @Desc: Attaches a handler on specified network
@@ -84,7 +85,7 @@ CNetwork.public.addMethod("constructor", (self, name, isCallback) => {
 // @Desc: Destroys the instance
 CNetwork.public.addInstanceMethod("destroy", (self) => {
     const private = CNetwork.instance.get(self)
-    delete CNetwork.private.buffer[(private.name)]
+    CNetwork.private.buffer.delete(private.name)
     self.destroyInstance()
     return true
 })
