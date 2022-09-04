@@ -3,7 +3,7 @@
      Script: network.js
      Author: vStudio
      Developer(s): Aviril, Mario, Tron
-     DOC: 22/07/2022
+     DOC: 04/09/2022
      Desc: Network Utilities
 ----------------------------------------------------------------*/
 
