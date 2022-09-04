@@ -65,9 +65,11 @@ vKit.Object = () => {
     const __R = [[], {}, new WeakMap()]
     const __L = (exec, isOrdered) => {
         if (!vKit.isFunction(exec)) return false
-        if (isOrdered)  __R[0].foreach((j, i) => exec(i, j))
+        if (isOrdered)  __R[0].forEach((j, i) => exec(i, j))
         else {
-            // TODO: ...
+            for (const i in __R[1]) {
+                exec(i, __R[1][i])
+            }
         }
     }
     const __I = {
