@@ -19,14 +19,13 @@ const vKit = require(".")
 // Class: Type //
 //////////////////
 
-const CCache = new WeakMap()
 const CType = [
     {handler: "isBool", type: "boolean"},
     {handler: "isString", type: "string"},
     {handler: "isNumber", type: "number"},
     {handler: "isObject", type: "object", middleware: ((data, isArray) => (!isArray && true) || Array.isArray(data))},
     {handler: "isFunction", type: "function"}
-]
+], CCache = new WeakMap()
 CType.forEach((j) => {
     vKit[(j.handler)] = (data, ...cArgs) => {
         var isValid = vKit.isType(data, j.type)
