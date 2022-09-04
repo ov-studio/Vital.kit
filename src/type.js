@@ -94,6 +94,24 @@ vKit.Object = () => {
             else if (pType == "object") return __R[2][1].get(property)
             else return __R[1][property]
         },
+        delete: (property) => {
+            const pType = typeof(property)
+            if (pType == "number") {
+                delete __R[0][property]
+                return true
+            }
+            else if (pType == "object") {
+                let pIndex = __R[2][0].indexOf(property)
+                pIndex = ((pIndex != -1) && pIndex) || __R[2][0].length
+                delete __R[2][0][pIndex]
+                __R[2][1].delete(property)
+                return true
+            }
+            else {
+                delete __R[1][property]
+                return true
+            }
+        },
         forEach: (exec) => (__L(exec, true) || false),
         forAll: (exec) => ((__L(exec) && __L(exec, true)) || false)
     }
