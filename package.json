@@ -1,0 +1,34 @@
+{
+    "name": "@vstudio/vital.kit",
+    "version": "1.0.0",
+    "author": "ᴏᴠ <crazynuggets@outlook.com> (https://github.com/ov-studio)",
+    "private": false,
+    "license": "GPL-3.0",
+    "description": "Vital.js' Toolkit",
+    "homepage": "https://github.com/ov-studio/Vital.kit#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ov-studio/Vital.kit.git"
+    },
+    "bugs": {
+        "url": "https://github.com/ov-studio/Vital.kit/issues"
+    },
+    "keywords": [
+        "ov",
+        "vstudio",
+        "vital",
+        "web-dev",
+        "toolkit",
+        "networker",
+        "networkify",
+        "library",
+        "networking",
+        "lightweight",
+        "communication",
+        "interface",
+        "socket",
+        "rest"
+    ],
+    "main": "./kit",
+    "dependencies": {}
+}
