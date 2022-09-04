@@ -29,6 +29,6 @@
         "socket",
         "rest"
     ],
-    "main": "./kit",
+    "main": "./src",
     "dependencies": {}
 }
