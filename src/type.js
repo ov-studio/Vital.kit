@@ -63,6 +63,13 @@ vKit.cloneObject = (parent, isRecursive) => {
 // @Desc: Creates a new dynamic object
 vKit.Object = () => {
     const __R = [[], {}, new WeakMap()]
+    const __L = (exec, isOrdered) => {
+        if (!vKit.isFunction(exec)) return false
+        if (isOrdered)  __R[0].foreach((j, i) => exec(i, j))
+        else {
+            // TODO: ...
+        }
+    }
     const __I = {
         set: (property, value) => {
             const pType = typeof(property)
@@ -84,6 +91,12 @@ vKit.Object = () => {
             if (pType == "number") return __R[0][property]
             else if (pType == "object") return __R[2].get(property)
             else return __R[1][property]
+        },
+        forEach: (exec) => {
+            return __L(exec, true) || false
+        },
+        forAll: (exec) => {
+            return (__L(exec) && __L(exec, true)) || false
         }
     }
     CCache.set(__I, {type: "object", ref: __R})

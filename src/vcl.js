@@ -271,6 +271,7 @@ B: "X"
 //console.log(decodedText)
 //console.log(decodedText[1])
 
+/*
 const cObject = vKit.Object()
 const testValue = {}
 cObject.set(1, "This is int")
@@ -280,6 +281,7 @@ cObject.set(testValue, "yep")
 console.log(cObject.get(1))
 console.log(cObject.get("1"))
 console.log(cObject.get(testValue))
+*/
 
 
 //vRefs[1].set(1, "valueA")
