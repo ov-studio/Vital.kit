@@ -12,7 +12,7 @@
 // Imports //
 //////////////
 
-const CKit = require(".")
+const vKit = require(".")
 
 
 //////////////////
@@ -28,41 +28,41 @@ const CType = [
     {handler: "isFunction", type: "function"}
 ]
 CType.forEach((j) => {
-    CKit[(j.handler)] = (data, ...cArgs) => {
-        var isValid = CKit.isType(data, j.type)
+    vKit[(j.handler)] = (data, ...cArgs) => {
+        var isValid = vKit.isType(data, j.type)
         if (isValid && j.middleware) isValid = (j.middleware(data, ...cArgs) && isValid) || false
         return isValid
     }
 })
 
 // @Desc: Verifies whether specified data is null
-CKit.isNull = (data) => data == null
+vKit.isNull = (data) => data == null
 
 // @Desc: Verifies specified data's type
-CKit.isType = (data, type) => (!CKit.isNull(data) && !CKit.isNull(type) && (typeof(type) == "string") && (typeof(data) == type) && true) || false
+vKit.isType = (data, type) => (!vKit.isNull(data) && !vKit.isNull(type) && (typeof(type) == "string") && (typeof(data) == type) && true) || false
 
 // @Desc: Verifies whether specified data is an array
-CKit.isArray = (data) => CKit.isObject(data, true)
+vKit.isArray = (data) => vKit.isObject(data, true)
 
 // @Desc: Verifies whether specified data is a class
-CKit.isClass = (data) => {
+vKit.isClass = (data) => {
     const isType = (CCache.has(data) && CCache.get(data)) || false
     return (isType && (isType.type == "class") && true) || false
 }
 
-CKit.cloneObject = (parent, isRecursive) => {
-    if (!CKit.isObject(parent)) return false
+vKit.cloneObject = (parent, isRecursive) => {
+    if (!vKit.isObject(parent)) return false
     const result = {}
     for (const i in parent) {
         const j = parent[i]
-        if (isRecursive && CKit.isObject(j)) result[i] = CKit.cloneObject(j, isRecursive)
+        if (isRecursive && vKit.isObject(j)) result[i] = vKit.cloneObject(j, isRecursive)
         else result[i] = j
     }
     return result
 }
 
 // @Desc: Creates a new dynamic object
-CKit.Object = () => {
+vKit.Object = () => {
     const __R = [[], {}, new WeakMap()]
     const __I = {
         set: (property, value) => {
@@ -92,43 +92,43 @@ CKit.Object = () => {
 }
 
 // @Desc: Creates a new dynamic class
-CKit.Class = (parent) => {
+vKit.Class = (parent) => {
     const __I = new WeakMap()
     class __C {
         constructor(...cArgs) {
             __I.set(this, {})
-            CKit.exec(__C.constructor, this, ...cArgs)
+            vKit.exec(__C.constructor, this, ...cArgs)
         }
     }
     CCache.set(__C, {type: "class", ref: __C})
-    if (CKit.isObject(parent)) {
+    if (vKit.isObject(parent)) {
         for (const i in parent) {
             __C[i] = parent[i]
         }
     }
     __C.addMethod = (index, exec, isInstanceware) => {
-        if (!CKit.isString(index) || !CKit.isFunction(exec)) return false
-        if ((index == "constructor") && CKit.isString(isInstanceware)) __C.isInstanceware = isInstanceware
+        if (!vKit.isString(index) || !vKit.isFunction(exec)) return false
+        if ((index == "constructor") && vKit.isString(isInstanceware)) __C.isInstanceware = isInstanceware
         __C[index] = exec
         return true
     }
     __C.removeMethod = (index) => {
-        if (!CKit.isString(index) || !CKit.isFunction(__C[index])) return false
+        if (!vKit.isString(index) || !vKit.isFunction(__C[index])) return false
         delete __C[index]
         return true
     }
     __C.addInstanceMethod = (index, exec) => {
-        if (!CKit.isString(index) || !CKit.isFunction(exec)) return false
+        if (!vKit.isString(index) || !vKit.isFunction(exec)) return false
         __C.prototype[index] = function(...cArgs) {
             const self = this
             const isInstanceware = __C.isInstanceware
-            if (!__I.has(self) || (CKit.isString(isInstanceware) && (index != isInstanceware) && CKit.isFunction(self[isInstanceware]) && !self[isInstanceware]())) return false
+            if (!__I.has(self) || (vKit.isString(isInstanceware) && (index != isInstanceware) && vKit.isFunction(self[isInstanceware]) && !self[isInstanceware]())) return false
             return exec(self, ...cArgs)
         }
         return true
     }
     __C.removeInstanceMethod = (index) => {
-        if (!CKit.isString(index) || !CKit.isFunction(__C.prototype[index])) return false
+        if (!vKit.isString(index) || !vKit.isFunction(__C.prototype[index])) return false
         delete __C.prototype[index]
         return true
     }

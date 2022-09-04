@@ -19,40 +19,41 @@ const CHTTPS = require("https")
 // Class: Utility //
 /////////////////////
 
-const CKit = {
+const vKit = {
     print: console.log,
     loadString: eval,
     queryString: require("querystring")
 }
-Object.defineProperty(CKit, "isServer", {value: ((typeof(process) != "undefined") && !process.browser && true) || false, enumerable: true, configurable: false, writable: false})
-Object.defineProperty(CKit, "global", {value: (CKit.isServer && global) || window, enumerable: true, configurable: false, writable: false})
-CKit.crypto = (CKit.isServer && require("crypto")) || crypto
-CKit.crypto.getRandomValues = CKit.crypto.getRandomValues || ((buffer) => {
+Object.defineProperty(vKit, "isServer", {value: ((typeof(process) != "undefined") && !process.browser && true) || false, enumerable: true, configurable: false, writable: false})
+Object.defineProperty(vKit, "global", {value: (vKit.isServer && global) || window, enumerable: true, configurable: false, writable: false})
+vKit.crypto = (vKit.isServer && require("crypto")) || crypto
+vKit.crypto.getRandomValues = vKit.crypto.getRandomValues || ((buffer) => {
     if (buffer instanceof Uint8Array) {
-        buffer.set(CKit.crypto.randomBytes(buffer.length))
+        buffer.set(vKit.crypto.randomBytes(buffer.length))
         return buffer
     }
     return false
 })
-CKit.toBase64 = (!CKit.isServer && btoa.bind(window)) || ((data) => Buffer.from(data).toString("base64"))
-CKit.fromBase64 = (!CKit.isServer && atob.bind(window)) || ((data) => Buffer.from(data, "base64").toString("binary"))
-Object.defineProperty(CKit, "identifier", {value: CKit.toBase64(`vNetworkify-${(CKit.isServer && "Server") || "Client"}`), enumerable: true, configurable: false, writable: false})
-CKit.version = Object.defineProperty(CKit, "version", {value: CKit.toBase64("3.3.1"), enumerable: true, configurable: false, writable: false})
+vKit.toBase64 = (!vKit.isServer && btoa.bind(window)) || ((data) => Buffer.from(data).toString("base64"))
+vKit.fromBase64 = (!vKit.isServer && atob.bind(window)) || ((data) => Buffer.from(data, "base64").toString("binary"))
+Object.defineProperty(vKit, "identifier", {value: vKit.toBase64(`vNetworkify-${(vKit.isServer && "Server") || "Client"}`), enumerable: true, configurable: false, writable: false})
+// TODO: WIP...
+//vKit.version = Object.defineProperty(vKit, "version", {value: vKit.toBase64("3.3.1"), enumerable: true, configurable: false, writable: false})
 
 // @Desc: Executes the specified handler
-CKit.exec = (exec, ...cArgs) => {
-    if (!CKit.isFunction(exec)) return false
+vKit.exec = (exec, ...cArgs) => {
+    if (!vKit.isFunction(exec)) return false
     return exec(...cArgs)
 }
 
 // @Desc: Schedules the specified handler to be executed at desired interval
-CKit.scheduleExec = (exec, duration, isInterval) => {
-    if (!CKit.isFunction(exec)) return false
+vKit.scheduleExec = (exec, duration, isInterval) => {
+    if (!vKit.isFunction(exec)) return false
     return ((isInterval && setInterval) || setTimeout)(exec, duration)
 }
 
 // @Desc: Fetches an API
-CKit.fetch = (!CKit.isServer && (async (route, options) => {
+vKit.fetch = (!vKit.isServer && (async (route, options) => {
     try {
         const result = await fetch(route, options)
         return await result.text()
@@ -72,9 +73,9 @@ CKit.fetch = (!CKit.isServer && (async (route, options) => {
 })
 
 // @Desc: Creates dynamic whitelisted module APIs
-CKit.createAPIs = (buffer, blacklist) => {
-    if (!CKit.isObject(buffer) && !CKit.isClass(buffer)) return false
-    blacklist = (blacklist && CKit.isObject(blacklist) && blacklist) || false
+vKit.createAPIs = (buffer, blacklist) => {
+    if (!vKit.isObject(buffer) && !vKit.isClass(buffer)) return false
+    blacklist = (blacklist && vKit.isObject(blacklist) && blacklist) || false
     var isVoid = true
     const result = {}
     for (const i in buffer) {
@@ -82,14 +83,14 @@ CKit.createAPIs = (buffer, blacklist) => {
         const isBlackListed = (blacklist && (blacklist[i] == true) && true) || false
         const isBlacklistPointer = (blacklist && !isBlackListed && blacklist[i]) || false
         if (!isBlackListed) {
-            if (CKit.isObject(j) || CKit.isClass(j)) {
-                const __result = CKit.createAPIs(j, isBlacklistPointer)
+            if (vKit.isObject(j) || vKit.isClass(j)) {
+                const __result = vKit.createAPIs(j, isBlacklistPointer)
                 if (__result) {
                     isVoid = false
                     result[i] = __result
                 }
             }
-            else if (CKit.isFunction(j)) {
+            else if (vKit.isFunction(j)) {
                 isVoid = false
                 result[i] = j
             }
@@ -103,8 +104,8 @@ CKit.createAPIs = (buffer, blacklist) => {
 // Exports //
 //////////////
 
-CKit.global.vKit = CKit
-module.exports = CKit
+vKit.global.vKit = vKit
+module.exports = vKit
 require("./type")
 require("./vid")
 require("./network")
