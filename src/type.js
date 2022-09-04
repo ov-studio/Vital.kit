@@ -78,7 +78,7 @@ vKit.Object = () => {
             }
             else if (pType == "object") {
                 let pIndex = __R[2][0].indexOf(property)
-                pIndex = ((pIndex != -1) && pIndex) || __R[2][0].length
+                if (pIndex == -1) pIndex = __R[2][0].length
                 __R[2][0][pIndex] = property
                 __R[2][1].set(property, value)
                 return true
@@ -102,8 +102,7 @@ vKit.Object = () => {
             }
             else if (pType == "object") {
                 let pIndex = __R[2][0].indexOf(property)
-                pIndex = ((pIndex != -1) && pIndex) || __R[2][0].length
-                delete __R[2][0][pIndex]
+                if (pIndex != -1) delete __R[2][0][pIndex]
                 __R[2][1].delete(property)
                 return true
             }
