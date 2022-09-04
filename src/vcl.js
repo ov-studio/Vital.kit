@@ -144,10 +144,7 @@ CVCL.private.parseObject = (parser, buffer, rw, isChild) => {
         if (CVCL.private.isVoid(parser.index) && (rw == CVCL.private.types.list)) parser.isTypeID = parser.ref
         else if (!CVCL.private.isVoid(rw)) parser.index = parser.index + rw
         else {
-            if (parser.isTypeID && CVCL.private.isVoid(parser.index) && (rw == CVCL.private.types.init)) {
-                parser.index = String(parser.pointer.length() + 1)
-                console.log("FIND INDEX.. " + parser.index)
-            }
+            if (parser.isTypeID && CVCL.private.isVoid(parser.index) && (rw == CVCL.private.types.init)) parser.index = String(parser.pointer.length() + 1)
             if (!CVCL.private.isVoid(parser.index)) {
                 if (parser.isTypeID && (rw == CVCL.private.types.newline)) parser.pointer.set(parser.pointer.length() + 1, parser.index)
                 else if (rw == CVCL.private.types.init) {
