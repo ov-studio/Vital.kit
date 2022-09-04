@@ -145,12 +145,11 @@ CVCL.private.parseObject = (parser, buffer, rw, isChild) => {
         else if (!CVCL.private.isVoid(rw)) parser.index = parser.index + rw
         else {
             if (parser.isTypeID && CVCL.private.isVoid(parser.index) && (rw == CVCL.private.types.init)) {
-                // TODO: FIND AUTO INDEX
-                console.log("FIND INDEX..")
-                parser.index = String(parser.pointer.length + 1)
+                parser.index = String(parser.pointer.length() + 1)
+                console.log("FIND INDEX.. " + parser.index)
             }
             if (!CVCL.private.isVoid(parser.index)) {
-                if (parser.isTypeID && (rw == CVCL.private.types.newline)) parser.pointer[(parser.pointer.length + 1)] = parser.index
+                if (parser.isTypeID && (rw == CVCL.private.types.newline)) parser.pointer.set(parser.pointer.length() + 1, parser.index)
                 else if (rw == CVCL.private.types.init) {
                     const [line, lineText] = CVCL.private.fetchLine(buffer.substring(0, parser.ref))
                     const indexTypePadding = (parser.isTypeID && (parser.ref - parser.isTypeID - 1)) || 0
@@ -265,40 +264,7 @@ B: "X"
 1: "override"
 -: "Hey"
 `
-//console.log(test)
-//const decodedText = CVCL.public.decode(test)
-//console.log(decodedText)
-//console.log(decodedText[1])
-
-const cObject = vKit.Object()
-const testValue = {A: 'XD'}
-const testValue2 = {B: 'XD'}
-cObject.set(1, "This is int")
-cObject.set(5, "This is int")
-cObject.delete(5, "This is int")
-
-/*
-cObject.set("1", "This is string")
-cObject.set(testValue, "yep")
-cObject.set(testValue2, "yep2")
-*/
-
-/*
-console.log(cObject.get(1))
-console.log(cObject.get("1"))
-console.log(cObject.get(testValue))
-console.log(cObject.get(testValue2))
-*/
-
-//vRefs[1].set(1, "valueA")
-//vRefs[1].set("1", "valueA")
-
-//console.log(vRefs[1].get(1))
-/*
-console.log(vRefs[1][1])
-console.log(vRefs[1][2])
-
-vRefs[1].forEach(function(value, index) {
-    console.log(index + " : " + value)
+const decodedText = CVCL.public.decode(test)
+decodedText.forAll((i, j) => {
+    console.log(i + " : " + j)
 })
-*/
