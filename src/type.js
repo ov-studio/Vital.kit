@@ -49,12 +49,12 @@ vKit.isClass = (data) => {
     return (isType && (isType.type == "class") && true) || false
 }
 
-vKit.Clone = (parent, isRecursive) => {
+vKit.clone = (parent, isRecursive) => {
     if (!vKit.isObject(parent)) return parent
     const result = {}
     for (const i in parent) {
         const j = parent[i]
-        if (isRecursive && vKit.isObject(j)) result[i] = vKit.Clone(j, isRecursive)
+        if (isRecursive && vKit.isObject(j)) result[i] = vKit.clone(j, isRecursive)
         else result[i] = j
     }
     return result
