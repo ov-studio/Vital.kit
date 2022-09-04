@@ -279,15 +279,6 @@ cObject.set("1", "This is string")
 cObject.set(testValue, "yep")
 cObject.set(testValue2, "yep2")
 
-cObject.forAll((i, j) => {
-    cObject.delete(i)
-})
-
-cObject.forAll((i, j) => {
-    console.log(i)
-    console.log(i + " : " + j)
-})
-
 /*
 console.log(cObject.get(1))
 console.log(cObject.get("1"))
