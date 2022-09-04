@@ -19,7 +19,7 @@ const vKit = require(".")
 // Class: VCL //
 /////////////////
 
-const CVCL = vNetworkify.util.createClass()
+const CVCL = vNetworkify.util.Class()
 vKit.vcl = CVCL.public
 CVCL.private.types = {
     init: ":",
@@ -229,7 +229,7 @@ CVCL.private.decode = (buffer, ref, padding, isChild) => {
     if (vNetworkify.util.string.isVoid(buffer)) return {} //TODO: ...
     const parser = {
         ref: ref || 1, padding: padding,
-        index: "", pointer: {}, value: "",
+        index: "", pointer: vKit.Object(), value: "",
         isErrored: "Failed to decode vcl. [Line: %s] [Reason: %s]"
     }
     if (!isChild) {
