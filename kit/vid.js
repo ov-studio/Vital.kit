@@ -31,16 +31,16 @@ CVID.private.counter = 0
 
 // @Desc: Creates a unique VID
 CVID.public.addMethod("create", () => {
-    var cvid = false
-    while(!cvid) {
+    var vid = false
+    while(!vid) {
         const vvid = vKit.toBase64(vKit.crypto.getRandomValues(new Uint8Array(8)).join("") + (Date.now() + CVID.private.counter))
         if (!CVID.private.buffer[vvid]) {
             CVID.public.blacklist(vvid)
-            cvid = vvid
+            vid = vvid
         }
         CVID.private.counter += 1
     }
-    return cvid
+    return vid
 })
 
 // @Desc: Blacklists a VID
