@@ -44,7 +44,7 @@ CRoom.public.addMethod("create", (name, ...cArgs) => {
 // @Desc: Destroys an existing room by specified name
 CRoom.public.addMethod("destroy", (name) => {
     if (CRoom.public.isVoid(name)) return false
-    return CRoom.private.buffer[name].destroy()
+    return CRoom.private.buffer.get(name).destroy()
 })
 
 
@@ -61,7 +61,7 @@ CRoom.public.addMethod("constructor", (self, name) => {
 // @Desc: Destroys the instance
 CRoom.public.addInstanceMethod("destroy", (self) => {
     const private = CRoom.instance.get(self)
-    delete CRoom.private.buffer[(private.name)]
+    CRoom.private.buffer.delete(private.name)
     self.destroyInstance()
     return true
 })
