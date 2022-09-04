@@ -21,7 +21,7 @@ const vKit = require(".")
 
 const CVID = vKit.Class()
 vKit.vid = CVID.public
-CVID.private.buffer = {}
+CVID.private.buffer = vKit.Object()
 CVID.private.counter = 0
 
 
@@ -34,10 +34,7 @@ CVID.public.addMethod("create", () => {
     var vid = false
     while(!vid) {
         const vvid = vKit.toBase64(vKit.crypto.getRandomValues(new Uint8Array(8)).join("") + (Date.now() + CVID.private.counter))
-        if (!CVID.private.buffer[vvid]) {
-            CVID.public.blacklist(vvid)
-            vid = vvid
-        }
+        if (CVID.public.blacklist(vvid)) vid = vvid
         CVID.private.counter += 1
     }
     return vid
@@ -45,8 +42,8 @@ CVID.public.addMethod("create", () => {
 
 // @Desc: Blacklists a VID
 CVID.public.addMethod("blacklist", (vid) => {
-    if (!vKit.isString(vid) || CVID.private.buffer[vid]) return false
-    CVID.private.buffer[vid] = true
+    if (!vKit.isString(vid) || CVID.private.buffer.get(vid)) return false
+    CVID.private.buffer.set(vid) = true
     return true
 })
 
