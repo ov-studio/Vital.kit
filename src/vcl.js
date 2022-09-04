@@ -258,7 +258,7 @@ B: "X"
 1: "override"
 -: "Hey"
 `
-const decodedText = CVCL.public.decode(test)
+const [decodedText] = CVCL.public.decode(test)
 decodedText.forAll((i, j) => {
     console.log(i + " : " + j)
 })
