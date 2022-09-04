@@ -101,7 +101,7 @@ CNetwork.public.addInstanceMethod("on", (self, exec) => {
     }
     else {
         if (private.handler) return false
-        private.handler = {exec: exec}
+        private.handler = exec
     }
     return true
 })
@@ -115,7 +115,7 @@ CNetwork.public.addInstanceMethod("off", (self, exec) => {
         private.handler.delete(exec)
     }
     else {
-        if (!private.handler || (exec != private.handler.exec)) return false
+        if (!private.handler || (exec != private.handler)) return false
         private.handler = false
     }
     return true
@@ -125,9 +125,7 @@ CNetwork.public.addInstanceMethod("off", (self, exec) => {
 CNetwork.public.addInstanceMethod("emit", (self, ...cArgs) => {
     const private = CNetwork.instance.get(self)
     if (private.isCallback) return false
-    private.handler.forAll((i, j) => {
-        j.exec(...cArgs)
-    })
+    private.handler.forAll((i) => i(...cArgs))
     return true
 })
 
@@ -135,5 +133,5 @@ CNetwork.public.addInstanceMethod("emit", (self, ...cArgs) => {
 CNetwork.public.addInstanceMethod("emitCallback", async (self, ...cArgs) => {
     const private = CNetwork.instance.get(self)
     if (!private.isCallback || !private.handler) return false
-    return await private.handler.exec(...cArgs)
+    return await private.handler(...cArgs)
 })

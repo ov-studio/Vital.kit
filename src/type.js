@@ -94,12 +94,8 @@ vKit.Object = () => {
             else if (pType == "object") return __R[2][1].get(property)
             else return __R[1][property]
         },
-        forEach: (exec) => {
-            return __L(exec, true) || false
-        },
-        forAll: (exec) => {
-            return (__L(exec) && __L(exec, true)) || false
-        }
+        forEach: (exec) => (__L(exec, true) || false),
+        forAll: (exec) => ((__L(exec) && __L(exec, true)) || false)
     }
     CCache.set(__I, {type: "object", ref: __R})
     return __I
