@@ -226,7 +226,7 @@ CVCL.private.decode = (buffer, ref, padding, isChild) => {
         isErrored: "Failed to decode vcl. [Line: %s] [Reason: %s]"
     }
     if (!isChild) {
-        buffer = vKit.String.detab(buffer).replace(CVCL.private.types.carriageline, "")
+        buffer = vKit.String.replace(vKit.String.detab(buffer), CVCL.private.types.carriageline, "")
         buffer = (!isChild && (CVCL.private.fetch(buffer, buffer.length) != CVCL.private.types.newline) && (buffer + CVCL.private.types.newline)) || buffer   
     }
     while(parser.ref <= buffer.length) {
