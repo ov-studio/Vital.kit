@@ -260,7 +260,7 @@ B: "X"
 -: "Hey"
 `
 
-console.log(CVCL.public.decode(test))
+//console.log(CVCL.public.decode(test))
 /*
 const [decodedText] = CVCL.public.decode(test)
 decodedText.forAll((i, j) => {

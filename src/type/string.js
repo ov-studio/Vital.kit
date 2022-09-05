@@ -34,7 +34,8 @@ vKit.String = (value) => {
 
 // @Desc: Verifies whether the string is void
 vKit.String.isVoid = (value) => {
-    return (!vKit.String.match(vKit.String.replace(/[\n\r\t\s]/g, ""), /[\W\w]/g) && true) || false
+    value = vKit.String.replace(value, "[\n\r\t\s]", "")
+    return (!vKit.String.match(value, "[\\W\\w]") && true) || false
 }
 
 // @Desc: Replaces matching values of string w/ specified value
@@ -52,7 +53,7 @@ vKit.String.replace = (value, matchValue, replaceValue) => {
     const pType = isValid(value)
     if (!pType || !vKit.isString(matchValue) || !vKit.isString(replaceValue)) return false
     value = vKit.String(value)
-    value = value.replace(matchValue, replaceValue)
+    value = value.replace(new RegExp(matchValue, "g"), replaceValue)
     if (pType == "number") value = vKit.Number(value)
     return value
 }
@@ -60,7 +61,7 @@ vKit.String.replace = (value, matchValue, replaceValue) => {
 // @Desc: Retrieves matching values of string
 vKit.String.match = (value, matchValue) => {
     if (!isValid(value) || !vKit.isString(matchValue)) return false
-    return vKit.String(value).match(matchValue)
+    return vKit.String(value).match(new RegExp(matchValue, "g"))
 }
 
 // @Desc: Splits string using specified separator
