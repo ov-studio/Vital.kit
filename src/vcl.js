@@ -222,14 +222,14 @@ CVCL.public.encode = (buffer) => CVCL.private.encode(buffer)
 
 CVCL.private.decode = (buffer, ref, padding, isChild) => {
     if (!buffer || (typeof(buffer) != "string")) return false
-    if (vKit.string.isVoid(buffer)) return {} //TODO: ...
+    if (vKit.String.isVoid(buffer)) return []
     const parser = {
         ref: ref || 1, padding: padding,
         index: "", pointer: vKit.Object(), value: "",
         isErrored: "Failed to decode vcl. [Line: %s] [Reason: %s]"
     }
     if (!isChild) {
-        buffer = vKit.string.detab(buffer).replace(CVCL.private.types.carriageline, "")
+        buffer = vKit.String.detab(buffer).replace(CVCL.private.types.carriageline, "")
         buffer = (!isChild && (CVCL.private.fetch(buffer, buffer.length) != CVCL.private.types.newline) && (buffer + CVCL.private.types.newline)) || buffer   
     }
     while(parser.ref <= buffer.length) {
@@ -260,12 +260,7 @@ B: "X"
 -: "Hey"
 `
 
-
-vKit.String.detab = (value) => {
-    if (!vKit.isString(value)) return false
-    console.log("hey2")
-}
-vKit.String.detab("xdd\tXD")
+console.log(CVCL.public.decode(test))
 /*
 const [decodedText] = CVCL.public.decode(test)
 decodedText.forAll((i, j) => {

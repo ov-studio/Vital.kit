@@ -21,7 +21,7 @@ const vKit = require("../")
 
 // @Desc: Verifies string's validity
 const isValid = (value) => {
-    const pType = typoef(value)
+    const pType = typeof(value)
     if ((pType != "number") && (pType != "string")) return false
     return pType
 }
