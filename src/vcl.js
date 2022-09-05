@@ -253,13 +253,16 @@ A:
     B: "C"
 `
 
-/*
-const wew = {lol: "XD"}
+const wew = {test: "value"}
 wew.forEach((i, j) => {
-    //console.log(i + " : " + j)
+    vKit.print(i + " : " + j)
 })
-*/
-const [__test] = CVCL.public.decode(test)
-__test.get("A").forAll((i, j) => {
-    console.log(`${i} - Type: ${typeof(i)} - Value: ${j}`)
-})
+
+const [result] = CVCL.public.decode(test)
+const printResult = (value) => {
+    value.forAll((i, j) => {
+        if (vKit.isObject(j)) return printResult(j)
+        vKit.print(`${i} - Type: ${typeof(i)} - Value: ${j}`)
+    })
+}
+printResult(result)

@@ -86,7 +86,10 @@ const forLoop = (__I, isOrdered, exec) => {
     return true
 }
 vKit.Object.forEach = (__I, exec) => forLoop(__I, true, exec)
-vKit.Object.forAll = (__I, exec) => forLoop(__I, false, exec)
+vKit.Object.forAll = (__I, exec) => {
+    if (!forLoop(__I, false, exec)) return false
+    return forLoop(__I, true, exec)
+}
 
 // @Desc: Native loop handlers (B.C)
 const nativeLoop = (__I, exec) => {
