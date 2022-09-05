@@ -72,5 +72,5 @@ CBuffer.public.addMethod("create", (category) => {
         self.destroyInstance()
         return true
     })
-    return cBuffer
+    return cBuffer.public
 })
