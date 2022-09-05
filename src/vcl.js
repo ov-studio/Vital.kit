@@ -160,8 +160,8 @@ CVCL.private.parseObject = (parser, buffer, rw, isChild) => {
                     if (!CVCL.private.isVoid(parser.index)) {
                         const [value, __index, error] = CVCL.private.decode(buffer, parser.ref + 1, indexPadding, true)
                         if (!error) {
-                            console.log(value)
-                            console.log(typeof(value))
+                            //console.log(value)
+                            //console.log(typeof(value))
                             parser.pointer.set(parser.index, value)
                             parser.ref = __index - 1, parser.index = ""
                         }
@@ -221,6 +221,7 @@ CVCL.public.encode = (buffer) => CVCL.private.encode(buffer)
 
 CVCL.private.decode = (buffer, ref, padding, isChild) => {
     if (!buffer || (typeof(buffer) != "string")) return false
+    if (isChild) console.log(vKit.String.sub(buffer, ref))
     if (vKit.String.isVoid(buffer)) return []
     const parser = {
         ref: ref || 1, padding: padding,
@@ -235,8 +236,9 @@ CVCL.private.decode = (buffer, ref, padding, isChild) => {
         CVCL.private.parseComment(parser, buffer, CVCL.private.fetch(buffer, parser.ref))
         if (isChild) {
             parser.isSkipAppend = false
+            console.log(CVCL.private.fetch(buffer, parser.ref) + " - " + parser.isType)
             if (!CVCL.private.parseBoolean(parser, buffer, CVCL.private.fetch(buffer, parser.ref))) break
-            if (!CVCL.private.parseNumber(parser, buffer, CVCL.private.fetch(buffer, parser.ref))) break
+            //if (!CVCL.private.parseNumber(parser, buffer, CVCL.private.fetch(buffer, parser.ref))) break
             if (!CVCL.private.parseString(parser, buffer, CVCL.private.fetch(buffer, parser.ref))) break
             if (parser.isType && !parser.isSkipAppend && !parser.isParsed) parser.value = parser.value + CVCL.private.fetch(buffer, parser.ref)
         }
@@ -256,6 +258,7 @@ A:
 `
 
 const [__test] = CVCL.public.decode(test)
+console.log("ya: " + __test.get("A").get("B"))
 /*
 __test.forAll((i, j) => {
     console.log(`${i} - Type: ${typeof(i)} - Value: ${j}`)
