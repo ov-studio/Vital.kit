@@ -22,7 +22,7 @@ const vKit = require(".")
 const CCache = vKit.Object()
 
 // @Desc: Creates a new dynamic buffer
-vKit.buffer = (category) => {
+vKit.Buffer = (category) => {
     if (!vKit.isString(category)) return false
     var cBuffer = CCache.get(category)
     if (cBuffer) return cBuffer
