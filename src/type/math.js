@@ -22,4 +22,7 @@ const vKit = require("../")
 vKit.Math = {}
 
 // @Desc: Converts value to number
-vKit.Number = (value) => Number(value)
+vKit.Number = (value) => {
+    if (isNaN(parseFloat(value))) return false
+    return Number(value)
+}
