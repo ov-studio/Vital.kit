@@ -20,15 +20,15 @@ const vKit = require(".")
 ////////////////////
 
 const CCache = vKit.Object()
-CCache = vKit.Object()
 
-// @Desc: Creates a fresh buffer w/ specified category
+// @Desc: Creates a new dynamic buffer
 vKit.buffer = (category) => {
     category = (vKit.isString(category) && !CCache.get(category) && category) || false
     if (!category) return false
     const cBuffer = vKit.Class()
     cBuffer.private.buffer = vKit.Object()
     CCache.set(category, cBuffer)
+
 
     /////////////////////
     // Static Members //
@@ -51,6 +51,7 @@ vKit.buffer = (category) => {
         if (cBuffer.public.isVoid(name)) return false
         return cBuffer.private.buffer.get(name).destroy()
     })
+
 
     ///////////////////////
     // Instance Members //
