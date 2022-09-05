@@ -23,16 +23,12 @@ const CCache = vKit.Object()
 
 // @Desc: Creates a new dynamic buffer
 vKit.buffer = (category) => {
-    category = (vKit.isString(category) && !CCache.get(category) && category) || false
-    if (!category) return false
-    const cBuffer = vKit.Class()
+    if (!vKit.isString(category)) return false
+    var cBuffer = CCache.get(category)
+    if (cBuffer) return cBuffer
+    cBuffer = vKit.Class()
     cBuffer.private.buffer = vKit.Object()
     CCache.set(category, cBuffer)
-
-
-    /////////////////////
-    // Static Members //
-    /////////////////////
 
     // @Desc: Verifies whether the instance is void
     cBuffer.public.addMethod("isVoid", (ref) => (vKit.isString(ref) && !cBuffer.private.buffer.get(ref) && true) || false)
@@ -51,11 +47,6 @@ vKit.buffer = (category) => {
         if (cBuffer.public.isVoid(name)) return false
         return cBuffer.private.buffer.get(name).destroy()
     })
-
-
-    ///////////////////////
-    // Instance Members //
-    ///////////////////////
 
     // @Desc: Instance constructor
     cBuffer.public.addMethod("constructor", (self, ref) => {
