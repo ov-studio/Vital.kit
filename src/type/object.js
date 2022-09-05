@@ -23,17 +23,6 @@ const private = new WeakMap()
 // @Desc: Creates a new object
 vKit.Object = () => {
     const __R = [[], {}, [[], new WeakMap()]]
-    const __L = (exec, isOrdered) => {
-        if (!vKit.isFunction(exec)) return false
-        if (isOrdered)  __R[0].forEach((j, i) => exec(i, j))
-        else {
-            __R[2][0].forEach((j, i) => exec(j, __R[2][1].get(j)))
-            for (const i in __R[1]) {
-                exec(i, __R[1][i])
-            }
-        }
-        return true
-    }
     const __I = {
         set: (property, value) => {
             const pType = typeof(property)
@@ -83,9 +72,9 @@ vKit.Object = () => {
     return __I
 }
 
-vKit.Object.forAll = (__I) => {
+vKit.Object.forAll = (__I, isOrdered, exec) => {
     const isType = (private.has(__I) && private.get(__I)) || false
-    if (!isType) return false
+    if (!isType || !vKit.isFunction(exec)) return false
     if (isOrdered)  isType.ref[0].forEach((j, i) => exec(i, j))
     else {
         isType.ref[2][0].forEach((j, i) => exec(j, isType.ref[2][1].get(j)))
