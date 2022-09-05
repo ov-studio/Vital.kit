@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------
      Resource: Vital.kit
-     Script: type.js
+     Script: type: index.js
      Author: vStudio
      Developer(s): Aviril, Mario, Tron
      DOC: 04/09/2022
@@ -12,7 +12,9 @@
 // Imports //
 //////////////
 
-const vKit = require(".")
+const vKit = require("../")
+require("./string")
+require("./math")
 
 
 //////////////////
@@ -195,4 +197,4 @@ vKit.Buffer = (category) => {
         })
     }
     return CBuffer[category].public
-})
+}

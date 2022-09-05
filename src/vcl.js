@@ -259,7 +259,16 @@ B: "X"
 1: "override"
 -: "Hey"
 `
+
+
+vKit.String.detab = (value) => {
+    if (!vKit.isString(value)) return false
+    console.log("hey2")
+}
+vKit.String.detab("xdd\tXD")
+/*
 const [decodedText] = CVCL.public.decode(test)
 decodedText.forAll((i, j) => {
     console.log(i + " : " + j)
 })
+*/
