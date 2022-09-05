@@ -25,7 +25,7 @@ const CCache = vKit.Object()
 vKit.Buffer = (category) => {
     if (!vKit.isString(category)) return false
     var cBuffer = CCache.get(category)
-    if (cBuffer) return cBuffer
+    if (cBuffer) return cBuffer.public
     cBuffer = vKit.Class()
     cBuffer.private.buffer = vKit.Object()
     CCache.set(category, cBuffer)
