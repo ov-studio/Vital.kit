@@ -69,7 +69,12 @@ vKit.Object = () => {
     const __L = (exec, isOrdered) => {
         if (!vKit.isFunction(exec)) return false
         if (isOrdered)  __R[0].forEach((j, i) => exec(i, j))
-        else __R[2][0].forEach((j, i) => exec(j, __R[2][1].get(j)))
+        else {
+            __R[2][0].forEach((j, i) => exec(j, __R[2][1].get(j)))
+            for (const i in __R[1]) {
+                exec(i, __R[1][i])
+            }
+        }
         return true
     }
     const __I = {
