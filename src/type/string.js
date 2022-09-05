@@ -63,9 +63,11 @@ vKit.String.match = (value, matchValue) => {
     return vKit.String(value).match(matchValue)
 }
 
+// @Desc: Splits string using specified separator
 vKit.String.split = (value, separator) => {
     if (!isValid(value) || !vKit.isString(separator)) return false
     return vKit.String(value).split(value, separator)
 }
 
+// @Desc: Converts tabs of provided string to spaces
 vKit.String.detab = (value) => vKit.String.replace(value, "\t", "    ")
