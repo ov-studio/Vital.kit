@@ -108,3 +108,4 @@ module.exports = vKit
 require("./type")
 require("./vid")
 require("./vcl")
+require("./buffer")
