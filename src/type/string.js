@@ -32,6 +32,12 @@ vKit.String = (value) => {
     return String(value)
 }
 
+// @Desc: Verifies whether the string is void
+vKit.String.isVoid = (value) => {
+    vKit.String.gsub(/[\n\r\t\s]/g, "")
+    return (!vKit.String.match(/[\W\w]/g) && true) || false
+}
+
 // @Desc: Replaces matching values of string w/ specified value
 vKit.String.gsub = (value, matchValue, replaceValue) => {
     const pType = isValid(value)
@@ -50,4 +56,11 @@ vKit.String.sub = (value, startIndex, endIndex) => {
     value = value.substring(vKit.Number(startIndex) || 0, vKit.Number(endIndex) || value.length)
     if (pType == "number") value = vKit.Number(value)
     return value
+}
+
+// @Desc: Retrieves matching values of string
+vKit.String.match = (value, matchValue) => {
+    if (!isValid(value)) return false
+    value = vKit.String(value)
+    return value.match(vKit.String(matchValue))
 }
