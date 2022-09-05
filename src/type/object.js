@@ -72,6 +72,7 @@ vKit.Object = () => {
     return __I
 }
 
+// @Desc: Object's loop handler
 vKit.Object.forAll = (__I, isOrdered, exec) => {
     const isType = (private.has(__I) && private.get(__I)) || false
     if (!isType || !vKit.isFunction(exec)) return false
