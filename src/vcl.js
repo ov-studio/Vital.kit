@@ -257,13 +257,13 @@ A:
 `
 
 const [result] = CVCL.public.decode(test)
-vKit.print(result.get("A").getLength())
-/*
 const printResult = (value) => {
     value.forAll((i, j) => {
-        if (vKit.isObject(j)) return printResult(j)
+        if (vKit.isObject(j)) {
+            vKit.print(`${i} - Length: ${j.getLength()}`)
+            return printResult(j)
+        }
         vKit.print(`${i} - Type: ${typeof(i)} - Value: ${j}`)
     })
 }
 printResult(result)
-*/
