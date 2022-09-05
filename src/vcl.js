@@ -160,6 +160,8 @@ CVCL.private.parseObject = (parser, buffer, rw, isChild) => {
                     if (!CVCL.private.isVoid(parser.index)) {
                         const [value, __index, error] = CVCL.private.decode(buffer, parser.ref + 1, indexPadding, true)
                         if (!error) {
+                            console.log(value)
+                            console.log(typeof(value))
                             parser.pointer.set(parser.index, value)
                             parser.ref = __index - 1, parser.index = ""
                         }
@@ -249,16 +251,13 @@ CVCL.public.decode = (buffer) => CVCL.private.decode(buffer)
 
 
 var test = `
-A: true
-B: "X"
--1: "test"
--2: "test"
-1: "override"
--:
-    -: "Hey"
+A:
+    B: "C"
 `
 
 const [__test] = CVCL.public.decode(test)
+/*
 __test.forAll((i, j) => {
     console.log(`${i} - Type: ${typeof(i)} - Value: ${j}`)
 })
+*/
