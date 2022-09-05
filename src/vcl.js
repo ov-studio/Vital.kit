@@ -142,7 +142,7 @@ CVCL.private.parseObject = (parser, buffer, rw, isChild) => {
         if (CVCL.private.isVoid(parser.index) && (rw == CVCL.private.types.list)) parser.isTypeID = parser.ref
         else if (!CVCL.private.isVoid(rw)) parser.index = parser.index + rw
         else {
-            if (parser.isTypeID && CVCL.private.isVoid(parser.index) && (rw == CVCL.private.types.init)) parser.index = String(parser.pointer.length() + 1)
+            if (parser.isTypeID && CVCL.private.isVoid(parser.index) && (rw == CVCL.private.types.init)) parser.index = parser.pointer.length()
             if (!CVCL.private.isVoid(parser.index)) {
                 if (parser.isTypeID && (rw == CVCL.private.types.newline)) parser.pointer.set(parser.pointer.length(), parser.index)
                 else if (rw == CVCL.private.types.init) {
@@ -254,7 +254,8 @@ B: "X"
 -1: "test"
 -2: "test"
 1: "override"
--: "Hey"
+-:
+    -: "Hey"
 `
 
 const [__test] = CVCL.public.decode(test)
