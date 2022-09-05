@@ -43,11 +43,9 @@ CBuffer.public.addMethod("create", (category, ...cArgs) => {
     cBuffer.public.addMethod("fetch", (ref) => (!cBuffer.public.isVoid(ref) && cBuffer.private.buffer.get(ref)) || false)
 
     // @Desc: Creates a fresh instance w/ specified ref
-    cBuffer.public.addMethod("create", (name, ...cArgs) => {
-        if (!cBuffer.public.isVoid(name)) return false
-        const cInstance = cBuffer.public.createInstance(name, ...cArgs)
-        cBuffer.private.buffer.set(name, cInstance)
-        return cInstance
+    cBuffer.public.addMethod("create", (ref, ...cArgs) => {
+        if (!cBuffer.public.isVoid(ref)) return false
+        return cBuffer.public.createInstance(ref, ...cArgs)
     })
 
     // @Desc: Destroys an existing instance by specified ref
