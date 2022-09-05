@@ -188,8 +188,9 @@ CVCL.private.parseReturn = (parser, buffer) => {
     else return [((parser.isType == "number" && Number(parser.value)) || parser.value), parser.ref]
 }
 
-/*
-function CVCL.private.encode(buffer, padding)
+CVCL.private.encode = (buffer, padding) => {
+    // TODO: WIP ENCODER
+    /*
     if !buffer || (imports.type(buffer) != "table") then return false end
     padding = padding || ""
     local result, indexes = "", {numeric = {}, index = {}}
@@ -211,10 +212,10 @@ function CVCL.private.encode(buffer, padding)
         local j = indexes.index[i]
         result = result..CVCL.private.types.newline..padding..j..CVCL.private.types.init..CVCL.private.encode(buffer[j], padding..CVCL.private.types.tab)
     end
+    */
     return result
-end
+}
 CVCL.public.encode = (buffer) => CVCL.private.encode(buffer)
-*/
 
 CVCL.private.decode = (buffer, ref, padding, isChild) => {
     if (!buffer || (typeof(buffer) != "string")) return false
@@ -247,16 +248,14 @@ CVCL.private.decode = (buffer, ref, padding, isChild) => {
 CVCL.public.decode = (buffer) => CVCL.private.decode(buffer)
 
 
+/*
 var test = `
 A:
     -: "xd"
     B: "C"
+    D:
+        E: "XD"
 `
-
-const wew = {test: "value"}
-wew.forEach((i, j) => {
-    vKit.print(i + " : " + j)
-})
 
 const [result] = CVCL.public.decode(test)
 const printResult = (value) => {
@@ -266,3 +265,4 @@ const printResult = (value) => {
     })
 }
 printResult(result)
+*/
