@@ -91,7 +91,7 @@ vKit.Object.forAll = (__I, exec) => {
     return forLoop(__I, true, exec)
 }
 
-// @Desc: Native loop handlers (B.C)
+// @Desc: Native loop handlers
 const nativeLoop = (__I, exec) => {
     if (!vKit.isObject(__I) || !vKit.isFunction(exec)) return false
     for (const i in __I) {
