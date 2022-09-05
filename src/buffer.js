@@ -43,9 +43,9 @@ vKit.Buffer = (category) => {
     })
 
     // @Desc: Destroys an existing instance by specified ref
-    cBuffer.public.addMethod("destroy", (name) => {
-        if (cBuffer.public.isVoid(name)) return false
-        return cBuffer.private.buffer.get(name).destroy()
+    cBuffer.public.addMethod("destroy", (ref) => {
+        if (cBuffer.public.isVoid(ref)) return false
+        return cBuffer.private.buffer.get(ref).destroy()
     })
 
     // @Desc: Instance constructor
