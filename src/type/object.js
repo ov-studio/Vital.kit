@@ -64,14 +64,19 @@ vKit.Object = () => {
                 delete __R[1][property]
                 return true
             }
-        },
-        length: () => __R[0].length
+        }
     }
     private.set(__I, {type: "object", ref: __R})
     return __I
 }
 
 // @Desc: Custom loop handlers
+const getLength = (__I) => {
+    if (!vKit.isObject(__I) || !vKit.isFunction(exec)) return false
+    const isType = (private.has(__I) && private.get(__I)) || false
+    if (!isType) return false
+    return isType.ref[0].length
+}
 const forLoop = (__I, isOrdered, exec) => {
     if (!vKit.isObject(__I) || !vKit.isFunction(exec)) return false
     const isType = (private.has(__I) && private.get(__I)) || false
@@ -85,6 +90,7 @@ const forLoop = (__I, isOrdered, exec) => {
     }
     return true
 }
+vKit.Object.length = (__I) => getLength(__I)
 vKit.Object.forEach = (__I, exec) => forLoop(__I, true, exec)
 vKit.Object.forAll = (__I, exec) => {
     if (!forLoop(__I, false, exec)) return false
@@ -98,6 +104,12 @@ const nativeLoop = (__I, exec) => {
         exec(i, __I[i])
     }
 }
+Object.defineProperty(Object.prototype, "length", {
+    value: function() {
+        return vKit.Object.length(this) || 0
+    },
+    enumerable: false, configurable: false, writable: false
+})
 Object.defineProperty(Object.prototype, "forEach", {
     value: function(exec) {
         if (vKit.Object.forEach(this, exec)) return false
