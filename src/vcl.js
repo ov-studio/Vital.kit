@@ -257,11 +257,6 @@ B: "X"
 -: "Hey"
 `
 
-test2 = `
-A: true
-B: "X"
-`
-
 const [__test] = CVCL.public.decode(test)
 __test.forAll((i, j) => {
     console.log(`${i} : ${j}`)
