@@ -248,7 +248,6 @@ CVCL.private.decode = (buffer, ref, padding, isChild) => {
 CVCL.public.decode = (buffer) => CVCL.private.decode(buffer)
 
 
-/*
 var test = `
 A:
     -: "xd"
@@ -257,7 +256,11 @@ A:
         E: "XD"
 `
 
-const [result] = CVCL.public.decode(test)
+const result = vKit.Object()
+result.set(0, "abc")
+//const [result] = CVCL.public.decode(test)
+vKit.print(result.getLength())
+/*
 const printResult = (value) => {
     value.forAll((i, j) => {
         if (vKit.isObject(j)) return printResult(j)
