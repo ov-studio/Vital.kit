@@ -28,15 +28,10 @@ CBuffer.private.buffer = vKit.Object()
 // Static Members //
 /////////////////////
 
-// @Desc: Verifies whether the category is void
-CBuffer.public.addMethod("isVoid", (category) => (vKit.isString(category) && !CBuffer.private.buffer.get(category) && true) || false)
-
-// @Desc: Fetches category instance by category
-CBuffer.public.addMethod("fetch", (category) => (!CBuffer.public.isVoid(category) && CBuffer.private.buffer.get(category)) || false)
-
 // @Desc: Creates a fresh category w/ specified category
 CBuffer.public.addMethod("create", (category, ...cArgs) => {
-    if (!CBuffer.public.isVoid(category)) return false
+    category = (vKit.isString(category) && !CBuffer.private.buffer.get(category) && category) || false
+    if (!category) return false
     const cBuffer = vKit.Class()
     cBuffer.private.buffer = vKit.Object()
     CBuffer.private.buffer.set(category, cBuffer)
