@@ -174,6 +174,7 @@ CVCL.private.parseObject = (parser, buffer, rw, isChild) => {
     return true
 }
 
+// @Desc: Parses return
 CVCL.private.parseReturn = (parser, buffer) => {
     parser.isParsed = (!parser.isChildErrored && ((parser.isType == "object") || parser.isParsed) && true) || false
     if (!parser.isParsed) {
@@ -188,6 +189,7 @@ CVCL.private.parseReturn = (parser, buffer) => {
     else return [((parser.isType == "number" && Number(parser.value)) || parser.value), parser.ref]
 }
 
+// @Desc: Encodes vcl buffer
 CVCL.private.encode = (buffer, padding) => {
     // TODO: WIP ENCODER
     /*
@@ -217,6 +219,7 @@ CVCL.private.encode = (buffer, padding) => {
 }
 CVCL.public.encode = (buffer) => CVCL.private.encode(buffer)
 
+// @Desc: Decodes vcl buffer
 CVCL.private.decode = (buffer, ref, padding, isChild) => {
     if (!buffer || (typeof(buffer) != "string")) return false
     if (vKit.String.isVoid(buffer)) return []
