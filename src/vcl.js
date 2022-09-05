@@ -141,9 +141,9 @@ CVCL.private.parseObject = (parser, buffer, rw, isChild) => {
         if (CVCL.private.isVoid(parser.index) && (rw == CVCL.private.types.list)) parser.isTypeID = parser.ref
         else if (!CVCL.private.isVoid(rw)) parser.index = parser.index + rw
         else {
-            if (parser.isTypeID && CVCL.private.isVoid(parser.index) && (rw == CVCL.private.types.init)) parser.index = parser.pointer.length()
+            if (parser.isTypeID && CVCL.private.isVoid(parser.index) && (rw == CVCL.private.types.init)) parser.index = parser.pointer.getLength()
             if (!CVCL.private.isVoid(parser.index)) {
-                if (parser.isTypeID && (rw == CVCL.private.types.newline)) parser.pointer.set(parser.pointer.length(), parser.index)
+                if (parser.isTypeID && (rw == CVCL.private.types.newline)) parser.pointer.set(parser.pointer.getLength(), parser.index)
                 else if (rw == CVCL.private.types.init) {
                     const [, lineText] = CVCL.private.fetchLine(vKit.String.sub(buffer, 0, parser.ref))
                     const indexTypePadding = (parser.isTypeID && (parser.ref - parser.isTypeID - 1)) || 0
@@ -256,9 +256,7 @@ A:
         E: "XD"
 `
 
-const result = vKit.Object()
-result.set(0, "abc")
-//const [result] = CVCL.public.decode(test)
+const [result] = CVCL.public.decode(test)
 vKit.print(result.getLength())
 /*
 const printResult = (value) => {
