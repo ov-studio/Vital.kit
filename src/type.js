@@ -25,7 +25,7 @@ const CType = [
     {handler: "isNumber", type: "number"},
     {handler: "isObject", type: "object", middleware: ((data, isArray) => (!isArray && true) || Array.isArray(data))},
     {handler: "isFunction", type: "function"}
-], CCache = new WeakMap()
+], CCache = new WeakMap(), CBuffer = {}
 CType.forEach((j) => {
     vKit[(j.handler)] = (data, ...cArgs) => {
         var isValid = vKit.isType(data, j.type)
@@ -166,3 +166,33 @@ vKit.Class = (parent) => {
     CCache.set(__C, {type: "class", ref: __C})
     return {public: __C, private: {}, instance: __I}
 }
+
+// @Desc: Creates a new dynamic buffer
+vKit.Buffer = (category) => {
+    if (!vKit.isString(category)) return false
+    if (!CBuffer[category]) {
+        CBuffer[category] = vKit.Class()
+        CBuffer[category].private.buffer = vKit.Object()
+        CBuffer[category].public.addMethod("isVoid", (ref) => (vKit.isString(ref) && !CBuffer[category].private.buffer.get(ref) && true) || false)
+        CBuffer[category].public.addMethod("fetch", (ref) => (!CBuffer[category].public.isVoid(ref) && CBuffer[category].private.buffer.get(ref)) || false)
+        CBuffer[category].public.addMethod("create", (ref) => {
+            if (!CBuffer[category].public.isVoid(ref)) return false
+            return CBuffer[category].public.createInstance(ref)
+        })
+        CBuffer[category].public.addMethod("destroy", (ref) => {
+            if (CBuffer[category].public.isVoid(ref)) return false
+            return CBuffer[category].private.buffer.get(ref).destroy()
+        })
+        CBuffer[category].public.addMethod("constructor", (self, ref) => {
+            const private = CBuffer[category].instance.get(self)
+            private.ref = ref
+        })
+        CBuffer[category].public.addInstanceMethod("destroy", (self) => {
+            const private = CBuffer[category].instance.get(self)
+            CBuffer[category].private.buffer.delete(private.ref)
+            self.destroyInstance()
+            return true
+        })
+    }
+    return CBuffer[category].public
+})
