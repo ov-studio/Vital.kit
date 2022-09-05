@@ -73,7 +73,7 @@ vKit.Object = () => {
 }
 
 // @Desc: Object's loop handler
-vKit.Object.forLoop = (__I, isOrdered, exec) => {
+const forLoop = (__I, isOrdered, exec) => {
     const isType = (private.has(__I) && private.get(__I)) || false
     if (!isType || !vKit.isFunction(exec)) return false
     if (isOrdered)  isType.ref[0].forEach((j, i) => exec(i, j))
@@ -85,8 +85,8 @@ vKit.Object.forLoop = (__I, isOrdered, exec) => {
     }
     return true
 }
-vKit.Object.forEach = (__I, exec) => vKit.Object.forLoop(__I, true, exec)
-vKit.Object.forAll = (__I, exec) => vKit.Object.forLoop(__I, false, exec)
+vKit.Object.forEach = (__I, exec) => const forLoop(__I, true, exec)
+vKit.Object.forAll = (__I, exec) => const forLoop(__I, false, exec)
 
 Object.defineProperty(Object.prototype, "forAll", {
     value: function(exec) {
