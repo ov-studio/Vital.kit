@@ -13,17 +13,16 @@
 //////////////
 
 const vKit = require("..")
+const private = new WeakMap()
 
 
 ///////////////////
 // Class: Class //
 ///////////////////
 
-const CCache = new WeakMap()
-
 // @Desc: Verifies whether specified data is a class
 vKit.isClass = (data) => {
-    const isType = (CCache.has(data) && CCache.get(data)) || false
+    const isType = (private.has(data) && private.get(data)) || false
     return (isType && (isType.type == "class") && true) || false
 }
 
@@ -70,6 +69,6 @@ vKit.Class = (parent) => {
     __C.createInstance = (...cArgs) => new __C(...cArgs)
     __C.addInstanceMethod("isInstance", (self) => __I.has(self))
     __C.addInstanceMethod("destroyInstance", (self) => __I.delete(self))
-    CCache.set(__C, {type: "class", ref: __C})
+    private.set(__C, {type: "class", ref: __C})
     return {public: __C, private: {}, instance: __I}
 }

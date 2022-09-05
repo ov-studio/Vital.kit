@@ -13,13 +13,12 @@
 //////////////
 
 const vKit = require("..")
+const private = new WeakMap()
 
 
 ////////////////////
 // Class: Object //
 ////////////////////
-
-const CCache = new WeakMap()
 
 // @Desc: Creates a new dynamic object
 vKit.Object = () => {
@@ -80,12 +79,12 @@ vKit.Object = () => {
         length: () => __R[0].length,
         forEach: (exec) => __L(exec, true) || false,
     }
-    CCache.set(__I, {type: "object", ref: __R})
+    private.set(__I, {type: "object", ref: __R})
     return __I
 }
 
 vKit.Object.forAll = (__I) => {
-    const isType = (CCache.has(__I) && CCache.get(__I)) || false
+    const isType = (private.has(__I) && private.get(__I)) || false
     if (!isType) return false
     if (isOrdered)  isType.ref[0].forEach((j, i) => exec(i, j))
     else {

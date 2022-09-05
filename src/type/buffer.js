@@ -13,40 +13,39 @@
 //////////////
 
 const vKit = require("..")
+const private = {}
 
 
 ////////////////////
 // Class: Buffer //
 ////////////////////
 
-const CCache = {}
-
 // @Desc: Creates a new dynamic buffer
 vKit.Buffer = (category) => {
     if (!vKit.isString(category)) return false
-    if (!CCache[category]) {
-        CCache[category] = vKit.Class()
-        CCache[category].private.buffer = vKit.Object()
-        CCache[category].public.addMethod("isVoid", (ref) => (vKit.isString(ref) && !CCache[category].private.buffer.get(ref) && true) || false)
-        CCache[category].public.addMethod("fetch", (ref) => (!CCache[category].public.isVoid(ref) && CCache[category].private.buffer.get(ref)) || false)
-        CCache[category].public.addMethod("create", (ref) => {
-            if (!CCache[category].public.isVoid(ref)) return false
-            return CCache[category].public.createInstance(ref)
+    if (!private[category]) {
+        private[category] = vKit.Class()
+        private[category].private.buffer = vKit.Object()
+        private[category].public.addMethod("isVoid", (ref) => (vKit.isString(ref) && !private[category].private.buffer.get(ref) && true) || false)
+        private[category].public.addMethod("fetch", (ref) => (!private[category].public.isVoid(ref) && private[category].private.buffer.get(ref)) || false)
+        private[category].public.addMethod("create", (ref) => {
+            if (!private[category].public.isVoid(ref)) return false
+            return private[category].public.createInstance(ref)
         })
-        CCache[category].public.addMethod("destroy", (ref) => {
-            if (CCache[category].public.isVoid(ref)) return false
-            return CCache[category].private.buffer.get(ref).destroy()
+        private[category].public.addMethod("destroy", (ref) => {
+            if (private[category].public.isVoid(ref)) return false
+            return private[category].private.buffer.get(ref).destroy()
         })
-        CCache[category].public.addMethod("constructor", (self, ref) => {
-            const private = CCache[category].instance.get(self)
+        private[category].public.addMethod("constructor", (self, ref) => {
+            const private = private[category].instance.get(self)
             private.ref = ref
         })
-        CCache[category].public.addInstanceMethod("destroy", (self) => {
-            const private = CCache[category].instance.get(self)
-            CCache[category].private.buffer.delete(private.ref)
+        private[category].public.addInstanceMethod("destroy", (self) => {
+            const private = private[category].instance.get(self)
+            private[category].private.buffer.delete(private.ref)
             self.destroyInstance()
             return true
         })
     }
-    return CCache[category].public
+    return private[category].public
 }
