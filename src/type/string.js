@@ -22,10 +22,12 @@ const vKit = require("../")
 // @Desc: Converts value to string
 vKit.String = (value) => String(value)
 
-// @Desc: Creates a new dynamic string
-vKit.String.gsub = (value) => {
+// @Desc: Replaces matching values of string w/ specified value
+vKit.String.gsub = (value, matchValue, replaceValue) => {
     const vType = typoef(value)
     const isNum = vType == "number"
     if (!isNum && (vType != "string")) return false
-    //isNum = 
+    value = value.replace(vKit.String(matchValue), vKit.String(replaceValue))
+    if (isNum) value = vKit.Number(value)
+    return value
 }
