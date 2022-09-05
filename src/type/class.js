@@ -12,7 +12,7 @@
 // Imports //
 //////////////
 
-const vKit = require("..")
+const vKit = require("../")
 const private = new WeakMap()
 
 
@@ -20,13 +20,7 @@ const private = new WeakMap()
 // Class: Class //
 ///////////////////
 
-// @Desc: Verifies whether specified data is a class
-vKit.isClass = (data) => {
-    const isType = (private.has(data) && private.get(data)) || false
-    return (isType && (isType.type == "class") && true) || false
-}
-
-// @Desc: Creates a new dynamic class
+// @Desc: Creates a new class
 vKit.Class = (parent) => {
     const __I = new WeakMap()
     class __C {
@@ -71,4 +65,10 @@ vKit.Class = (parent) => {
     __C.addInstanceMethod("destroyInstance", (self) => __I.delete(self))
     private.set(__C, {type: "class", ref: __C})
     return {public: __C, private: {}, instance: __I}
+}
+
+// @Desc: Verifies whether specified data is a class
+vKit.isClass = (data) => {
+    const isType = (private.has(data) && private.get(data)) || false
+    return (isType && (isType.type == "class") && true) || false
 }

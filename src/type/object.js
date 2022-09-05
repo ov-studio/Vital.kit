@@ -12,7 +12,7 @@
 // Imports //
 //////////////
 
-const vKit = require("..")
+const vKit = require("../")
 const private = new WeakMap()
 
 
@@ -20,7 +20,7 @@ const private = new WeakMap()
 // Class: Object //
 ////////////////////
 
-// @Desc: Creates a new dynamic object
+// @Desc: Creates a new object
 vKit.Object = () => {
     const __R = [[], {}, [[], new WeakMap()]]
     const __L = (exec, isOrdered) => {

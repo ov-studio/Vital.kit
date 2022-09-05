@@ -12,7 +12,7 @@
 // Imports //
 //////////////
 
-const vKit = require("..")
+const vKit = require("../")
 const private = {}
 
 
@@ -20,7 +20,7 @@ const private = {}
 // Class: Buffer //
 ////////////////////
 
-// @Desc: Creates a new dynamic buffer
+// @Desc: Creates a new buffer
 vKit.Buffer = (category) => {
     if (!vKit.isString(category)) return false
     if (!private[category]) {
