@@ -253,13 +253,13 @@ A:
     B: "C"
 `
 
-const wew = {lol: "XD"}
-wew.forAll((i, j) => {
-    console.log(i + " : " + j)
-})
 /*
+const wew = {lol: "XD"}
+wew.forEach((i, j) => {
+    //console.log(i + " : " + j)
+})
+*/
 const [__test] = CVCL.public.decode(test)
 __test.get("A").forAll((i, j) => {
     console.log(`${i} - Type: ${typeof(i)} - Value: ${j}`)
 })
-*/

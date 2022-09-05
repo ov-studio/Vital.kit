@@ -97,14 +97,14 @@ const nativeLoop = (__I, exec) => {
 }
 Object.defineProperty(Object.prototype, "forEach", {
     value: function(exec) {
-        if (vKit.Object.forEach(this)) return false
+        if (vKit.Object.forEach(this, exec)) return false
         else return nativeLoop(this, exec)
     },
     enumerable: false, configurable: false, writable: false
 })
 Object.defineProperty(Object.prototype, "forAll", {
     value: function(exec) {
-        if (vKit.Object.forAll(this)) return false
+        if (vKit.Object.forAll(this, exec)) return false
         else return nativeLoop(this, exec)
     },
     enumerable: false, configurable: false, writable: false
