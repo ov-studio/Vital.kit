@@ -85,8 +85,8 @@ const forLoop = (__I, isOrdered, exec) => {
     }
     return true
 }
-vKit.Object.forEach = (__I, exec) => const forLoop(__I, true, exec)
-vKit.Object.forAll = (__I, exec) => const forLoop(__I, false, exec)
+vKit.Object.forEach = (__I, exec) => forLoop(__I, true, exec)
+vKit.Object.forAll = (__I, exec) => forLoop(__I, false, exec)
 
 Object.defineProperty(Object.prototype, "forAll", {
     value: function(exec) {
