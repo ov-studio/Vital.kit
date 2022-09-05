@@ -19,22 +19,20 @@ const vKit = require(".")
 // Class: Buffer //
 ////////////////////
 
-const CBuffer = vKit.Class()
-vKit.buffer = CBuffer.public
-CBuffer.private.buffer = vKit.Object()
-
-
-/////////////////////
-// Static Members //
-/////////////////////
+const CCache = vKit.Object()
+CCache = vKit.Object()
 
 // @Desc: Creates a fresh buffer w/ specified category
-CBuffer.public.addMethod("create", (category) => {
-    category = (vKit.isString(category) && !CBuffer.private.buffer.get(category) && category) || false
+vKit.buffer = (category) => {
+    category = (vKit.isString(category) && !CCache.get(category) && category) || false
     if (!category) return false
     const cBuffer = vKit.Class()
     cBuffer.private.buffer = vKit.Object()
-    CBuffer.private.buffer.set(category, cBuffer)
+    CCache.set(category, cBuffer)
+
+    /////////////////////
+    // Static Members //
+    /////////////////////
 
     // @Desc: Verifies whether the instance is void
     cBuffer.public.addMethod("isVoid", (ref) => (vKit.isString(ref) && !cBuffer.private.buffer.get(ref) && true) || false)
@@ -53,7 +51,6 @@ CBuffer.public.addMethod("create", (category) => {
         if (cBuffer.public.isVoid(name)) return false
         return cBuffer.private.buffer.get(name).destroy()
     })
-
 
     ///////////////////////
     // Instance Members //
