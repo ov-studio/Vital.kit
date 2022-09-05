@@ -259,5 +259,5 @@ B: "X"
 
 const [__test] = CVCL.public.decode(test)
 __test.forAll((i, j) => {
-    console.log(`${i} : ${j}`)
+    console.log(`${i} - Type: ${typeof(i)} - Value: ${j}`)
 })
