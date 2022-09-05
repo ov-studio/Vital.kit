@@ -249,13 +249,17 @@ CVCL.public.decode = (buffer) => CVCL.private.decode(buffer)
 
 var test = `
 A:
+    -: "xd"
     B: "C"
 `
 
-const [__test] = CVCL.public.decode(test)
-console.log("ya: " + __test.get("A").get("B"))
+const wew = {lol: "XD"}
+wew.forAll(() => {
+    
+})
 /*
-__test.forAll((i, j) => {
+const [__test] = CVCL.public.decode(test)
+__test.get("A").forAll((i, j) => {
     console.log(`${i} - Type: ${typeof(i)} - Value: ${j}`)
 })
 */
