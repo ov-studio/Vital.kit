@@ -29,7 +29,7 @@ CBuffer.private.buffer = vKit.Object()
 /////////////////////
 
 // @Desc: Creates a fresh buffer w/ specified category
-CBuffer.public.addMethod("create", (category, ...cArgs) => {
+CBuffer.public.addMethod("create", (category) => {
     category = (vKit.isString(category) && !CBuffer.private.buffer.get(category) && category) || false
     if (!category) return false
     const cBuffer = vKit.Class()
