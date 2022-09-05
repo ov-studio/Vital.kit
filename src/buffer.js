@@ -28,7 +28,7 @@ CBuffer.private.buffer = vKit.Object()
 // Static Members //
 /////////////////////
 
-// @Desc: Creates a fresh category w/ specified category
+// @Desc: Creates a fresh buffer w/ specified category
 CBuffer.public.addMethod("create", (category, ...cArgs) => {
     category = (vKit.isString(category) && !CBuffer.private.buffer.get(category) && category) || false
     if (!category) return false
@@ -36,13 +36,13 @@ CBuffer.public.addMethod("create", (category, ...cArgs) => {
     cBuffer.private.buffer = vKit.Object()
     CBuffer.private.buffer.set(category, cBuffer)
 
-    // @Desc: Verifies whether the category is void
+    // @Desc: Verifies whether the instance is void
     cBuffer.public.addMethod("isVoid", (category) => (vKit.isString(category) && !cBuffer.private.buffer.get(category) && true) || false)
 
-    // @Desc: Fetches category instance by category
+    // @Desc: Fetches instance instance by ref
     cBuffer.public.addMethod("fetch", (category) => (!cBuffer.public.isVoid(category) && cBuffer.private.buffer.get(category)) || false)
 
-    // @Desc: Creates a fresh category w/ specified category
+    // @Desc: Creates a fresh instance w/ specified ref
     cBuffer.public.addMethod("create", (name, ...cArgs) => {
         if (!cBuffer.public.isVoid(name)) return false
         const cInstance = cBuffer.public.createInstance(name, ...cArgs)
@@ -50,7 +50,7 @@ CBuffer.public.addMethod("create", (category, ...cArgs) => {
         return cInstance
     })
 
-    // @Desc: Destroys an existing category by specified category
+    // @Desc: Destroys an existing instance by specified ref
     cBuffer.public.addMethod("destroy", (name) => {
         if (cBuffer.public.isVoid(name)) return false
         return cBuffer.private.buffer.get(name).destroy()
