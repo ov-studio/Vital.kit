@@ -47,7 +47,7 @@ CVID.public.addMethod("blacklist", (vid) => {
     return true
 })
 
-// @Desc: Assigns/Fetches VID (Virtual ID) on/from valid instance
+// @Desc: Assigns/Fetches VID on/from valid instance
 CVID.public.addMethod("fetch", (parent, assignVID, isReadOnly) => {
     if (vKit.isNull(parent) || vKit.isBool(parent) || vKit.isString(parent) || vKit.isNumber(parent)) return false
     parent.prototype = parent.prototype || {}
