@@ -48,18 +48,15 @@ CVCL.private.types = {
 /////////////////////
 
 // @Desc: Verifies whether rw is void
-CVCL.private.isVoid = (rw) => {
-    rw = ((typeof(rw) == "number") && String(rw)) || rw
-    return (!rw.match(/[\w]/g) && true) || false
-}
+CVCL.private.isVoid = (rw) => (!vKit.String.match(rw, "[\\w]") && true) || false
 
 // @Desc: Fetches rw by index
-CVCL.private.fetch = (rw, index) => rw.substring(index, index + 1)
+CVCL.private.fetch = (rw, index) => vKit.String.sub(rw, index, index + 1)
 
 // @Desc: Fetches rw's line by index
 CVCL.private.fetchLine = (rw, index) => {
     if (rw) {
-        const rwLines = rw.substring(0, index).split(CVCL.private.types.newline)
+        const rwLines = vKit.String.sub(rw, 0, index).split(CVCL.private.types.newline)
         return [Math.max(1, rwLines.length), rwLines[(rwLines.length - 1)] || ""]
     }
     return false
@@ -68,7 +65,7 @@ CVCL.private.fetchLine = (rw, index) => {
 // @Desc: Parses comment
 CVCL.private.parseComment = (parser, buffer, rw) => {
     if (!parser.isType && (rw == CVCL.private.types.comment)) {
-        const [line, lineText] = CVCL.private.fetchLine(buffer.substring(0, parser.ref))
+        const [line, lineText] = CVCL.private.fetchLine(vKit.String.sub(buffer, 0, parser.ref))
         const rwLines = buffer.split(CVCL.private.types.newline)
         parser.ref = parser.ref - lineText.length + rwLines[(line - 1)].length
     }
@@ -80,7 +77,7 @@ CVCL.private.parseBoolean = (parser, buffer, rw) => {
     if (!parser.isType || (parser.isType == "bool")) {
         if (!parser.isType) {
             for (const i in CVCL.private.types.bool) {
-                if (buffer.substring(parser.ref, parser.ref + i.length) == i) {
+                if (vKit.String.sub(buffer, parser.ref, parser.ref + i.length) == i) {
                     rw = i
                     break
                 }
@@ -149,7 +146,7 @@ CVCL.private.parseObject = (parser, buffer, rw, isChild) => {
             if (!CVCL.private.isVoid(parser.index)) {
                 if (parser.isTypeID && (rw == CVCL.private.types.newline)) parser.pointer.set(parser.pointer.length() + 1, parser.index)
                 else if (rw == CVCL.private.types.init) {
-                    const [line, lineText] = CVCL.private.fetchLine(buffer.substring(0, parser.ref))
+                    const [line, lineText] = CVCL.private.fetchLine(vKit.String.sub(buffer, 0, parser.ref))
                     const indexTypePadding = (parser.isTypeID && (parser.ref - parser.isTypeID - 1)) || 0
                     const indexPadding = lineText.length - parser.index.length - indexTypePadding - 1
                     if (isChild) {
