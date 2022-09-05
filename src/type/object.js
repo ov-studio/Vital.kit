@@ -105,9 +105,7 @@ const nativeLoop = (__I, exec) => {
     }
 }
 Object.defineProperty(Object.prototype, "length", {
-    value: function() {
-        return vKit.Object.length(this) || 0
-    },
+    value: function() {return vKit.Object.length(this) || 0},
     enumerable: false, configurable: false, writable: false
 })
 Object.defineProperty(Object.prototype, "forEach", {
