@@ -100,12 +100,12 @@ Object.defineProperty(Object.prototype, "forEach", {
         if (vKit.Object.forEach(this)) return false
         else return nativeLoop(this, exec)
     },
-    enumerable: true, configurable: false, writable: false
+    enumerable: false, configurable: false, writable: false
 })
 Object.defineProperty(Object.prototype, "forAll", {
     value: function(exec) {
         if (vKit.Object.forAll(this)) return false
         else return nativeLoop(this, exec)
     },
-    enumerable: true, configurable: false, writable: false
+    enumerable: false, configurable: false, writable: false
 })

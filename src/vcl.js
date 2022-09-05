@@ -254,8 +254,8 @@ A:
 `
 
 const wew = {lol: "XD"}
-wew.forAll(() => {
-    
+wew.forAll((i, j) => {
+    console.log(i + " : " + j)
 })
 /*
 const [__test] = CVCL.public.decode(test)
