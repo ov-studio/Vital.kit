@@ -39,7 +39,7 @@ CBuffer.public.addMethod("create", (category) => {
     // @Desc: Verifies whether the instance is void
     cBuffer.public.addMethod("isVoid", (ref) => (vKit.isString(ref) && !cBuffer.private.buffer.get(ref) && true) || false)
 
-    // @Desc: Fetches instance instance by ref
+    // @Desc: Fetches instance by ref
     cBuffer.public.addMethod("fetch", (ref) => (!cBuffer.public.isVoid(ref) && cBuffer.private.buffer.get(ref)) || false)
 
     // @Desc: Creates a fresh instance w/ specified ref
