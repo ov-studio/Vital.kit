@@ -65,8 +65,7 @@ vKit.Object = () => {
                 return true
             }
         },
-        length: () => __R[0].length,
-        forEach: (exec) => __L(exec, true) || false,
+        length: () => __R[0].length
     }
     private.set(__I, {type: "object", ref: __R})
     return __I
