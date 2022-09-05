@@ -71,10 +71,11 @@ vKit.Object = () => {
     return __I
 }
 
-// @Desc: Object's loop handler
+// @Desc: Custom loop handlers
 const forLoop = (__I, isOrdered, exec) => {
+    if (!vKit.isObject(__I) || !vKit.isFunction(exec)) return false
     const isType = (private.has(__I) && private.get(__I)) || false
-    if (!isType || !vKit.isFunction(exec)) return false
+    if (!isType) return false
     if (isOrdered)  isType.ref[0].forEach((j, i) => exec(i, j))
     else {
         isType.ref[2][0].forEach((j, i) => exec(j, isType.ref[2][1].get(j)))
@@ -87,12 +88,24 @@ const forLoop = (__I, isOrdered, exec) => {
 vKit.Object.forEach = (__I, exec) => forLoop(__I, true, exec)
 vKit.Object.forAll = (__I, exec) => forLoop(__I, false, exec)
 
+// @Desc: Native loop handlers (B.C)
+const nativeLoop = (__I, exec) => {
+    if (!vKit.isObject(__I) || !vKit.isFunction(exec)) return false
+    for (const i in __I) {
+        exec(i, __I[i])
+    }
+}
+Object.defineProperty(Object.prototype, "forEach", {
+    value: function(exec) {
+        if (vKit.Object.forEach(this)) return false
+        else return nativeLoop(this, exec)
+    },
+    enumerable: true, configurable: false, writable: false
+})
 Object.defineProperty(Object.prototype, "forAll", {
     value: function(exec) {
-        if (!vKit.isFunction(exec) || vKit.Object.forAll(this)) return false
-        for (const i in this) {
-            exec(i, this[i])
-        }
+        if (vKit.Object.forAll(this)) return false
+        else return nativeLoop(this, exec)
     },
     enumerable: true, configurable: false, writable: false
 })
