@@ -257,7 +257,7 @@ A:
 `
 
 const [result] = CVCL.public.decode(test)
-vKit.print(result.getLength())
+vKit.print(result.get("A").getLength())
 /*
 const printResult = (value) => {
     value.forAll((i, j) => {
