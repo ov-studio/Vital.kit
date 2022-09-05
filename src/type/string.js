@@ -72,3 +72,5 @@ vKit.String.split = (value, separator) => {
 
 // @Desc: Converts tabs of provided string to spaces
 vKit.String.detab = (value) => vKit.String.replace(value, "\t", "    ")
+
+// TODO: ADD vKit.String.formats
