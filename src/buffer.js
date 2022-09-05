@@ -37,10 +37,10 @@ CBuffer.public.addMethod("create", (category, ...cArgs) => {
     CBuffer.private.buffer.set(category, cBuffer)
 
     // @Desc: Verifies whether the instance is void
-    cBuffer.public.addMethod("isVoid", (category) => (vKit.isString(category) && !cBuffer.private.buffer.get(category) && true) || false)
+    cBuffer.public.addMethod("isVoid", (ref) => (vKit.isString(ref) && !cBuffer.private.buffer.get(ref) && true) || false)
 
     // @Desc: Fetches instance instance by ref
-    cBuffer.public.addMethod("fetch", (category) => (!cBuffer.public.isVoid(category) && cBuffer.private.buffer.get(category)) || false)
+    cBuffer.public.addMethod("fetch", (ref) => (!cBuffer.public.isVoid(ref) && cBuffer.private.buffer.get(ref)) || false)
 
     // @Desc: Creates a fresh instance w/ specified ref
     cBuffer.public.addMethod("create", (name, ...cArgs) => {
@@ -62,15 +62,15 @@ CBuffer.public.addMethod("create", (category, ...cArgs) => {
     ///////////////////////
 
     // @Desc: Instance constructor
-    cBuffer.public.addMethod("constructor", (self, category) => {
+    cBuffer.public.addMethod("constructor", (self, ref) => {
         const private = cBuffer.instance.get(self)
-        private.category = category
+        private.ref = ref
     })
 
     // @Desc: Destroys the instance
     cBuffer.public.addInstanceMethod("destroy", (self) => {
         const private = cBuffer.instance.get(self)
-        cBuffer.private.buffer.delete(private.category)
+        cBuffer.private.buffer.delete(private.ref)
         self.destroyInstance()
         return true
     })
