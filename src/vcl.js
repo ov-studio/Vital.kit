@@ -101,7 +101,7 @@ CVCL.private.parseBoolean = (parser, buffer, rw) => {
 CVCL.private.parseNumber = (parser, buffer, rw) => {
     if (!parser.isType || (parser.isType == "number")) {
         var isNumber = Number(rw)
-        if (isNumber.isNaN()) isNumber = false 
+        if (isNumber && isNumber.isNaN()) isNumber = false 
         if (!parser.isType) {
             const isNegative = rw == CVCL.private.types.negative
             if (isNegative || !vKit.isBool(isNumber)) parser.isType = "number", parser.isTypeNegative = (isNegative && parser.ref) || false
@@ -260,7 +260,7 @@ B: "X"
 -: "Hey"
 `
 
-//console.log(CVCL.public.decode(test))
+console.log(CVCL.public.decode(test))
 /*
 const [decodedText] = CVCL.public.decode(test)
 decodedText.forAll((i, j) => {
