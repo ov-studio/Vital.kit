@@ -19,15 +19,35 @@ const vKit = require("../")
 // Class: String //
 ////////////////////
 
+// @Desc: Verifies string's validity
+const isValid = (value) => {
+    const pType = typoef(value)
+    if ((pType != "number") && (pType != "string")) return false
+    return pType
+}
+
 // @Desc: Converts value to string
-vKit.String = (value) => String(value)
+vKit.String = (value) => {
+    if (!isValid(value)) return false
+    return String(value)
+}
 
 // @Desc: Replaces matching values of string w/ specified value
 vKit.String.gsub = (value, matchValue, replaceValue) => {
-    const vType = typoef(value)
-    const isNum = vType == "number"
-    if (!isNum && (vType != "string")) return false
+    const pType = isValid(value)
+    if (!pType) return false
+    value = vKit.String(value)
     value = value.replace(vKit.String(matchValue), vKit.String(replaceValue))
-    if (isNum) value = vKit.Number(value)
+    if (pType == "number") value = vKit.Number(value)
+    return value
+}
+
+// @Desc: Replaces matching values of string w/ specified value
+vKit.String.sub = (value, startIndex, endIndex) => {
+    const pType = isValid(value)
+    if (!pType) return false
+    value = vKit.String(value)
+    value = value.substring(vKit.Number(startIndex) || 0, vKit.Number(endIndex) || value.length)
+    if (pType == "number") value = vKit.Number(value)
     return value
 }
