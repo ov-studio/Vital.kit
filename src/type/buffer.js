@@ -41,7 +41,8 @@ vKit.Buffer = (category) => {
             return private[category].private.buffer.get(ref).destroy()
         })
         private[category].public.addInstanceMethod("destroy", (self) => {
-            private[category].private.buffer.delete(private.ref)
+            const cPrivate = private[category].instance.get(self)
+            private[category].private.buffer.delete(cPrivate.ref)
             self.destroyInstance()
             return true
         })
