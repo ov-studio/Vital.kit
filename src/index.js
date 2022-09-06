@@ -38,7 +38,7 @@ vKit.crypto.getRandomValues = vKit.crypto.getRandomValues || ((buffer) => {
 vKit.toBase64 = (!vKit.isServer && btoa.bind(window)) || ((data) => Buffer.from(data).toString("base64"))
 vKit.fromBase64 = (!vKit.isServer && atob.bind(window)) || ((data) => Buffer.from(data, "base64").toString("binary"))
 Object.defineProperty(vKit, "identifier", {value: vKit.toBase64(`vNetworkify-${(vKit.isServer && "Server") || "Client"}`), enumerable: true, configurable: false, writable: false})
-vKit.version = Object.defineProperty(vKit, "version", {value: vKit.toBase64(require("../package.json").version), enumerable: true, configurable: false, writable: false})
+Object.defineProperty(vKit, "version", {value: vKit.toBase64(require("../package.json").version), enumerable: true, configurable: false, writable: false})
 
 // @Desc: Executes the specified handler
 vKit.exec = (exec, ...cArgs) => {
