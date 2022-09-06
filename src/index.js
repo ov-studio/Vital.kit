@@ -114,3 +114,5 @@ module.exports = vKit
 require("./type")
 require("./vid")
 require("./vcl")
+// TODO: REMOVE LATER
+require("./network")

@@ -48,6 +48,13 @@ CNetwork.public.addMethod("emit", (name, ...cArgs) => {
     return cInstance.emit(...cArgs)
 })
 
+// @Desc: Emits to attached callback handler of specified network
+CNetwork.public.addMethod("emitCallback", (name, ...cArgs) => {
+    const cInstance = CNetwork.public.fetch(name)
+    if (!cInstance) return false
+    return cInstance.emitCallback(...cArgs)
+})
+
 
 ///////////////////////
 // Instance Members //
@@ -106,3 +113,5 @@ CNetwork.public.addInstanceMethod("emitCallback", async (self, ...cArgs) => {
     if (!private.isCallback || !private.handler) return false
     return await private.handler(...cArgs)
 })
+
+console.log("LAUNCHED NETWORK")
