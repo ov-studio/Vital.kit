@@ -63,7 +63,6 @@ CNetwork.public.addMethod("emitCallback", (name, ...cArgs) => {
 // @Desc: Instance constructor
 CNetwork.public.addMethod("constructor", (self, isCallback) => {
     const private = CNetwork.instance.get(self)
-    console.log(isCallback)
     private.isCallback = (vKit.isBool(isCallback) && true) || false
     self.isCallback = private.isCallback
     private.handler = (!private.isCallback && vKit.Object()) || false
@@ -113,6 +112,3 @@ CNetwork.public.addInstanceMethod("emitCallback", async (self, ...cArgs) => {
     if (!private.isCallback || !private.handler) return false
     return await private.handler(...cArgs)
 })
-
-CNetwork.public.create("test")
-console.log("LAUNCHED NETWORK")
