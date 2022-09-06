@@ -25,12 +25,11 @@ vKit.Object = () => {
     const __R = [[], {}, [[], new WeakMap()]]
     const __I = {
         set: (property, value) => {
-            const pType = typeof(property)
-            if (pType == "number") {
+            if (vKit.isNumber(property)) {
                 __R[0][property] = value
                 return true
             }
-            else if (pType == "object") {
+            else if (vKit.isObject(property) || vKit.isClass(property) || vKit.isFunction(property)) {
                 let pIndex = __R[2][0].indexOf(property)
                 if (pIndex == -1) pIndex = __R[2][0].length
                 __R[2][0][pIndex] = property
@@ -44,13 +43,13 @@ vKit.Object = () => {
         },
         get: (property) => {
             const pType = typeof(property)
-            if (pType == "number") return __R[0][property]
+            if (vKit.isNumber(property)) return __R[0][property]
             else if (pType == "object") return __R[2][1].get(property)
             else return __R[1][property]
         },
         delete: (property) => {
             const pType = typeof(property)
-            if (pType == "number") {
+            if (vKit.isNumber(property)) {
                 delete __R[0][property]
                 return true
             }
