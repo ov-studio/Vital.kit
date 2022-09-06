@@ -108,6 +108,7 @@ vKit.global.vKit = vKit
 vKit.ignore.web = {
     "querystring": false,
     "crypto": false,
+    "http": false,
     "https": false
 }
 module.exports = vKit
