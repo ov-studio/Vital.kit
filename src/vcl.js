@@ -238,7 +238,4 @@ private.decode = (buffer, ref, padding, isChild) => {
     }
     return private.parseReturn(parser, buffer)
 }
-vKit.vcl.decode = (buffer) => {
-    const [line] = private.decode(buffer)
-    return line
-}
+vKit.vcl.decode = (buffer) => private.decode(buffer)
