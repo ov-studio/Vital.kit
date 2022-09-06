@@ -265,4 +265,5 @@ const printResult = (value) => {
         vKit.print(`${i} - Type: ${typeof(i)} - Value: ${j}`)
     })
 }
-printResult(result)
+console.log(vKit.vcl.encode(result))
+//printResult(result)

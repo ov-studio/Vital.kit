@@ -20,11 +20,11 @@ const CHTTPS = require("https")
 //////////////////
 
 const vKit = {
+    ignore: {},
     print: console.log,
     load: eval,
     query: require("querystring")
 }
-Object.defineProperty(vKit, "ignore", {value: {}, enumerable: true, configurable: false, writable: false})
 Object.defineProperty(vKit, "isServer", {value: ((typeof(process) != "undefined") && !process.browser && true) || false, enumerable: true, configurable: false, writable: false})
 Object.defineProperty(vKit, "global", {value: (vKit.isServer && global) || window, enumerable: true, configurable: false, writable: false})
 vKit.crypto = (vKit.isServer && require("crypto")) || crypto
