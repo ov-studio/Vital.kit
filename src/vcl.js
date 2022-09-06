@@ -187,30 +187,24 @@ private.parseReturn = (parser, buffer) => {
 
 // @Desc: Encodes vcl buffer
 private.encode = (buffer, padding) => {
-    // TODO: WIP ENCODER
-    /*
-    if !buffer || (imports.type(buffer) != "table") then return false end
+    if (!buffer || !vKit.isObject(buffer)) return false
     padding = padding || ""
-    local result, indexes = "", {numeric = {}, index = {}}
-    for i, j in imports.pairs(buffer) do
-        if imports.type(j) == "table" then
-            table.insert(((imports.type(i) == "number") && indexes.numeric) || indexes.index, i)
-        else
-            i = ((imports.type(i) == "number") && "- "..String(i)) || i
-            if imports.type(j) == "string" then j = "\""..j.."\"" end
-            result = result..private.types.newline..padding..i..private.types.init..private.types.space..String(j)
-        end
-    end
-    table.sort(indexes.numeric, function(a, b) return a < b end)
-    for i = 1, #indexes.numeric, 1 do
-        local j = indexes.numeric[i]
-        result = result..private.types.newline..padding..private.types.list..private.types.space..j..private.types.init..private.encode(buffer[j], padding..private.types.tab)
-    end
-    for i = 1, #indexes.index, 1 do
-        local j = indexes.index[i]
-        result = result..private.types.newline..padding..j..private.types.init..private.encode(buffer[j], padding..private.types.tab)
-    end
-    */
+    var result = "", indexes = {numeric: [], index: []}
+    buffer.forAll((i, j) => {
+        if (vKit.isObject(j)) ((vKit.isNumber(i) && indexes.numeric) || indexes.index).push(i)
+        else {
+            i = (vKit.isNumber(i) && ("- " + String(i))) || i
+            if (vKit.isString(j)) j = "\"" + j + "\""
+            result = result + private.types.newline + padding + i + private.types.init + private.types.space + String(j)
+        }
+    })
+    indexes.numeric.sort((a, b) => a - b)
+    indexes.numeric.forEach((j) => {
+        result = result + private.types.newline + padding + private.types.list + private.types.space + j + private.types.init + private.encode(buffer.get(j), padding + private.types.tab)
+    })
+    indexes.index.forEach((j) => {
+        result = result + private.types.newline + padding + j + private.types.init + private.encode(buffer.get(j), padding + private.types.tab)
+    })
     return result
 }
 vKit.vcl.encode = (buffer) => private.encode(buffer)
@@ -245,25 +239,3 @@ private.decode = (buffer, ref, padding, isChild) => {
     return private.parseReturn(parser, buffer)
 }
 vKit.vcl.decode = (buffer) => private.decode(buffer)
-
-
-var test = `
-A:
-    -: "xd"
-    B: "C"
-    D:
-        E: "XD"
-`
-
-const [result] = vKit.vcl.decode(test)
-const printResult = (value) => {
-    value.forAll((i, j) => {
-        if (vKit.isObject(j)) {
-            vKit.print(`${i} - Length: ${j.getLength()}`)
-            return printResult(j)
-        }
-        vKit.print(`${i} - Type: ${typeof(i)} - Value: ${j}`)
-    })
-}
-console.log(vKit.vcl.encode(result))
-//printResult(result)
