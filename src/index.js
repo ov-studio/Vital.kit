@@ -25,9 +25,9 @@ const vKit = {
     load: eval,
     query: require("querystring")
 }
-Object.defineProperty(vKit, "isServer", {value: ((typeof(process) != "undefined") && !process.browser && true) || false, enumerable: true, configurable: false, writable: false})
-Object.defineProperty(vKit, "global", {value: (vKit.isServer && global) || window, enumerable: true, configurable: false, writable: false})
-vKit.crypto = (vKit.isServer && require("crypto")) || crypto
+Object.defineProperty(vKit, "server", {value: ((typeof(process) != "undefined") && !process.browser && true) || false, enumerable: true, configurable: false, writable: false})
+Object.defineProperty(vKit, "global", {value: (vKit.server && global) || window, enumerable: true, configurable: false, writable: false})
+vKit.crypto = (vKit.server && require("crypto")) || crypto
 vKit.crypto.getRandomValues = vKit.crypto.getRandomValues || ((buffer) => {
     if (buffer instanceof Uint8Array) {
         buffer.set(vKit.crypto.randomBytes(buffer.length))
@@ -35,9 +35,9 @@ vKit.crypto.getRandomValues = vKit.crypto.getRandomValues || ((buffer) => {
     }
     return false
 })
-vKit.toBase64 = (!vKit.isServer && btoa.bind(window)) || ((data) => Buffer.from(data).toString("base64"))
-vKit.fromBase64 = (!vKit.isServer && atob.bind(window)) || ((data) => Buffer.from(data, "base64").toString("binary"))
-Object.defineProperty(vKit, "identifier", {value: vKit.toBase64(`vNetworkify-${(vKit.isServer && "Server") || "Client"}`), enumerable: true, configurable: false, writable: false})
+vKit.toBase64 = (!vKit.server && btoa.bind(window)) || ((data) => Buffer.from(data).toString("base64"))
+vKit.fromBase64 = (!vKit.server && atob.bind(window)) || ((data) => Buffer.from(data, "base64").toString("binary"))
+Object.defineProperty(vKit, "identifier", {value: vKit.toBase64(`vNetworkify-${(vKit.server && "Server") || "Client"}`), enumerable: true, configurable: false, writable: false})
 Object.defineProperty(vKit, "version", {value: vKit.toBase64(require("../package.json").version), enumerable: true, configurable: false, writable: false})
 
 // @Desc: Executes the specified handler
@@ -53,7 +53,7 @@ vKit.scheduleExec = (exec, duration, isInterval) => {
 }
 
 // @Desc: Fetches an API
-vKit.fetch = (!vKit.isServer && (async (route, options) => {
+vKit.fetch = (!vKit.server && (async (route, options) => {
     try {
         const result = await fetch(route, options)
         return await result.text()
