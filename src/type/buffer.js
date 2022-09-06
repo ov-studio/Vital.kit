@@ -47,5 +47,5 @@ vKit.Buffer = (category) => {
             return true
         })
     }
-    return private[category].public
+    return private[category]
 }
