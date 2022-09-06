@@ -106,13 +106,21 @@ const fetchNativeLoop = (__I, exec) => {
         exec(i, __I[i])
     }
 }
-
-Object.prototype.getLength = function() {return vKit.Object.fetchLength(this) || 0}
-Object.prototype.forEach = function(exec) {
-    if (vKit.Object.forEach(this, exec)) return false
-    else return fetchNativeLoop(this, exec)
-}
-Object.prototype.forAll = function(exec) {
-    if (vKit.Object.forAll(this, exec)) return false
-    else return fetchNativeLoop(this, exec)
-}
+Object.defineProperty(Object.prototype, "getLength", {
+    value: function() {return vKit.Object.fetchLength(this) || 0},
+    enumerable: false, configurable: false, writable: false
+})
+Object.defineProperty(Object.prototype, "forEach", {
+    value: function(exec) {
+        if (vKit.Object.forEach(this, exec)) return false
+        else return fetchNativeLoop(this, exec)
+    },
+    enumerable: false, configurable: false, writable: true
+})
+Object.defineProperty(Object.prototype, "forAll", {
+    value: function(exec) {
+        if (vKit.Object.forAll(this, exec)) return false
+        else return fetchNativeLoop(this, exec)
+    },
+    enumerable: false, configurable: false, writable: false
+})
