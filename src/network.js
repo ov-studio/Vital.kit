@@ -27,14 +27,6 @@ module.exports = CNetwork.public
 // Static Members //
 /////////////////////
 
-// @Desc: Creates a fresh network w/ specified name
-CNetwork.public.addMethod("create", (name, ...cArgs) => {
-    if (!CNetwork.public.isVoid(name)) return false
-    const cInstance = CNetwork.public.createInstance(name, ...cArgs)
-    CNetwork.private.buffer.set(name, cInstance)
-    return cInstance
-})
-
 // @Desc: Attaches a handler on specified network
 CNetwork.public.addMethod("on", (name, ...cArgs) => {
     const cInstance = CNetwork.public.fetch(name)

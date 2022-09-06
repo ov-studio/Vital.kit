@@ -30,7 +30,9 @@ vKit.Buffer = (category) => {
         private[category].public.addMethod("fetch", (ref) => (!private[category].public.isVoid(ref) && private[category].private.buffer.get(ref)) || false)
         private[category].public.addMethod("create", (ref) => {
             if (!private[category].public.isVoid(ref)) return false
-            return private[category].public.createInstance(ref)
+            const cInstance = private[category].public.createInstance(ref)
+            private[category].private.buffer.set(ref, cInstance)
+            return cInstance
         })
         private[category].public.addMethod("destroy", (ref) => {
             if (private[category].public.isVoid(ref)) return false
