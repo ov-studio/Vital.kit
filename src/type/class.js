@@ -32,7 +32,7 @@ vKit.Class = (parent) => {
     class __C {
         constructor(...cArgs) {
             __I.set(this, {})
-            vKit.exec(__C.constructor, this, ...cArgs)
+            if (__C.isInstanceware) vKit.exec(__C.constructor, this, ...cArgs)
         }
     }
     if (vKit.isObject(parent)) {
