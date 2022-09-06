@@ -22,16 +22,12 @@
         "web-dev",
         "game-dev",
         "engine-dev",
+        "lightweight",
+        "library",
+        "interface",
         "toolkit",
         "networker",
-        "networkify",
-        "library",
-        "networking",
-        "lightweight",
-        "communication",
-        "interface",
-        "socket",
-        "rest"
+        "networking"
     ],
     "scripts": {
         "debug": "node ./src"
