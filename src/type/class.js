@@ -32,7 +32,7 @@ vKit.Class = (parent) => {
     class __C {
         constructor(...cArgs) {
             __I.set(this, {})
-            if (__C.isInstanceware) vKit.exec(__C.constructor, this, ...cArgs)
+            if (__C.isContructware) vKit.exec(__C.constructor, this, ...cArgs)
         }
     }
     if (vKit.isObject(parent)) {
@@ -42,7 +42,10 @@ vKit.Class = (parent) => {
     }
     __C.addMethod = (index, exec, isInstanceware) => {
         if (!vKit.isString(index) || !vKit.isFunction(exec)) return false
-        if ((index == "constructor") && vKit.isString(isInstanceware)) __C.isInstanceware = isInstanceware
+        if (index == "constructor") {
+            __C.isContructware = true
+            if (vKit.isString(isInstanceware)) __C.isInstanceware = isInstanceware
+        }
         __C[index] = exec
         return true
     }
