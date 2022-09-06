@@ -4,7 +4,7 @@
      Author: vStudio
      Developer(s): Aviril, Mario, Tron
      DOC: 04/09/2022
-     Desc: Utilities
+     Desc: Utility Initializer
 ----------------------------------------------------------------*/
 
 
