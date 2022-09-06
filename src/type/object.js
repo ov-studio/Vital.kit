@@ -25,42 +25,44 @@ vKit.Object = () => {
     const __R = [[], {}, [[], new WeakMap()]]
     const __I = {
         set: (property, value) => {
+            if (vKit.isNull(property)) return false
             if (vKit.isNumber(property)) {
                 __R[0][property] = value
                 return true
             }
-            else if (vKit.isObject(property) || vKit.isClass(property) || vKit.isFunction(property)) {
+            else if (vKit.isBool(property) || vKit.isString(property)) {
+                __R[1][property] = value
+                return true
+            }
+            else {
                 let pIndex = __R[2][0].indexOf(property)
                 if (pIndex == -1) pIndex = __R[2][0].length
                 __R[2][0][pIndex] = property
                 __R[2][1].set(property, value)
                 return true
             }
-            else {
-                __R[1][property] = value
-                return true
-            }
         },
         get: (property) => {
-            const pType = typeof(property)
+            if (vKit.isNull(property)) return false
             if (vKit.isNumber(property)) return __R[0][property]
-            else if (pType == "object") return __R[2][1].get(property)
-            else return __R[1][property]
+            else if (vKit.isBool(property) || vKit.isString(property)) return __R[1][property]
+            else return __R[2][1].get(property)
         },
         delete: (property) => {
+            if (vKit.isNull(property)) return false
             const pType = typeof(property)
             if (vKit.isNumber(property)) {
                 delete __R[0][property]
                 return true
             }
-            else if (pType == "object") {
-                let pIndex = __R[2][0].indexOf(property)
-                if (pIndex != -1) delete __R[2][0][pIndex]
-                __R[2][1].delete(property)
+            else if (vKit.isBool(property) || vKit.isString(property)) {
+                delete __R[1][property]
                 return true
             }
             else {
-                delete __R[1][property]
+                let pIndex = __R[2][0].indexOf(property)
+                if (pIndex != -1) delete __R[2][0][pIndex]
+                __R[2][1].delete(property)
                 return true
             }
         }
