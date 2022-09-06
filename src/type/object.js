@@ -86,10 +86,10 @@ const fetchLoop = (__I, isOrdered, exec) => {
     if (!isType) return false
     if (isOrdered)  isType.ref[0].forEach((j, i) => exec(i, j))
     else {
-        isType.ref[2][0].forEach((j, i) => exec(j, isType.ref[2][1].get(j)))
         for (const i in isType.ref[1]) {
             exec(i, isType.ref[1][i])
         }
+        isType.ref[2][0].forEach((j, i) => exec(j, isType.ref[2][1].get(j)))
     }
     return true
 }
