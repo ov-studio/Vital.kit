@@ -70,13 +70,15 @@ vKit.Object = () => {
     return __I
 }
 
-// @Desc: vKit handlers
-const fetchLength = (__I) => {
+// @Desc: Retrieves object's length
+vKit.Object.fetchLength = (__I) => {
     if (!vKit.isObject(__I)) return false
     const isType = (private.has(__I) && private.get(__I)) || false
     if (!isType) return false
     return isType.ref[0].length
 }
+
+// @Desc: Object's loop handler
 const fetchLoop = (__I, isOrdered, exec) => {
     if (!vKit.isObject(__I) || !vKit.isFunction(exec)) return false
     const isType = (private.has(__I) && private.get(__I)) || false
@@ -90,7 +92,6 @@ const fetchLoop = (__I, isOrdered, exec) => {
     }
     return true
 }
-vKit.Object.fetchLength = (__I) => fetchLength(__I)
 vKit.Object.forEach = (__I, exec) => fetchLoop(__I, true, exec)
 vKit.Object.forAll = (__I, exec) => {
     if (!fetchLoop(__I, false, exec)) return false
