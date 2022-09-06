@@ -30,8 +30,7 @@
         "rest"
     ],
     "scripts": {
-        "debug": "node ./src",
-        "build": "webpack"
+        "debug": "node ./src"
     },
     "main": "./src",
     "dependencies": {}

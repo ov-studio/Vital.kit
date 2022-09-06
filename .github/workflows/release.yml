@@ -22,7 +22,6 @@ jobs:
     - name: Building Package
       run: |
         npm install
-        npm run build
 
     - name: Publishing Package
       run: npm publish --access public
