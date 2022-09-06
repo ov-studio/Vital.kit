@@ -64,6 +64,12 @@ vKit.String.match = (value, matchValue) => {
     return vKit.String(value).match(new RegExp(matchValue, "g"))
 }
 
+// @Desc: Formats string w/ provided values
+vKit.String.format = (value, ...cArgs) => {
+    if (!isValid(value)) return false
+    return vKit.String(value).replace(new RegExp("%([0-9]+)", "g"), (matchValue, matchIndex) => vKit.isNull(cArgs[matchIndex]) ? matchValue : cArgs[matchIndex])
+}
+
 // @Desc: Splits string using specified separator
 vKit.String.split = (value, separator) => {
     if (!isValid(value) || !vKit.isString(separator)) return false
@@ -72,5 +78,3 @@ vKit.String.split = (value, separator) => {
 
 // @Desc: Converts tabs of provided string to spaces
 vKit.String.detab = (value) => vKit.String.replace(value, "\t", "    ")
-
-// TODO: ADD vKit.String.formats

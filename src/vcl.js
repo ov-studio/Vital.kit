@@ -179,7 +179,8 @@ CVCL.private.parseReturn = (parser, buffer) => {
     parser.isParsed = (!parser.isChildErrored && ((parser.isType == "object") || parser.isParsed) && true) || false
     if (!parser.isParsed) {
         if (!parser.isChildErrored || (parser.isChildErrored == 0)) {
-            parser.isErrored = vKit.string.format(parser.isErrored, CVCL.private.fetchLine(buffer, parser.ref), (parser.isType && "Malformed " + parser.isType) || "Invalid declaration")
+            const [line] = CVCL.private.fetchLine(buffer, parser.ref)
+            parser.isErrored = vKit.String.format(parser.isErrored, line, (parser.isType && "Malformed " + parser.isType) || "Invalid declaration")
             vKit.print(parser.isErrored)
         }
         return [false, false, true]
@@ -226,7 +227,7 @@ CVCL.private.decode = (buffer, ref, padding, isChild) => {
     const parser = {
         ref: ref || 1, padding: padding,
         index: "", pointer: vKit.Object(), value: "",
-        isErrored: "Failed to decode vcl. [Line: %s] [Reason: %s]"
+        isErrored: "Failed to decode vcl. [Line: %0] [Reason: %1]"
     }
     if (!isChild) {
         buffer = vKit.String.replace(vKit.String.detab(buffer), CVCL.private.types.carriageline, "")
