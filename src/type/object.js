@@ -70,7 +70,7 @@ vKit.Object = () => {
     return __I
 }
 
-// @Desc: Custom handlers
+// @Desc: vKit handlers
 const fetchLength = (__I) => {
     if (!vKit.isObject(__I)) return false
     const isType = (private.has(__I) && private.get(__I)) || false
