@@ -70,7 +70,7 @@ vKit.Object = () => {
     return __I
 }
 
-// @Desc: Custom loop handlers
+// @Desc: Custom handlers
 const fetchLength = (__I) => {
     if (!vKit.isObject(__I)) return false
     const isType = (private.has(__I) && private.get(__I)) || false
@@ -97,8 +97,8 @@ vKit.Object.forAll = (__I, exec) => {
     return fetchLoop(__I, true, exec)
 }
 
-// @Desc: Native loop handlers
-const nativeLoop = (__I, exec) => {
+// @Desc: Native handlers
+const fetchNativeLoop = (__I, exec) => {
     if (!vKit.isObject(__I) || !vKit.isFunction(exec)) return false
     for (const i in __I) {
         exec(i, __I[i])
@@ -111,14 +111,14 @@ Object.defineProperty(Object.prototype, "getLength", {
 Object.defineProperty(Object.prototype, "forEach", {
     value: function(exec) {
         if (vKit.Object.forEach(this, exec)) return false
-        else return nativeLoop(this, exec)
+        else return fetchNativeLoop(this, exec)
     },
     enumerable: false, configurable: false, writable: false
 })
 Object.defineProperty(Object.prototype, "forAll", {
     value: function(exec) {
         if (vKit.Object.forAll(this, exec)) return false
-        else return nativeLoop(this, exec)
+        else return fetchNativeLoop(this, exec)
     },
     enumerable: false, configurable: false, writable: false
 })
