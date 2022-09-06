@@ -28,9 +28,9 @@ vKit.Buffer = (category) => {
         private[category].private.buffer = vKit.Object()
         private[category].public.addMethod("isVoid", (ref) => (vKit.isString(ref) && !private[category].private.buffer.get(ref) && true) || false)
         private[category].public.addMethod("fetch", (ref) => (!private[category].public.isVoid(ref) && private[category].private.buffer.get(ref)) || false)
-        private[category].public.addMethod("create", (ref) => {
+        private[category].public.addMethod("create", (ref, ...cArgs) => {
             if (!private[category].public.isVoid(ref)) return false
-            const cInstance = private[category].public.createInstance(ref)
+            const cInstance = private[category].public.createInstance(...cArgs)
             private.ref = ref
             private[category].private.buffer.set(ref, cInstance)
             return cInstance
@@ -39,7 +39,6 @@ vKit.Buffer = (category) => {
             if (private[category].public.isVoid(ref)) return false
             return private[category].private.buffer.get(ref).destroy()
         })
-        private[category].public.addMethod("constructor", (self, ref) => {})
         private[category].public.addInstanceMethod("destroy", (self) => {
             const private = private[category].instance.get(self)
             private[category].private.buffer.delete(private.ref)
