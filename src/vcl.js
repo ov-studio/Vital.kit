@@ -13,15 +13,15 @@
 //////////////
 
 const vKit = require(".")
+const private = {}
 
 
 /////////////////
 // Class: VCL //
 /////////////////
 
-const CVCL = vKit.Class()
-vKit.vcl = CVCL.public
-CVCL.private.types = {
+vKit.vcl = {}
+private.types = {
     init: ":",
     comment: "#",
     tab: "\t",
@@ -42,52 +42,47 @@ CVCL.private.types = {
     }
 }
 
-
-/////////////////////
-// Static Members //
-/////////////////////
-
 // @Desc: Verifies whether rw is void
-CVCL.private.isVoid = (rw) => (!vKit.String.match(rw, "[\\w]") && true) || false
+private.isVoid = (rw) => (!vKit.String.match(rw, "[\\w]") && true) || false
 
 // @Desc: Fetches rw by index
-CVCL.private.fetch = (rw, index) => vKit.String.sub(rw, index, index + 1)
+private.fetch = (rw, index) => vKit.String.sub(rw, index, index + 1)
 
 // @Desc: Fetches rw's line by index
-CVCL.private.fetchLine = (rw, index) => {
+private.fetchLine = (rw, index) => {
     if (rw) {
-        const rwLines = vKit.String.sub(rw, 0, index).split(CVCL.private.types.newline)
+        const rwLines = vKit.String.sub(rw, 0, index).split(private.types.newline)
         return [Math.max(1, rwLines.length), rwLines[(rwLines.length - 1)] || ""]
     }
     return false
 }
 
 // @Desc: Parses comment
-CVCL.private.parseComment = (parser, buffer, rw) => {
-    if (!parser.isType && (rw == CVCL.private.types.comment)) {
-        const [line, lineText] = CVCL.private.fetchLine(vKit.String.sub(buffer, 0, parser.ref))
-        const rwLines = buffer.split(CVCL.private.types.newline)
+private.parseComment = (parser, buffer, rw) => {
+    if (!parser.isType && (rw == private.types.comment)) {
+        const [line, lineText] = private.fetchLine(vKit.String.sub(buffer, 0, parser.ref))
+        const rwLines = buffer.split(private.types.newline)
         parser.ref = parser.ref - lineText.length + rwLines[(line - 1)].length
     }
     return true
 }
 
 // @Desc: Parses boolean
-CVCL.private.parseBoolean = (parser, buffer, rw) => {
+private.parseBoolean = (parser, buffer, rw) => {
     if (!parser.isType || (parser.isType == "bool")) {
         if (!parser.isType) {
-            for (const i in CVCL.private.types.bool) {
+            for (const i in private.types.bool) {
                 if (vKit.String.sub(buffer, parser.ref, parser.ref + i.length) == i) {
                     rw = i
                     break
                 }
             }
         }
-        if (!parser.isType && CVCL.private.types.bool[rw]) {
+        if (!parser.isType && private.types.bool[rw]) {
             parser.isSkipAppend = true, parser.ref = parser.ref + rw.length - 1, parser.isType = "bool", parser.value = rw
         }
         else if (parser.isType) {
-            if (rw == CVCL.private.types.newline) parser.isSkipAppend = true, parser.isParsed = true
+            if (rw == private.types.newline) parser.isSkipAppend = true, parser.isParsed = true
             else return false
         }
     }
@@ -95,22 +90,22 @@ CVCL.private.parseBoolean = (parser, buffer, rw) => {
 }
 
 // @Desc: Parses number
-CVCL.private.parseNumber = (parser, buffer, rw) => {
+private.parseNumber = (parser, buffer, rw) => {
     if (!parser.isType || (parser.isType == "number")) {
         var isNumber = vKit.Number(rw)
         if (!parser.isType) {
-            const isNegative = rw == CVCL.private.types.negative
+            const isNegative = rw == private.types.negative
             if (isNegative || !vKit.isBool(isNumber)) parser.isType = "number", parser.isTypeNegative = (isNegative && parser.ref) || false
         }
         else {
-            if (rw == CVCL.private.types.decimal) {
+            if (rw == private.types.decimal) {
                 if (!parser.isTypeFloat) parser.isTypeFloat = true
                 else return false
             }
-            else if (!parser.isTypeFloat && parser.isTypeNegative && ((CVCL.private.isVoid(parser.index) && (rw == CVCL.private.types.space)) || (rw == CVCL.private.types.init))) {
+            else if (!parser.isTypeFloat && parser.isTypeNegative && ((private.isVoid(parser.index) && (rw == private.types.space)) || (rw == private.types.init))) {
                 parser.ref = parser.isTypeNegative - 1, parser.index = "", parser.isType = "object", parser.isTypeFloat = false, parser.isTypeNegative = false
             }
-            else if (rw == CVCL.private.types.newline) parser.isParsed = true
+            else if (rw == private.types.newline) parser.isParsed = true
             else if (vKit.isBool(isNumber)) return false
         }
     }
@@ -118,16 +113,16 @@ CVCL.private.parseNumber = (parser, buffer, rw) => {
 }
 
 // @Desc: Parses string
-CVCL.private.parseString = (parser, buffer, rw) => {
+private.parseString = (parser, buffer, rw) => {
     if (!parser.isType || (parser.isType == "string")) {
-        if ((!parser.isTypeChar && CVCL.private.types.string[rw]) || parser.isTypeChar) {
+        if ((!parser.isTypeChar && private.types.string[rw]) || parser.isTypeChar) {
             if (!parser.isType) parser.isSkipAppend = true, parser.isType = "string", parser.isTypeChar = rw
             else if (rw == parser.isTypeChar) {
                 if (!parser.isTypeParsed) parser.isSkipAppend = true, parser.isTypeParsed = true
                 else return false
             }
             else if (parser.isTypeParsed) {
-                if (rw == CVCL.private.types.newline) parser.isParsed = true
+                if (rw == private.types.newline) parser.isParsed = true
                 else return false
             }
         }
@@ -136,16 +131,16 @@ CVCL.private.parseString = (parser, buffer, rw) => {
 }
 
 // @Desc: Parses object
-CVCL.private.parseObject = (parser, buffer, rw, isChild) => {
+private.parseObject = (parser, buffer, rw, isChild) => {
     if (parser.isType == "object") {
-        if (CVCL.private.isVoid(parser.index) && (rw == CVCL.private.types.list)) parser.isTypeID = parser.ref
-        else if (!CVCL.private.isVoid(rw)) parser.index = parser.index + rw
+        if (private.isVoid(parser.index) && (rw == private.types.list)) parser.isTypeID = parser.ref
+        else if (!private.isVoid(rw)) parser.index = parser.index + rw
         else {
-            if (parser.isTypeID && CVCL.private.isVoid(parser.index) && (rw == CVCL.private.types.init)) parser.index = parser.pointer.getLength()
-            if (!CVCL.private.isVoid(parser.index)) {
-                if (parser.isTypeID && (rw == CVCL.private.types.newline)) parser.pointer.set(parser.pointer.getLength(), parser.index)
-                else if (rw == CVCL.private.types.init) {
-                    const [, lineText] = CVCL.private.fetchLine(vKit.String.sub(buffer, 0, parser.ref))
+            if (parser.isTypeID && private.isVoid(parser.index) && (rw == private.types.init)) parser.index = parser.pointer.getLength()
+            if (!private.isVoid(parser.index)) {
+                if (parser.isTypeID && (rw == private.types.newline)) parser.pointer.set(parser.pointer.getLength(), parser.index)
+                else if (rw == private.types.init) {
+                    const [, lineText] = private.fetchLine(vKit.String.sub(buffer, 0, parser.ref))
                     const indexTypePadding = (parser.isTypeID && (parser.ref - parser.isTypeID - 1)) || 0
                     const indexPadding = lineText.length - parser.index.length - indexTypePadding - 1
                     if (isChild) {
@@ -156,8 +151,8 @@ CVCL.private.parseObject = (parser, buffer, rw, isChild) => {
                         }
                     }
                     if (parser.isTypeID) parser.isTypeID = false, parser.index = Number(parser.index)
-                    if (!CVCL.private.isVoid(parser.index)) {
-                        const [value, __index, error] = CVCL.private.decode(buffer, parser.ref + 1, indexPadding, true)
+                    if (!private.isVoid(parser.index)) {
+                        const [value, __index, error] = private.decode(buffer, parser.ref + 1, indexPadding, true)
                         if (!error) {
                             parser.pointer.set(parser.index, value)
                             parser.ref = __index - 1, parser.index = ""
@@ -175,11 +170,11 @@ CVCL.private.parseObject = (parser, buffer, rw, isChild) => {
 }
 
 // @Desc: Parses return
-CVCL.private.parseReturn = (parser, buffer) => {
+private.parseReturn = (parser, buffer) => {
     parser.isParsed = (!parser.isChildErrored && ((parser.isType == "object") || parser.isParsed) && true) || false
     if (!parser.isParsed) {
         if (!parser.isChildErrored || (parser.isChildErrored == 0)) {
-            const [line] = CVCL.private.fetchLine(buffer, parser.ref)
+            const [line] = private.fetchLine(buffer, parser.ref)
             parser.isErrored = vKit.String.format(parser.isErrored, line, (parser.isType && "Malformed " + parser.isType) || "Invalid declaration")
             vKit.print(parser.isErrored)
         }
@@ -191,7 +186,7 @@ CVCL.private.parseReturn = (parser, buffer) => {
 }
 
 // @Desc: Encodes vcl buffer
-CVCL.private.encode = (buffer, padding) => {
+private.encode = (buffer, padding) => {
     // TODO: WIP ENCODER
     /*
     if !buffer || (imports.type(buffer) != "table") then return false end
@@ -203,25 +198,25 @@ CVCL.private.encode = (buffer, padding) => {
         else
             i = ((imports.type(i) == "number") && "- "..String(i)) || i
             if imports.type(j) == "string" then j = "\""..j.."\"" end
-            result = result..CVCL.private.types.newline..padding..i..CVCL.private.types.init..CVCL.private.types.space..String(j)
+            result = result..private.types.newline..padding..i..private.types.init..private.types.space..String(j)
         end
     end
     table.sort(indexes.numeric, function(a, b) return a < b end)
     for i = 1, #indexes.numeric, 1 do
         local j = indexes.numeric[i]
-        result = result..CVCL.private.types.newline..padding..CVCL.private.types.list..CVCL.private.types.space..j..CVCL.private.types.init..CVCL.private.encode(buffer[j], padding..CVCL.private.types.tab)
+        result = result..private.types.newline..padding..private.types.list..private.types.space..j..private.types.init..private.encode(buffer[j], padding..private.types.tab)
     end
     for i = 1, #indexes.index, 1 do
         local j = indexes.index[i]
-        result = result..CVCL.private.types.newline..padding..j..CVCL.private.types.init..CVCL.private.encode(buffer[j], padding..CVCL.private.types.tab)
+        result = result..private.types.newline..padding..j..private.types.init..private.encode(buffer[j], padding..private.types.tab)
     end
     */
     return result
 }
-CVCL.public.encode = (buffer) => CVCL.private.encode(buffer)
+vKit.vcl.encode = (buffer) => private.encode(buffer)
 
 // @Desc: Decodes vcl buffer
-CVCL.private.decode = (buffer, ref, padding, isChild) => {
+private.decode = (buffer, ref, padding, isChild) => {
     if (!buffer || (typeof(buffer) != "string")) return false
     if (vKit.String.isVoid(buffer)) return []
     const parser = {
@@ -230,26 +225,26 @@ CVCL.private.decode = (buffer, ref, padding, isChild) => {
         isErrored: "Failed to decode vcl. [Line: %0] [Reason: %1]"
     }
     if (!isChild) {
-        buffer = vKit.String.replace(vKit.String.detab(buffer), CVCL.private.types.carriageline, "")
-        buffer = (!isChild && (CVCL.private.fetch(buffer, buffer.length) != CVCL.private.types.newline) && (buffer + CVCL.private.types.newline)) || buffer   
+        buffer = vKit.String.replace(vKit.String.detab(buffer), private.types.carriageline, "")
+        buffer = (!isChild && (private.fetch(buffer, buffer.length) != private.types.newline) && (buffer + private.types.newline)) || buffer   
     }
     while(parser.ref <= buffer.length) {
-        CVCL.private.parseComment(parser, buffer, CVCL.private.fetch(buffer, parser.ref))
+        private.parseComment(parser, buffer, private.fetch(buffer, parser.ref))
         if (isChild) {
             parser.isSkipAppend = false
-            if (!CVCL.private.parseBoolean(parser, buffer, CVCL.private.fetch(buffer, parser.ref))) break
-            if (!CVCL.private.parseNumber(parser, buffer, CVCL.private.fetch(buffer, parser.ref))) break
-            if (!CVCL.private.parseString(parser, buffer, CVCL.private.fetch(buffer, parser.ref))) break
-            if (parser.isType && !parser.isSkipAppend && !parser.isParsed) parser.value = parser.value + CVCL.private.fetch(buffer, parser.ref)
+            if (!private.parseBoolean(parser, buffer, private.fetch(buffer, parser.ref))) break
+            if (!private.parseNumber(parser, buffer, private.fetch(buffer, parser.ref))) break
+            if (!private.parseString(parser, buffer, private.fetch(buffer, parser.ref))) break
+            if (parser.isType && !parser.isSkipAppend && !parser.isParsed) parser.value = parser.value + private.fetch(buffer, parser.ref)
         }
-        parser.isType = (!parser.isType && ((CVCL.private.fetch(buffer, parser.ref) == CVCL.private.types.list) || !CVCL.private.isVoid(CVCL.private.fetch(buffer, parser.ref))) && "object") || parser.isType
-        if (!CVCL.private.parseObject(parser, buffer, CVCL.private.fetch(buffer, parser.ref), isChild)) break
+        parser.isType = (!parser.isType && ((private.fetch(buffer, parser.ref) == private.types.list) || !private.isVoid(private.fetch(buffer, parser.ref))) && "object") || parser.isType
+        if (!private.parseObject(parser, buffer, private.fetch(buffer, parser.ref), isChild)) break
         if (isChild && !parser.isChildErrored && parser.isParsed) break
         parser.ref = parser.ref + 1
     }
-    return CVCL.private.parseReturn(parser, buffer)
+    return private.parseReturn(parser, buffer)
 }
-CVCL.public.decode = (buffer) => CVCL.private.decode(buffer)
+vKit.vcl.decode = (buffer) => private.decode(buffer)
 
 
 var test = `
@@ -260,7 +255,7 @@ A:
         E: "XD"
 `
 
-const [result] = CVCL.public.decode(test)
+const [result] = vKit.vcl.decode(test)
 const printResult = (value) => {
     value.forAll((i, j) => {
         if (vKit.isObject(j)) {
