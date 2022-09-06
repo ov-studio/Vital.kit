@@ -24,6 +24,7 @@ const vKit = {
     load: eval,
     query: require("querystring")
 }
+Object.defineProperty(vKit, "ignore", {value: {}, enumerable: true, configurable: false, writable: false})
 Object.defineProperty(vKit, "isServer", {value: ((typeof(process) != "undefined") && !process.browser && true) || false, enumerable: true, configurable: false, writable: false})
 Object.defineProperty(vKit, "global", {value: (vKit.isServer && global) || window, enumerable: true, configurable: false, writable: false})
 vKit.crypto = (vKit.isServer && require("crypto")) || crypto
@@ -104,6 +105,11 @@ vKit.createAPIs = (buffer, blacklist) => {
 //////////////
 
 vKit.global.vKit = vKit
+vKit.ignore.web = {
+    "querystring": false,
+    "crypto": false,
+    "https": false
+}
 module.exports = vKit
 require("./type")
 require("./vid")
