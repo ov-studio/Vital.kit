@@ -163,7 +163,7 @@ private.parseObject = (parser, buffer, rw, isChild) => {
                 }
                 else parser.isChildErrored = 0
             }
-            if (parser.isChildErrored) return false
+            if (vKit.isNumber(parser.isChildErrored)) return false
         }
     }
     return true
@@ -171,9 +171,9 @@ private.parseObject = (parser, buffer, rw, isChild) => {
 
 // @Desc: Parses return
 private.parseReturn = (parser, buffer) => {
-    parser.isParsed = (!parser.isChildErrored && ((parser.isType == "object") || parser.isParsed) && true) || false
+    parser.isParsed = (!vKit.isNumber(parser.isChildErrored) && ((parser.isType == "object") || parser.isParsed) && true) || false
     if (!parser.isParsed) {
-        if (!parser.isChildErrored || (parser.isChildErrored == 0)) {
+        if (!vKit.isNumber(parser.isChildErrored) || (parser.isChildErrored == 0)) {
             const [line] = private.fetchLine(buffer, parser.ref)
             parser.isErrored = vKit.String.format(parser.isErrored, line, (parser.isType && "Malformed " + parser.isType) || "Invalid declaration")
             vKit.print(parser.isErrored)
@@ -233,7 +233,7 @@ private.decode = (buffer, ref, padding, isChild) => {
         }
         parser.isType = (!parser.isType && ((private.fetch(buffer, parser.ref) == private.types.list) || !private.isVoid(private.fetch(buffer, parser.ref))) && "object") || parser.isType
         if (!private.parseObject(parser, buffer, private.fetch(buffer, parser.ref), isChild)) break
-        if (isChild && !parser.isChildErrored && parser.isParsed) break
+        if (isChild && !vKit.isNumber(parser.isChildErrored) && parser.isParsed) break
         parser.ref = parser.ref + 1
     }
     return private.parseReturn(parser, buffer)
