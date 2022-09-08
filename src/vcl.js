@@ -136,7 +136,7 @@ private.parseObject = (parser, buffer, rw, isChild) => {
         if (private.isVoid(parser.index) && (rw == private.types.list)) parser.isTypeID = parser.ref
         else if (!private.isVoid(rw)) parser.index = parser.index + rw
         else {
-            if (parser.isTypeID && private.isVoid(parser.index) && (rw == private.types.init)) parser.index = parser.pointer.getLength()
+            if (parser.isTypeID && private.isVoid(parser.index) && (rw == private.types.init)) parser.index = vkit.String(parser.pointer.getLength())
             if (!private.isVoid(parser.index)) {
                 if (parser.isTypeID && (rw == private.types.newline)) parser.pointer.set(parser.pointer.getLength(), parser.index)
                 else if (rw == private.types.init) {
@@ -150,7 +150,7 @@ private.parseObject = (parser, buffer, rw, isChild) => {
                             return false
                         }
                     }
-                    if (parser.isTypeID) parser.isTypeID = false, parser.index = Number(parser.index)
+                    if (parser.isTypeID) parser.isTypeID = false, parser.index = vKit.Number(parser.index)
                     if (!private.isVoid(parser.index)) {
                         const [value, __index, error] = private.decode(buffer, parser.ref + 1, indexPadding, true)
                         if (!error) {
@@ -182,7 +182,10 @@ private.parseReturn = (parser, buffer) => {
     }
     else if (parser.isType == "object") return [parser.pointer, parser.ref]
     else if (parser.isType == "bool") return [((parser.value == "true") && true) || false, parser.ref]
-    else return [((parser.isType == "number" && Number(parser.value)) || parser.value), parser.ref]
+    else {
+        if (parser.isType == "number") parser.value = vKit.Number(parser.value)
+        return [parser.value, parser.ref]
+    }
 }
 
 // @Desc: Encodes vcl buffer
