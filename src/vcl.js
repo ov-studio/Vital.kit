@@ -136,7 +136,7 @@ private.parseObject = (parser, buffer, rw, isChild) => {
         if (private.isVoid(parser.index) && (rw == private.types.list)) parser.isTypeID = parser.ref
         else if (!private.isVoid(rw)) parser.index = parser.index + rw
         else {
-            if (parser.isTypeID && private.isVoid(parser.index) && (rw == private.types.init)) parser.index = vkit.String(parser.pointer.getLength())
+            if (parser.isTypeID && private.isVoid(parser.index) && (rw == private.types.init)) parser.index = vKit.String(parser.pointer.getLength())
             if (!private.isVoid(parser.index)) {
                 if (parser.isTypeID && (rw == private.types.newline)) parser.pointer.set(parser.pointer.getLength(), parser.index)
                 else if (rw == private.types.init) {
