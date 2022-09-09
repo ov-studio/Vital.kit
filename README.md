@@ -4,7 +4,7 @@
 
 **━ Maintainer(s):** [**Aviril**](https://github.com/Aviril), [**Mario**](https://github.com/OvileAmriam), [**Tron**](https://github.com/OvileAmriam), [**Anisa**](https://github.com/Anisa-Nur)
 
-**Vital.kit** is a open source toolbox for powering [Vital.js](https://github.com/ov-studio/Vital.js). 'Typescript' wonders? Imagine going typeless, that's where Vital evolves!
+**Vital.kit** is a open source toolbox for powering [Vital.js](https://github.com/ov-studio/Vital.js) and increasing your productivity. 'Typescript' wonders? Imagine going typeless, that's where Vital evolves!
 
 ## ━ Features
 
