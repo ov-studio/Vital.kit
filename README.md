@@ -14,6 +14,12 @@
 * Modular Programming
 * Completely Performance-Friendly
 * Completely Safe & Secure
+* Custom Types (Backwards-Compatible)
+* Custom Objects (Supports `strings`, `numerics`, `objects`, `userdatas: functions, classes etc` as index; Backwards-Compatible)
+* Custom Dynamic Classes (Backwards-Compatible)
+* Built-In Dynamic Buffers
+* Built-In Virtual-ID module ([`VID`](https://github.com/ov-studio/Vital.kit/wiki/Feature:-VID))
+* Built-In Confign language ([`VCL`](https://github.com/ov-studio/Vital.kit/wiki/Feature:-VCL))
 * Necessary Integration APIs
 
 ## ━ Contents
