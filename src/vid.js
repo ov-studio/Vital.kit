@@ -28,7 +28,7 @@ private.counter = 0
 vKit.vid.create = () => {
     var vid = false
     while(!vid) {
-        const vvid = `${vKit.identifier}:${vKit.toBase64(vKit.crypto.getRandomValues(new Uint8Array(8)).join("") + (Date.now() + private.counter))}`
+        const vvid = vKit.crypto.createHash("sha256").update(`${vKit.identifier}:${vKit.toBase64(vKit.crypto.getRandomValues(new Uint8Array(8)).join("") + (Date.now() + private.counter))}`).digest("hex").toLowerCase()
         if (vKit.vid.blacklist(vvid)) vid = vvid
         private.counter += 1
     }
