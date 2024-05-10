@@ -21,13 +21,17 @@ const CHTTPS = require("https")
 
 const vKit = {
     ignore: {},
-    print: console.log,
     load: eval,
+    print: (rw) => console.log(`\x1b[2m\x1b[37m[${vKit.timestamp(true)}] ━│ \x1b[0m\x1b[33m${rw}`),
     query: require("querystring")
 }
 Object.defineProperty(vKit, "server", {value: ((typeof(process) != "undefined") && !process.browser && true) || false, enumerable: true, configurable: false, writable: false})
 Object.defineProperty(vKit, "global", {value: (vKit.server && global) || window, enumerable: true, configurable: false, writable: false})
 vKit.crypto = (vKit.server && require("crypto")) || crypto
+vKit.toBase64 = (!vKit.server && btoa.bind(window)) || ((data) => Buffer.from(data).toString("base64"))
+vKit.fromBase64 = (!vKit.server && atob.bind(window)) || ((data) => Buffer.from(data, "base64").toString("binary"))
+Object.defineProperty(vKit, "identifier", {value: vKit.toBase64(`vNetworkify-${(vKit.server && "Server") || "Client"}`), enumerable: true, configurable: false, writable: false})
+Object.defineProperty(vKit, "version", {value: vKit.toBase64(require("../package.json").version), enumerable: true, configurable: false, writable: false})
 vKit.crypto.getRandomValues = vKit.crypto.getRandomValues || ((buffer) => {
     if (buffer instanceof Uint8Array) {
         buffer.set(vKit.crypto.randomBytes(buffer.length))
@@ -35,10 +39,20 @@ vKit.crypto.getRandomValues = vKit.crypto.getRandomValues || ((buffer) => {
     }
     return false
 })
-vKit.toBase64 = (!vKit.server && btoa.bind(window)) || ((data) => Buffer.from(data).toString("base64"))
-vKit.fromBase64 = (!vKit.server && atob.bind(window)) || ((data) => Buffer.from(data, "base64").toString("binary"))
-Object.defineProperty(vKit, "identifier", {value: vKit.toBase64(`vNetworkify-${(vKit.server && "Server") || "Client"}`), enumerable: true, configurable: false, writable: false})
-Object.defineProperty(vKit, "version", {value: vKit.toBase64(require("../package.json").version), enumerable: true, configurable: false, writable: false})
+
+// @Desc: Retrieves current timestamp
+vKit.timestamp = (isFormat) => {
+    let now = new Date()
+    now = {
+        day: String(now.getDate()).padStart(2, "0"),
+        month: String(now.getMonth()).padStart(2, "0"),
+        year: String(now.getFullYear()).padStart(4, "0"),
+        hours: String(now.getHours()).padStart(2, "0"),
+        minutes: String(now.getMinutes()).padStart(2, "0"),
+        seconds: String(now.getSeconds()).padStart(2, "0")
+    }
+    return (isFormat && `${now.year}/${now.month}/${now.day} ━ ${now.hours}:${now.minutes}:${now.seconds}`) || now
+}
 
 // @Desc: Executes the specified handler
 vKit.exec = (exec, ...cArgs) => {
