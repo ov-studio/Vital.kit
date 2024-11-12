@@ -45,7 +45,7 @@ vKit.timestamp = (isFormat) => {
     let now = new Date()
     now = {
         day: String(now.getDate()).padStart(2, "0"),
-        month: String(now.getMonth()).padStart(2, "0"),
+        month: String(now.getMonth() + 1).padStart(2, "0"),
         year: String(now.getFullYear()).padStart(4, "0"),
         hours: String(now.getHours()).padStart(2, "0"),
         minutes: String(now.getMinutes()).padStart(2, "0"),
