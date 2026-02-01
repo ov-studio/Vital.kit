@@ -1,0 +1,19 @@
+{
+    "lua": {
+        "version": "1.0.0",
+        "sources": [
+            "namespace.lua",
+            "vcl.lua",
+            "table.lua",
+            "math/index.lua",
+            "math/quat.lua",
+            "math/matrix.lua",
+            "string.lua",
+            "thread.lua",
+            "timer.lua",
+            "engine.lua",
+            "network.lua",
+            "resource.lua"
+        ]
+    }
+}
