@@ -27,21 +27,21 @@ coroutine = nil
 local timer = class:create("timer")
 
 function timer.public:create(...)
-    local self = self:createInstance()
+    local self = self:create_instance()
     if self and not self:load(...) then
-        self:destroyInstance()
+        self:destroy_instance()
         return false
     end
     return self
 end
 
 function timer.public:destroy(...)
-    if not timer.public:isInstance(self) then return false end
+    if not timer.public:is_instance(self) then return false end
     return self:unload(...)
 end
 
 function timer.public:load(exec, interval, executions, ...)
-    if not timer.public:isInstance(self) then return false end
+    if not timer.public:is_instance(self) then return false end
     interval, executions = imports.tonumber(interval), imports.tonumber(executions)
     if not exec or (imports.type(exec) ~= "function") or not interval or not executions then return false end
     interval, executions = math.max(1, interval), math.max(0, executions)
@@ -52,7 +52,7 @@ function timer.public:load(exec, interval, executions, ...)
     imports.coroutine.resume(imports.coroutine.create(function()
         while ((self.executions == 0) or (self.currentExec < self.executions)) do
             imports.coroutine.sleep(self.interval)
-            if not timer.public:isInstance(self) then return false end
+            if not timer.public:is_instance(self) then return false end
             self.currentExec = self.currentExec + 1
             if (self.executions > 0) and (self.currentExec >= self.executions) then
                 self:destroy()
@@ -64,7 +64,7 @@ function timer.public:load(exec, interval, executions, ...)
 end
 
 function timer.public:unload()
-    if not timer.public:isInstance(self) then return false end
-    self:destroyInstance()
+    if not timer.public:is_instance(self) then return false end
+    self:destroy_instance()
     return true
 end

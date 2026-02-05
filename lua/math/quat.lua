@@ -28,20 +28,20 @@ imports.setmetatable(quat.public, quat.public)
 quat.public.__call = function(_, x, y, z, w)
     x, y, z, w = imports.tonumber(x), imports.tonumber(y), imports.tonumber(z), imports.tonumber(w)
     if not x or not y or not z or not w then return false end
-    local cQuat = quat.public:createInstance()
+    local cQuat = quat.public:create_instance()
     imports.setmetatable(cQuat, quat.public)
     cQuat.x, cQuat.y, cQuat.z, cQuat.w = x, y, z, w
     return cQuat
 end
 
 function quat.public:destroy()
-    if not quat.public:isInstance(self) then return false end
-    self:destroyInstance()
+    if not quat.public:is_instance(self) then return false end
+    self:destroy_instance()
     return true
 end
 
 quat.public.__add = function(quatLHS, quatRHS)
-    return quat.public:isInstance(quatLHS) and quat.public:isInstance(quatRHS) and quat.public(
+    return quat.public:is_instance(quatLHS) and quat.public:is_instance(quatRHS) and quat.public(
         quatLHS.x + quatRHS.x,
         quatLHS.y + quatRHS.y,
         quatLHS.z + quatRHS.z,
@@ -50,7 +50,7 @@ quat.public.__add = function(quatLHS, quatRHS)
 end
 
 quat.public.__sub = function(quatLHS, quatRHS)
-    return quat.public:isInstance(quatLHS) and quat.public:isInstance(quatRHS) and quat.public(
+    return quat.public:is_instance(quatLHS) and quat.public:is_instance(quatRHS) and quat.public(
         quatLHS.x - quatRHS.x,
         quatLHS.y - quatRHS.y,
         quatLHS.z - quatRHS.z,
@@ -59,7 +59,7 @@ quat.public.__sub = function(quatLHS, quatRHS)
 end
 
 quat.public.__mul = function(quatLHS, quatRHS)
-    return quat.public:isInstance(quatLHS) and quat.public:isInstance(quatRHS) and quat.public(
+    return quat.public:is_instance(quatLHS) and quat.public:is_instance(quatRHS) and quat.public(
         (quatLHS.x*quatRHS.w) + (quatLHS.w*quatRHS.x) + (quatLHS.y*quatRHS.z) - (quatLHS.z*quatRHS.y),
         (quatLHS.y*quatRHS.w) + (quatLHS.w*quatRHS.y) + (quatLHS.z*quatRHS.x) - (quatLHS.x*quatRHS.z),
         (quatLHS.z*quatRHS.w) + (quatLHS.w*quatRHS.z) + (quatLHS.x*quatRHS.y) - (quatLHS.y*quatRHS.x),
@@ -68,7 +68,7 @@ quat.public.__mul = function(quatLHS, quatRHS)
 end
 
 quat.public.__div = function(quatLHS, quatRHS)
-    return quat.public:isInstance(quatLHS) and quat.public:isInstance(quatRHS) and quat.public(
+    return quat.public:is_instance(quatLHS) and quat.public:is_instance(quatRHS) and quat.public(
         quatLHS.x/quatRHS.x,
         quatLHS.y/quatRHS.y,
         quatLHS.z/quatRHS.z,
@@ -77,7 +77,7 @@ quat.public.__div = function(quatLHS, quatRHS)
 end
 
 function quat.public:scale(scale)
-    if not quat.public:isInstance(self) then return false end
+    if not quat.public:is_instance(self) then return false end
     scale = imports.tonumber(scale)
     if not scale then return false end
     self.x, self.y, self.z, self.w = self.x*scale, self.y*scale, self.z*scale, self.w*scale
@@ -85,7 +85,7 @@ function quat.public:scale(scale)
 end
 
 function quat.public:setAxisAngle(x, y, z, angle)
-    if not quat.public:isInstance(self) then return false end
+    if not quat.public:is_instance(self) then return false end
     x, y, z, angle = imports.tonumber(x), imports.tonumber(y), imports.tonumber(z), imports.tonumber(angle)
     if not x or not y or not z or not angle then return false end
     angle = angle*0.5
@@ -104,7 +104,7 @@ function quat.public:fromAxisAngle(x, y, z, angle)
 end
 
 function quat.public:toEuler()
-    if not quat.public:isInstance(self) then return false end
+    if not quat.public:is_instance(self) then return false end
     local sinX, sinY, sinZ = 2*((self.w*self.x) + (self.y*self.z)), 2*((self.w*self.y) - (self.z*self.x)), 2*((self.w*self.z) + (self.x*self.y))
     local cosX, cosY, cosZ = 1 - (2*((self.x*self.x) + (self.y*self.y))), math.min(math.max(sinY, -1), 1), 1 - (2*((self.y*self.y) + (self.z*self.z)))
     return math.deg(math.atan2(sinX, cosX)), math.deg(math.asin(cosY)), math.deg(math.atan2(sinZ, cosZ))

@@ -53,19 +53,19 @@ function class:create(name, parent, nspace)
         public = parent,
         private = imports.setmetatable({}, {__index = parent})
     }
-    function parent:getName()
+    function parent:get_name()
         if not self or not buffer.instance[self] then return false end
         return (buffer.parent[self] and buffer.instance[self].name) or (buffer.instance[(buffer.instance[self])].name) or false
     end
-    function parent:isInstance(instance)
+    function parent:is_instance(instance)
         if (self ~= parent) or not buffer.parent[parent] then return false end
         return (buffer.parent[parent][instance] and true) or false
     end
-    function parent:createInstance()
+    function parent:create_instance()
         if (self ~= parent) or not buffer.parent[parent] then return false end
         local cInstance = imports.setmetatable({}, {__index = self})
         buffer.instance[cInstance], buffer.parent[parent][cInstance] = parent, true
-        function cInstance:destroyInstance()
+        function cInstance:destroy_instance()
             if (self ~= cInstance) or not buffer.instance[self] then return false end
             buffer.instance[self], buffer.parent[parent][self] = nil, nil
             self = nil
@@ -82,7 +82,7 @@ function class:destroy(instance)
     if not instance or (imports.type(instance) ~= "table") or not buffer.parent[instance] then return false end
     for i, j in imports.pairs(buffer.parent[instance]) do
         if i then
-            i:destroyInstance()
+            i:destroy_instance()
         end
     end
     local name, nspace = buffer.instance[instance].name, buffer.instance[instance].nspace
@@ -116,7 +116,7 @@ function namespace.public:create(name, parent)
     if not name or (imports.type(name) ~= "string") or namespace.private.buffer[name] then return false end
     parent = parent or {}
     _G[name] = parent
-    local cNamespace = self:createInstance()
+    local cNamespace = self:create_instance()
     namespace.private.buffer[name] = {
         instance = cNamespace,
         global = {},
@@ -137,7 +137,7 @@ function namespace.public:destroy(name)
             class:destroy(j)
         end
     end
-    namespace.private.buffer[name].instance:destroyInstance()
+    namespace.private.buffer[name].instance:destroy_instance()
     namespace.private.buffer[name] = nil
     return true
 end

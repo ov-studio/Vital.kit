@@ -68,21 +68,21 @@ function resource.private.getENV(exec)
 end
 
 function resource.public:create(...)
-    local cResource = resource.private.fetch(...) or self:createInstance()
+    local cResource = resource.private.fetch(...) or self:create_instance()
     if cResource and not cResource:load(...) then
-        cResource:destroyInstance()
+        cResource:destroy_instance()
         return false
     end
     return cResource
 end
 
 function resource.public:destroy(...)
-    if not resource.public:isInstance(self) then return false end
+    if not resource.public:is_instance(self) then return false end
     return self:unload(...)
 end
 
 function resource.public:load(name)
-    if not resource.public:isInstance(self) then return false end
+    if not resource.public:is_instance(self) then return false end
     self.rw = {
         env = table.clone(resource.private.globals, true),
         manifest = table.decode(file.read("resources/"..name.."/manifest.yaml")),
@@ -109,8 +109,8 @@ function resource.public:load(name)
 end
 
 function resource.public:unload()
-    if not resource.public:isInstance(self) then return false end
+    if not resource.public:is_instance(self) then return false end
     resource.private.buffer[(self.name)] = nil
-    self:destroyInstance()
+    self:destroy_instance()
     return true
 end

@@ -1,10 +1,10 @@
 ----------------------------------------------------------------
 --[[ Resource: Vital.sandbox
      Script: Module: Lua: network.lua
-     Author: vStudio
+     Author: ov-studio
      Developer(s): Aviril, Tron, Mario, Аниса, A-Variakojiene
      DOC: 14/09/2022
-     Desc: Network Utilities ]]--
+     Desc: Network Utils ]]--
 ----------------------------------------------------------------
 
 
@@ -84,14 +84,14 @@ function network.public.execute(name, ...)
             if cNetwork and not cNetwork.isCallback then
                 for i = 1, table.length(cNetwork.priority.index), 1 do
                     local j = cNetwork.priority.index[i]
-                    if not cNetwork.priority.handlers[j].config.isAsync then
+                    if not cNetwork.priority.handlers[j].config.async then
                         network.private.execute(cNetwork, j, payload)
                     else
                         thread:create(function() network.private.execute(cNetwork, j, payload) end):resume()
                     end
                 end
                 for i, j in imports.pairs(cNetwork.handlers) do
-                    if not j.config.isAsync then
+                    if not j.config.async then
                         network.private.execute(cNetwork, i, false, payload)
                     else
                         thread:create(function() network.private.execute(cNetwork, i, payload) end):resume()
@@ -104,7 +104,7 @@ function network.public.execute(name, ...)
                 if cNetwork and cNetwork.isCallback and cNetwork.handler then
                     payload.isSignal = true
                     payload.isRestricted = true
-                    if not cNetwork.handler.config.isAsync then
+                    if not cNetwork.handler.config.async then
                         network.private.execute(cNetwork, cNetwork.handler.exec, payload)
                     else
                         thread:create(function() network.private.execute(cNetwork, cNetwork.handler.exec, payload) end):resume()
@@ -134,21 +134,21 @@ end
 
 function network.public:create(...)
     if self ~= network.public then return false end
-    local cNetwork = self:createInstance()
+    local cNetwork = self:create_instance()
     if cNetwork and not cNetwork:load(...) then
-        cNetwork:destroyInstance()
+        cNetwork:destroy_instance()
         return false
     end
     return cNetwork
 end
 
 function network.public:destroy(...)
-    if not network.public:isInstance(self) then return false end
+    if not network.public:is_instance(self) then return false end
     return self:unload(...)
 end
 
 function network.public:load(name, isCallback)
-    if not network.public:isInstance(self) then return false end
+    if not network.public:is_instance(self) then return false end
     if not name or (imports.type(name) ~= "string") or network.private.buffer[name] then return false end
     self.name = name
     self.isCallback = (isCallback and true) or false
@@ -158,9 +158,9 @@ function network.public:load(name, isCallback)
 end
 
 function network.public:unload()
-    if not network.public:isInstance(self) then return false end
+    if not network.public:is_instance(self) then return false end
     network.private.buffer[(self.name)] = nil
-    self:destroyInstance()
+    self:destroy_instance()
     return true
 end
 
@@ -174,10 +174,10 @@ function network.public:fetch(name, isRemote)
 end
 
 function network.public:on(exec, config)
-    if not network.public:isInstance(self) then return false end
+    if not network.public:is_instance(self) then return false end
     if not exec or (imports.type(exec) ~= "function") then return false end
     config = (config and (imports.type(config) == "table") and config) or {}
-    config.isAsync = (config.isAsync and true) or false
+    config.async = (config.async and true) or false
     config.isPrioritized = (not self.isCallback and config.isPrioritized and true) or false
     config.subscriptionLimit = (not self.isCallback and imports.tonumber(config.subscriptionLimit)) or false
     config.subscriptionLimit = (config.subscriptionLimit and math.max(1, config.subscriptionLimit)) or config.subscriptionLimit
@@ -200,7 +200,7 @@ function network.public:on(exec, config)
 end
 
 function network.public:off(exec)
-    if not network.public:isInstance(self) then return false end
+    if not network.public:is_instance(self) then return false end
     if not exec or (imports.type(exec) ~= "function") then return false end
     if self.isCallback then
         if self.handler and (self.handler == exec) then

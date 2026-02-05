@@ -40,7 +40,7 @@ end
 function thread.public:create(exec)
     if self ~= thread.public then return false end
     if not exec or (imports.type(exec) ~= "function") then return false end
-    local self = self:createInstance()
+    local self = self:create_instance()
     if self then
         self.options = {}
         self.thread = imports.coroutine.create(exec)
@@ -98,12 +98,12 @@ function thread.public:create_promise(callback, config)
 end
 
 function thread.public:destroy()
-    if not thread.public:isInstance(self) then return false end
-    if self.interval_timer and timer:isInstance(self.interval_timer) then self.interval_timer:destroy() end
-    if self.sleep_timer and timer:isInstance(self.sleep_timer) then self.sleep_timer:destroy() end
+    if not thread.public:is_instance(self) then return false end
+    if self.interval_timer and timer:is_instance(self.interval_timer) then self.interval_timer:destroy() end
+    if self.sleep_timer and timer:is_instance(self.sleep_timer) then self.sleep_timer:destroy() end
     thread.private.coroutines[self.thread] = nil
     thread.private.exceptions[self] = nil
-    self:destroyInstance()
+    self:destroy_instance()
     return true
 end
 
@@ -113,7 +113,7 @@ function thread.public:get_thread()
 end
 
 function thread.public:status()
-    if not thread.public:isInstance(self) then return false end
+    if not thread.public:is_instance(self) then return false end
     return imports.coroutine.status(self.thread)
 end
 
@@ -123,9 +123,9 @@ function thread.public:pause()
 end
 
 function thread.private.resume(self, abort_timer)
-    if not thread.public:isInstance(self) or self.awaiting then return false end
+    if not thread.public:is_instance(self) or self.awaiting then return false end
     if abort_timer then
-        if self.interval_timer and timer:isInstance(self.interval_timer) then self.interval_timer:destroy() end
+        if self.interval_timer and timer:is_instance(self.interval_timer) then self.interval_timer:destroy() end
         self.options.executions, self.options.interval = false, false 
     end
     if self:status() == "dead" then self:destroy(); return false end
@@ -135,25 +135,25 @@ function thread.private.resume(self, abort_timer)
 end
 
 function thread.public:resume(options)
-    if not thread.public:isInstance(self) then return false end
+    if not thread.public:is_instance(self) then return false end
     options = (options and (imports.type(options) == "table") and options) or false
     local executions, interval = (options and imports.tonumber(options.executions)) or false, (options and imports.tonumber(options.interval)) or false
     if not executions or not interval then return thread.private.resume(self, true) end
-    if self.interval_timer and timer:isInstance(self.interval_timer) then self.interval_timer:destroy() end
+    if self.interval_timer and timer:is_instance(self.interval_timer) then self.interval_timer:destroy() end
     self.options.executions, self.options.interval = executions, interval
     timer:create(function(...)
         if not self.awaiting then
             for i = 1, self.options.executions, 1 do
                 thread.private.resume(self)
-                if not thread.public:isInstance(self) then break end
+                if not thread.public:is_instance(self) then break end
             end
         end
-        if thread.public:isInstance(self) then
+        if thread.public:is_instance(self) then
             self.interval_timer = timer:create(function()
                 if self.awaiting then return false end
                 for i = 1, self.options.executions, 1 do
                     thread.private.resume(self)
-                    if not thread.public:isInstance(self) then break end
+                    if not thread.public:is_instance(self) then break end
                 end
             end, self.options.interval, 0)
         end
@@ -163,8 +163,8 @@ end
 
 function thread.public:sleep(duration)
     duration = math.max(0, imports.tonumber(duration) or 0)
-    if not thread.public:isInstance(self) or (self ~= thread.public:get_thread()) or self.awaiting then return false end
-    if self.sleep_timer and timer:isInstance(self.sleep_timer) then return false end
+    if not thread.public:is_instance(self) or (self ~= thread.public:get_thread()) or self.awaiting then return false end
+    if self.sleep_timer and timer:is_instance(self.sleep_timer) then return false end
     self.awaiting = "sleep"
     self.sleep_timer = timer:create(function()
         self.awaiting = nil
@@ -175,7 +175,7 @@ function thread.public:sleep(duration)
 end
 
 function thread.public:await(promise)
-    if not thread.public:isInstance(self) or (self ~= thread.public:get_thread()) then return false end
+    if not thread.public:is_instance(self) or (self ~= thread.public:get_thread()) then return false end
     if not promise or not thread.private.promises[promise] then return false end
     self.awaiting = "promise"
     self.awaiting_promise = promise
@@ -198,7 +198,7 @@ function thread.public:await(promise)
 end
 
 function thread.private.resolve(self, state, ...)
-    if not thread.public:isInstance(self) then return false end
+    if not thread.public:is_instance(self) then return false end
     if not self.awaiting or (self.awaiting ~= "promise") or not thread.private.promises[self.awaiting_promise] then return false end
     timer:create(function(...)
         self.awaiting, self.awaiting_promise = nil, nil
@@ -210,7 +210,7 @@ function thread.private.resolve(self, state, ...)
 end
 
 function thread.public:try(handles)
-    if not thread.public:isInstance(self) or (self ~= thread.public:get_thread()) then return false end
+    if not thread.public:is_instance(self) or (self ~= thread.public:get_thread()) then return false end
     handles = (handles and (imports.type(handles) == "table") and handles) or false
     handles.exec = (handles.exec and (imports.type(handles.exec) == "function") and handles.exec) or false
     handles.catch = (handles.catch and (imports.type(handles.catch) == "function") and handles.catch) or false

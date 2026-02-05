@@ -47,7 +47,7 @@ matrix.public.__call = function(_, ...)
         if not isValid then break end
     end
     if not isValid then return false end
-    local cMatrix = matrix.public:createInstance()
+    local cMatrix = matrix.public:create_instance()
     imports.setmetatable(cMatrix, matrix.public)
     cMatrix.order = {table.length(rows), order}
     cMatrix.rows = rows
@@ -55,13 +55,13 @@ matrix.public.__call = function(_, ...)
 end
 
 function matrix.public:destroy()
-    if not matrix.public:isInstance(self) then return false end
-    self:destroyInstance()
+    if not matrix.public:is_instance(self) then return false end
+    self:destroy_instance()
     return true
 end
 
 matrix.public.__add = function(matrixLHS, matrixRHS)
-    if not matrix.public:isInstance(matrixLHS) or not matrix.public:isInstance(matrixRHS) or (matrixLHS.order[1] ~= matrixRHS.order[1]) or (matrixLHS.order[2] ~= matrixRHS.order[2]) then return false end
+    if not matrix.public:is_instance(matrixLHS) or not matrix.public:is_instance(matrixRHS) or (matrixLHS.order[1] ~= matrixRHS.order[1]) or (matrixLHS.order[2] ~= matrixRHS.order[2]) then return false end
     local rows = {}
     for i = 1, matrixLHS.order[1], 1 do
         rows[i] = rows[i] or {}
@@ -74,7 +74,7 @@ matrix.public.__add = function(matrixLHS, matrixRHS)
 end
 
 matrix.public.__sub = function(matrixLHS, matrixRHS)
-    if not matrix.public:isInstance(matrixLHS) or not matrix.public:isInstance(matrixRHS) or (matrixLHS.order[1] ~= matrixRHS.order[1]) or (matrixLHS.order[2] ~= matrixRHS.order[2]) then return false end
+    if not matrix.public:is_instance(matrixLHS) or not matrix.public:is_instance(matrixRHS) or (matrixLHS.order[1] ~= matrixRHS.order[1]) or (matrixLHS.order[2] ~= matrixRHS.order[2]) then return false end
     local rows = {}
     for i = 1, matrixLHS.order[1], 1 do
         for k = 1, matrixLHS.order[2], 1 do
@@ -86,7 +86,7 @@ matrix.public.__sub = function(matrixLHS, matrixRHS)
 end
 
 matrix.public.__mul = function(matrixLHS, matrixRHS)
-    if not matrix.public:isInstance(matrixLHS) or not matrix.public:isInstance(matrixRHS) or (matrixLHS.order[1] ~= matrixRHS.order[1]) or (matrixLHS.order[2] ~= matrixRHS.order[2]) then return false end
+    if not matrix.public:is_instance(matrixLHS) or not matrix.public:is_instance(matrixRHS) or (matrixLHS.order[1] ~= matrixRHS.order[1]) or (matrixLHS.order[2] ~= matrixRHS.order[2]) then return false end
     local rows = {}
     for i = 1, matrixLHS.order[1], 1 do
         for k = 1, matrixLHS.order[2], 1 do
@@ -98,7 +98,7 @@ matrix.public.__mul = function(matrixLHS, matrixRHS)
 end
 
 matrix.public.__div = function(matrixLHS, matrixRHS)
-    if not matrix.public:isInstance(matrixLHS) or not matrix.public:isInstance(matrixRHS) or (matrixLHS.order[1] ~= matrixRHS.order[1]) or (matrixLHS.order[2] ~= matrixRHS.order[2]) then return false end
+    if not matrix.public:is_instance(matrixLHS) or not matrix.public:is_instance(matrixRHS) or (matrixLHS.order[1] ~= matrixRHS.order[1]) or (matrixLHS.order[2] ~= matrixRHS.order[2]) then return false end
     local rows = {}
     for i = 1, matrixLHS.order[1], 1 do
         for k = 1, matrixLHS.order[2], 1 do
@@ -110,7 +110,7 @@ matrix.public.__div = function(matrixLHS, matrixRHS)
 end
 
 function matrix.public:scale(scale)
-    if not matrix.public:isInstance(self) then return false end
+    if not matrix.public:is_instance(self) then return false end
     scale = imports.tonumber(scale)
     if not scale then return false end
     for i = 1, table.length(self.order[1]), 1 do
@@ -122,7 +122,7 @@ function matrix.public:scale(scale)
 end
 
 function matrix.public:transform(rotationMatrix, x, y, z)
-    if not matrix.public:isInstance(self) or not matrix.public:isInstance(rotationMatrix) or (self.order[1] ~= 4) or (self.order[2] ~= 4) or (rotationMatrix.order[1] ~= 3) or (rotationMatrix.order[2] ~= 3) then return false end
+    if not matrix.public:is_instance(self) or not matrix.public:is_instance(rotationMatrix) or (self.order[1] ~= 4) or (self.order[2] ~= 4) or (rotationMatrix.order[1] ~= 3) or (rotationMatrix.order[2] ~= 3) then return false end
     x, y, z, rotX, rotY, rotZ = imports.tonumber(x), imports.tonumber(y), imports.tonumber(z)
     if not x or not y or not z then return false end
     return matrix.public(
