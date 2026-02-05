@@ -44,10 +44,10 @@ function thread.public:create(exec)
     return self
 end
 
-function thread.public:create_heartbeat(condition, exec, rate)
+function thread.public:create_heartbeat(condition, exec, interval)
     if self ~= thread.public then return false end
     if not condition or not exec or (imports.type(condition) ~= "function") or (imports.type(exec) ~= "function") then return false end
-    rate = math.max(imports.tonumber(rate) or 0, 1)
+    interval = math.max(imports.tonumber(interval) or 0, 1)
     local self = thread.public:create(function(self)
         while(condition()) do
             thread.public:pause()
@@ -55,7 +55,7 @@ function thread.public:create_heartbeat(condition, exec, rate)
         exec()
         condition, exec = nil, nil
     end)
-    self:resume({executions = 1, interval = rate})
+    self:resume({executions = 1, interval = interval})
     return self
 end
 
