@@ -37,7 +37,7 @@ function execFunction(exec, ...)
     return exec(...)
 end
 
-function thread.public:getThread()
+function thread.public:get_thread()
     local currentThread = imports.coroutine.running()
     return (currentThread and thread.private.coroutines[currentThread]) or false
 end
@@ -54,7 +54,7 @@ function thread.public:create(exec)
     return self
 end
 
-function thread.public:createHeartbeat(conditionExec, exec, rate)
+function thread.public:create_heartbeat(conditionExec, exec, rate)
     if self ~= thread.public then return false end
     if not conditionExec or not exec or (imports.type(conditionExec) ~= "function") or (imports.type(exec) ~= "function") then return false end
     rate = math.max(imports.tonumber(rate) or 0, 1)
@@ -69,7 +69,7 @@ function thread.public:createHeartbeat(conditionExec, exec, rate)
     return self
 end
 
-function thread.public:createPromise(callback, config)
+function thread.public:create_promise(callback, config)
     if self ~= thread.public then return false end
     callback = (callback and (imports.type(callback) == "function") and callback) or false
     config = (config and (imports.type(config) == "table") and config) or {}
@@ -118,7 +118,7 @@ function thread.public:status()
 end
 
 function thread.public:pause()
-    if not thread.public:getThread() then return false end
+    if not thread.public:get_thread() then return false end
     return imports.coroutine.yield()
 end
 
@@ -163,7 +163,7 @@ end
 
 function thread.public:sleep(duration)
     duration = math.max(0, imports.tonumber(duration) or 0)
-    if not thread.public:isInstance(self) or (self ~= thread.public:getThread()) or self.isAwaiting then return false end
+    if not thread.public:isInstance(self) or (self ~= thread.public:get_thread()) or self.isAwaiting then return false end
     if self.sleepTimer and timer:isInstance(self.sleepTimer) then return false end
     self.isAwaiting = "sleep"
     self.sleepTimer = timer:create(function()
@@ -175,7 +175,7 @@ function thread.public:sleep(duration)
 end
 
 function thread.public:await(cPromise)
-    if not thread.public:isInstance(self) or (self ~= thread.public:getThread()) then return false end
+    if not thread.public:isInstance(self) or (self ~= thread.public:get_thread()) then return false end
     if not cPromise or not thread.private.promises[cPromise] then return false end
     self.isAwaiting = "promise"
     self.awaitingPromise = cPromise
@@ -210,7 +210,7 @@ function thread.private.resolve(self, isResolved, ...)
 end
 
 function thread.public:try(handles)
-    if not thread.public:isInstance(self) or (self ~= thread.public:getThread()) then return false end
+    if not thread.public:isInstance(self) or (self ~= thread.public:get_thread()) then return false end
     handles = (handles and (imports.type(handles) == "table") and handles) or false
     handles.exec = (handles.exec and (imports.type(handles.exec) == "function") and handles.exec) or false
     handles.catch = (handles.catch and (imports.type(handles.catch) == "function") and handles.catch) or false
@@ -232,20 +232,20 @@ function thread.public:try(handles)
 end
 
 function async(...) return thread.public:create(...) end
-function heartbeat(...) return thread.public:createHeartbeat(...) end
-function promise(...) return thread.public:createPromise(...) end
+function heartbeat(...) return thread.public:create_heartbeat(...) end
+function promise(...) return thread.public:create_promise(...) end
 function sleep(...)
-    local currentThread = thread.public:getThread()
+    local currentThread = thread.public:get_thread()
     if not currentThread then return false end
     return currentThread:sleep(...)
 end
 function await(...)
-    local currentThread = thread.public:getThread()
+    local currentThread = thread.public:get_thread()
     if not currentThread then return false end
     return currentThread:await(...)
 end
 function try(...)
-    local currentThread = thread.public:getThread()
+    local currentThread = thread.public:get_thread()
     if not currentThread then return false end
     return currentThread:try(...)
 end

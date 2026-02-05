@@ -45,7 +45,7 @@ function network.private.fetchArg(index, pool)
 end
 
 function network.private.execute(cNetwork, exec, payload)
-    local cThread = thread:getThread()
+    local cThread = thread:get_thread()
     if not cNetwork.isCallback then
         if cThread then exec(cThread, table.unpack(payload.arguments))
         else exec(table.unpack(payload.arguments)) end
@@ -258,8 +258,8 @@ function network.public:emit(...)
 end
 
 function network.public:emitCallback(...)
-    if not self or not thread:getThread() then return false end
-    local cPromise = thread:createPromise()
+    if not self or not thread:get_thread() then return false end
+    local cPromise = thread:create_promise()
     local cArgs, cExec = table.pack(...), cPromise.resolve
     local payload = {
         name = false,
