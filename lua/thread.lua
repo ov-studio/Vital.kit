@@ -4,7 +4,7 @@
      Author: ov-studio
      Developer(s): Aviril, Tron, Mario, Аниса
      DOC: 19/10/2021
-     Desc: Thread Utilities ]]--
+     Desc: Thread Utils ]]--
 ----------------------------------------------------------------
 
 
