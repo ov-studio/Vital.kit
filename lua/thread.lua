@@ -26,9 +26,11 @@ local imports = {
 -----------------------
 
 local thread = class:create("thread")
-thread.private.coroutines = {}
-thread.private.promises = {}
-thread.private.exceptions = {}
+thread.private.buffer = {
+    coroutine = {},
+    promise = {},
+    exception = {}
+}
 
 function execFunction(exec, ...)
     if not exec or (imports.type(exec) ~= "function") then
@@ -44,7 +46,7 @@ function thread.public:create(exec)
     if self then
         self.options = {}
         self.thread = imports.coroutine.create(exec)
-        thread.private.coroutines[self.thread] = self
+        thread.private.buffer.coroutine[self.thread] = self
     end
     return self
 end
@@ -78,19 +80,19 @@ function thread.public:create_promise(callback, config)
         reject = function(...) return handle(false, ...) end
     }
     handle = function(state, ...)
-        if not thread.private.promises[promise] or handled then return false end
+        if not thread.private.buffer.promise[promise] or handled then return false end
         handled = true
         if timeout_timer then timeout_timer:destroy() end
         timer:create(function(...)
-            for i, j in imports.pairs(thread.private.promises[promise]) do
+            for i, j in imports.pairs(thread.private.buffer.promise[promise]) do
                 thread.private.resolve(i, state, ...)
             end
-            thread.private.promises[promise] = nil
+            thread.private.buffer.promise[promise] = nil
             imports.collectgarbage("step", 1)
         end, 1, 1, ...)
         return true
     end
-    thread.private.promises[promise] = {}
+    thread.private.buffer.promise[promise] = {}
     if not config.async then execFunction(callback, promise.resolve, promise.reject)
     else thread.public:create(function(self) execFunction(callback, self, promise.resolve, promise.reject) end):resume() end
     if config.timeout then timeout_timer = timer:create(function() promise.reject("Promise - Timed Out") end, config.timeout, 1) end
@@ -101,15 +103,15 @@ function thread.public:destroy()
     if not thread.public:is_instance(self) then return false end
     if self.interval_timer and timer:is_instance(self.interval_timer) then self.interval_timer:destroy() end
     if self.sleep_timer and timer:is_instance(self.sleep_timer) then self.sleep_timer:destroy() end
-    thread.private.coroutines[self.thread] = nil
-    thread.private.exceptions[self] = nil
+    thread.private.buffer.coroutine[self.thread] = nil
+    thread.private.buffer.exception[self] = nil
     self:destroy_instance()
     return true
 end
 
 function thread.public:get_thread()
     local coroutine = imports.coroutine.running()
-    return (coroutine and thread.private.coroutines[coroutine]) or false
+    return (coroutine and thread.private.buffer.coroutine[coroutine]) or false
 end
 
 function thread.public:status()
@@ -176,17 +178,17 @@ end
 
 function thread.public:await(promise)
     if not thread.public:is_instance(self) or (self ~= thread.public:get_thread()) then return false end
-    if not promise or not thread.private.promises[promise] then return false end
+    if not promise or not thread.private.buffer.promise[promise] then return false end
     self.awaiting = "promise"
     self.awaiting_promise = promise
-    thread.private.promises[promise][self] = true
+    thread.private.buffer.promise[promise][self] = true
     thread.public:pause()
     local resolved = self.resolved
     self.resolved = nil
     if self.errored then
-        if thread.private.exceptions[self] then
+        if thread.private.buffer.exception[self] then
             timer:create(function()
-                local data = thread.private.exceptions[self]
+                local data = thread.private.buffer.exception[self]
                 self:destroy()
                 data.promise.reject(table.unpack(resolved))
                 data.handles.catch(table.unpack(resolved))
@@ -199,7 +201,7 @@ end
 
 function thread.private.resolve(self, state, ...)
     if not thread.public:is_instance(self) then return false end
-    if not self.awaiting or (self.awaiting ~= "promise") or not thread.private.promises[self.awaiting_promise] then return false end
+    if not self.awaiting or (self.awaiting ~= "promise") or not thread.private.buffer.promise[self.awaiting_promise] then return false end
     timer:create(function(...)
         self.awaiting, self.awaiting_promise = nil, nil
         self.errored = not state
@@ -225,7 +227,7 @@ function thread.public:try(handles)
         resolved = table.pack(data.handles.exec(self))
         data.promise.resolve()
     end)
-    thread.private.exceptions[exception] = data
+    thread.private.buffer.exception[exception] = data
     exception:resume()
     self:await(data.promise)
     return table.unpack(resolved)
