@@ -234,18 +234,21 @@ end
 function async(...) return thread.public:create(...) end
 function heartbeat(...) return thread.public:create_heartbeat(...) end
 function promise(...) return thread.public:create_promise(...) end
+
 function sleep(...)
-    local currentThread = thread.public:get_thread()
-    if not currentThread then return false end
-    return currentThread:sleep(...)
+    local self = thread.public:get_thread()
+    if not self then return false end
+    return self:sleep(...)
 end
+
 function await(...)
-    local currentThread = thread.public:get_thread()
-    if not currentThread then return false end
-    return currentThread:await(...)
+    local self = thread.public:get_thread()
+    if not self then return false end
+    return self:await(...)
 end
+
 function try(...)
-    local currentThread = thread.public:get_thread()
-    if not currentThread then return false end
-    return currentThread:try(...)
+    local self = thread.public:get_thread()
+    if not self then return false end
+    return self:try(...)
 end
