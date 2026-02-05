@@ -37,11 +37,6 @@ function execFunction(exec, ...)
     return exec(...)
 end
 
-function thread.public:get_thread()
-    local currentThread = imports.coroutine.running()
-    return (currentThread and thread.private.coroutines[currentThread]) or false
-end
-
 function thread.public:create(exec)
     if self ~= thread.public then return false end
     if not exec or (imports.type(exec) ~= "function") then return false end
@@ -110,6 +105,11 @@ function thread.public:destroy()
     thread.private.exceptions[self] = nil
     self:destroyInstance()
     return true
+end
+
+function thread.public:get_thread()
+    local currentThread = imports.coroutine.running()
+    return (currentThread and thread.private.coroutines[currentThread]) or false
 end
 
 function thread.public:status()
