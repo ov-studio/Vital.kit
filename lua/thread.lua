@@ -44,7 +44,7 @@ function thread.public:create(exec)
     if self then
         self.options = {}
         self.thread = imports.coroutine.create(exec)
-        thread.private.coroutines[(self.thread)] = self
+        thread.private.coroutines[self.thread] = self
     end
     return self
 end
@@ -101,7 +101,7 @@ function thread.public:destroy()
     if not thread.public:isInstance(self) then return false end
     if self.interval_timer and timer:isInstance(self.interval_timer) then self.interval_timer:destroy() end
     if self.sleep_timer and timer:isInstance(self.sleep_timer) then self.sleep_timer:destroy() end
-    thread.private.coroutines[(self.thread)] = nil
+    thread.private.coroutines[self.thread] = nil
     thread.private.exceptions[self] = nil
     self:destroyInstance()
     return true
