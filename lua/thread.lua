@@ -118,9 +118,7 @@ function thread.public:pause()
 end
 
 function thread.private.execute(exec, ...)
-    if not exec or (imports.type(exec) ~= "function") then
-        return false
-    end
+    if not exec or (imports.type(exec) ~= "function") then return false end
     return exec(...)
 end
 
