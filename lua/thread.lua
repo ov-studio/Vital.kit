@@ -186,10 +186,10 @@ function thread.public:await(promise)
     if self.errored then
         if thread.private.exceptions[self] then
             timer:create(function()
-                local exception = thread.private.exceptions[self]
+                local data = thread.private.exceptions[self]
                 self:destroy()
-                exception.promise.reject(table.unpack(resolved))
-                exception.handles.catch(table.unpack(resolved))
+                data.promise.reject(table.unpack(resolved))
+                data.handles.catch(table.unpack(resolved))
             end, 1, 1)
             thread.public:pause()
         end
