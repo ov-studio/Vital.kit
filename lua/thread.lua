@@ -68,10 +68,10 @@ function thread.public:create_promise(callback, config)
     if self ~= thread.public then return false end
     callback = (callback and (imports.type(callback) == "function") and callback) or false
     config = (config and (imports.type(config) == "table") and config) or {}
-    config.isAsync = (config.isAsync and true) or false
+    config.async = (config.async and true) or false
     config.timeout = imports.tonumber(config.timeout) or false
     config.timeout = (config.timeout and (config.timeout > 0) and config.timeout) or false
-    if not callback and config.isAsync then return false end
+    if not callback and config.async then return false end
     local handle, handled, timeout_timer = nil, false, nil
     local promise = {
         resolve = function(...) return handle(true, ...) end,
@@ -91,7 +91,7 @@ function thread.public:create_promise(callback, config)
         return true
     end
     thread.private.promises[promise] = {}
-    if not config.isAsync then execFunction(callback, promise.resolve, promise.reject)
+    if not config.async then execFunction(callback, promise.resolve, promise.reject)
     else thread.public:create(function(self) execFunction(callback, self, promise.resolve, promise.reject) end):resume() end
     if config.timeout then timeout_timer = timer:create(function() promise.reject("Promise - Timed Out") end, config.timeout, 1) end
     return promise
@@ -230,6 +230,11 @@ function thread.public:try(handles)
     self:await(buffer.promise)
     return table.unpack(resolved)
 end
+
+
+-----------------
+--[[ Aliases ]]--
+-----------------
 
 function async(...) return thread.public:create(...) end
 function heartbeat(...) return thread.public:create_heartbeat(...) end
