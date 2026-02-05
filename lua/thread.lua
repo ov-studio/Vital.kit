@@ -60,7 +60,7 @@ function thread.public:create_heartbeat(conditionExec, exec, rate)
         exec()
         conditionExec, exec = nil, nil
     end)
-    self:resume({executions = 1, frames = rate})
+    self:resume({executions = 1, interval = rate})
     return self
 end
 
@@ -126,7 +126,7 @@ function thread.private.resume(self, abortTimer)
     if not thread.public:isInstance(self) or self.isAwaiting then return false end
     if abortTimer then
         if self.intervalTimer and timer:isInstance(self.intervalTimer) then self.intervalTimer:destroy() end
-        self.options.executions, self.options.frames = false, false 
+        self.options.executions, self.options.interval = false, false 
     end
     if self:status() == "dead" then self:destroy(); return false end
     if self:status() == "suspended" then imports.coroutine.resume(self.thread, self) end
@@ -137,10 +137,10 @@ end
 function thread.public:resume(options)
     if not thread.public:isInstance(self) then return false end
     options = (options and (imports.type(options) == "table") and options) or false
-    local executions, frames = (options and imports.tonumber(options.executions)) or false, (options and imports.tonumber(options.frames)) or false
-    if not executions or not frames then return thread.private.resume(self, true) end
+    local executions, interval = (options and imports.tonumber(options.executions)) or false, (options and imports.tonumber(options.interval)) or false
+    if not executions or not interval then return thread.private.resume(self, true) end
     if self.intervalTimer and timer:isInstance(self.intervalTimer) then self.intervalTimer:destroy() end
-    self.options.executions, self.options.frames = executions, frames
+    self.options.executions, self.options.interval = executions, interval
     timer:create(function(...)
         if not self.isAwaiting then
             for i = 1, self.options.executions, 1 do
@@ -155,7 +155,7 @@ function thread.public:resume(options)
                     thread.private.resume(self)
                     if not thread.public:isInstance(self) then break end
                 end
-            end, self.options.frames, 0)
+            end, self.options.interval, 0)
         end
     end, 1, 1)
     return true
