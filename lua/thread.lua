@@ -42,7 +42,7 @@ function thread.public:create(exec)
     if not exec or (imports.type(exec) ~= "function") then return false end
     local self = self:createInstance()
     if self then
-        self.syncRate = {}
+        self.options = {}
         self.thread = imports.coroutine.create(exec)
         thread.private.coroutines[(self.thread)] = self
     end
@@ -126,7 +126,7 @@ function thread.private.resume(self, abortTimer)
     if not thread.public:isInstance(self) or self.isAwaiting then return false end
     if abortTimer then
         if self.intervalTimer and timer:isInstance(self.intervalTimer) then self.intervalTimer:destroy() end
-        self.syncRate.executions, self.syncRate.frames = false, false 
+        self.options.executions, self.options.frames = false, false 
     end
     if self:status() == "dead" then self:destroy(); return false end
     if self:status() == "suspended" then imports.coroutine.resume(self.thread, self) end
@@ -134,16 +134,16 @@ function thread.private.resume(self, abortTimer)
     return true
 end
 
-function thread.public:resume(syncRate)
+function thread.public:resume(options)
     if not thread.public:isInstance(self) then return false end
-    syncRate = (syncRate and (imports.type(syncRate) == "table") and syncRate) or false
-    local executions, frames = (syncRate and imports.tonumber(syncRate.executions)) or false, (syncRate and imports.tonumber(syncRate.frames)) or false
+    options = (options and (imports.type(options) == "table") and options) or false
+    local executions, frames = (options and imports.tonumber(options.executions)) or false, (options and imports.tonumber(options.frames)) or false
     if not executions or not frames then return thread.private.resume(self, true) end
     if self.intervalTimer and timer:isInstance(self.intervalTimer) then self.intervalTimer:destroy() end
-    self.syncRate.executions, self.syncRate.frames = executions, frames
+    self.options.executions, self.options.frames = executions, frames
     timer:create(function(...)
         if not self.isAwaiting then
-            for i = 1, self.syncRate.executions, 1 do
+            for i = 1, self.options.executions, 1 do
                 thread.private.resume(self)
                 if not thread.public:isInstance(self) then break end
             end
@@ -151,11 +151,11 @@ function thread.public:resume(syncRate)
         if thread.public:isInstance(self) then
             self.intervalTimer = timer:create(function()
                 if self.isAwaiting then return false end
-                for i = 1, self.syncRate.executions, 1 do
+                for i = 1, self.options.executions, 1 do
                     thread.private.resume(self)
                     if not thread.public:isInstance(self) then break end
                 end
-            end, self.syncRate.frames, 0)
+            end, self.options.frames, 0)
         end
     end, 1, 1)
     return true
