@@ -27,12 +27,12 @@ coroutine = nil
 local timer = class:create("timer")
 
 function timer.public:create(...)
-    local cTimer = self:createInstance()
-    if cTimer and not cTimer:load(...) then
-        cTimer:destroyInstance()
+    local self = self:createInstance()
+    if self and not self:load(...) then
+        self:destroyInstance()
         return false
     end
-    return cTimer
+    return self
 end
 
 function timer.public:destroy(...)

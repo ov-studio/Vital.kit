@@ -45,28 +45,28 @@ end
 function thread.public:create(exec)
     if self ~= thread.public then return false end
     if not exec or (imports.type(exec) ~= "function") then return false end
-    local cThread = self:createInstance()
-    if cThread then
-        cThread.syncRate = {}
-        cThread.thread = imports.coroutine.create(exec)
-        thread.private.coroutines[(cThread.thread)] = cThread
+    local self = self:createInstance()
+    if self then
+        self.syncRate = {}
+        self.thread = imports.coroutine.create(exec)
+        thread.private.coroutines[(self.thread)] = self
     end
-    return cThread
+    return self
 end
 
 function thread.public:createHeartbeat(conditionExec, exec, rate)
     if self ~= thread.public then return false end
     if not conditionExec or not exec or (imports.type(conditionExec) ~= "function") or (imports.type(exec) ~= "function") then return false end
     rate = math.max(imports.tonumber(rate) or 0, 1)
-    local cThread = thread.public:create(function(self)
+    local self = thread.public:create(function(self)
         while(conditionExec()) do
             thread.public:pause()
         end
         exec()
         conditionExec, exec = nil, nil
     end)
-    cThread:resume({executions = 1, frames = rate})
-    return cThread
+    self:resume({executions = 1, frames = rate})
+    return self
 end
 
 function thread.public:createPromise(callback, config)
@@ -122,15 +122,15 @@ function thread.public:pause()
     return imports.coroutine.yield()
 end
 
-function thread.private.resume(cThread, abortTimer)
-    if not thread.public:isInstance(cThread) or cThread.isAwaiting then return false end
+function thread.private.resume(self, abortTimer)
+    if not thread.public:isInstance(self) or self.isAwaiting then return false end
     if abortTimer then
-        if cThread.intervalTimer and timer:isInstance(cThread.intervalTimer) then cThread.intervalTimer:destroy() end
-        cThread.syncRate.executions, cThread.syncRate.frames = false, false 
+        if self.intervalTimer and timer:isInstance(self.intervalTimer) then self.intervalTimer:destroy() end
+        self.syncRate.executions, self.syncRate.frames = false, false 
     end
-    if cThread:status() == "dead" then cThread:destroy(); return false end
-    if cThread:status() == "suspended" then imports.coroutine.resume(cThread.thread, cThread) end
-    if cThread:status() == "dead" then cThread:destroy() end
+    if self:status() == "dead" then self:destroy(); return false end
+    if self:status() == "suspended" then imports.coroutine.resume(self.thread, self) end
+    if self:status() == "dead" then self:destroy() end
     return true
 end
 
@@ -197,14 +197,14 @@ function thread.public:await(cPromise)
     else return table.unpack(resolvedValues) end
 end
 
-function thread.private.resolve(cThread, isResolved, ...)
-    if not thread.public:isInstance(cThread) then return false end
-    if not cThread.isAwaiting or (cThread.isAwaiting ~= "promise") or not thread.private.promises[(cThread.awaitingPromise)] then return false end
+function thread.private.resolve(self, isResolved, ...)
+    if not thread.public:isInstance(self) then return false end
+    if not self.isAwaiting or (self.isAwaiting ~= "promise") or not thread.private.promises[(self.awaitingPromise)] then return false end
     timer:create(function(...)
-        cThread.isAwaiting, cThread.awaitingPromise = nil, nil
-        cThread.isErrored = not isResolved
-        cThread.resolvedValues = table.pack(...)
-        thread.private.resume(cThread)
+        self.isAwaiting, self.awaitingPromise = nil, nil
+        self.isErrored = not isResolved
+        self.resolvedValues = table.pack(...)
+        thread.private.resume(self)
     end, 1, 1, ...)
     return true
 end
