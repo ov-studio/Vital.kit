@@ -108,8 +108,8 @@ function thread.public:destroy()
 end
 
 function thread.public:get_thread()
-    local currentThread = imports.coroutine.running()
-    return (currentThread and thread.private.coroutines[currentThread]) or false
+    local coroutine = imports.coroutine.running()
+    return (coroutine and thread.private.coroutines[coroutine]) or false
 end
 
 function thread.public:status()
