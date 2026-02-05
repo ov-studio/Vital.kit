@@ -217,17 +217,17 @@ function thread.public:try(handles)
     if not handles.exec or not handles.catch then return false end
     local exception, catch, resolved = nil, handles.catch, nil
     handles.catch = function(...) resolved = {catch(...)} end
-    local buffer = {
+    local data = {
         promise = thread.public:create_promise(),
         handles = handles
     }
     exception = thread.public:create(function(self)
-        resolved = table.pack(buffer.handles.exec(self))
-        buffer.promise.resolve()
+        resolved = table.pack(data.handles.exec(self))
+        data.promise.resolve()
     end)
-    thread.private.exceptions[exception] = buffer
+    thread.private.exceptions[exception] = data
     exception:resume()
-    self:await(buffer.promise)
+    self:await(data.promise)
     return table.unpack(resolved)
 end
 
