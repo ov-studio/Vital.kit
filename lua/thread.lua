@@ -32,13 +32,6 @@ thread.private.buffer = {
     exception = {}
 }
 
-function execFunction(exec, ...)
-    if not exec or (imports.type(exec) ~= "function") then
-        return false
-    end
-    return exec(...)
-end
-
 function thread.public:create(exec)
     if self ~= thread.public then return false end
     if not exec or (imports.type(exec) ~= "function") then return false end
@@ -93,8 +86,8 @@ function thread.public:create_promise(callback, config)
         return true
     end
     thread.private.buffer.promise[promise] = {}
-    if not config.async then execFunction(callback, promise.resolve, promise.reject)
-    else thread.public:create(function(self) execFunction(callback, self, promise.resolve, promise.reject) end):resume() end
+    if not config.async then thread.private.execute(callback, promise.resolve, promise.reject)
+    else thread.public:create(function(self) thread.private.execute(callback, self, promise.resolve, promise.reject) end):resume() end
     if config.timeout then timeout_timer = timer:create(function() promise.reject("Promise - Timed Out") end, config.timeout, 1) end
     return promise
 end
@@ -122,6 +115,13 @@ end
 function thread.public:pause()
     if not thread.public:get_thread() then return false end
     return imports.coroutine.yield()
+end
+
+function thread.private.execute(exec, ...)
+    if not exec or (imports.type(exec) ~= "function") then
+        return false
+    end
+    return exec(...)
 end
 
 function thread.private.resume(self, abort_timer)
