@@ -218,7 +218,7 @@ function thread.public:try(handles)
     local cException, cCatch, resolvedValues = nil, handles.catch, nil
     handles.catch = function(...) resolvedValues = {cCatch(...)} end
     local exceptionBuffer = {
-        promise = promise(),
+        promise = thread.public:create_promise(),
         handles = handles
     }
     cException = thread.public:create(function(self)
