@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
 --[[ Resource: Vital.sandbox
      Script: Module: Lua: math: index.lua
-     Author: vStudio
+     Author: ov-studio
      Developer(s): Aviril, Tron, Mario, Аниса, A-Variakojiene
      DOC: 14/09/2022
      Desc: Math Utilities ]]--

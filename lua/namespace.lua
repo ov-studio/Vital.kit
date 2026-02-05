@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
 --[[ Resource: Vital.sandbox
      Script: Module: Lua: namespace.lua
-     Author: vStudio
+     Author: ov-studio
      Developer(s): Aviril, Tron, Mario, Аниса, A-Variakojiene
      DOC: 14/09/2022
      Desc: Namespace Utilities ]]--
