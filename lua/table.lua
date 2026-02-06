@@ -30,6 +30,10 @@ json = nil
 --[[ Class: Table ]]--
 ----------------------
 
+local t = table.pack(1, nil, 3, nil, 5)
+engine.print("Arg count: ", t.n)
+engine.print("Values: ", table.unpack(t))
+
 local table = class:create("table", table)
 table.private.inspectTypes = {
     raw = {
@@ -43,6 +47,18 @@ table.private.inspectTypes = {
 function table.public.length(baseTable)
     if not baseTable or (imports.type(baseTable) ~= "table") then return false end
     return (baseTable.__T and baseTable.__T.length) or #baseTable
+end
+
+function table.public.pack(...)
+    return {__T = {
+        length = imports.select("#", ...)
+    }, ...}
+end
+
+function table.public.unpack(baseTable, length)
+    length = tonumber(length)
+    if not baseTable or (imports.type(baseTable) ~= "table") then return false end
+    return imports.unpack(baseTable, 1, length or table.public.length(baseTable))
 end
 
 function table.public.encode(baseTable, format, ...)
