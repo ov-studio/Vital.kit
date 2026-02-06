@@ -76,7 +76,7 @@ function network.public.execute(name, ...)
     --print(name, ...)
 
     local t = table.pack(1, nil, 3, nil, 5)
-    print("Arg count: ", t.n)
+    print("Arg count: ")
     print("Values: ", table.unpack(t))
 
     if true then return true end --TODO: REMOVE LATER
