@@ -31,13 +31,11 @@ json = nil
 ----------------------
 
 local table = class:create("table", table)
-table.private.inspectTypes = {
-    raw = {
-        ["nil"] = true,
-        ["string"] = true,
-        ["number"] = true,
-        ["boolean"] = true
-    }
+table.private.inspect_type = {
+    ["nil"] = true,
+    ["string"] = true,
+    ["number"] = true,
+    ["boolean"] = true
 }
 
 function table.public.encode(input, format, ...)
@@ -56,22 +54,22 @@ end
 
 function table.public.clone(input, isRecursive)
     if not input or (imports.type(input) ~= "table") then return false end
-    local __baseTable = {}
+    local result = {}
     for i, j in imports.pairs(input) do
         if (imports.type(j) == "table") and isRecursive then
-            __baseTable[i] = table.public.clone(j, isRecursive)
+            result[i] = table.public.clone(j, isRecursive)
         else
-            __baseTable[i] = j
+            result[i] = j
         end
     end
-    return __baseTable
+    return result
 end
 
 function table.private.inspect(input, showHidden, limit, level, buffer, skipTrim)
     local dataType = imports.type(input)
     showHidden, limit, level, buffer = (showHidden and true) or false, math.max(1, imports.tonumber(limit) or 0) + 1, math.max(1, imports.tonumber(level) or 0), buffer or table.public.pack()
     if dataType ~= "table" then
-        table.public.insert(buffer, ((table.private.inspectTypes.raw[dataType] and (((dataType == "string") and string.format("%q", input)) or imports.tostring(input))) or ("<"..imports.tostring(input)..">")).."\n")
+        table.public.insert(buffer, ((table.private.inspect_type[dataType] and (((dataType == "string") and string.format("%q", input)) or imports.tostring(input))) or ("<"..imports.tostring(input)..">")).."\n")
     elseif level > limit then
         table.public.insert(buffer, "{...}\n")
     else
@@ -101,6 +99,11 @@ function table.public.inspect(...) return table.private.inspect(table.public.unp
 function table.public.print(...)
     return imports.print(table.public.inspect(...))
 end
+
+
+-----------------
+--[[ Aliases ]]--
+-----------------
 
 unpack = function(...) return table.public.unpack(...) end
 inspect = function(...) return table.public.inspect(...) end
