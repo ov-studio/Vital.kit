@@ -74,6 +74,11 @@ function network.public.execute(name, ...)
 
     --print("Incoming network execution")
     --print(name, ...)
+
+    local t = table.pack(1, nil, 3, nil, 5)
+    print("Arg count: ", t.n)
+    print("Values: ", table.unpack(t))
+
     if true then return true end --TODO: REMOVE LATER
      
     if not payload or not payload.type or not payload.identifier then return false end
