@@ -28,7 +28,7 @@ json = nil
 ----------------------
 
 local table = class:create("table", table)
-table.private.inspect_type = {
+table.private.inspectable = {
     ["nil"] = true,
     ["string"] = true,
     ["number"] = true,
@@ -66,7 +66,7 @@ function table.private.inspect(input, showHidden, limit, level, buffer, skip_tri
     local dataType = imports.type(input)
     showHidden, limit, level, buffer = (showHidden and true) or false, math.max(1, imports.tonumber(limit) or 0) + 1, math.max(1, imports.tonumber(level) or 0), buffer or table.public.pack()
     if dataType ~= "table" then
-        table.public.insert(buffer, ((table.private.inspect_type[dataType] and (((dataType == "string") and string.format("%q", input)) or imports.tostring(input))) or ("<"..imports.tostring(input)..">")).."\n")
+        table.public.insert(buffer, ((table.private.inspectable[dataType] and (((dataType == "string") and string.format("%q", input)) or imports.tostring(input))) or ("<"..imports.tostring(input)..">")).."\n")
     elseif level > limit then
         table.public.insert(buffer, "{...}\n")
     else
