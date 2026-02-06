@@ -25,12 +25,14 @@ local imports = {
 --[[ Class: String ]]--
 -----------------------
 
+local blacklist = {"dump"}
 local module = {
     ["stringn"] = class:create("stringn", string),
     ["utf8n"] = class:create("utf8n", utf8),
     ["string"] = class:create("string", table.clone(utf8))
 }
 utf8 = nil
+
 for i, j in imports.pairs(imports.string) do
     module.string.public[i] = (not module.string.public[i] and j) or module.string.public[i]
 end
@@ -108,5 +110,10 @@ for i, j in pairs(module) do
     function j.public.decompress(input)
         if not input or (imports.type(input) ~= "string") then return false end
         return shrinker.decompress(input)
+    end
+
+    for k = 1, #table.length(blacklist), 1 do
+        local v = blacklist[k]
+        j.public[v] = nil
     end
 end
