@@ -65,7 +65,7 @@ function table.public.clone(input, isRecursive)
     return result
 end
 
-function table.private.inspect(input, showHidden, limit, level, buffer, skipTrim)
+function table.private.inspect(input, showHidden, limit, level, buffer, skip_trim)
     local dataType = imports.type(input)
     showHidden, limit, level, buffer = (showHidden and true) or false, math.max(1, imports.tonumber(limit) or 0) + 1, math.max(1, imports.tonumber(level) or 0), buffer or table.public.pack()
     if dataType ~= "table" then
@@ -91,7 +91,7 @@ function table.private.inspect(input, showHidden, limit, level, buffer, skipTrim
         indent = string.rep(" ", 2*(level - 1))
         table.public.insert(buffer, indent.."}\n")
     end
-    if not skipTrim then table.public.remove(buffer) end
+    if not skip_trim then table.public.remove(buffer) end
     return table.public.concat(buffer)
 end
 function table.public.inspect(...) return table.private.inspect(table.public.unpack(table.public.pack(...), 3)) end 
