@@ -47,10 +47,10 @@ function table.public.encode(input, format, ...)
     return false
 end
 
-function table.public.decode(baseString, format, ...)
-    if not baseString or (imports.type(baseString) ~= "string") then return false end
+function table.public.decode(input, format, ...)
+    if not input or (imports.type(input) ~= "string") then return false end
     format = format or "json"
-    if format == "json" then return imports.json.decode(baseString, ...) end
+    if format == "json" then return imports.json.decode(input, ...) end
     return false
 end
 
@@ -100,23 +100,6 @@ function table.public.inspect(...) return table.private.inspect(table.public.unp
 
 function table.public.print(...)
     return imports.print(table.public.inspect(...))
-end
-
-function table.public.keys(input)
-    if not input or (imports.type(input) ~= "table") then return false end
-    local indexCache, __baseTable = {}, {}
-    for i, j in imports.pairs(input) do
-        if i ~= "__T" then
-            indexCache[i] = true
-            table.public.insert(__baseTable, i)
-        end
-    end
-    for i = 1, #input, 1 do
-        if not indexCache[i] then
-            table.public.insert(__baseTable, i)
-        end
-    end
-    return __baseTable
 end
 
 unpack = function(...) return table.public.unpack(...) end
