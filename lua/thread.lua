@@ -59,14 +59,14 @@ function thread.public:create_heartbeat(condition, exec, interval)
     return self
 end
 
-function thread.public:create_promise(callback, config)
+function thread.public:create_promise(exec, options)
     if self ~= thread.public then return false end
-    callback = (callback and (imports.type(callback) == "function") and callback) or false
-    config = (config and (imports.type(config) == "table") and config) or {}
-    config.async = (config.async and true) or false
-    config.timeout = imports.tonumber(config.timeout) or false
-    config.timeout = (config.timeout and (config.timeout > 0) and config.timeout) or false
-    if not callback and config.async then return false end
+    exec = (exec and (imports.type(exec) == "function") and exec) or false
+    options = (options and (imports.type(options) == "table") and options) or {}
+    options.async = (options.async and true) or false
+    options.timeout = imports.tonumber(options.timeout) or false
+    options.timeout = (options.timeout and (options.timeout > 0) and options.timeout) or false
+    if not exec and options.async then return false end
     local handle, handled, timeout_timer = nil, false, nil
     local promise = {
         resolve = function(...) return handle(true, ...) end,
@@ -86,9 +86,9 @@ function thread.public:create_promise(callback, config)
         return true
     end
     thread.private.buffer.promise[promise] = {}
-    if not config.async then thread.private.execute(callback, promise.resolve, promise.reject)
-    else thread.public:create(function(self) thread.private.execute(callback, self, promise.resolve, promise.reject) end):resume() end
-    if config.timeout then timeout_timer = timer:create(function() promise.reject("Promise - Timed Out") end, config.timeout, 1) end
+    if not options.async then thread.private.execute(exec, promise.resolve, promise.reject)
+    else thread.public:create(function(self) thread.private.execute(exec, self, promise.resolve, promise.reject) end):resume() end
+    if options.timeout then timeout_timer = timer:create(function() promise.reject("Promise - Timed Out") end, options.timeout, 1) end
     return promise
 end
 
