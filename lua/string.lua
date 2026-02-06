@@ -43,12 +43,6 @@ for i, j in pairs(module) do
         return (not j.public.find(input, "[%S]") and true) or false
     end
     
-    local raw_len = j.public.len
-    function j.public.len(input)
-        if not input or (imports.type(input) ~= "string") then return false end
-        return raw_len(input)
-    end
-    
     function j.public.parse(input)
         if not input then return false end
         if imports.tostring(input) == "nil" then return nil
