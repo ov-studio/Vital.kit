@@ -17,11 +17,8 @@ local imports = {
     pairs = pairs,
     tostring = tostring,
     tonumber = tonumber,
-    json = json,
-    select = select,
-    unpack = table.unpack,
-    print = print,
-    getmetatable = getmetatable
+    getmetatable = getmetatable,
+    json = json
 }
 json = nil
 
@@ -97,7 +94,7 @@ end
 function table.public.inspect(...) return table.private.inspect(table.public.unpack(table.public.pack(...), 3)) end 
 
 function table.public.print(...)
-    return imports.print(table.public.inspect(...))
+    return engine.print(table.public.inspect(...))
 end
 
 
@@ -107,4 +104,4 @@ end
 
 unpack = function(...) return table.public.unpack(...) end
 inspect = function(...) return table.public.inspect(...) end
-iprint = function(...) return imports.print(table.public.inspect(...)) end
+iprint = function(...) return engine.print(table.public.inspect(...)) end
