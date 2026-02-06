@@ -17,6 +17,9 @@ local imports = {
     pairs = pairs,
     tostring = tostring,
     tonumber = tonumber,
+    rawset = rawset,
+    rawget = rawget,
+    unpack = table.unpack,
     getmetatable = getmetatable,
     json = json
 }
@@ -34,6 +37,42 @@ table.private.inspectable = {
     ["number"] = true,
     ["boolean"] = true
 }
+
+function table.public.len(input)
+  return imports.rawget(input, "n") or #input
+end
+
+function table.unpack(input, start_at, end_at)
+  return imports.unpack(input, start_at or 1, end_at or table.public.len(input))
+end
+
+function table.insert(input, value, index)
+    local n = table.public.len(input)
+    if index == nil then
+        input[n + 1] = value
+        imports.rawset(input, "n", n + 1)
+    else
+        for i = n, index, -1 do
+            input[i + 1] = input[i]
+        end
+        input[index] = value
+        imports.rawset(input, "n", n + 1)
+    end
+end
+
+function table.remove(input, index)
+    local n = table.public.len(input)
+    if n == 0 then return nil end
+    index = index or n
+    if (index < 1) or (index > n) then return nil end
+    local result = input[index]
+    for i = index, n - 1 do
+        input[i] = input[i + 1]
+    end
+    input[n] = nil
+    imports.rawset(input, "n", n - 1)
+    return result
+end
 
 function table.public.encode(input, format, ...)
     if not input or (imports.type(input) ~= "table") then return false end
