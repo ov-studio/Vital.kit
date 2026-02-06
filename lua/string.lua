@@ -71,16 +71,19 @@ for i, j in pairs(module) do
         if not input or (imports.type(input) ~= "string") or not separator or (imports.type(separator) ~= "string") then return false end
         local result = {}
         local index = 1
-        local length = j.public.len(separator)
-        while(true) do
-            local ref = j.public.find(input, separator, index, true)
-            if not ref then
-                table.insert(result, j.public.sub(input, index))
+        local count = 1
+        local length = #separator
+        while true do
+            local match = j.public.find(input, separator, index, true)
+            if not match then
+                result[count] = j.public.sub(input, index)
                 break
             end
-            table.insert(result, j.public.sub(input, index, ref - 1))
-            index = ref + length
+            result[count] = j.public.sub(input, index, match - 1)
+            count = count + 1
+            index = match + length
         end 
+        
         return result
     end
 
