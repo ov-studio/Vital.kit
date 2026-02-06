@@ -88,7 +88,7 @@ function thread.public:create_promise(exec, options)
     thread.private.buffer.promise[promise] = {}
     if not options.async then thread.private.execute(exec, promise.resolve, promise.reject)
     else thread.public:create(function(self) thread.private.execute(exec, self, promise.resolve, promise.reject) end):resume() end
-    if options.timeout then timeout_timer = timer:create(function() promise.reject("Promise - Timed Out") end, options.timeout, 1) end
+    if options.timeout then timeout_timer = timer:create(function() promise.reject("Promise: timed-out") end, options.timeout, 1) end
     return promise
 end
 
