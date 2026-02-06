@@ -43,7 +43,6 @@ for i, j in pairs(module) do
     end
     
     function j.public.parse(input)
-        if not input then return false end
         if imports.tostring(input) == "nil" then return nil
         elseif imports.tostring(input) == "false" then return false
         elseif imports.tostring(input) == "true" then return true
