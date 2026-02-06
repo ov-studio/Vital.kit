@@ -46,15 +46,15 @@ function timer.public:load(exec, interval, executions, ...)
     if not exec or (imports.type(exec) ~= "function") or not interval or not executions then return false end
     interval, executions = math.max(1, interval), math.max(0, executions)
     self.exec = exec
-    self.currentExec = 0
+    self.counter = 0
     self.interval, self.executions = interval, executions
     self.arguments = table.pack(...)
     imports.coroutine.resume(imports.coroutine.create(function()
-        while ((self.executions == 0) or (self.currentExec < self.executions)) do
+        while ((self.executions == 0) or (self.counter < self.executions)) do
             imports.coroutine.sleep(self.interval)
             if not timer.public:is_instance(self) then return false end
-            self.currentExec = self.currentExec + 1
-            if (self.executions > 0) and (self.currentExec >= self.executions) then
+            self.counter = self.counter + 1
+            if (self.executions > 0) and (self.counter >= self.executions) then
                 self:destroy()
             end
             self.exec(table.unpack(self.arguments))
