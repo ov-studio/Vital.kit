@@ -83,7 +83,6 @@ for i, j in pairs(module) do
             count = count + 1
             index = match + length
         end 
-        
         return result
     end
 
