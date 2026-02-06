@@ -94,14 +94,4 @@ for i, j in pairs(module) do
         if not input or (imports.type(input) ~= "string") then return false end
         return j.public.gsub(input, "\t", "    ")
     end
-    
-    function j.public.compress(input)
-        if not input or (imports.type(input) ~= "string") then return false end
-        return shrinker.compress(input)
-    end
-
-    function j.public.decompress(input)
-        if not input or (imports.type(input) ~= "string") then return false end
-        return shrinker.decompress(input)
-    end
 end
