@@ -45,18 +45,6 @@ function table.public.length(baseTable)
     return (baseTable.__T and baseTable.__T.length) or #baseTable
 end
 
-function table.public.pack(...)
-    return {__T = {
-        length = imports.select("#", ...)
-    }, ...}
-end
-
-function table.public.unpack(baseTable, length)
-    length = tonumber(length)
-    if not baseTable or (imports.type(baseTable) ~= "table") then return false end
-    return imports.unpack(baseTable, 1, length or table.public.length(baseTable))
-end
-
 function table.public.encode(baseTable, format, ...)
     if not baseTable or (imports.type(baseTable) ~= "table") then return false end
     format = format or "json"
