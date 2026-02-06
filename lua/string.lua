@@ -37,7 +37,7 @@ for i, j in imports.pairs(imports.string) do
 end
 
 for i, j in pairs(module) do
-    function j.public.empty(input)
+    function j.public.void(input)
         if not input or (imports.type(input) ~= "string") then return false end
         return (not j.public.find(input, "[%S]") and true) or false
     end
