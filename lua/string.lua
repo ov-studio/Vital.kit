@@ -36,32 +36,32 @@ for i, j in imports.pairs(imports.string) do
 end
 
 for i, j in pairs(module) do
-    function j.public.isVoid(baseString)
-        if not baseString or (imports.type(baseString) ~= "string") then return false end
-        return (not j.public.find(baseString, "[%S]") and true) or false
+    function j.public.void(base)
+        if not base or (imports.type(base) ~= "string") then return false end
+        return (not j.public.find(base, "[%S]") and true) or false
     end
     
     local raw_len = j.public.len
-    function j.public.len(baseString)
-        if not baseString or (imports.type(baseString) ~= "string") then return false end
-        return raw_len(baseString)
+    function j.public.len(base)
+        if not base or (imports.type(base) ~= "string") then return false end
+        return raw_len(base)
     end
     
-    function j.public.parse(baseString)
-        if not baseString then return false end
-        if imports.tostring(baseString) == "nil" then return
-        elseif imports.tostring(baseString) == "false" then return false
-        elseif imports.tostring(baseString) == "true" then return true
-        else return imports.tonumber(baseString) or baseString end
+    function j.public.parse(base)
+        if not base then return false end
+        if imports.tostring(base) == "nil" then return nil
+        elseif imports.tostring(base) == "false" then return false
+        elseif imports.tostring(base) == "true" then return true
+        else return imports.tonumber(base) or base end
     end
     
-    function j.public.parseHex(baseString)
-        if not baseString then return false end
-        baseString = j.public.gsub(baseString, "#", "")
-        return imports.tonumber("0x"..j.public.sub(baseString, 1, 2)) or 0, imports.tonumber("0x"..j.public.sub(baseString, 3, 4)) or 0, imports.tonumber("0x"..j.public.sub(baseString, 5, 6)) or 0
+    function j.public.parse_hex(base)
+        if not base then return false end
+        base = j.public.gsub(base, "#", "")
+        return imports.tonumber("0x"..j.public.sub(base, 1, 2)) or 0, imports.tonumber("0x"..j.public.sub(base, 3, 4)) or 0, imports.tonumber("0x"..j.public.sub(base, 5, 6)) or 0
     end
     
-    function j.public.formatTime(milliseconds)
+    function j.public.format_time(milliseconds)
         milliseconds = imports.tonumber(milliseconds)
         if not milliseconds then return false end
         milliseconds = math.floor(milliseconds)
@@ -73,40 +73,40 @@ for i, j in pairs(module) do
         return imports.j.format("%02d:%02d:%02d", hours, minutes, seconds)
     end
     
-    function j.public.split(baseString, separator)
-        if not baseString or (imports.type(baseString) ~= "string") or not separator or (imports.type(separator) ~= "string") then return false end
+    function j.public.split(base, separator)
+        if not base or (imports.type(base) ~= "string") or not separator or (imports.type(separator) ~= "string") then return false end
         local result = {}
         local index = 1
         local length = j.public.len(separator)
         while(true) do
-            local ref = j.public.find(baseString, separator, index, true)
+            local ref = j.public.find(base, separator, index, true)
             if not ref then
-                table.insert(result, j.public.sub(baseString, index))
+                table.insert(result, j.public.sub(base, index))
                 break
             end
-            table.insert(result, j.public.sub(baseString, index, ref - 1))
+            table.insert(result, j.public.sub(base, index, ref - 1))
             index = ref + length
         end 
         return result
     end
 
-    function j.public.kern(baseString, kerner)
-        if not baseString or (imports.type(baseString) ~= "string") then return false end
-        return j.public.sub(j.public.gsub(baseString, ".", (kerner or " ").."%0"), 2)
+    function j.public.kern(base, kerner)
+        if not base or (imports.type(base) ~= "string") then return false end
+        return j.public.sub(j.public.gsub(base, ".", (kerner or " ").."%0"), 2)
     end
     
-    function j.public.detab(baseString)
-        if not baseString or (imports.type(baseString) ~= "string") then return false end
-        return j.public.gsub(baseString, "\t", "    ")
+    function j.public.detab(base)
+        if not base or (imports.type(base) ~= "string") then return false end
+        return j.public.gsub(base, "\t", "    ")
     end
     
-    function j.public.compress(baseString)
-        if not baseString or (imports.type(baseString) ~= "string") then return false end
-        return shrinker.compress(baseString)
+    function j.public.compress(base)
+        if not base or (imports.type(base) ~= "string") then return false end
+        return shrinker.compress(base)
     end
 
-    function j.public.decompress(baseString)
-        if not baseString or (imports.type(baseString) ~= "string") then return false end
-        return shrinker.decompress(baseString)
+    function j.public.decompress(base)
+        if not base or (imports.type(base) ~= "string") then return false end
+        return shrinker.decompress(base)
     end
 end
