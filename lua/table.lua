@@ -101,36 +101,46 @@ function table.public.clone(input, recursive)
     return result
 end
 
-function table.private.inspect(input, show_hidden, limit, level, buffer, skip_trim)
-    local dataType = imports.type(input)
-    show_hidden, limit, level, buffer = (show_hidden and true) or false, math.max(1, imports.tonumber(limit) or 0) + 1, math.max(1, imports.tonumber(level) or 0), buffer or table.public.pack()
-    if dataType ~= "table" then
-        table.public.insert(buffer, ((table.private.inspectable[dataType] and (((dataType == "string") and string.format("%q", input)) or imports.tostring(input))) or ("<"..imports.tostring(input)..">")).."\n")
+function table.private.inspect(input, show_hidden, limit, level, buffer, skip_trim, visited)
+    local input_type = imports.type(input)
+    show_hidden = (show_hidden and true) or false
+    limit = math.max(1, imports.tonumber(limit) or 10)
+    level = math.max(1, imports.tonumber(level) or 0)
+    buffer = buffer or table.public.pack()
+    visited = visited or {}
+    if input_type ~= "table" then
+        table.public.insert(buffer, ((table.private.inspectable[input_type] and (((input_type == "string") and string.format("%q", input)) or imports.tostring(input))) or ("<"..imports.tostring(input)..">")).."\n")
     elseif level > limit then
         table.public.insert(buffer, "{...}\n")
+    elseif visited[input] then
+        table.public.insert(buffer, "{<circular>}\n")
     else
+        visited[input] = true
         table.public.insert(buffer, "{\n")
-        local indent = string.rep(" ", 2*level)
+        local indent = string.rep("  ", level)
         for k, v in imports.pairs(input) do
             table.public.insert(buffer, indent..imports.tostring(k)..": ")
             if k ~= "__index" then
-                table.private.inspect(v, show_hidden, limit, level + 1, buffer, true)
+                table.private.inspect(v, show_hidden, limit, level + 1, buffer, true, visited)
+            else
+                table.public.insert(buffer, "{<__index>}\n")
             end
         end
         if show_hidden then
             local metadata = imports.getmetatable(input)
-            if metadata then
-                table.public.insert(buffer, indent.."<metadata>: ")
-                table.private.inspect(metadata, show_hidden, limit, level + 1, buffer, true)
+            if metadata and not visited[metadata] then
+                table.public.insert(buffer, indent.."<metatable>: ")
+                table.private.inspect(metadata, show_hidden, limit, level + 1, buffer, true, visited)
             end
         end
-        indent = string.rep(" ", 2*(level - 1))
+        indent = string.rep("  ", level - 1)
         table.public.insert(buffer, indent.."}\n")
+        visited[input] = nil
     end
-    if not skip_trim then table.public.remove(buffer) end
+    if not skip_trim then table.public.remove(buffer)  end
     return table.public.concat(buffer)
 end
-function table.public.inspect(...) return table.private.inspect(table.public.unpack(table.public.pack(...), 3)) end 
+function table.public.inspect(...)  return table.private.inspect(table.public.unpack(table.public.pack(...), 3)) end
 
 function table.public.print(...)
     return engine.print(table.public.inspect(...))
