@@ -76,15 +76,15 @@ end
 
 function table.public.encode(input, format, ...)
     if not input or (imports.type(input) ~= "table") then return false end
-    format = format or "json"
-    if format == "json" then return imports.json.encode(input, ...) end
+    format = format or "JSON"
+    if format == "JSON" then return imports.json.encode(input, ...) end
     return false
 end
 
 function table.public.decode(input, format, ...)
     if not input or (imports.type(input) ~= "string") then return false end
-    format = format or "json"
-    if format == "json" then return imports.json.decode(input, ...) end
+    format = format or "JSON"
+    if format == "JSON" then return imports.json.decode(input, ...) end
     return false
 end
 
