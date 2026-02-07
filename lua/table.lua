@@ -88,12 +88,12 @@ function table.public.decode(input, mode, ...)
     return false
 end
 
-function table.public.clone(input, isRecursive)
+function table.public.clone(input, recursive)
     if not input or (imports.type(input) ~= "table") then return false end
     local result = {}
     for i, j in imports.pairs(input) do
-        if (imports.type(j) == "table") and isRecursive then
-            result[i] = table.public.clone(j, isRecursive)
+        if (imports.type(j) == "table") and recursive then
+            result[i] = table.public.clone(j, recursive)
         else
             result[i] = j
         end
