@@ -101,9 +101,9 @@ function table.public.clone(input, recursive)
     return result
 end
 
-function table.private.inspect(input, showHidden, limit, level, buffer, skip_trim)
+function table.private.inspect(input, show_hidden, limit, level, buffer, skip_trim)
     local dataType = imports.type(input)
-    showHidden, limit, level, buffer = (showHidden and true) or false, math.max(1, imports.tonumber(limit) or 0) + 1, math.max(1, imports.tonumber(level) or 0), buffer or table.public.pack()
+    show_hidden, limit, level, buffer = (show_hidden and true) or false, math.max(1, imports.tonumber(limit) or 0) + 1, math.max(1, imports.tonumber(level) or 0), buffer or table.public.pack()
     if dataType ~= "table" then
         table.public.insert(buffer, ((table.private.inspectable[dataType] and (((dataType == "string") and string.format("%q", input)) or imports.tostring(input))) or ("<"..imports.tostring(input)..">")).."\n")
     elseif level > limit then
@@ -114,14 +114,14 @@ function table.private.inspect(input, showHidden, limit, level, buffer, skip_tri
         for k, v in imports.pairs(input) do
             table.public.insert(buffer, indent..imports.tostring(k)..": ")
             if k ~= "__index" then
-                table.private.inspect(v, showHidden, limit, level + 1, buffer, true)
+                table.private.inspect(v, show_hidden, limit, level + 1, buffer, true)
             end
         end
-        if showHidden then
+        if show_hidden then
             local metadata = imports.getmetatable(input)
             if metadata then
                 table.public.insert(buffer, indent.."<metadata>: ")
-                table.private.inspect(metadata, showHidden, limit, level + 1, buffer, true)
+                table.private.inspect(metadata, show_hidden, limit, level + 1, buffer, true)
             end
         end
         indent = string.rep(" ", 2*(level - 1))
