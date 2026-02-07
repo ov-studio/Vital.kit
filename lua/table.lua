@@ -74,17 +74,17 @@ function table.remove(input, index)
     return result
 end
 
-function table.public.encode(input, format, ...)
+function table.public.encode(input, mode, ...)
     if not input or (imports.type(input) ~= "table") then return false end
-    format = format or "JSON"
-    if format == "JSON" then return imports.json.encode(input, ...) end
+    mode = mode or "JSON"
+    if mode == "JSON" then return imports.json.encode(input, ...) end
     return false
 end
 
-function table.public.decode(input, format, ...)
+function table.public.decode(input, mode, ...)
     if not input or (imports.type(input) ~= "string") then return false end
-    format = format or "JSON"
-    if format == "JSON" then return imports.json.decode(input, ...) end
+    mode = mode or "JSON"
+    if mode == "JSON" then return imports.json.decode(input, ...) end
     return false
 end
 
