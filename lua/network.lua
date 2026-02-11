@@ -72,8 +72,8 @@ function network.public.execute(name, ...)
     --if not string.find(name, "vsdk.network") then return false end
     --payload = table.decode(payload)
 
-    print("Incoming network execution")
-    print(name, ...)
+    --print("Incoming network execution")
+    --print(name, ...)
     if true then return true end --TODO: REMOVE LATER
      
     if not payload or not payload.type or not payload.identifier then return false end
