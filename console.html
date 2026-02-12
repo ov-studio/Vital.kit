@@ -449,7 +449,7 @@
             );
 
             // MAIN CONSOLE COMPONENT
-            const SandboxConsole = () => {
+            const Console = () => {
                 // State
                 const [logs, set_logs] = useState([]);
                 const [active_filters, set_active_filters] = useState(new Set(['info', 'warn', 'error']));
@@ -738,7 +738,7 @@
 
             // RENDER APP
             const root = ReactDOM.createRoot(document.getElementById('root'));
-            root.render(<SandboxConsole/>);
+            root.render(<Console/>);
         </script>
     </body>
 </html>
