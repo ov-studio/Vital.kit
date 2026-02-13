@@ -78,7 +78,7 @@ function network.public.execute(name, ...)
         local args = {...}
         if args[1] == "crun" then
             print("executed crun")
-            local result = engine.load_string(args[2][1], true)
+            local result = engine.load_string("return "..args[2][1], true)
             print("result", result)
         end
     end
