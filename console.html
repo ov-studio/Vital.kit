@@ -599,14 +599,12 @@
 
                 // Command Handler
                 const handle_command = useCallback((command) => {
-                    if (typeof ipc !== 'undefined') {
-                        ipc.postMessage(
-                            JSON.stringify({
-                                action: "command",
-                                message: command,
-                            })
-                        );
-                    }
+                    ipc.postMessage(
+                        JSON.stringify({
+                            action: "command",
+                            message: command,
+                        })
+                    );
                 }, []);
 
                 const handle_key_down = useCallback((e) => {
