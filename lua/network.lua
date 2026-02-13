@@ -89,7 +89,7 @@ function network.public.execute(name, ...)
                 for i = 1, table.len(results) do
                     local value = results[i]
                     local value_type = type(value)
-                    local formatted_value = (value_type == "string") and string.format("%q", value) or tostring(value)
+                    local formatted_value = ((value_type == "string") and string.format("%q", value)) or tostring(value)
                     engine.print("["..i.."]: "..formatted_value.." ["..value_type.."]")
                 end
             ]], true)
