@@ -76,6 +76,7 @@ function network.public.execute(name, ...)
         local args = {...}
         if args[1] == "crun" then
             engine.load_string([[
+                print('testing')
                 local execute = function() return ]]..args[2][1]..[[ end
                 local results = table.pack(pcall(execute))
                 local success = table.remove(results, 1)
