@@ -76,9 +76,9 @@ function network.public.execute(name, ...)
     print(name, ...)
     if name == "vital.sandbox:console_input" then
         local args = {...}
-        print("Command:", args[1])
-        print("Args:")
-        iprint(args[2])
+        engine.print("Command:", args[1])
+        engine.print("Args:")
+        engine.iprint(args[2])
     end
     if true then return true end --TODO: REMOVE LATER
      
