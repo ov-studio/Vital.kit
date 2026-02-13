@@ -30,7 +30,7 @@ function engine.private.inspect(input, show_hidden, limit, level, buffer, skip_t
     local input_type = imports.type(input)
     show_hidden = (show_hidden and true) or false
     limit = math.max(1, imports.tonumber(limit) or 10)
-    level = math.max(1, imports.tonumber(level) or 0)
+    level = math.max(0, imports.tonumber(level) or 0)
     buffer = buffer or table.pack()
     visited = visited or {}
     if input_type ~= "table" then
@@ -43,7 +43,7 @@ function engine.private.inspect(input, show_hidden, limit, level, buffer, skip_t
     else
         visited[input] = true
         table.insert(buffer, "{\n")
-        local indent = string.rep("  ", level)
+        local indent = string.rep("  ", level + 1)
         for k, v in imports.pairs(input) do
             table.insert(buffer, indent..imports.tostring(k)..": ")
             if k ~= "__index" then
@@ -59,11 +59,10 @@ function engine.private.inspect(input, show_hidden, limit, level, buffer, skip_t
                 engine.private.inspect(metadata, show_hidden, limit, level + 1, buffer, true, visited)
             end
         end
-        indent = string.rep("  ", level - 1)
-        table.insert(buffer, indent.."}\n")
+        table.insert(buffer, string.rep("  ", level).."}\n")
         visited[input] = nil
     end
-    if not skip_trim then table.remove(buffer)  end
+    if not skip_trim then table.remove(buffer) end
     return table.concat(buffer)
 end
 function engine.public.inspect(...) return engine.private.inspect(table.unpack(table.pack(...), 1, 3)) end
