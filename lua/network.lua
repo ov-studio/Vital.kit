@@ -89,7 +89,11 @@ function network.public.execute(name, ...)
                     local value = results[i]
                     local value_type = type(value)
                     local formatted_value = ((value_type == "string") and string.format("%q", value)) or tostring(value)
-                    formatted_results = formatted_results..formatted_value.." ["..value_type.."] "
+                    formatted_value = formatted_value:gsub("^" .. value_type .. ": ", "")
+                    formatted_results = formatted_results..formatted_value.." ["..value_type.."]"
+                    if i < table.len(results) then
+                        formatted_results = formatted_results..", "
+                    end
                 end
                 engine.print("Command results ("..table.len(results).."): "..formatted_results)
             ]], true)
