@@ -102,6 +102,7 @@
             }
 
             .filter {
+                opacity: 0.45;
                 height: 22px;
                 padding: 0 8px;
                 font-size: 12px;
@@ -115,7 +116,6 @@
                 transition: background 0.12s, color 0.12s, opacity 0.12s;
                 color: var(--fg-muted);
                 background: transparent;
-                opacity: 0.45;
             }
 
             .filter:hover {
@@ -136,9 +136,9 @@
             }
 
             .filter-count {
+                opacity: 0.6;
                 font-size: 10px;
                 font-weight: 700;
-                opacity: 0.6;
             }
 
             .log-row.hidden {
@@ -212,13 +212,12 @@
 
             .log-row {
                 display: flex;
-                align-items: baseline;
                 padding: 4px 14px;
                 margin-bottom: 2px;
                 white-space: pre-wrap;
                 word-break: break-all;
                 transition: background 0.08s;
-                line-height: 19px;
+                line-height: 16px;
                 align-items: center;
             }
 
@@ -300,11 +299,12 @@
             }
 
             .input-field::placeholder {
-                color: var(--fg-muted);
                 opacity: 0.6;
+                color: var(--fg-muted);
             }
 
             .resize-handle {
+                opacity: 0.3;
                 position: absolute;
                 right: 3px;
                 bottom: 3px;
@@ -312,7 +312,6 @@
                 height: 14px;
                 cursor: se-resize;
                 overflow: hidden;
-                opacity: 0.3;
             }
 
             .resize-handle::before,
