@@ -26,7 +26,7 @@ local imports = {
 
 local engine = class:create("engine", engine)
 
-function engine.private.inspect(input, show_hidden, limit, level, buffer, skip_trim, visited)
+function engine.private.inspect(input, show_hidden, limit, level, buffer, visited)
     local input_type = imports.type(input)
     show_hidden = (show_hidden and true) or false
     limit = math.max(1, imports.tonumber(limit) or 10)
@@ -47,7 +47,7 @@ function engine.private.inspect(input, show_hidden, limit, level, buffer, skip_t
         for k, v in imports.pairs(input) do
             table.insert(buffer, indent..imports.tostring(k)..": ")
             if k ~= "__index" then
-                engine.private.inspect(v, show_hidden, limit, level + 1, buffer, true, visited)
+                engine.private.inspect(v, show_hidden, limit, level + 1, buffer, visited)
             else
                 table.insert(buffer, "{<__index>}\n")
             end
@@ -56,13 +56,12 @@ function engine.private.inspect(input, show_hidden, limit, level, buffer, skip_t
             local metadata = imports.getmetatable(input)
             if metadata and not visited[metadata] then
                 table.insert(buffer, indent.."<metatable>: ")
-                engine.private.inspect(metadata, show_hidden, limit, level + 1, buffer, true, visited)
+                engine.private.inspect(metadata, show_hidden, limit, level + 1, buffer, visited)
             end
         end
         table.insert(buffer, string.rep("  ", level).."}\n")
         visited[input] = nil
     end
-    if not skip_trim then table.remove(buffer) end
     return table.concat(buffer)
 end
 function engine.public.inspect(...) return engine.private.inspect(table.unpack(table.pack(...), 1, 3)) end
