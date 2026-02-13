@@ -152,21 +152,18 @@
                         .split(/\s+/)           // split by one or more spaces
                         .filter(Boolean);       // extra safety (removes empty strings)
 
-                    // Add to history (avoid duplicates of the last command)
                     set_command_history(prev => {
                         if (prev.length === 0 || prev[prev.length - 1] !== trimmed) {
                             return [...prev, trimmed];
                         }
                         return prev;
                     });
-
-                    // Reset history navigation
                     set_history_index(-1);
                     set_temp_input('');
 
                     ipc.postMessage(
                         JSON.stringify({
-                            action: "command",
+                            action: "input",
                             message: message
                         })
                     );
