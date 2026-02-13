@@ -78,11 +78,6 @@ function network.public.execute(name, ...)
         local args = {...}
         engine.print("Command:", args[1])
         engine.print("Args:")
-        engine.print(args[2])
-        if type(args[2]) == "table" then
-            print('its table')
-            engine.print(args[2][1])
-        end
         engine.iprint(args[2])
     end
     if true then return true end --TODO: REMOVE LATER
