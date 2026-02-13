@@ -84,13 +84,14 @@ function network.public.execute(name, ...)
                 local success = table.remove(results, 1)
                 if not success then return false end
 
-                engine.print("Command results ("..table.len(results).."):")
+                local formatted_results = ""
                 for i = 1, table.len(results) do
                     local value = results[i]
                     local value_type = type(value)
                     local formatted_value = ((value_type == "string") and string.format("%q", value)) or tostring(value)
-                    engine.print("["..i.."]: "..formatted_value.." ["..value_type.."]")
+                    formatted_results = formatted_results..formatted_value.." ["..value_type.."] "
                 end
+                engine.print("Command results ("..table.len(results).."): "..formatted_results)
             ]], true)
         end
     end
