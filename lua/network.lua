@@ -77,8 +77,8 @@ function network.public.execute(name, ...)
         if args[1] == "crun" then
             local runcode = string.format("%q", args[2][1])
             engine.load_string([[
-                print('testing2 runcode')
-                engine.print("Executing command (]]..args[1]..[[): `]]..runcode..[[`")
+                print('testing2 raw')
+                engine.print("Executing command (]]..args[1]..[[): `]]..args[2][1]..[[`")
                 local execute = function() return ]]..args[2][1]..[[ end
                 local results = table.pack(pcall(execute))
                 local success = table.remove(results, 1)
