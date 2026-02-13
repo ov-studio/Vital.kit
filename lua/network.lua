@@ -72,8 +72,6 @@ function network.public.execute(name, ...)
     --if not string.find(name, "vsdk.network") then return false end
     --payload = table.decode(payload)
 
-    print("Incoming network execution")
-    print(name, ...)
     if name == "vital.sandbox:console_input" then
         local args = {...}
         if args[1] == "crun" then
