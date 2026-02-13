@@ -76,26 +76,25 @@ function network.public.execute(name, ...)
         local args = {...}
         if args[1] == "crun" then
             engine.load_string([[
-                print('testing2 raw 23')
-                local cmd_code = ]]..string.format("%q", args[2][1])..[[
-                engine.print("Executing command (]]..args[1]..[[): `" .. cmd_code .. "`")
+                local code = ]]..string.format("%q", args[2][1])..[[
+                engine.print("Executing command (]]..args[1]..[[): `"..code.."`")
                 local execute = function() return ]]..args[2][1]..[[ end
                 local results = table.pack(pcall(execute))
                 local success = table.remove(results, 1)
                 if not success then return false end
 
-                local formatted_results = ""
+                local formatted_result = ""
                 for i = 1, table.len(results) do
                     local value = results[i]
                     local value_type = type(value)
                     local formatted_value = ((value_type == "string") and string.format("%q", value)) or tostring(value)
                     formatted_value = formatted_value:gsub("^" .. value_type .. ": ", "")
-                    formatted_results = formatted_results..formatted_value.." ["..value_type.."]"
+                    formatted_result = formatted_result..formatted_value.." ["..value_type.."]"
                     if i < table.len(results) then
-                        formatted_results = formatted_results..", "
+                        formatted_result = formatted_result..", "
                     end
                 end
-                engine.print("Command results ("..table.len(results).."): "..formatted_results)
+                engine.print("Command results ("..table.len(results).."): "..formatted_result)
             ]], true)
         end
     end
