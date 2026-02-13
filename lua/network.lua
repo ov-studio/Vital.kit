@@ -81,7 +81,7 @@ function network.public.execute(name, ...)
             engine.load_string([[
                 local execute = function() return ]]..args[2][1]..[[ end
                 local results = table.pack(pcall(execute))
-                engine.print("Command executed:", args[2][1], "results:", table.unpack(results))
+                engine.print("Command executed:", ]]..args[2][1]..[[, "results:", table.unpack(results))
                 engine.iprint(results)
             ]], true)
         end
