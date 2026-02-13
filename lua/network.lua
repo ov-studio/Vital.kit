@@ -75,10 +75,11 @@ function network.public.execute(name, ...)
     print("Incoming network execution")
     print(name, ...)
     if name == "vital.sandbox:console_input" then
-        local args = {...}
-        engine.print("Command:", args[1])
-        engine.print("Args:")
-        engine.iprint(args[2])
+        if args[1] == "crun" then
+            print("executed crun")
+            local result = engine.load_string(args[2], true)
+            print("result", result)
+        end
     end
     if true then return true end --TODO: REMOVE LATER
      
