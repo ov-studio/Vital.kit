@@ -75,10 +75,9 @@ function network.public.execute(name, ...)
     if name == "vital.sandbox:console_input" then
         local args = {...}
         if args[1] == "crun" then
-            local runcode = string.format("%q", args[2][1])
             engine.load_string([[
                 print('testing2 raw 2')
-                local cmd_code = ]]..string.format("%q", cmd_code)..[[
+                local cmd_code = ]]..string.format("%q", args[2][1])..[[
                 engine.print("Executing command (]]..args[1]..[[): `" .. cmd_code .. "`")
                 local execute = function() return ]]..args[2][1]..[[ end
                 local results = table.pack(pcall(execute))
