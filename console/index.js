@@ -65,11 +65,7 @@ const RotateCcw = ({ size = 24, strokeWidth = 2, ...props }) => (
 
 // UTILITIES
 const make_key = (type, msg) => {
-    return type + '\x00' + msg
-        .replace(/\d+\.\d+/g, '#')
-        .replace(/\b\d+\b/g, '#')
-        .replace(/\s+/g, ' ')
-        .trim();
+    return `${type}:${msg}`;
 };
 
 const get_sorted_level_types = () => {
