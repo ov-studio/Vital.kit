@@ -66,7 +66,7 @@ function engine.private.inspect(input, show_hidden, limit, level, buffer, skip_t
     if not skip_trim then table.remove(buffer)  end
     return table.concat(buffer)
 end
-function engine.public.inspect(...) return engine.private.inspect(table.unpack(table.pack(...), 3)) end
+function engine.public.inspect(...) return engine.private.inspect(table.unpack(table.pack(...), 1, 3)) end
 
 function engine.public.iprint(...)
     return engine.public.print(engine.public.inspect(...))
