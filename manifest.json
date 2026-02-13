@@ -14,5 +14,10 @@
             "network.lua",
             "resource.lua"
         ]
+    },
+
+    "console": {
+        "version": "1.0.0",
+        "source": "index.html"
     }
 }
