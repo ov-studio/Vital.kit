@@ -74,6 +74,12 @@ function network.public.execute(name, ...)
 
     print("Incoming network execution")
     print(name, ...)
+    if name == "vital.sandbox:console_input" then
+        local args = {...}
+        print("Command:", args[1])
+        print("Args:")
+        iprint(args[2])
+    end
     if true then return true end --TODO: REMOVE LATER
      
     if not payload or not payload.type or not payload.identifier then return false end
