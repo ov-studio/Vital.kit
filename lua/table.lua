@@ -40,7 +40,7 @@ function table.unpack(input, start_at, end_at)
   return imports.unpack(input, start_at or 1, end_at or table.public.len(input))
 end
 
-function table.insert(input, value, index)
+function table.public.insert(input, value, index)
     local n = table.public.len(input)
     if index == nil then
         input[n + 1] = value
@@ -54,7 +54,7 @@ function table.insert(input, value, index)
     end
 end
 
-function table.remove(input, index)
+function table.public.remove(input, index)
     local n = table.public.len(input)
     if n == 0 then return nil end
     index = index or n
