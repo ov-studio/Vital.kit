@@ -78,8 +78,15 @@ function network.public.execute(name, ...)
         local args = {...}
         if args[1] == "crun" then
             print("executed crun")
-            local result = engine.load_string("return "..args[2][1], true)
-            print("result", result)
+            engine.load_string([[
+                local execute = function()
+                    return ]]..args[2][1]..[[
+                end
+                local results = table.pack(pcall(execute))
+                local success = table.remove(results, 1)
+                print("Command executed, success:", success, "results:", results.n)
+                return table.unpack(results, 1, results.n)
+            ]], true)
         end
     end
     if true then return true end --TODO: REMOVE LATER
