@@ -75,7 +75,7 @@ function network.public.execute(name, ...)
     if name == "vital.sandbox:console_input" then
         local args = {...}
         if args[1] == "crun" then
-            local code = table.concat(args[2], " ", 2)
+            local code = table.concat(args[2], " ")
             print("runcode", code)
             engine.load_string([[
                 local code = ]]..string.format("%q", code)..[[
