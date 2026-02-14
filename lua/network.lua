@@ -75,10 +75,11 @@ function network.public.execute(name, ...)
     if name == "vital.sandbox:console_input" then
         local args = {...}
         if args[1] == "crun" then
+            local code = table.concat(args[2], " ", 2)
             engine.load_string([[
-                local code = ]]..string.format("%q", args[2][1])..[[
+                local code = ]]..string.format("%q", code)..[[
                 engine.print("Executing command (]]..args[1]..[[): `"..code.."`")
-                local execute = function() return ]]..args[2][1]..[[ end
+                local execute = function() return ]]..code..[[ end
                 local results = table.pack(pcall(execute))
                 local success = table.remove(results, 1)
                 if not success then return false end
