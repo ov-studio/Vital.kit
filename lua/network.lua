@@ -76,6 +76,7 @@ function network.public.execute(name, ...)
         local args = {...}
         if args[1] == "crun" then
             local code = table.concat(args[2], " ", 2)
+            print("runcode", code)
             engine.load_string([[
                 local code = ]]..string.format("%q", code)..[[
                 engine.print("Executing command (]]..args[1]..[[): `"..code.."`")
