@@ -75,9 +75,7 @@ function network.public.execute(name, ...)
     if name == "vital.sandbox:console_input" then
         local args = {...}
         if args[1] == "crun" then
-            engine.iprint(args[2])
             local code = table.concat(args[2], " ")
-            engine.print(code)
             engine.load_string([[
                 local code = ]]..string.format("%q", code)..[[
                 engine.print("Executing command (]]..args[1]..[[): `"..code.."`")
