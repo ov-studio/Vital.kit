@@ -16,6 +16,7 @@
         <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
         <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
         <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/gh/ov-studio/Vital.kit@main/console/config.js"></script>
         <script type="text/babel" src="https://cdn.jsdelivr.net/gh/ov-studio/Vital.kit@main/console/index.js"></script>
 
         <script type="text/babel">
@@ -65,7 +66,7 @@
                 // Log Management
                 const add_log = useCallback((type, message, timestamp = null) => {
                     // Skip if type is not valid
-                    if (!type || !message || !LEVELS[type]) return;
+                    if (!type || !message || !LOG_LEVELS[type]) return;
 
                     const ts = timestamp || new Date().toTimeString().slice(0, 8);
                     const now = Date.now();
@@ -341,12 +342,12 @@
                                     <FilterButton
                                         key={type}
                                         type={type}
-                                        label={LEVELS[type].label}
+                                        label={LOG_LEVELS[type].label}
                                         count={log_counts[type]}
                                         is_active={active_filters.has(type)}
                                         on_click={() => toggle_filter(type)}
-                                        label_color={LEVELS[type].label_color}
-                                        bg_color={LEVELS[type].bg_color}
+                                        label_color={LOG_LEVELS[type].label_color}
+                                        bg_color={LOG_LEVELS[type].bg_color}
                                     />
                                 ))}
                             </div>

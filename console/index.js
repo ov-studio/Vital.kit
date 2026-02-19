@@ -1,29 +1,5 @@
 // CONSTANTS
-const GROUP_MS = 5000;
 const { useState, useEffect, useRef, useCallback, useMemo } = React;
-const LEVELS = {
-    info: {
-        label: 'Info',
-        badge: 'INFO',
-        priority: 1,
-        label_color: 'hsl(220 13% 78%)',
-        bg_color: 'hsl(220 13% 78%/0.1)'
-    },
-    warn: {
-        label: 'Warn',
-        badge: 'WARN',
-        priority: 2,
-        label_color: 'hsl(38 92% 66%)',
-        bg_color: 'hsl(38 92% 66%/0.1)'
-    },
-    error: {
-        label: 'Error',
-        badge: 'ERRO',
-        priority: 3,
-        label_color: 'hsl(0 72% 66%)',
-        bg_color: 'hsl(0 72% 66%/0.1)'
-    }
-};
 
 // ICONS
 const Trash2 = ({ size = 24, strokeWidth = 2, ...props }) => (
@@ -69,7 +45,7 @@ const make_key = (type, msg) => {
 };
 
 const get_sorted_level_types = () => {
-    return Object.entries(LEVELS)
+    return Object.entries(LOG_LEVELS)
         .sort(([, a], [, b]) => a.priority - b.priority)
         .map(([type]) => type);
 };
@@ -108,7 +84,7 @@ const ActionButton = ({ icon: Icon, label, on_click }) => (
 );
 
 const LogRow = ({ type, timestamp, message, repeat_count, is_hidden }) => {
-    const level_config = LEVELS[type];
+    const level_config = LOG_LEVELS[type];
     const style = level_config ? { color: level_config.label_color } : {};
 
     return (
