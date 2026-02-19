@@ -1,4 +1,4 @@
-const GROUP_MS = 5000;
+const LOG_GROUP_MS = 5000;
 
 const LOG_LEVELS = {
     info: {

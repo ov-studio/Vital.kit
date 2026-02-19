@@ -2,7 +2,7 @@
 const { useState, useEffect, useRef, useCallback, useMemo } = React;
 
 // ICONS
-const Trash2 = ({ size = 24, strokeWidth = 2, ...props }) => (
+const TrashIcon = ({ size = 24, strokeWidth = 2, ...props }) => (
     <svg
         width={size}
         height={size}
@@ -22,7 +22,7 @@ const Trash2 = ({ size = 24, strokeWidth = 2, ...props }) => (
     </svg>
 );
 
-const RotateCcw = ({ size = 24, strokeWidth = 2, ...props }) => (
+const RotateIcon = ({ size = 24, strokeWidth = 2, ...props }) => (
     <svg
         width={size}
         height={size}
@@ -86,7 +86,6 @@ const ActionButton = ({ icon: Icon, label, on_click }) => (
 const LogRow = ({ type, timestamp, message, repeat_count, is_hidden }) => {
     const level_config = LOG_LEVELS[type];
     const style = level_config ? { color: level_config.label_color } : {};
-
     return (
         <div className={`log-row ${type} ${is_hidden ? 'hidden' : ''}`} style={style}>
             <span className="log-ts">{timestamp}</span>

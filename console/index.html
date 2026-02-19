@@ -84,7 +84,7 @@
                     if (existing) {
                         // Update existing log
                         existing.count++;
-                        existing.expires_at = now + GROUP_MS;
+                        existing.expires_at = now + LOG_GROUP_MS;
                         existing.timestamp = ts;
 
                         set_logs(prev_logs =>
@@ -117,7 +117,7 @@
                         group_map_ref.current.set(key, {
                             id: new_log.id,
                             count: 1,
-                            expires_at: now + GROUP_MS,
+                            expires_at: now + LOG_GROUP_MS,
                             timestamp: ts
                         });
 
