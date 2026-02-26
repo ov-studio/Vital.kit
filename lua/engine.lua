@@ -67,9 +67,11 @@ end
 function engine.public.inspect(...) return engine.private.inspect(table.unpack(table.pack(...), 1, 3)) end
 
 function engine.public.iprint(...)
+    local separator = "> "
     local arguments = table.pack(table.unpack(table.pack(...), 1, 3))
-    table.insert(arguments, "> ")
-    return engine.public.print(engine.private.inspect(table.unpack(arguments)))
+    print("concatenator", separator)
+    table.insert(arguments, separator)
+    return engine.public.print(separator..engine.private.inspect(table.unpack(arguments)))
 end
 
 
