@@ -78,7 +78,7 @@ function network.public.execute(name, ...)
             local code = table.concat(args[2], " ")
             engine.load_string([[
                 local code = ]]..string.format("%q", code)..[[
-                engine.print("Executing command (]]..args[1]..[[): `"..code.."`")
+                local log = "Executed ]]..args[1]..[[ command\n> Code: "..code..""
                 local execute = function() return ]]..code..[[ end
                 local results = table.pack(pcall(execute))
                 local success = table.remove(results, 1)
@@ -92,10 +92,11 @@ function network.public.execute(name, ...)
                     formatted_value = formatted_value:gsub("^" .. value_type .. ": ", "")
                     formatted_result = formatted_result..formatted_value.." ["..value_type.."]"
                     if i < table.len(results) then
-                        formatted_result = formatted_result..", "
+                        formatted_result = formatted_result.."\n"
                     end
                 end
-                engine.print("Command results ("..table.len(results).."): "..formatted_result)
+                log = log.."\n> Results ("..table.len(results).."):\n> "..formatted_result
+                engine.print(log)
             ]], true)
         end
     end
