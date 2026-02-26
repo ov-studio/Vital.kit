@@ -68,7 +68,7 @@ function engine.public.inspect(...) return engine.private.inspect(table.unpack(t
 
 function engine.public.iprint(...)
     local separator = "> "
-    local result = engine.private.inspect(table.unpack(arguments))
+    local result = engine.public.inspect(table.unpack(...))
     result = string.gsub(result, "([^\n]+)", separator.."%1")
     return engine.public.print(result)
 end
