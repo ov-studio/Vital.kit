@@ -21,6 +21,7 @@ const get_sorted_level_types = () => {
     return Object.entries(LOG_LEVELS)
         .sort(([, a], [, b]) => a.priority - b.priority)
         .map(([type]) => type);
+}
 
 const parse_lines = (message) => {
     if (typeof message !== 'string') return [{ is_quote: false, text: String(message) }];
