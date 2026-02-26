@@ -26,7 +26,7 @@ local imports = {
 
 local engine = class:create("engine", engine)
 
-function engine.private.inspect(input, show_hidden, depth_limit, level, buffer, visited)
+function engine.private.inspect(input, show_hidden, depth_limit, separator, level, buffer, visited)
     local input_type = imports.type(input)
     show_hidden = (show_hidden and true) or false
     depth_limit = math.max(1, imports.tonumber(depth_limit) or 10)
@@ -47,7 +47,7 @@ function engine.private.inspect(input, show_hidden, depth_limit, level, buffer, 
         for k, v in imports.pairs(input) do
             table.insert(buffer, indent..imports.tostring(k)..": ")
             if k ~= "__index" then
-                engine.private.inspect(v, show_hidden, depth_limit, level + 1, buffer, visited)
+                engine.private.inspect(v, show_hidden, depth_limit, separator, level + 1, buffer, visited)
             else
                 table.insert(buffer, "{<__index>}\n")
             end
@@ -56,18 +56,20 @@ function engine.private.inspect(input, show_hidden, depth_limit, level, buffer, 
             local metadata = imports.getmetatable(input)
             if metadata and not visited[metadata] then
                 table.insert(buffer, indent.."<metatable>: ")
-                engine.private.inspect(metadata, show_hidden, depth_limit, level + 1, buffer, visited)
+                engine.private.inspect(metadata, show_hidden, depth_limit, separator, level + 1, buffer, visited)
             end
         end
         table.insert(buffer, string.rep("  ", level).."}\n")
         visited[input] = nil
     end
-    return table.concat(buffer)
+    return table.concat(buffer, separator)
 end
 function engine.public.inspect(...) return engine.private.inspect(table.unpack(table.pack(...), 1, 3)) end
 
 function engine.public.iprint(...)
-    return engine.public.print(engine.public.inspect(...))
+    local arguments = table.pack(table.unpack(table.pack(...), 1, 3))
+    table.insert(arguments, "> ")
+    return engine.public.print(engine.private.inspect(table.unpack(arguments)))
 end
 
 
