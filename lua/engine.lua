@@ -68,11 +68,8 @@ function engine.public.inspect(...) return engine.private.inspect(table.unpack(t
 
 function engine.public.iprint(...)
     local separator = "> "
-    print("test separator tabbed 2", separator)
-    local arguments = table.pack(table.unpack(table.pack(...), 1, 3))
     local result = engine.private.inspect(table.unpack(arguments))
-    -- Prefix each non-empty line with separator
-    result = result:gsub("([^\n]+)", separator.."%1")
+    result = string.gsub(result, "([^\n]+)", separator.."%1")
     return engine.public.print(result)
 end
 
