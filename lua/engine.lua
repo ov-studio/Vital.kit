@@ -43,7 +43,7 @@ function engine.private.inspect(input, show_hidden, depth_limit, level, buffer, 
     else
         visited[input] = true
         table.insert(buffer, "{\n")
-        local indent = string.rep("  ", level + 1)
+        local indent = string.rep("\t\t", level + 1)
         for k, v in imports.pairs(input) do
             table.insert(buffer, indent..imports.tostring(k)..": ")
             if k ~= "__index" then
@@ -59,7 +59,7 @@ function engine.private.inspect(input, show_hidden, depth_limit, level, buffer, 
                 engine.private.inspect(metadata, show_hidden, depth_limit, level + 1, buffer, visited)
             end
         end
-        table.insert(buffer, string.rep("  ", level).."}\n")
+        table.insert(buffer, string.rep("\t\t", level).."}\n")
         visited[input] = nil
     end
     return table.concat(buffer)
@@ -68,7 +68,7 @@ function engine.public.inspect(...) return engine.private.inspect(table.unpack(t
 
 function engine.public.iprint(...)
     local separator = "> "
-    print("test separator", separator)
+    print("test separator tabbed", separator)
     local arguments = table.pack(table.unpack(table.pack(...), 1, 3))
     local result = engine.private.inspect(table.unpack(arguments))
     -- Prefix each non-empty line with separator
