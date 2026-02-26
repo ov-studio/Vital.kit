@@ -21,6 +21,24 @@ const get_sorted_level_types = () => {
     return Object.entries(LOG_LEVELS)
         .sort(([, a], [, b]) => a.priority - b.priority)
         .map(([type]) => type);
+
+const parse_lines = (message) => {
+    if (typeof message !== 'string') return [{ is_quote: false, text: String(message) }];
+    const raw = message.split('\n').map(line => {
+        const match = line.match(/^>\s?(.*)/);
+        if (match) return { is_quote: true, text: match[1] };
+        return { is_quote: false, text: line };
+    });
+    // merge consecutive quote lines into one block
+    return raw.reduce((acc, line) => {
+        const prev = acc[acc.length - 1];
+        if (prev && prev.is_quote && line.is_quote) {
+            prev.text += '\n' + line.text;
+        } else {
+            acc.push({ ...line });
+        }
+        return acc;
+    }, []);
 };
 
 const FilterButton = ({ type, label, count, is_active, on_click, label_color, bg_color }) => (
@@ -45,11 +63,19 @@ const ActionButton = ({ icon: Icon, label, on_click }) => (
 
 const LogRow = ({ type, timestamp, message, repeat_count, is_hidden }) => {
     const level_config = LOG_LEVELS[type];
+    const lines = parse_lines(message);
+    const is_multiline = lines.length > 1;
     return (
-        <div className={`log-row ${type} ${is_hidden ? 'hidden' : ''}`} style={level_config ? { color: level_config.label_color } : {}}>
+        <div className={`log-row ${type} ${is_hidden ? 'hidden' : ''} ${is_multiline ? 'log-row-multiline' : ''}`} style={level_config ? { color: level_config.label_color } : {}}>
             <span className="log-ts">{timestamp}</span>
             <span className="log-level">{level_config?.badge ?? type.toUpperCase()}</span>
-            <span className="log-msg">{message}</span>
+            <span className="log-msg">
+                {lines.map((line, i) => (
+                    <span key={i} className={line.is_quote ? 'log-line log-quote' : 'log-line'}>
+                        {line.text}
+                    </span>
+                ))}
+            </span>
             {repeat_count > 1 && <span className="badge visible">x{repeat_count}</span>}
         </div>
     );

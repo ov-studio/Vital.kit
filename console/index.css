@@ -292,6 +292,12 @@ body,
     color: var(--fg-muted);
 }
 
+.log-quote {
+    border-left: 2px solid currentColor;
+    padding-left: 10px;
+    opacity: 0.75;
+}
+
 .resize-handle {
     opacity: 0.3;
     position: absolute;
@@ -330,4 +336,16 @@ body,
 
 .resize-handle:hover {
     opacity: 0.8;
+}
+
+.log-row-multiline {
+    align-items: flex-start;
+}
+
+.log-line {
+    display: block;
+}
+
+.log-line+.log-line {
+    margin-top: 3px;
 }
