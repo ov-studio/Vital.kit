@@ -295,7 +295,7 @@ body,
 .log-quote {
     border-left: 2px solid currentColor;
     padding-left: 10px;
-    opacity: 0.95;
+    opacity: 0.9;
 }
 
 .resize-handle {
