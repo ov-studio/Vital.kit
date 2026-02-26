@@ -66,9 +66,11 @@ function engine.private.inspect(input, show_hidden, depth_limit, level, buffer, 
 end
 function engine.public.inspect(...) return engine.private.inspect(table.unpack(table.pack(...), 1, 3)) end
 
-function engine.public.iprint(...)
+function engine.public.iprint(input, ...)
+    local result = engine.public.inspect(input, ...)
     local separator = "> "
-    local result = string.gsub(engine.public.inspect(...), "([^\n]+)", separator.."%1")
+    result = result.."Inspect: "..tostring(input)
+    result = result..string.gsub(result, "([^\n]+)", separator.."%1")
     return engine.public.print(result)
 end
 
