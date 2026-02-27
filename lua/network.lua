@@ -78,7 +78,7 @@ function network.public.execute(name, ...)
             local code = table.concat(args[2], " ")
             engine.load_string([[
                 local code = ]]..string.format("%q", code)..[[
-                local log = "Executed ]]..args[1]..[[ command\n> Code: "..code..""
+                local log = "Executed ]]..args[1]..[[ command\n> Code: `"..code.."`"
                 local execute = function() return ]]..code..[[ end
                 local results = table.pack(pcall(execute))
                 local success = table.remove(results, 1)
