@@ -42,6 +42,19 @@ const parse_lines = (message) => {
     }, []);
 };
 
+const parse_segments = (text) => {
+    const segments = [];
+    const regex = /`([^`]+)`/g;
+    let last = 0, match;
+    while ((match = regex.exec(text)) !== null) {
+        if (match.index > last) segments.push({ is_code: false, text: text.slice(last, match.index) });
+        segments.push({ is_code: true, text: match[1] });
+        last = match.index + match[0].length;
+    }
+    if (last < text.length) segments.push({ is_code: false, text: text.slice(last) });
+    return segments;
+};
+
 const FilterButton = ({ type, label, count, is_active, on_click, label_color, bg_color }) => (
     <div
         className={`filter ${is_active ? 'active' : ''}`}
@@ -62,6 +75,15 @@ const ActionButton = ({ icon: Icon, label, on_click }) => (
     </button>
 );
 
+const LogText = ({ text }) => {
+    const segments = parse_segments(text);
+    return segments.map((seg, i) =>
+        seg.is_code
+            ? <code key={i} className="log-code">{seg.text}</code>
+            : <React.Fragment key={i}>{seg.text}</React.Fragment>
+    );
+};
+
 const LogRow = ({ type, timestamp, message, repeat_count, is_hidden }) => {
     const level_config = LOG_LEVELS[type];
     const lines = parse_lines(message);
@@ -73,7 +95,7 @@ const LogRow = ({ type, timestamp, message, repeat_count, is_hidden }) => {
             <span className="log-msg">
                 {lines.map((line, i) => (
                     <span key={i} className={line.is_quote ? 'log-line log-quote' : 'log-line'}>
-                        {line.text}
+                        <LogText text={line.text} />
                     </span>
                 ))}
             </span>

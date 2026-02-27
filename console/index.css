@@ -349,3 +349,14 @@ body,
 .log-line+.log-line {
     margin-top: 3px;
 }
+
+.log-code {
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    padding: 1px 5px;
+    border-radius: calc(var(--radius) - 2px);
+    background: var(--badge-bg);
+    color: var(--fg);
+    border: 1px solid var(--border);
+    white-space: nowrap;
+}
