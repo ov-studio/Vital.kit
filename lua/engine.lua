@@ -44,7 +44,21 @@ function engine.private.inspect(input, show_hidden, depth_limit, level, buffer, 
         visited[input] = true
         table.insert(buffer, "{\n")
         local indent = string.rep("\t", level + 1)
+        local scalar_keys, table_keys = {}, {}
         for k, v in imports.pairs(input) do
+            if imports.type(v) == "table" then
+                table.insert(table_keys, k)
+            else
+                table.insert(scalar_keys, k)
+            end
+        end
+        table.sort(scalar_keys, function(a, b) return imports.tostring(a) < imports.tostring(b) end)
+        table.sort(table_keys, function(a, b) return imports.tostring(a) < imports.tostring(b) end)
+        local ordered_keys = {}
+        for _, k in imports.ipairs(scalar_keys) do table.insert(ordered_keys, k) end
+        for _, k in imports.ipairs(table_keys) do table.insert(ordered_keys, k) end
+        for _, k in imports.ipairs(ordered_keys) do
+            local v = input[k]
             table.insert(buffer, indent..imports.tostring(k)..": ")
             if k ~= "__index" then
                 engine.private.inspect(v, show_hidden, depth_limit, level + 1, buffer, visited)
