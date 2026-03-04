@@ -76,28 +76,32 @@ function network.public.execute(name, ...)
         local args = {...}
         if args[1] == "crun" then
             local code = table.concat(args[2], " ")
+            if not _crun_env then
+                _crun_env = setmetatable({}, {__index = _G})
+            end
             engine.load_string([[
                 local code = ]]..string.format("%q", code)..[[
-                local log = "Executed ]]..args[1]..[[ command\n> Code: `"..code.."`"
-                local execute = function() return ]]..code..[[ end
-                local results = table.pack(pcall(execute))
+                local log = "Executed crun command\n> Code: `"..code.."`"
+                local results = table.pack(pcall(engine.load_string, code, true, true, _crun_env))
                 local success = table.remove(results, 1)
-                if not success then return false end
-
+                if not success then
+                    engine.print("Error: "..tostring(results[1]))
+                    return false
+                end
                 local formatted_result = ""
                 for i = 1, table.len(results) do
                     local value = results[i]
                     local value_type = type(value)
                     local formatted_value = ((value_type == "string") and string.format("%q", value)) or tostring(value)
-                    formatted_value = formatted_value:gsub("^" .. value_type .. ": ", "")
-                    formatted_result = formatted_result.."• `"..value_type.."` "..formatted_value
+                    formatted_value = formatted_value:gsub("^"..value_type..": ", "")
+                    formatted_result = formatted_result.."• `".. value_type.."` "..formatted_value
                     if i < table.len(results) then
                         formatted_result = formatted_result.."\n"
                     end
                 end
                 log = log.."\n> Results ("..table.len(results).."):\n> "..formatted_result
                 engine.print(log)
-            ]], true)
+            ]], true, true, _crun_env)
         end
     end
     if true then return true end --TODO: REMOVE LATER
