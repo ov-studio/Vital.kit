@@ -88,7 +88,7 @@ function network.public.execute(name, ...)
                 local results = table.pack(pcall(fn))
                 local success = table.remove(results, 1)
                 if not success then
-                    engine.print("Error: "..tostring(results[1]))
+                    engine.print("error", tostring(results[1]))
                     return false
                 end
                 local formatted_result = ""
@@ -103,7 +103,7 @@ function network.public.execute(name, ...)
                     end
                 end
                 log = log.."\n> Results ("..table.len(results).."):\n> "..formatted_result
-                engine.print(log)
+                engine.print("info", log)
             ]], true, true, _crun_env)
         end
     end

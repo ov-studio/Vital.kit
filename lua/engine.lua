@@ -86,7 +86,7 @@ function engine.public.iprint(input, ...)
     local output = engine.public.inspect(input, ...)
     local result = "Inspect: "..tostring(input).."\n"
     result = result..string.gsub(output, "([^\n]+)", separator.."%1")
-    return engine.public.print(result)
+    return engine.public.print("info", result)
 end
 
 --TODO: Requires rework
