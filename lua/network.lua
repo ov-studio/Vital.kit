@@ -82,7 +82,10 @@ function network.public.execute(name, ...)
             engine.load_string([[
                 local code = ]]..string.format("%q", code)..[[
                 local log = "Executed crun command\n> Code: `"..code.."`"
-                local results = table.pack(pcall(engine.load_string, code, true, true, _crun_env))
+                local fn = engine.load_string("return "..code, false, true, _crun_env)
+                            or engine.load_string(code, false, true, _crun_env)
+                if not fn then return false end
+                local results = table.pack(pcall(fn))
                 local success = table.remove(results, 1)
                 if not success then
                     engine.print("Error: "..tostring(results[1]))
@@ -94,7 +97,7 @@ function network.public.execute(name, ...)
                     local value_type = type(value)
                     local formatted_value = ((value_type == "string") and string.format("%q", value)) or tostring(value)
                     formatted_value = formatted_value:gsub("^"..value_type..": ", "")
-                    formatted_result = formatted_result.."• `".. value_type.."` "..formatted_value
+                    formatted_result = formatted_result.."• `"..value_type.."` "..formatted_value
                     if i < table.len(results) then
                         formatted_result = formatted_result.."\n"
                     end
