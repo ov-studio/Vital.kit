@@ -82,8 +82,8 @@ function network.public.execute(name, ...)
             engine.load_string([[
                 local code = ]]..string.format("%q", code)..[[
                 local log = "Executed crun command\n> Code: `"..code.."`"
-                local fn = engine.load_string("return "..code, false, true, _crun_env)
-                            or engine.load_string(code, false, true, _crun_env)
+                local try_expr = "return "..code
+                local fn = (engine.compile_string(try_expr) and engine.load_string(try_expr, false, true, _crun_env)) or engine.load_string(code, false, true, _crun_env)
                 if not fn then return false end
                 local results = table.pack(pcall(fn))
                 local success = table.remove(results, 1)
