@@ -1,4 +1,15 @@
 {
+    "discord": {
+        "application_id": 1461425342722998474,
+        "state": "In Lobby",
+        "details": "Browsing games"
+    },
+
+    "console": {
+        "version": "1.0.0",
+        "source": "index.html"
+    },
+
     "lua": {
         "version": "1.0.0",
         "sources": [
@@ -14,16 +25,5 @@
             "network.lua",
             "resource.lua"
         ]
-    },
-
-    "console": {
-        "version": "1.0.0",
-        "source": "index.html"
-    },
-
-    "discord": {
-        "application_id": 1461425342722998474,
-        "state": "In Lobby test 2",
-        "details": "Browsing games test 3"
     }
 }
