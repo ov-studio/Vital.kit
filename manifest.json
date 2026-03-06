@@ -19,5 +19,11 @@
     "console": {
         "version": "1.0.0",
         "source": "index.html"
+    },
+
+    "discord": {
+        "application_id": 1461425342722998474,
+        "state": "In Lobby test 2",
+        "details": "Browsing games test 3"
     }
 }
