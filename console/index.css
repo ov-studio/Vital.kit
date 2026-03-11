@@ -237,6 +237,9 @@ body,
     flex: 1;
     font-size: 13px;
     letter-spacing: 0.01em;
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .badge {
@@ -358,5 +361,7 @@ body,
     background: var(--badge-bg);
     color: var(--fg);
     border: 1px solid var(--border);
-    white-space: nowrap;
+    white-space: pre-wrap;
+    word-break: break-all;
+    display: inline;
 }
