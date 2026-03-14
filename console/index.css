@@ -394,13 +394,14 @@ body,
 }
 
 .log-line+.log-line {
-    margin-top: 3px;
+    margin-top: 2px;
 }
 
 .log-code {
     font-family: 'Geist Mono', monospace;
     font-size: 12px;
     padding: 1px 7px;
+    margin: 0 1px;
     border-radius: calc(var(--radius) - 1px);
     background: var(--code-bg);
     color: var(--code-fg);
@@ -408,6 +409,8 @@ body,
     white-space: pre-wrap;
     word-break: break-all;
     display: inline;
+    vertical-align: middle;
+    line-height: 1.8;
     transition: background 0.15s, border-color 0.15s;
 }
 
