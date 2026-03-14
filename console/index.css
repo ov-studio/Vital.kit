@@ -2,7 +2,7 @@
     --radius: 0.3rem;
     --bg-deep: hsl(250 20% 2%);
     --bg-card: hsl(250 20% 2%);
-    --border: hsl(220, 15%, 87%, 0.08);
+    --border: hsla(220, 60%, 80%, 0.08);
     --fg: hsl(220, 15%, 87%);
     --fg-muted: hsl(220, 15%, 60%);
     --accent-bg: hsl(0 0% 14.9%);
@@ -64,7 +64,7 @@ body,
     padding: 0 4px 0 14px;
     gap: 10px;
     background: var(--bg-deep);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid hsla(220, 60%, 80%, 0.08);
     cursor: grab;
     user-select: none;
     flex-shrink: 0;
