@@ -199,7 +199,7 @@ body,
     justify-content: center;
     color: var(--fg-muted);
     cursor: pointer;
-    border: 1px solid var(--border);
+    border: none;
     background: hsla(220, 95%, 76%, 0.03);
     transition: background 0.12s, color 0.12s, border-color 0.12s;
 }
@@ -221,7 +221,6 @@ body,
 .icon-btn:hover {
     background: var(--accent-bg);
     color: var(--accent);
-    border-color: var(--accent-border);
 }
 
 .log-body {
