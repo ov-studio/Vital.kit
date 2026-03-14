@@ -105,6 +105,7 @@ body,
     transition: background 0.12s, color 0.12s, opacity 0.12s;
     color: var(--fg-muted);
     background: transparent;
+    border: 1px solid transparent;
 }
 
 .filter:hover {
