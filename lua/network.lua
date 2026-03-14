@@ -103,7 +103,7 @@ function network.public.execute(name, ...)
                     end
                 end
                 log = log.."\n> Results ("..table.len(results).."):\n> "..formatted_result
-                engine.print("info", log)
+                engine.print("sbox", log)
             ]], true, true, _crun_env)
         end
     end
