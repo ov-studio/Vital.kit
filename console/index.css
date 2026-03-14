@@ -12,8 +12,14 @@
     --shadow-dark: hsl(0 0% 0%/0.4);
     --shadow-darker: hsl(0 0% 0%/0.5);
     --badge-bg: hsl(220, 15%, 15%);
-    --selection-bg: #ff0066;
-    --selection-fg: #ffffff;
+
+    /* Site blue accent */
+    --accent: hsl(220, 95%, 76%);
+    --accent-tint: hsla(220, 95%, 76%, .1);
+    --accent-border: hsla(220, 95%, 76%, .18);
+
+    --selection-bg: hsl(220, 95%, 76%);
+    --selection-fg: hsl(250, 25%, 2%);
 }
 
 *,
@@ -69,12 +75,13 @@ body,
 }
 
 .titlebar-label {
-    font-size: 13px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
     font-weight: 600;
-    color: var(--fg-muted);
-    letter-spacing: 0.02em;
+    color: var(--accent);
     flex-shrink: 0;
 }
+
 
 .header-divider {
     width: 1px;
