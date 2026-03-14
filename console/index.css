@@ -216,11 +216,10 @@ body,
 
 .log-ts {
     color: var(--fg-muted);
-    font-family: 'Geist Mono', monospace;
     font-size: 12.5px;
-    min-width: 88px;
+    min-width: 78px;
     flex-shrink: 0;
-    letter-spacing: 0.0em;
+    letter-spacing: 0.1em;
 }
 
 .log-level {
