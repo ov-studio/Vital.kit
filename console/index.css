@@ -98,6 +98,7 @@ body,
     display: flex;
     align-items: center;
     gap: 7px;
+    letter-spacing: 0.025em;
 }
 
 
@@ -270,7 +271,7 @@ body,
     font-size: 12.5px;
     min-width: 78px;
     flex-shrink: 0;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.125em;
 }
 
 .log-level {
@@ -337,6 +338,7 @@ body,
     border: none;
     outline: none;
     color: var(--fg);
+    /* ← was var(--fg-muted), now white to match screenshot */
     font-family: inherit;
     font-size: 13px;
     caret-color: var(--accent);
@@ -375,6 +377,13 @@ body,
     transform-origin: right center;
     transform: rotate(-45deg);
     right: 0;
+    transition: background 0.12s;
+}
+
+.resize-handle:hover::before,
+.resize-handle:hover::after,
+.resize-handle:hover span {
+    background: var(--accent);
 }
 
 .resize-handle::before {
@@ -390,7 +399,7 @@ body,
 }
 
 .resize-handle:hover {
-    opacity: 0.8;
+    opacity: 1;
 }
 
 .log-row-multiline {
