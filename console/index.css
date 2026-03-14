@@ -178,7 +178,8 @@ body,
 }
 
 .btn-label {
-    font-size: 12px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.04em;
 }
@@ -234,7 +235,7 @@ body,
     font-size: 12.5px;
     min-width: 75px;
     flex-shrink: 0;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.125em;
 }
 
 .log-level {
