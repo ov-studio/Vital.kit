@@ -1,12 +1,12 @@
 const LOG_GROUP_MS = 5000;
 
 const LOG_LEVELS = {
-    sandbox: {
-        label: 'Sandbox',
+    sbox: {
+        label: 'SBox',
         badge: 'SBOX',
         priority: 1,
         label_color: 'hsl(220, 80%, 72%)',
-        bg_color: 'hsla(220, 80%, 72%, 0.08)'
+        bg_color: 'hsla(220 80% 72%/0.15)'
     },
 
     info: {
