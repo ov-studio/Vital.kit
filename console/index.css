@@ -1,22 +1,37 @@
 :root {
     --radius: 0.3rem;
-    --bg-deep: hsl(250 20% 2%);
-    --bg-card: hsl(250 20% 2%);
-    --border: hsla(220, 60%, 80%, 0.08);
-    --fg: hsl(220, 15%, 87%);
-    --fg-muted: hsl(220, 15%, 60%);
-    --accent-bg: hsl(0 0% 14.9%);
-    --accent-hover: hsl(0 0% 25%);
-    --row-hover: hsl(0 0% 100%/0.03);
+
+    /* Matched exactly to global.css */
+    --bg-deep: hsl(250, 25%, 2%);
+    /* --bg */
+    --bg-card: hsl(248, 22%, 4%);
+    /* --bg2 */
+    --border: hsla(220, 18%, 9%, 1);
+    /* --rule, opaque for structure */
+    --fg: hsl(0, 0%, 97%);
+    /* --w */
+    --fg-muted: hsl(220, 10%, 72%);
+    /* --dim */
+    --fg-dark: hsl(220, 10%, 42%);
+    /* --dark */
+
+    /* Accent — site's --blue */
+    --accent: hsl(220, 95%, 76%);
+    --accent-bg: hsla(220, 95%, 76%, .1);
+    /* --b10 */
+    --accent-hover: hsla(220, 95%, 76%, .3);
+    /* --b30 */
+    --accent-tint: hsla(220, 95%, 76%, .05);
+    /* --b05 */
+    --accent-border: hsla(220, 95%, 76%, .18);
+
+    --row-hover: hsla(220, 95%, 76%, .05);
+    /* --b05 — blue-tinted row hover */
     --shadow-inset: hsl(0 0% 100%/0.04);
     --shadow-dark: hsl(0 0% 0%/0.4);
     --shadow-darker: hsl(0 0% 0%/0.5);
-    --badge-bg: hsl(220, 25%, 13%);
-
-    /* Site blue accent */
-    --accent: hsl(220, 95%, 76%);
-    --accent-tint: hsla(220, 95%, 76%, .1);
-    --accent-border: hsla(220, 95%, 76%, .18);
+    --badge-bg: hsl(220, 18%, 9%);
+    /* --rule */
 
     --selection-bg: hsl(220, 95%, 76%);
     --selection-fg: hsl(250, 25%, 2%);
@@ -64,7 +79,7 @@ body,
     padding: 0 4px 0 14px;
     gap: 10px;
     background: var(--bg-deep);
-    border-bottom: 1px solid hsla(220, 60%, 80%, 0.08);
+    border-bottom: 1px solid var(--border);
     cursor: grab;
     user-select: none;
     flex-shrink: 0;
@@ -102,7 +117,7 @@ body,
 }
 
 .filter {
-    opacity: 0.45;
+    opacity: 0.55;
     height: 22px;
     padding: 0 8px;
     font-size: 12px;
@@ -114,19 +129,39 @@ body,
     align-items: center;
     gap: 5px;
     transition: background 0.12s, color 0.12s, opacity 0.12s;
-    color: var(--fg-muted);
+    color: var(--fg);
     background: transparent;
     border: 1px solid transparent;
 }
 
+.filter[data-type="all"] {
+    color: var(--fg);
+    background: hsla(220, 15%, 100%, 0.04);
+}
+
+.filter[data-type="info"] {
+    color: var(--accent);
+    background: hsla(220, 95%, 60%, 0.07);
+}
+
+.filter[data-type="warn"] {
+    color: hsl(35, 85%, 55%);
+    background: hsla(35, 80%, 40%, 0.15);
+}
+
+.filter[data-type="error"] {
+    color: hsl(5, 65%, 55%);
+    background: hsla(5, 60%, 30%, 0.18);
+}
+
 .filter:hover {
-    opacity: 0.75;
-    background: var(--accent-bg);
+    opacity: 0.85;
+    background: var(--accent-tint);
 }
 
 .filter.active {
     opacity: 1;
-    color: var(--accent);
+    border-color: var(--border);
 }
 
 .filter-dot {
@@ -138,7 +173,7 @@ body,
 }
 
 .filter-count {
-    opacity: 0.6;
+    opacity: 0.55;
     font-size: 10px;
     font-weight: 700;
 }
@@ -164,9 +199,9 @@ body,
     justify-content: center;
     color: var(--fg-muted);
     cursor: pointer;
-    border: none;
-    background: transparent;
-    transition: background 0.12s, color 0.12s;
+    border: 1px solid var(--border);
+    background: hsla(220, 95%, 76%, 0.03);
+    transition: background 0.12s, color 0.12s, border-color 0.12s;
 }
 
 .icon-btn-labeled {
@@ -178,15 +213,15 @@ body,
 }
 
 .btn-label {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.04em;
 }
 
 .icon-btn:hover {
     background: var(--accent-bg);
-    color: var(--fg);
+    color: var(--accent);
+    border-color: var(--accent-border);
 }
 
 .log-body {
@@ -229,13 +264,13 @@ body,
 }
 
 .log-ts {
-    color: hsl(220, 40%, 80%);
-    opacity: 0.6;
+    color: hsl(220, 40%, 70%);
+    opacity: 0.35;
     font-family: 'Rajdhani', sans-serif;
     font-size: 12.5px;
-    min-width: 75px;
+    min-width: 78px;
     flex-shrink: 0;
-    letter-spacing: 0.125em;
+    letter-spacing: 0.1em;
 }
 
 .log-level {
@@ -284,7 +319,7 @@ body,
     display: flex;
     align-items: center;
     padding: 0 14px;
-    border-top: 1px solid hsla(220, 60%, 80%, 0.08);
+    border-top: 1px solid var(--border);
     gap: 8px;
     background: var(--bg-deep);
     flex-shrink: 0;
@@ -378,7 +413,7 @@ body,
     border-radius: calc(var(--radius) - 2px);
     background: var(--badge-bg);
     color: var(--fg);
-    border: 1px solid hsla(220, 60%, 80%, 0.08);
+    border: 1px solid var(--border);
     white-space: pre-wrap;
     word-break: break-all;
     display: inline;
