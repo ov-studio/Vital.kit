@@ -11,7 +11,7 @@
     --shadow-inset: hsl(0 0% 100%/0.04);
     --shadow-dark: hsl(0 0% 0%/0.4);
     --shadow-darker: hsl(0 0% 0%/0.5);
-    --badge-bg: hsl(220, 15%, 15%);
+    --badge-bg: hsl(220, 25%, 13%);
 
     /* Site blue accent */
     --accent: hsl(220, 95%, 76%);
