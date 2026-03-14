@@ -168,9 +168,9 @@ body,
 }
 
 .filter-count {
-    opacity: 0.55;
+    opacity: 0.5;
     font-size: 10px;
-    font-weight: 700;
+    font-weight: 500;
 }
 
 .log-row.hidden {
