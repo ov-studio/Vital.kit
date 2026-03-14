@@ -217,6 +217,7 @@ body,
 
 .log-ts {
     color: var(--fg-muted);
+    font-family: 'Rajdhani', sans-serif;
     font-size: 12.5px;
     min-width: 78px;
     flex-shrink: 0;
