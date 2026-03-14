@@ -60,7 +60,7 @@ const FilterButton = ({ type, label, count, is_active, on_click, label_color, bg
         className={`filter ${is_active ? 'active' : ''}`}
         data-type={type}
         onClick={on_click}
-        style={(type === 'all' ? { color: 'var(--fg)', backgroundColor: 'var(--accent-bg)' } : { color: label_color, backgroundColor: bg_color })}
+        style={type === 'all' ? { color: label_color, backgroundColor: bg_color } : { color: label_color, backgroundColor: bg_color }}
     >
         <div className="filter-dot"></div>
         {label}
