@@ -223,7 +223,7 @@ body,
 }
 
 .log-ts {
-    color: var(--fg-muted);
+    color: hsl(220, 12%, 38%);
     font-family: 'Rajdhani', sans-serif;
     font-size: 12.5px;
     min-width: 78px;
