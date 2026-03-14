@@ -276,9 +276,9 @@ body,
 .log-row {
     display: flex;
     align-items: center;
-    padding: 4px 14px;
+    padding: 5px 14px;
     margin-bottom: 1px;
-    line-height: 16px;
+    line-height: 18px;
     white-space: pre-wrap;
     word-break: break-all;
     transition: background 0.08s;
@@ -400,7 +400,7 @@ body,
 .log-code {
     font-family: 'Geist Mono', monospace;
     font-size: 12px;
-    padding: 3px 8px;
+    padding: 1px 7px;
     border-radius: calc(var(--radius) - 1px);
     background: var(--code-bg);
     color: var(--code-fg);
