@@ -89,7 +89,8 @@ body,
 .header-divider {
     width: 1px;
     height: 16px;
-    background: var(--border);
+    background: var(--fg);
+    opacity: 0.08;
     flex-shrink: 0;
 }
 
@@ -177,8 +178,7 @@ body,
 }
 
 .btn-label {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.04em;
 }
@@ -228,11 +228,11 @@ body,
 }
 
 .log-ts {
-    color: var(--fg);
-    opacity: 0.35;
+    color: hsl(220, 40%, 80%);
+    opacity: 0.6;
     font-family: 'Rajdhani', sans-serif;
     font-size: 12.5px;
-    min-width: 78px;
+    min-width: 75px;
     flex-shrink: 0;
     letter-spacing: 0.1em;
 }
@@ -283,7 +283,7 @@ body,
     display: flex;
     align-items: center;
     padding: 0 14px;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid hsla(220, 60%, 80%, 0.08);
     gap: 8px;
     background: var(--bg-deep);
     flex-shrink: 0;
@@ -377,7 +377,7 @@ body,
     border-radius: calc(var(--radius) - 2px);
     background: var(--badge-bg);
     color: var(--fg);
-    border: 1px solid var(--border);
+    border: 1px solid hsla(220, 60%, 80%, 0.08);
     white-space: pre-wrap;
     word-break: break-all;
     display: inline;
