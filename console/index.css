@@ -290,7 +290,7 @@ body,
     color: var(--fg-muted);
     font-family: inherit;
     font-size: 13px;
-    caret-color: hsl(220 13% 78%);
+    caret-color: var(--accent);
 }
 
 .input-field::placeholder {
