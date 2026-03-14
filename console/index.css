@@ -80,6 +80,9 @@ body,
     font-weight: 600;
     color: var(--accent);
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 7px;
 }
 
 
@@ -122,6 +125,7 @@ body,
 
 .filter.active {
     opacity: 1;
+    color: var(--accent);
 }
 
 .filter-dot {
@@ -173,7 +177,8 @@ body,
 }
 
 .btn-label {
-    font-size: 12px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.04em;
 }
@@ -223,7 +228,8 @@ body,
 }
 
 .log-ts {
-    color: hsl(220, 12%, 38%);
+    color: var(--fg);
+    opacity: 0.35;
     font-family: 'Rajdhani', sans-serif;
     font-size: 12.5px;
     min-width: 78px;
@@ -294,7 +300,8 @@ body,
     background: transparent;
     border: none;
     outline: none;
-    color: var(--fg-muted);
+    color: var(--fg);
+    /* ← was var(--fg-muted), now white to match screenshot */
     font-family: inherit;
     font-size: 13px;
     caret-color: var(--accent);
