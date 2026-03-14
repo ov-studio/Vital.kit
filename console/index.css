@@ -213,7 +213,8 @@ body,
 }
 
 .btn-label {
-    font-size: 12px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.04em;
 }
@@ -336,7 +337,6 @@ body,
     border: none;
     outline: none;
     color: var(--fg);
-    /* ← was var(--fg-muted), now white to match screenshot */
     font-family: inherit;
     font-size: 13px;
     caret-color: var(--accent);
