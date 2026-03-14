@@ -99,7 +99,7 @@ function network.public.execute(name, ...)
                     formatted_value = formatted_value:gsub("^"..value_type..": ", "")
                     formatted_result = formatted_result.."• `"..value_type.."` "..formatted_value
                     if i < table.len(results) then
-                        formatted_result = formatted_result.."\n"
+                        formatted_result = formatted_result.."\n> "
                     end
                 end
                 log = log.."\n> Results ("..table.len(results).."):\n> "..formatted_result
