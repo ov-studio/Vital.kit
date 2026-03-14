@@ -277,7 +277,7 @@ body,
 }
 
 .input-prompt {
-    color: var(--fg-muted);
+    color: var(--accent);
     font-size: 13px;
     flex-shrink: 0;
 }
