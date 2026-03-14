@@ -12,11 +12,6 @@
     --accent-tint: hsla(220, 95%, 76%, 0.05);
     --accent-border: hsla(220, 95%, 76%, 0.18);
     --filter-all-bg: hsla(220, 15%, 100%, 0.04);
-    --filter-info-bg: hsla(220, 95%, 60%, 0.07);
-    --filter-warn-bg: hsla(35, 80%, 40%, 0.15);
-    --filter-error-bg: hsla(5, 60%, 30%, 0.18);
-    --filter-warn: hsl(35, 85%, 55%);
-    --filter-error: hsl(5, 65%, 55%);
     --code-bg: hsla(220, 95%, 76%, 0.07);
     --code-fg: hsl(220, 80%, 78%);
     --code-border: hsla(220, 95%, 76%, 0.2);
@@ -178,26 +173,6 @@ body,
     align-items: center;
     gap: 5px;
     transition: opacity 0.15s, background 0.15s;
-}
-
-.filter[data-type="all"] {
-    color: var(--fg);
-    background: var(--filter-all-bg);
-}
-
-.filter[data-type="info"] {
-    color: var(--accent);
-    background: var(--filter-info-bg);
-}
-
-.filter[data-type="warn"] {
-    color: var(--filter-warn);
-    background: var(--filter-warn-bg);
-}
-
-.filter[data-type="error"] {
-    color: var(--filter-error);
-    background: var(--filter-error-bg);
 }
 
 .filter:hover {
