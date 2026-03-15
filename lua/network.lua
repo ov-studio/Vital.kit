@@ -81,7 +81,8 @@ function network.public.execute(name, ...)
             end
             engine.load_string([[
                 local code = ]]..string.format("%q", code)..[[
-                local log = "Executed crun command\n> Code: `"..code.."`"
+                local prefix = ((engine.get_platform() == "client") and "> ") or ""
+                local log = "Executed crun command\n"..prefix.."Code: `"..code.."`"
                 local try_expr = "return "..code
                 local fn = (engine.compile_string(try_expr) and engine.load_string(try_expr, false, true, _crun_env)) or engine.load_string(code, false, true, _crun_env)
                 if not fn then return false end
@@ -99,10 +100,10 @@ function network.public.execute(name, ...)
                     formatted_value = formatted_value:gsub("^"..value_type..": ", "")
                     formatted_result = formatted_result.."• `"..value_type.."` "..formatted_value
                     if i < table.len(results) then
-                        formatted_result = formatted_result.."\n> "
+                        formatted_result = formatted_result.."\n"..prefix
                     end
                 end
-                log = log.."\n> Results ("..table.len(results).."):\n> "..formatted_result
+                log = log.."\n"..prefix.."Results ("..table.len(results).."):\n"..prefix..formatted_result
                 engine.print("sbox", log)
             ]], true, true, _crun_env)
         end
