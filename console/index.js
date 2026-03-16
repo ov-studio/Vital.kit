@@ -50,7 +50,7 @@ const FilterButton = ({ type, label, count, is_active, on_click, label_color, bg
         className={`filter ${is_active ? 'active' : ''}`}
         data-type={type}
         onClick={on_click}
-        style={{ color: label_color, backgroundColor: bg_color }}
+        style={{ color: label_color, backgroundColor: rgb_to_css_alpha(label_color, 0.15) }}
     >
         <div className="filter-dot"></div>
         {label}
@@ -78,7 +78,6 @@ const LogRow = ({ type, badge, color, timestamp, message, repeat_count, is_hidde
     const lines = parse_lines(message);
     const is_multiline = lines.length > 1;
     const label_color = rgb_to_css(color);
-    const bg_color = rgb_to_css_alpha(color, 0.15);
     return (
         <div
             className={`log-row ${type} ${is_hidden ? 'hidden' : ''} ${is_multiline ? 'log-row-multiline' : ''}`}
