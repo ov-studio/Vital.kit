@@ -37,6 +37,25 @@
                 const input_ref = useRef(null);
                 const group_map_ref = useRef(new Map());
                 const drag_offset_ref = useRef({ x: 0, y: 0 });
+                const [active_filters, set_active_filters] = useState(new Set());
+                const level_types = useMemo(() => [...new Set(logs.map(l => l.type))], [logs]);
+                const level_meta  = useMemo(() => {
+                    const map = {};
+                    logs.forEach(l => {
+                        if (!map[l.type]) map[l.type] = { label: l.label, badge: l.badge, color: l.color, background: l.background };
+                    });
+                    return map;
+                }, [logs]);
+
+
+                // Auto-add new types to active filters
+                useEffect(() => {
+                    set_active_filters(prev => {
+                        const next = new Set(prev);
+                        level_types.forEach(t => next.add(t));
+                        return next;
+                    });
+                }, [level_types]);
 
                 const log_counts = useMemo(() => {
                     const counts = Object.fromEntries(level_types.map(t => [t, 0]));
