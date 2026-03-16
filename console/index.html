@@ -72,8 +72,19 @@
                             log.id === existing.id ? { ...log, repeat_count: existing.count, timestamp: ts } : log
                         ));
                         scroll_bottom();
-                    } else {
-                        const new_log = { id: Date.now() + Math.random(), type, message, timestamp: ts, repeat_count: 1 };
+                    }
+                    else {
+                        const new_log = {
+                            id: Date.now() + Math.random(),
+                            type: entry.mode,
+                            label: entry.label,
+                            badge: entry.badge,
+                            color: entry.color,
+                            background: entry.background,
+                            message: entry.message,
+                            timestamp: ts,
+                            repeat_count: 1
+                        };
                         group_map_ref.current.set(key, { id: new_log.id, count: 1, expires_at: now + LOG_GROUP_MS, timestamp: ts });
                         set_logs(prev => [...prev, new_log]);
                         setTimeout(() => { if (log_body_ref.current) log_body_ref.current.scrollTop = log_body_ref.current.scrollHeight; }, 0);
