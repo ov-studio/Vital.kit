@@ -32,29 +32,25 @@
             "label": "SBox",
             "badge": "SBOX",
             "priority": 1,
-            "color": [106, 153, 230],
-            "background": [22, 32, 48]
+            "color": [106, 153, 230]
         },
         "info": {
             "label": "Info",
             "badge": "INFO",
             "priority": 2,
-            "color": [191, 194, 202],
-            "background": [30, 31, 35]
+            "color": [191, 194, 202]
         },
         "warn": {
             "label": "Warn",
             "badge": "WARN",
             "priority": 2,
-            "color": [247, 185, 74],
-            "background": [48, 38, 16]
+            "color": [247, 185, 74]
         },
         "error": {
             "label": "Error",
             "badge": "ERRO",
             "priority": 3,
-            "color": [219, 82, 82],
-            "background": [44, 16, 16]
+            "color": [219, 82, 82]
         }
     }
 }
