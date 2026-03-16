@@ -98,7 +98,7 @@
 
                 const handle_message = useCallback((e) => {
                     const data = JSON.parse(e.detail);
-                    if (data.action === 'print') add_log(data.mode, data.message);
+                    if (data.action === 'print') add_log(data);
                 }, [add_log]);
 
                 const handle_command = useCallback((command) => {
