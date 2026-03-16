@@ -13,15 +13,9 @@ const RotateIcon = ({ size = 24, strokeWidth = 2, ...props }) => (
     </svg>
 );
 
-const make_key = (type, msg) => {
-    return `${type}:${msg}`;
-};
-
-const get_sorted_level_types = () => {
-    return Object.entries(LOG_LEVELS)
-        .sort(([, a], [, b]) => a.priority - b.priority)
-        .map(([type]) => type);
-}
+const make_key = (type, msg) => `${type}:${msg}`;
+const rgb_to_css = (rgb) => `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+const rgb_to_css_alpha = (rgb, a) => `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${a})`;
 
 const parse_lines = (message) => {
     if (typeof message !== 'string') return [{ is_quote: false, text: String(message) }];
@@ -30,14 +24,10 @@ const parse_lines = (message) => {
         if (match) return { is_quote: true, text: match[1] };
         return { is_quote: false, text: line };
     });
-    // merge consecutive quote lines into one block
     return raw.reduce((acc, line) => {
         const prev = acc[acc.length - 1];
-        if (prev && prev.is_quote && line.is_quote) {
-            prev.text += '\n' + line.text;
-        } else {
-            acc.push({ ...line });
-        }
+        if (prev && prev.is_quote && line.is_quote) prev.text += '\n' + line.text;
+        else acc.push({ ...line });
         return acc;
     }, []);
 };
@@ -60,7 +50,7 @@ const FilterButton = ({ type, label, count, is_active, on_click, label_color, bg
         className={`filter ${is_active ? 'active' : ''}`}
         data-type={type}
         onClick={on_click}
-        style={type === 'all' ? { color: label_color, backgroundColor: bg_color } : { color: label_color, backgroundColor: bg_color }}
+        style={{ color: label_color, backgroundColor: bg_color }}
     >
         <div className="filter-dot"></div>
         {label}
@@ -84,14 +74,18 @@ const LogText = ({ text }) => {
     );
 };
 
-const LogRow = ({ type, timestamp, message, repeat_count, is_hidden }) => {
-    const level_config = LOG_LEVELS[type];
+const LogRow = ({ type, label, badge, color, background, timestamp, message, repeat_count, is_hidden }) => {
     const lines = parse_lines(message);
     const is_multiline = lines.length > 1;
+    const label_color = rgb_to_css(color);
+    const bg_color = rgb_to_css_alpha(color, 0.15);
     return (
-        <div className={`log-row ${type} ${is_hidden ? 'hidden' : ''} ${is_multiline ? 'log-row-multiline' : ''}`} style={level_config ? { color: level_config.label_color } : {}}>
+        <div
+            className={`log-row ${type} ${is_hidden ? 'hidden' : ''} ${is_multiline ? 'log-row-multiline' : ''}`}
+            style={{ color: label_color }}
+        >
             <span className="log-ts">{timestamp}</span>
-            <span className="log-level">{level_config?.badge ?? type.toUpperCase()}</span>
+            <span className="log-level" style={{ color: label_color, backgroundColor: bg_color }}>{badge}</span>
             <span className="log-msg">
                 {lines.map((line, i) => (
                     <span key={i} className={line.is_quote ? 'log-line log-quote' : 'log-line'}>
