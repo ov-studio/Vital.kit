@@ -74,7 +74,7 @@ function network.public.execute(name, ...)
 
     if name == "vital.sandbox:console_input" then
         local args = {...}
-        if args[1] == "crun" then
+        if args[1] == (((engine.get_platform() == "client") and "crun") or "srun") then
             local code = table.concat(args[2], " ")
             if not _crun_env then
                 _crun_env = setmetatable({}, {__index = _G})
