@@ -54,14 +54,14 @@
                     }, 0);
                 }, []);
 
-                const add_log = useCallback((type, message, timestamp = null) => {
-                    if (!type || !message || !LOG_LEVELS[type]) return;
-                    const ts = timestamp || new Date().toTimeString().slice(0, 8);
+                const add_log = useCallback((entry) => {
+                    if (!entry.mode || !entry.message) return;
+                    const ts = entry.timestamp || new Date().toTimeString().slice(0, 8);
                     const now = Date.now();
-                    const key = make_key(type, message);
+                    const key = make_key(entry.mode, entry.message);
 
-                    for (const [k, entry] of group_map_ref.current)
-                        if (now >= entry.expires_at) group_map_ref.current.delete(k);
+                    for (const [k, e] of group_map_ref.current)
+                        if (now >= e.expires_at) group_map_ref.current.delete(k);
 
                     const existing = group_map_ref.current.get(key);
                     if (existing) {
