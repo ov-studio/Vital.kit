@@ -215,6 +215,10 @@
                     return () => document.removeEventListener('message', handle_message);
                 }, [handle_message]);
 
+                useEffect(() => {
+                    ipc.postMessage(JSON.stringify({ action: 'ready' }));
+                }, []);
+
                 return (
                     <div ref={console_ref} className="console" style={{ left: `${position.x}px`, top: `${position.y}px`, width: size.width, height: size.height }}>
                         <div className={`header ${is_dragging ? 'dragging' : ''}`} onMouseDown={handle_mouse_down}>
