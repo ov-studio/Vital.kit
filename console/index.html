@@ -91,13 +91,12 @@
                 }, [add_log]);
 
                 const handle_command = useCallback((command) => {
-                    const trimmed = command.trim();
-                    if (!trimmed) return;
-                    const message = trimmed.split(/\s+/).filter(Boolean);
-                    set_command_history(prev => prev[prev.length - 1] !== trimmed ? [...prev, trimmed] : prev);
+                    const message = command.trim();
+                    if (!message) return;
+                    set_command_history(prev => prev[prev.length - 1] !== message ? [...prev, message] : prev);
                     set_history_index(-1);
                     set_temp_input('');
-                    ipc.postMessage(JSON.stringify({ action: 'input', message }));
+                    ipc.postMessage(JSON.stringify({ action: 'input', message: message }));
                 }, []);
 
                 const handle_key_down = useCallback((e) => {
