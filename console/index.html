@@ -21,6 +21,7 @@
         <script type="text/babel">
             const Console = () => {
                 const [logs, set_logs] = useState([]);
+                const [seed_meta, set_seed_meta] = useState({});
                 const [command_input, set_command_input] = useState('');
                 const [is_dragging, set_is_dragging] = useState(false);
                 const [command_history, set_command_history] = useState([]);
@@ -34,16 +35,29 @@
                 const input_ref = useRef(null);
                 const group_map_ref = useRef(new Map());
                 const drag_offset_ref = useRef({ x: 0, y: 0 });
-                const [active_filters, set_active_filters] = useState(new Set());
-                const level_types = useMemo(() => [...new Set(logs.map(l => l.type))], [logs]);
-                const level_meta  = useMemo(() => {
-                    const map = {};
+
+                // Merge seed_meta with any types seen in logs
+                const level_meta = useMemo(() => {
+                    const map = { ...seed_meta };
                     logs.forEach(l => {
-                        if (!map[l.type]) map[l.type] = { label: l.label, badge: l.badge, color: l.color, background: l.background };
+                        if (!map[l.type]) map[l.type] = { 
+                            label: l.label, 
+                            badge: l.badge, 
+                            color: l.color, 
+                            background: l.background, 
+                            priority: l.priority 
+                        };
                     });
                     return map;
-                }, [logs]);
+                }, [logs, seed_meta]);
 
+                // Sort types by priority
+                const level_types = useMemo(() => (
+                    [...new Set([...Object.keys(seed_meta), ...logs.map(l => l.type)])]
+                        .sort((a, b) => (level_meta[a]?.priority ?? 99) - (level_meta[b]?.priority ?? 99))
+                ), [logs, level_meta, seed_meta]);
+
+                const [active_filters, set_active_filters] = useState(new Set());
 
                 // Auto-add new types to active filters
                 useEffect(() => {
@@ -70,12 +84,14 @@
                     }, 0);
                 }, []);
 
-                const add_log = useCallback((entry) => {
+                const add_log = useCallback((entry, meta) => {
                     if (!entry.mode || !entry.message) return;
+                    const resolved = meta?.[entry.mode];
+                    if (!resolved) return;
+
                     const ts = entry.timestamp || new Date().toTimeString().slice(0, 8);
                     const now = Date.now();
                     const key = make_key(entry.mode, entry.message);
-
                     for (const [k, e] of group_map_ref.current)
                         if (now >= e.expires_at) group_map_ref.current.delete(k);
 
@@ -91,14 +107,15 @@
                     }
                     else {
                         const new_log = {
-                            id: Date.now() + Math.random(),
-                            type: entry.mode,
-                            label: entry.label,
-                            badge: entry.badge,
-                            color: entry.color,
-                            background: entry.background,
-                            message: entry.message,
-                            timestamp: ts,
+                            id:           Date.now() + Math.random(),
+                            type:         entry.mode,
+                            label:        resolved.label      ?? entry.mode,
+                            badge:        resolved.badge      ?? entry.mode.toUpperCase(),
+                            color:        resolved.color      ?? [220, 220, 220],
+                            background:   resolved.background ?? [20, 20, 28],
+                            priority:     resolved.priority   ?? 99,
+                            message:      entry.message,
+                            timestamp:    ts,
                             repeat_count: 1
                         };
                         group_map_ref.current.set(key, { id: new_log.id, count: 1, expires_at: now + LOG_GROUP_MS, timestamp: ts });
@@ -114,8 +131,9 @@
 
                 const handle_message = useCallback((e) => {
                     const data = JSON.parse(e.detail);
-                    if (data.action === 'print') add_log(data);
-                }, [add_log]);
+                    if (data.action === 'init')  set_seed_meta(data.types);
+                    if (data.action === 'print') add_log(data, seed_meta);
+                }, [add_log, seed_meta]);
 
                 const handle_command = useCallback((command) => {
                     const message = command.trim();
@@ -233,7 +251,6 @@
                                 <LogRow
                                     key={log.id}
                                     type={log.type}
-                                    label={log.label}
                                     badge={log.badge}
                                     color={log.color}
                                     background={log.background}
