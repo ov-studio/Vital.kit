@@ -74,7 +74,7 @@ const LogText = ({ text }) => {
     );
 };
 
-const LogRow = ({ type, label, badge, color, background, timestamp, message, repeat_count, is_hidden }) => {
+const LogRow = ({ type, badge, color, timestamp, message, repeat_count, is_hidden }) => {
     const lines = parse_lines(message);
     const is_multiline = lines.length > 1;
     const label_color = rgb_to_css(color);
