@@ -1,1 +1,1 @@
-const LOG_GROUP_MS = 5000;
+const LOG_DEBOUNCE_MS = 5000;
