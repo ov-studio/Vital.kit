@@ -183,7 +183,16 @@
                             <div className="filters">
                                 <FilterButton type="all" label="All" count={total_count} is_active={active_filters.size === level_types.length} on_click={() => toggle_filter('all')}/>
                                 {level_types.map(type => (
-                                    <FilterButton key={type} type={type} label={LOG_LEVELS[type].label} count={log_counts[type]} is_active={active_filters.has(type)} on_click={() => toggle_filter(type)} label_color={LOG_LEVELS[type].label_color} bg_color={LOG_LEVELS[type].bg_color}/>
+                                    <FilterButton
+                                        key={type}
+                                        type={type}
+                                        label={level_meta[type]?.label ?? type}
+                                        count={log_counts[type]}
+                                        is_active={active_filters.has(type)}
+                                        on_click={() => toggle_filter(type)}
+                                        label_color={rgb_to_css(level_meta[type]?.color ?? [220, 220, 220])}
+                                        bg_color={rgb_to_css_alpha(level_meta[type]?.color ?? [220, 220, 220], 0.15)}
+                                    />
                                 ))}
                             </div>
                             <div className="tabbar-actions">
@@ -194,7 +203,18 @@
 
                         <div ref={log_body_ref} className="log-body">
                             {logs.map(log => (
-                                <LogRow key={log.id} type={log.type} timestamp={log.timestamp} message={log.message} repeat_count={log.repeat_count} is_hidden={!active_filters.has(log.type)}/>
+                                <LogRow
+                                    key={log.id}
+                                    type={log.type}
+                                    label={log.label}
+                                    badge={log.badge}
+                                    color={log.color}
+                                    background={log.background}
+                                    timestamp={log.timestamp}
+                                    message={log.message}
+                                    repeat_count={log.repeat_count}
+                                    is_hidden={!active_filters.has(log.type)}
+                                />
                             ))}
                         </div>
 
