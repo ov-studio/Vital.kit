@@ -1,10 +1,4 @@
 {
-    "discord": {
-        "application_id": "1461425342722998474",
-        "state": "In Lobby",
-        "details": "Browsing games"
-    },
-
     "console": {
         "version": "1.0.0",
         "source": "index.html"
@@ -25,5 +19,42 @@
             "network.lua",
             "resource.lua"
         ]
+    },
+
+    "discord": {
+        "application_id": "1461425342722998474",
+        "state": "In Lobby",
+        "details": "Browsing games"
+    },
+
+    "log": {
+        "sbox": {
+            "label": "SBox",
+            "badge": "SBOX",
+            "priority": 1,
+            "color": [106, 153, 230],
+            "background": [22, 32, 48]
+        },
+        "info": {
+            "label": "Info",
+            "badge": "INFO",
+            "priority": 2,
+            "color": [182, 188, 201],
+            "background": [30, 31, 35]
+        },
+        "warn": {
+            "label": "Warn",
+            "badge": "WARN",
+            "priority": 2,
+            "color": [240, 182, 77],
+            "background": [48, 38, 16]
+        },
+        "error": {
+            "label": "Error",
+            "badge": "ERRO",
+            "priority": 3,
+            "color": [220, 80, 80],
+            "background": [44, 16, 16]
+        }
     }
 }
