@@ -234,8 +234,7 @@
                                         count={log_counts[type]}
                                         is_active={active_filters.has(type)}
                                         on_click={() => toggle_filter(type)}
-                                        label_color={rgb_to_css(level_meta[type]?.color ?? [220, 220, 220])}
-                                        bg_color={rgb_to_css_alpha(level_meta[type]?.color ?? [220, 220, 220], 0.15)}
+                                        color={rgb_to_css(level_meta[type]?.color ?? [220, 220, 220])}
                                     />
                                 ))}
                             </div>

@@ -45,7 +45,7 @@ const parse_segments = (text) => {
     return segments;
 };
 
-const FilterButton = ({ type, label, count, is_active, on_click, label_color, bg_color }) => (
+const FilterButton = ({ type, label, count, is_active, on_click, color }) => (
     <div
         className={`filter ${is_active ? 'active' : ''}`}
         data-type={type}
