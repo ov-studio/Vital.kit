@@ -85,7 +85,7 @@ const LogRow = ({ type, badge, color, timestamp, message, repeat_count, is_hidde
             style={{ color: label_color }}
         >
             <span className="log-ts">{timestamp}</span>
-            <span className="log-level" style={{ color: label_color, backgroundColor: bg_color }}>{badge}</span>
+            <span className="log-level" style={{ color: label_color }}>{badge}</span>
             <span className="log-msg">
                 {lines.map((line, i) => (
                     <span key={i} className={line.is_quote ? 'log-line log-quote' : 'log-line'}>
