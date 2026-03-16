@@ -39,21 +39,21 @@
             "label": "Info",
             "badge": "INFO",
             "priority": 2,
-            "color": [182, 188, 201],
+            "color": [191, 194, 202],
             "background": [30, 31, 35]
         },
         "warn": {
             "label": "Warn",
             "badge": "WARN",
             "priority": 2,
-            "color": [240, 182, 77],
+            "color": [247, 185, 74],
             "background": [48, 38, 16]
         },
         "error": {
             "label": "Error",
             "badge": "ERRO",
             "priority": 3,
-            "color": [220, 80, 80],
+            "color": [219, 82, 82],
             "background": [44, 16, 16]
         }
     }
