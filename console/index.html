@@ -29,9 +29,6 @@
                 const [position, set_position] = useState({ x: 0, y: 0 });
                 const [size, set_size] = useState({ width: '800px', height: '360px' });
 
-                const level_types = useMemo(() => get_sorted_level_types(), []);
-                const [active_filters, set_active_filters] = useState(new Set(level_types));
-
                 const console_ref = useRef(null);
                 const log_body_ref = useRef(null);
                 const input_ref = useRef(null);
