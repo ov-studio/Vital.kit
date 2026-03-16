@@ -82,7 +82,7 @@ end
 function engine.public.inspect(...) return engine.private.inspect(table.unpack(table.pack(...), 1, 3)) end
 
 function engine.public.iprint(input, ...)
-    local separator = ((engine.public.get_platform() == "client") and "> ") or ""
+    local separator = ((engine.public.get_platform() == "client") and "> ") or "> "
     local output = engine.public.inspect(input, ...)
     local result = "Inspect: "..tostring(input).."\n"
     result = result..string.gsub(output, "([^\n]+)", separator.."%1")

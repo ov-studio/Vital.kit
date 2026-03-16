@@ -81,7 +81,7 @@ function network.public.execute(name, ...)
             end
             engine.load_string([[
                 local code = ]]..string.format("%q", code)..[[
-                local prefix = ((engine.get_platform() == "client") and "> ") or ""
+                local prefix = ((engine.get_platform() == "client") and "> ") or "> "
                 local log = "Executed ]]..args[1]..[[ command\n"..prefix.."Code: `"..code.."`"
                 local try_expr = "return "..code
                 local fn = (engine.compile_string(try_expr) and engine.load_string(try_expr, false, true, _crun_env)) or engine.load_string(code, false, true, _crun_env)
