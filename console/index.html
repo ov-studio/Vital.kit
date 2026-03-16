@@ -242,19 +242,22 @@
                         </div>
 
                         <div ref={log_body_ref} className="log-body">
-                            {logs.map(log => (
-                                <LogRow
-                                    key={log.id}
-                                    type={log.type}
-                                    badge={log.badge}
-                                    color={log.color}
-                                    background={log.background}
-                                    timestamp={log.timestamp}
-                                    message={log.message}
-                                    repeat_count={log.repeat_count}
-                                    is_hidden={!active_filters.has(log.type)}
-                                />
-                            ))}
+                            {logs.map(log => {
+                                const meta = level_meta[log.type] ?? {};
+                                return (
+                                    <LogRow
+                                        key={log.id}
+                                        type={log.type}
+                                        badge={meta.badge}
+                                        color={meta.color}
+                                        background={meta.background}
+                                        timestamp={log.timestamp}
+                                        message={log.message}
+                                        repeat_count={log.repeat_count}
+                                        is_hidden={!active_filters.has(log.type)}
+                                    />
+                                );
+                            })}
                         </div>
 
                         <div className="input-bar">
