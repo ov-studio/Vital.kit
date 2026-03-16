@@ -107,15 +107,10 @@
                     }
                     else {
                         const new_log = {
-                            id:           Date.now() + Math.random(),
-                            type:         entry.mode,
-                            label:        resolved.label      ?? entry.mode,
-                            badge:        resolved.badge      ?? entry.mode.toUpperCase(),
-                            color:        resolved.color      ?? [220, 220, 220],
-                            background:   resolved.background ?? [20, 20, 28],
-                            priority:     resolved.priority   ?? 99,
-                            message:      entry.message,
-                            timestamp:    ts,
+                            id: Date.now() + Math.random(),
+                            type: entry.mode,
+                            message: entry.message,
+                            timestamp: ts,
                             repeat_count: 1
                         };
                         group_map_ref.current.set(key, { id: new_log.id, count: 1, expires_at: now + LOG_GROUP_MS, timestamp: ts });
