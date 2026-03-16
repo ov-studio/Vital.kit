@@ -98,7 +98,7 @@ function network.public.execute(name, ...)
                     local value_type = type(value)
                     local formatted_value = ((value_type == "string") and string.format("%q", value)) or tostring(value)
                     formatted_value = formatted_value:gsub("^"..value_type..": ", "")
-                    formatted_result = formatted_result.."• `"..value_type.."` "..formatted_value
+                    formatted_result = formatted_result.."• `"..value_type.."`: "..formatted_value
                     if i < table.len(results) then
                         formatted_result = formatted_result.."\n"..prefix
                     end
