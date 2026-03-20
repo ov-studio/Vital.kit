@@ -56,21 +56,21 @@
 
     "commands": {
         "shared": {
-            "clear": "Clears the console output",
-            "help": "Shows this list of available commands"
+            "clear": { "syntax": "", "desc": "Clears the console output" },
+            "help":  { "syntax": "", "desc": "Shows this list of available commands" }
         },
         "server": {
-            "srun": "Executes a Lua statement and returns the result",
-            "kick": "Kicks a player by peer ID",
-            "ban": "Bans a player by peer ID",
-            "players": "Lists all connected players",
-            "stop": "Gracefully shuts down the server"
+            "srun": { "syntax": "<code>", "desc": "Executes a Lua statement and returns the result" },
+            "kick": { "syntax": "<id>", "desc": "Kicks a player by peer ID" },
+            "ban": { "syntax": "<id>", "desc": "Bans a player by peer ID" },
+            "players": { "syntax": "", "desc": "Lists all connected players" },
+            "stop": { "syntax": "", "desc": "Gracefully shuts down the server" }
         },
         "client": {
-            "crun": "Compiles and runs a Lua chunk with full scope",
-            "connect": "Connects to a server — usage: connect <ip> <port>",
-            "disconnect": "Disconnects from the current server",
-            "status": "Shows current connection status"
+            "crun": { "syntax": "<code>", "desc": "Compiles and runs a Lua chunk with full scope" },
+            "connect": { "syntax": "<ip> <port>", "desc": "Connects to a server" },
+            "disconnect": { "syntax": "", "desc": "Disconnects from the current server" },
+            "status": { "syntax": "", "desc": "Shows current connection status" }
         }
     }
 }
