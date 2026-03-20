@@ -4,12 +4,6 @@
         "source": "index.html"
     },
 
-    "discord": {
-        "application_id": "1461425342722998474",
-        "state": "In Lobby",
-        "details": "Browsing games"
-    },
-
     "lua": {
         "version": "1.0.0",
         "sources": [
