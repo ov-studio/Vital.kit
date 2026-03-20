@@ -52,5 +52,25 @@
             "priority": 3,
             "color": [219, 82, 82]
         }
+    },
+
+    "commands": {
+        "shared": {
+            "clear": "Clears the console output",
+            "help": "Shows this list of available commands"
+        },
+        "server": {
+            "srun": "Executes a Lua statement and returns the result",
+            "kick": "Kicks a player by peer ID",
+            "ban": "Bans a player by peer ID",
+            "players": "Lists all connected players",
+            "stop": "Gracefully shuts down the server"
+        },
+        "client": {
+            "crun": "Compiles and runs a Lua chunk with full scope",
+            "connect": "Connects to a server — usage: connect <ip> <port>",
+            "disconnect": "Disconnects from the current server",
+            "status": "Shows current connection status"
+        }
     }
 }
