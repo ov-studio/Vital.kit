@@ -9,6 +9,7 @@
         "srun": { "syntax": "<code>", "desc": "Executes a Lua statement and returns the result" },
         "kick": { "syntax": "<id>", "desc": "Kicks a player by peer ID" },
         "players": { "syntax": "", "desc": "Lists all connected players" },
+        "refresh":  { "syntax": "", "desc": "Rescans and reloads all resources" },
         "stop": { "syntax": "", "desc": "Gracefully shuts down the server" }
     },
     
