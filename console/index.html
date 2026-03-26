@@ -122,12 +122,14 @@
                 const clear_logs = useCallback(() => {
                     set_logs([]);
                     group_map_ref.current.clear();
+                    ipc.postMessage(JSON.stringify({ action: 'clear' }));
                 }, []);
 
                 const handle_message = useCallback((e) => {
                     const data = JSON.parse(e.detail);
                     if (data.action === 'init')  set_seed_meta(data.types);
-                    if (data.action === 'print') add_log(data, seed_meta);
+                    else if (data.action === 'print') add_log(data, seed_meta);
+                    else if (data.action === 'clear') clear_logs();
                 }, [add_log, seed_meta]);
 
                 const handle_command = useCallback((command) => {
@@ -144,14 +146,16 @@
                     if (e.key === 'Enter' && command_input.trim()) {
                         handle_command(command_input);
                         set_command_input('');
-                    } else if (e.key === 'ArrowUp') {
+                    }
+                    else if (e.key === 'ArrowUp') {
                         e.preventDefault();
                         if (!command_history.length) return;
                         if (history_index === -1) set_temp_input(command_input);
                         const idx = history_index === -1 ? command_history.length - 1 : Math.max(0, history_index - 1);
                         set_history_index(idx);
                         set_command_input(command_history[idx]);
-                    } else if (e.key === 'ArrowDown') {
+                    }
+                    else if (e.key === 'ArrowDown') {
                         e.preventDefault();
                         if (history_index === -1) return;
                         const idx = history_index + 1;
@@ -163,7 +167,8 @@
                 const toggle_filter = useCallback((type) => {
                     if (type === 'all') {
                         set_active_filters(active_filters.size === level_types.length ? new Set() : new Set(level_types));
-                    } else {
+                    }
+                    else {
                         set_active_filters(prev => {
                             const next = new Set(prev);
                             next.has(type) ? next.delete(type) : next.add(type);
