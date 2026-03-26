@@ -98,7 +98,7 @@
                     const existing = group_map_ref.current.get(key);
                     if (existing) {
                         existing.count++;
-                        existing.expires_at = now + LOG_DEBOUNCE_MS;
+                        existing.expires_at = now + log_debounce_ms;
                         existing.timestamp = ts;
                         set_logs(prev => prev.map(log =>
                             log.id === existing.id ? { ...log, repeat_count: existing.count, timestamp: ts } : log
@@ -113,7 +113,7 @@
                             timestamp: ts,
                             repeat_count: 1
                         };
-                        group_map_ref.current.set(key, { id: new_log.id, count: 1, expires_at: now + LOG_DEBOUNCE_MS, timestamp: ts });
+                        group_map_ref.current.set(key, { id: new_log.id, count: 1, expires_at: now + log_debounce_ms, timestamp: ts });
                         set_logs(prev => [...prev, new_log]);
                         setTimeout(() => { if (log_body_ref.current) log_body_ref.current.scrollTop = log_body_ref.current.scrollHeight; }, 0);
                     }
