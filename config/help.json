@@ -10,6 +10,9 @@
         "kick": { "syntax": "<id>", "desc": "Kicks a player by peer ID" },
         "players": { "syntax": "", "desc": "Lists all connected players" },
         "refresh":  { "syntax": "", "desc": "Rescans and reloads all resources" },
+        "start": { "syntax": "<resource_name>", "desc": "Starts the specified loaded resource" },
+        "stop": { "syntax": "<resource_name>", "desc": "Stops the specified running resource" },
+        "restart": { "syntax": "<resource_name>", "desc": "Restarts the specified running resource" },
         "stop": { "syntax": "", "desc": "Gracefully shuts down the server" }
     },
     
