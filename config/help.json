@@ -1,7 +1,8 @@
 {
     "shared": {
-        "clear": { "syntax": "", "desc": "Clears the console output" },
-        "help":  { "syntax": "", "desc": "Shows this list of available commands" }
+        "help":  { "syntax": "", "desc": "Shows this list of available commands" },
+        "version": { "syntax": "", "desc": "Displays the current build version" },
+        "clear": { "syntax": "", "desc": "Clears the console output" }
     },
     
     "server": {
