@@ -1,1 +1,0 @@
-const LOG_DEBOUNCE_MS = 5000;

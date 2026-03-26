@@ -15,11 +15,11 @@
         <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
         <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
         <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/gh/ov-studio/Vital.kit@d09238c/console/config.js"></script>
         <script type="text/babel" src="https://cdn.jsdelivr.net/gh/ov-studio/Vital.kit@d09238c/console/index.js"></script>
 
         <script type="text/babel">
             const Console = () => {
+                const { useState, useEffect, useRef, useCallback, useMemo } = React;
                 const [logs, set_logs] = useState([]);
                 const [seed_meta, set_seed_meta] = useState({});
                 const [command_input, set_command_input] = useState('');
