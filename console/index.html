@@ -98,7 +98,7 @@
                     const existing = group_map_ref.current.get(key);
                     if (existing) {
                         existing.count++;
-                        existing.expires_at = now + log_debounce_ms;
+                        existing.expires_at = now + LOG_DEBOUNCE;
                         existing.timestamp = ts;
                         set_logs(prev => prev.map(log =>
                             log.id === existing.id ? { ...log, repeat_count: existing.count, timestamp: ts } : log
@@ -113,8 +113,12 @@
                             timestamp: ts,
                             repeat_count: 1
                         };
-                        group_map_ref.current.set(key, { id: new_log.id, count: 1, expires_at: now + log_debounce_ms, timestamp: ts });
-                        set_logs(prev => [...prev, new_log]);
+                        group_map_ref.current.set(key, { id: new_log.id, count: 1, expires_at: now + LOG_DEBOUNCE, timestamp: ts });
+                        set_logs(prev => {
+                            const updated = [...prev, new_log];
+                            if (updated.length > LOG_LIMIT) return updated.slice(updated.length - LOG_LIMIT);
+                            return updated;
+                        });
                         setTimeout(() => { if (log_body_ref.current) log_body_ref.current.scrollTop = log_body_ref.current.scrollHeight; }, 0);
                     }
                 }, [scroll_bottom]);
@@ -127,7 +131,7 @@
 
                 const handle_message = useCallback((e) => {
                     const data = JSON.parse(e.detail);
-                    if (data.action === 'init')  set_seed_meta(data.types);
+                    if (data.action === 'init') set_seed_meta(data.types);
                     else if (data.action === 'print') add_log(data, seed_meta);
                     else if (data.action === 'clear') clear_logs();
                 }, [add_log, seed_meta]);

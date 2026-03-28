@@ -1,4 +1,5 @@
-const log_debounce_ms = 3000;
+const LOG_DEBOUNCE = 3000;
+const LOG_LIMIT = 500;
 
 const TrashIcon = ({ size = 24, strokeWidth = 2, ...props }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" {...props}>
