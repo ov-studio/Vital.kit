@@ -22,7 +22,7 @@ jobs:
       # ── 2. Build the release zip (exclude .git, workflows, etc.) ──────────
       - name: Build release archive
         run: |
-          zip -r vital-kit-${{ github.ref_name }}.zip . \
+          zip -r ${{ github.event.repository.name }}-${{ github.ref_name }}.zip . \
             --exclude "*.git*" \
             --exclude ".github/*" \
             --exclude "*.DS_Store"
@@ -44,6 +44,7 @@ jobs:
           import os, hashlib, json
 
           EXCLUDE_PREFIXES = (".git", ".github")
+          EXCLUDE_EXTENSIONS = (".zip",)
 
           def sha256(path):
               h = hashlib.sha256()
@@ -67,6 +68,8 @@ jobs:
                   rel  = os.path.relpath(full, ".").replace("\\", "/")
                   if any(rel.startswith(p) for p in EXCLUDE_PREFIXES):
                       continue
+                  if any(rel.endswith(e) for e in EXCLUDE_EXTENSIONS):
+                      continue
                   files[rel] = {
                       "sha256": sha256(full),
                       "size":   os.path.getsize(full)
@@ -87,37 +90,7 @@ jobs:
           TAG:    ${{ github.ref_name }}
           COMMIT: ${{ github.sha }}
 
-      # ── 4. Also emit a flat .sha256 file (one line per file) ──────────────
-      #   Format:  <sha256>  <relative/path>
-      #   Standard unix shasum -c compatible
-      - name: Generate flat .sha256 file
-        run: |
-          python3 - <<'EOF'
-          import json
-
-          with open("checksums.json") as f:
-              manifest = json.load(f)
-
-          lines = [
-              f"{meta['sha256']}  {path}"
-              for path, meta in manifest["files"].items()
-          ]
-
-          with open("checksums.sha256", "w") as f:
-              f.write("\n".join(lines) + "\n")
-
-          print(f"✅ Flat sha256 file generated — {len(lines)} entries")
-          EOF
-
-      # ── 5. Compute checksum of the zip itself ─────────────────────────────
-      - name: Checksum the zip
-        run: |
-          sha256sum vital-kit-${{ github.ref_name }}.zip \
-            > vital-kit-${{ github.ref_name }}.zip.sha256
-          echo "Zip checksum:"
-          cat vital-kit-${{ github.ref_name }}.zip.sha256
-
-      # ── 6. Extract changelog from tag annotation (optional but nice) ──────
+      # ── 4. Extract changelog from tag annotation (optional but nice) ──────
       - name: Get tag annotation
         id: tag_msg
         run: |
@@ -139,7 +112,5 @@ jobs:
           draft:      false
           prerelease: false
           files: |
-            vital-kit-${{ github.ref_name }}.zip
-            vital-kit-${{ github.ref_name }}.zip.sha256
+            ${{ github.event.repository.name }}-${{ github.ref_name }}.zip
             checksums.json
-            checksums.sha256
