@@ -3,10 +3,10 @@ name: Release
 on:
   push:
     tags:
-      - "v*"           # triggers on any tag like v1.0.0, v.11.2.10, etc.
+      - "v*"
 
 permissions:
-  contents: write      # needed to create releases & upload assets
+  contents: write
 
 jobs:
   release:
@@ -19,7 +19,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      # ── 2. Build the release zip (exclude .git, workflows, etc.) ──────────
+      # ── 2. Build the release zip ───────────────────────────────────────────
       - name: Build release archive
         run: |
           zip -r ${{ github.event.repository.name }}-${{ github.ref_name }}.zip . \
@@ -28,23 +28,13 @@ jobs:
             --exclude "*.DS_Store"
 
       # ── 3. Generate per-file checksum manifest (JSON) ─────────────────────
-      #   Walks every file in the repo (same exclusions) and produces:
-      #   {
-      #     "version": "v1.2.3",
-      #     "commit":  "abc1234",
-      #     "files": {
-      #       "lua/main.lua":        { "sha256": "...", "size": 1234 },
-      #       "config/settings.cfg": { "sha256": "...", "size":  512 },
-      #       ...
-      #     }
-      #   }
       - name: Generate checksum manifest
         run: |
           python3 - <<'EOF'
           import os, hashlib, json
 
-          EXCLUDE_PREFIXES = (".git", ".github")
-          EXCLUDE_EXTENSIONS = (".zip",)
+          EXCLUDE_PREFIXES    = (".git", ".github")
+          EXCLUDE_EXTENSIONS  = (".zip",)
 
           def sha256(path):
               h = hashlib.sha256()
@@ -55,7 +45,6 @@ jobs:
 
           files = {}
           for root, dirs, filenames in os.walk("."):
-              # Prune excluded dirs in-place
               dirs[:] = [
                   d for d in dirs
                   if not any(
@@ -84,33 +73,21 @@ jobs:
           with open("checksum.json", "w") as f:
               json.dump(manifest, f, indent=2)
 
-          print(f"✅ Manifest generated — {len(files)} files indexed")
+          print(f"Manifest generated - {len(files)} files indexed")
           EOF
         env:
           TAG:    ${{ github.ref_name }}
           COMMIT: ${{ github.sha }}
 
-      # ── 4. Extract changelog from tag annotation (optional but nice) ──────
-      - name: Get tag annotation
-        id: tag_msg
-        run: |
-          MSG=$(git tag -l --format='%(contents)' ${{ github.ref_name }} 2>/dev/null || echo "")
-          if [ -z "$MSG" ]; then
-            MSG="Release ${{ github.ref_name }}"
-          fi
-          # Write to file to preserve newlines
-          echo "$MSG" > tag_body.txt
-          echo "body_file=tag_body.txt" >> $GITHUB_OUTPUT
-
-      # ── 7. Create GitHub release & upload all assets ──────────────────────
+      # ── 4. Create GitHub release & upload assets ───────────────────────────
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name:   ${{ github.ref_name }}
-          name:       ${{ github.ref_name }}
-          body_path:  ${{ steps.tag_msg.outputs.body_file }}
-          draft:      false
-          prerelease: false
+          tag_name:               ${{ github.ref_name }}
+          name:                   ${{ github.ref_name }}
+          generate_release_notes: true
+          draft:                  false
+          prerelease:             false
           files: |
             ${{ github.event.repository.name }}-${{ github.ref_name }}.zip
             checksum.json
