@@ -1,0 +1,145 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"           # triggers on any tag like v1.0.0, v.11.2.10, etc.
+
+permissions:
+  contents: write      # needed to create releases & upload assets
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout full repo ──────────────────────────────────────────────
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ── 2. Build the release zip (exclude .git, workflows, etc.) ──────────
+      - name: Build release archive
+        run: |
+          zip -r vital-kit-${{ github.ref_name }}.zip . \
+            --exclude "*.git*" \
+            --exclude ".github/*" \
+            --exclude "*.DS_Store"
+
+      # ── 3. Generate per-file checksum manifest (JSON) ─────────────────────
+      #   Walks every file in the repo (same exclusions) and produces:
+      #   {
+      #     "version": "v1.2.3",
+      #     "commit":  "abc1234",
+      #     "files": {
+      #       "lua/main.lua":        { "sha256": "...", "size": 1234 },
+      #       "config/settings.cfg": { "sha256": "...", "size":  512 },
+      #       ...
+      #     }
+      #   }
+      - name: Generate checksum manifest
+        run: |
+          python3 - <<'EOF'
+          import os, hashlib, json
+
+          EXCLUDE_PREFIXES = (".git", ".github")
+
+          def sha256(path):
+              h = hashlib.sha256()
+              with open(path, "rb") as f:
+                  for chunk in iter(lambda: f.read(65536), b""):
+                      h.update(chunk)
+              return h.hexdigest()
+
+          files = {}
+          for root, dirs, filenames in os.walk("."):
+              # Prune excluded dirs in-place
+              dirs[:] = [
+                  d for d in dirs
+                  if not any(
+                      os.path.join(root, d).lstrip("./").startswith(p)
+                      for p in EXCLUDE_PREFIXES
+                  )
+              ]
+              for name in filenames:
+                  full = os.path.join(root, name)
+                  rel  = os.path.relpath(full, ".").replace("\\", "/")
+                  if any(rel.startswith(p) for p in EXCLUDE_PREFIXES):
+                      continue
+                  files[rel] = {
+                      "sha256": sha256(full),
+                      "size":   os.path.getsize(full)
+                  }
+
+          manifest = {
+              "version": os.environ["TAG"],
+              "commit":  os.environ["COMMIT"],
+              "files":   dict(sorted(files.items()))
+          }
+
+          with open("checksums.json", "w") as f:
+              json.dump(manifest, f, indent=2)
+
+          print(f"✅ Manifest generated — {len(files)} files indexed")
+          EOF
+        env:
+          TAG:    ${{ github.ref_name }}
+          COMMIT: ${{ github.sha }}
+
+      # ── 4. Also emit a flat .sha256 file (one line per file) ──────────────
+      #   Format:  <sha256>  <relative/path>
+      #   Standard unix shasum -c compatible
+      - name: Generate flat .sha256 file
+        run: |
+          python3 - <<'EOF'
+          import json
+
+          with open("checksums.json") as f:
+              manifest = json.load(f)
+
+          lines = [
+              f"{meta['sha256']}  {path}"
+              for path, meta in manifest["files"].items()
+          ]
+
+          with open("checksums.sha256", "w") as f:
+              f.write("\n".join(lines) + "\n")
+
+          print(f"✅ Flat sha256 file generated — {len(lines)} entries")
+          EOF
+
+      # ── 5. Compute checksum of the zip itself ─────────────────────────────
+      - name: Checksum the zip
+        run: |
+          sha256sum vital-kit-${{ github.ref_name }}.zip \
+            > vital-kit-${{ github.ref_name }}.zip.sha256
+          echo "Zip checksum:"
+          cat vital-kit-${{ github.ref_name }}.zip.sha256
+
+      # ── 6. Extract changelog from tag annotation (optional but nice) ──────
+      - name: Get tag annotation
+        id: tag_msg
+        run: |
+          MSG=$(git tag -l --format='%(contents)' ${{ github.ref_name }} 2>/dev/null || echo "")
+          if [ -z "$MSG" ]; then
+            MSG="Release ${{ github.ref_name }}"
+          fi
+          # Write to file to preserve newlines
+          echo "$MSG" > tag_body.txt
+          echo "body_file=tag_body.txt" >> $GITHUB_OUTPUT
+
+      # ── 7. Create GitHub release & upload all assets ──────────────────────
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name:   ${{ github.ref_name }}
+          name:       ${{ github.ref_name }}
+          body_path:  ${{ steps.tag_msg.outputs.body_file }}
+          draft:      false
+          prerelease: false
+          files: |
+            vital-kit-${{ github.ref_name }}.zip
+            vital-kit-${{ github.ref_name }}.zip.sha256
+            checksums.json
+            checksums.sha256
