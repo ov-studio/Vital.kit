@@ -81,7 +81,7 @@ jobs:
               "files":   dict(sorted(files.items()))
           }
 
-          with open("checksums.json", "w") as f:
+          with open("checksum.json", "w") as f:
               json.dump(manifest, f, indent=2)
 
           print(f"✅ Manifest generated — {len(files)} files indexed")
@@ -113,4 +113,4 @@ jobs:
           prerelease: false
           files: |
             ${{ github.event.repository.name }}-${{ github.ref_name }}.zip
-            checksums.json
+            checksum.json
