@@ -142,10 +142,15 @@
                     set_command_history(prev => prev[prev.length - 1] !== message ? [...prev, message] : prev);
                     set_history_index(-1);
                     set_temp_input('');
-                    ipc.postMessage(JSON.stringify({ action: 'input', message: message }));
+                    ipc.postMessage(JSON.stringify({ action: 'input', message }));
                 }, []);
 
                 const handle_key_down = useCallback((e) => {
+                    if (e.key === 'F8') {
+                        e.preventDefault();
+                        ipc.postMessage(JSON.stringify({ action: 'toggle' }));
+                        return;
+                    }
                     if (e.target !== input_ref.current) return;
                     if (e.key === 'Enter' && command_input.trim()) {
                         handle_command(command_input);
