@@ -28,7 +28,7 @@
                 const [history_index, set_history_index] = useState(-1);
                 const [temp_input, set_temp_input] = useState('');
                 const [position, set_position] = useState({ x: 0, y: 0 });
-                const [toggle_key, set_toggle_key] = useState(null);
+                const [bind_key, set_bind_key] = useState(null);
                 const [size, set_size] = useState({ width: '800px', height: '360px' });
 
                 const console_ref = useRef(null);
@@ -132,7 +132,7 @@
 
                 const handle_message = useCallback((e) => {
                     const data = JSON.parse(e.detail);
-                    if (data.action === 'init') { set_seed_meta(data.types); if (data.toggle_key) set_toggle_key(data.toggle_key); }
+                    if (data.action === 'init') { set_seed_meta(data.types); if (data.bind_key) set_bind_key(data.bind); }
                     else if (data.action === 'print') add_log(data, seed_meta);
                     else if (data.action === 'clear') clear_logs();
                 }, [add_log, seed_meta]);
@@ -147,7 +147,7 @@
                 }, []);
 
                 const handle_key_down = useCallback((e) => {
-                    if (toggle_key && e.key === toggle_key) {
+                    if (bind_key && e.key === bind_key) {
                         e.preventDefault();
                         ipc.postMessage(JSON.stringify({ action: 'toggle' }));
                         return;
@@ -172,7 +172,7 @@
                         if (idx >= command_history.length) { set_history_index(-1); set_command_input(temp_input); }
                         else { set_history_index(idx); set_command_input(command_history[idx]); }
                     }
-                }, [command_input, command_history, history_index, temp_input, handle_command, toggle_key]);
+                }, [command_input, command_history, history_index, temp_input, handle_command, bind_key]);
 
                 const toggle_filter = useCallback((type) => {
                     if (type === 'all') {
