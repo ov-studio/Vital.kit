@@ -57,15 +57,23 @@ jobs:
                   }
 
           manifest = {
-              "version": os.environ["TAG"],
-              "commit":  os.environ["COMMIT"],
-              "files":   dict(sorted(files.items()))
+              "version":  os.environ["TAG"],
+              "commit":   os.environ["COMMIT"],
+              "files":    dict(sorted(files.items()))
           }
 
+          # ── First write (without self-hash) ──────────────────────────────
+          with open("checksum.json", "w") as f:
+              json.dump(manifest, f, indent=2)
+
+          # ── Hash the written file, then embed and rewrite ─────────────────
+          self_hash = sha256("checksum.json")
+          manifest["checksum"] = self_hash
           with open("checksum.json", "w") as f:
               json.dump(manifest, f, indent=2)
 
           print(f"Manifest generated - {len(files)} files indexed")
+          print(f"Self-hash: {self_hash}")
           EOF
         env:
           TAG:    ${{ github.ref_name }}
