@@ -1,5 +1,31 @@
 const LOG_DEBOUNCE = 3000;
 const LOG_LIMIT = 500;
+const GODOT_KEY = {
+    // Printable
+    'asciitilde': '~', 'quoteleft': '`', 'exclam': '!', 'quotedbl': '"',
+    'numbersign': '#', 'dollar': '$', 'percent': '%', 'ampersand': '&',
+    'apostrophe': "'", 'parenleft': '(', 'parenright': ')', 'asterisk': '*',
+    'plus': '+', 'comma': ',', 'minus': '-', 'period': '.', 'slash': '/',
+    'colon': ':', 'semicolon': ';', 'less': '<', 'equal': '=', 'greater': '>',
+    'question': '?', 'at': '@', 'bracketleft': '[', 'backslash': '\\',
+    'bracketright': ']', 'asciicircum': '^', 'underscore': '_',
+    'braceleft': '{', 'bar': '|', 'braceright': '}', 'space': ' ',
+
+    // Special
+    'escape': 'Escape', 'tab': 'Tab', 'backspace': 'Backspace',
+    'enter': 'Enter', 'delete': 'Delete', 'insert': 'Insert',
+    'home': 'Home', 'end': 'End', 'pageup': 'PageUp', 'pagedown': 'PageDown',
+    'left': 'ArrowLeft', 'right': 'ArrowRight', 'up': 'ArrowUp', 'down': 'ArrowDown',
+
+    // Function keys
+    'f1': 'F1', 'f2': 'F2', 'f3': 'F3', 'f4': 'F4', 'f5': 'F5', 'f6': 'F6',
+    'f7': 'F7', 'f8': 'F8', 'f9': 'F9', 'f10': 'F10', 'f11': 'F11', 'f12': 'F12',
+};
+
+function Godot_To_Key(key) {
+    if (!key) return null;
+    return GODOT_KEY[key.toLowerCase()] ?? key;
+}
 
 const TrashIcon = ({ size = 24, strokeWidth = 2, ...props }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" {...props}>

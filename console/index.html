@@ -37,22 +37,20 @@
                 const group_map_ref = useRef(new Map());
                 const drag_offset_ref = useRef({ x: 0, y: 0 });
 
-                // Merge seed_meta with any types seen in logs
                 const level_meta = useMemo(() => {
                     const map = { ...seed_meta };
                     logs.forEach(l => {
-                        if (!map[l.type]) map[l.type] = { 
-                            label: l.label, 
-                            badge: l.badge, 
-                            color: l.color, 
-                            background: l.background, 
-                            priority: l.priority 
+                        if (!map[l.type]) map[l.type] = {
+                            label: l.label,
+                            badge: l.badge,
+                            color: l.color,
+                            background: l.background,
+                            priority: l.priority
                         };
                     });
                     return map;
                 }, [logs, seed_meta]);
 
-                // Sort types by priority
                 const level_types = useMemo(() => (
                     [...new Set([...Object.keys(seed_meta), ...logs.map(l => l.type)])]
                         .sort((a, b) => (level_meta[a]?.priority ?? 99) - (level_meta[b]?.priority ?? 99))
@@ -60,7 +58,6 @@
 
                 const [active_filters, set_active_filters] = useState(new Set());
 
-                // Auto-add new types to active filters
                 useEffect(() => {
                     set_active_filters(prev => {
                         const next = new Set(prev);
@@ -132,7 +129,7 @@
 
                 const handle_message = useCallback((e) => {
                     const data = JSON.parse(e.detail);
-                    if (data.action === 'init') { set_seed_meta(data.types); if (data.bind_key) set_bind_key(data.bind); }
+                    if (data.action === 'init') { set_seed_meta(data.types); if (data.bind) set_bind_key(Godot_To_Key(data.bind)); }
                     else if (data.action === 'print') add_log(data, seed_meta);
                     else if (data.action === 'clear') clear_logs();
                 }, [add_log, seed_meta]);
@@ -152,7 +149,7 @@
                         ipc.postMessage(JSON.stringify({ action: 'toggle' }));
                         return;
                     }
-                    if (e.target !== input_ref.current) return;
+                    if (document.activeElement !== input_ref.current) return;
                     if (e.key === 'Enter' && command_input.trim()) {
                         handle_command(command_input);
                         set_command_input('');
@@ -231,6 +228,11 @@
                 }, [handle_message]);
 
                 useEffect(() => {
+                    document.addEventListener('keydown', handle_key_down);
+                    return () => document.removeEventListener('keydown', handle_key_down);
+                }, [handle_key_down]);
+
+                useEffect(() => {
                     ipc.postMessage(JSON.stringify({ action: 'ready' }));
                 }, []);
 
@@ -280,7 +282,7 @@
 
                         <div className="input-bar">
                             <span className="input-prompt">❯</span>
-                            <input ref={input_ref} className="input-field" value={command_input} onChange={(e) => set_command_input(e.target.value)} onKeyDown={handle_key_down} placeholder="Enter command or expression..." autoComplete="off" spellCheck="false"/>
+                            <input ref={input_ref} className="input-field" value={command_input} onChange={(e) => set_command_input(e.target.value)} placeholder="Enter command or expression..." autoComplete="off" spellCheck="false"/>
                         </div>
 
                         <div className="resize-handle" onMouseDown={handle_resize_start}><span></span></div>
