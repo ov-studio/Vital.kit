@@ -25,8 +25,8 @@ jobs:
           python3 - <<'EOF'
           import os, hashlib, json
 
-          EXCLUDE_PREFIXES    = (".git", ".github")
-          EXCLUDE_EXTENSIONS  = (".zip",)
+          EXCLUDE_PREFIXES   = (".git", ".github")
+          EXCLUDE_EXTENSIONS = (".zip",)
 
           def sha256(path):
               h = hashlib.sha256()
@@ -51,29 +51,36 @@ jobs:
                       continue
                   if any(rel.endswith(e) for e in EXCLUDE_EXTENSIONS):
                       continue
+                  if rel == "checksum.json":
+                      continue
                   files[rel] = {
                       "sha256": sha256(full),
                       "size":   os.path.getsize(full)
                   }
 
           manifest = {
-              "version":  os.environ["TAG"],
-              "commit":   os.environ["COMMIT"],
-              "files":    dict(sorted(files.items()))
+              "version": os.environ["TAG"],
+              "commit":  os.environ["COMMIT"],
+              "files":   dict(sorted(files.items()))
           }
 
-          # ── First write (without self-hash) ──────────────────────────────
+          # ── First write (without checksum.json entry) ─────────────────────
           with open("checksum.json", "w") as f:
               json.dump(manifest, f, indent=2)
 
-          # ── Hash the written file, then embed and rewrite ─────────────────
-          self_hash = sha256("checksum.json")
-          manifest["checksum"] = self_hash
+          # ── Hash the written file, inject into files, rewrite ─────────────
+          checksum_hash = sha256("checksum.json")
+          checksum_size = os.path.getsize("checksum.json")
+          manifest["files"]["checksum.json"] = {
+              "sha256": checksum_hash,
+              "size":   checksum_size
+          }
+          manifest["files"] = dict(sorted(manifest["files"].items()))
           with open("checksum.json", "w") as f:
               json.dump(manifest, f, indent=2)
 
-          print(f"Manifest generated - {len(files)} files indexed")
-          print(f"Self-hash: {self_hash}")
+          print(f"Manifest generated - {len(manifest['files'])} files indexed")
+          print(f"checksum.json hash: {checksum_hash}")
           EOF
         env:
           TAG:    ${{ github.ref_name }}
