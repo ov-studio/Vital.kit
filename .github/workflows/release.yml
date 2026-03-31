@@ -73,7 +73,7 @@ jobs:
           TAG:    ${{ github.ref_name }}
           COMMIT: ${{ github.sha }}
 
-      # ── 3. Build the release zip (checksum.json is now included) ──────────
+      # ── 3. Build the release zip ──────────
       - name: Build release archive
         run: |
           zip -r ${{ github.event.repository.name }}-${{ github.ref_name }}.zip . \
