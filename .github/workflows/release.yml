@@ -1,9 +1,9 @@
-name: Release
+name: release
 
 on:
   push:
     tags:
-      - "v*"
+      - "v[0-9]+.[0-9]+.[0-9]+"   # semver tags only (v1.2.3)
 
 permissions:
   contents: write
@@ -11,6 +11,10 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    env:
+      ARCHIVE: ${{ github.event.repository.name }}-${{ github.ref_name }}.zip
 
     steps:
       # ── 1. Checkout full repo ──────────────────────────────────────────────
@@ -21,30 +25,32 @@ jobs:
 
       # ── 2. Generate checksum manifest (JSON) ──────────────────────────────
       - name: Generate checksum manifest
+        shell: bash
         run: |
+          set -euo pipefail
           python3 - <<'EOF'
-          import os, hashlib, json
+          import os, hashlib, json, sys
 
           EXCLUDE_PREFIXES   = (".git", ".github")
           EXCLUDE_EXTENSIONS = (".zip",)
 
-          def sha256(path):
+          def sha256(path: str) -> str:
               h = hashlib.sha256()
               with open(path, "rb") as f:
                   for chunk in iter(lambda: f.read(65536), b""):
                       h.update(chunk)
               return h.hexdigest()
 
-          files = {}
+          files: dict = {}
           for root, dirs, filenames in os.walk("."):
-              dirs[:] = [
+              dirs[:] = sorted(
                   d for d in dirs
                   if not any(
                       os.path.join(root, d).lstrip("./").startswith(p)
                       for p in EXCLUDE_PREFIXES
                   )
-              ]
-              for name in filenames:
+              )
+              for name in sorted(filenames):
                   full = os.path.join(root, name)
                   rel  = os.path.relpath(full, ".").replace("\\", "/")
                   if any(rel.startswith(p) for p in EXCLUDE_PREFIXES):
@@ -55,41 +61,55 @@ jobs:
                       continue
                   files[rel] = {
                       "sha256": sha256(full),
-                      "size":   os.path.getsize(full)
+                      "size":   os.path.getsize(full),
                   }
 
+          tag    = os.environ["TAG"]
+          commit = os.environ["COMMIT"]
+
+          if not tag or not commit:
+              print("ERROR: TAG or COMMIT env var is empty", file=sys.stderr)
+              sys.exit(1)
+
           manifest = {
-              "version": os.environ["TAG"],
-              "commit":  os.environ["COMMIT"],
-              "files":   dict(sorted(files.items()))
+              "version": tag,
+              "commit":  commit,
+              "files":   files,          # already sorted by key above
           }
 
-          with open("checksum.json", "w") as f:
-              json.dump(manifest, f, indent=2)
+          with open("checksum.json", "w", encoding="utf-8") as fh:
+              json.dump(manifest, fh, indent=2)
+              fh.write("\n")             # POSIX newline at EOF
 
-          print(f"Manifest generated - {len(files)} files indexed")
+          print(f"Manifest written — {len(files)} files indexed")
           EOF
         env:
           TAG:    ${{ github.ref_name }}
           COMMIT: ${{ github.sha }}
 
-      # ── 3. Build the release zip ──────────
+      # ── 3. Build the release zip ───────────────────────────────────────────
       - name: Build release archive
+        shell: bash
         run: |
-          zip -r ${{ github.event.repository.name }}-${{ github.ref_name }}.zip . \
-            --exclude "*.git*" \
-            --exclude ".github/*" \
+          set -euo pipefail
+          zip -r "$ARCHIVE" . \
+            --exclude "*.git*"     \
+            --exclude ".github/*"  \
             --exclude "*.DS_Store"
+          # Sanity-check: ensure both expected assets are inside
+          unzip -l "$ARCHIVE" | grep -q "checksum.json"
+          echo "Archive: $(du -sh "$ARCHIVE" | cut -f1)  →  $ARCHIVE"
 
       # ── 4. Create GitHub release & upload assets ───────────────────────────
-      - name: Create release
+      - name: Create GitHub release
         uses: softprops/action-gh-release@v2
         with:
           tag_name:               ${{ github.ref_name }}
           name:                   ${{ github.ref_name }}
           generate_release_notes: true
           draft:                  false
-          prerelease:             false
+          prerelease:             ${{ contains(github.ref_name, '-') }}  # e.g. v1.0.0-rc.1
+          fail_on_unmatched_files: true
           files: |
-            ${{ github.event.repository.name }}-${{ github.ref_name }}.zip
+            ${{ env.ARCHIVE }}
             checksum.json
