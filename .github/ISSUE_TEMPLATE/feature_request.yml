@@ -1,0 +1,65 @@
+name: 💡 Feature Request
+description: Suggest a new feature or enhancement for Vital.sandbox
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the suggestion! Please keep this short and practical. Well-scoped requests are easier to evaluate and implement.
+
+  - type: textarea
+    id: request
+    attributes:
+      label: What feature do you want?
+      description: Describe the requested behavior or capability.
+      placeholder: e.g. I'd like Vital.sandbox to support hot-reloading of Lua modules without restarting the sandbox instance.
+    validations:
+      required: true
+
+  - type: textarea
+    id: use_case
+    attributes:
+      label: Why is this useful?
+      description: Share a real use case or the problem this solves.
+      placeholder: e.g. During development of a vEngine game, reloading the full sandbox on every script change adds significant iteration time...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which area does this relate to?
+      description: Select the primary area this feature falls under.
+      options:
+        - Sandboxing / Isolation
+        - Threading / Concurrency
+        - Networking
+        - Lua Scripting
+        - JavaScript Scripting
+        - SDK API / Bindings
+        - Build System / Tooling
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered (optional)
+      placeholder: Any workarounds or alternative approaches you've already tried.
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context (optional)
+      placeholder: Links, mockups, related issues, or code snippets that illustrate the idea.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Before submitting
+      options:
+        - label: I have searched existing issues and feature requests to make sure this isn't a duplicate
+          required: true
