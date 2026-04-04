@@ -13,7 +13,7 @@ body:
     attributes:
       label: What happened?
       description: Describe the bug in one or two sentences.
-      placeholder: e.g. The sandbox crashes when loading a Lua module with cyclic dependencies.
+      placeholder: e.g. The kit crashes when importing a Lua utility module with circular dependencies.
     validations:
       required: true
 
@@ -23,8 +23,8 @@ body:
       label: How to reproduce
       description: Provide the minimal steps to reproduce the issue.
       placeholder: |
-        1. Initialize a Vital.sandbox instance with...
-        2. Load the following script script...
+        1. Require a Vital.kit module via...
+        2. Call the following function...
         3. Run and observe...
     validations:
       required: true
@@ -44,6 +44,7 @@ body:
       label: Environment
       description: Share relevant version and platform details.
       placeholder: |
+        - Vital.kit version/commit:
         - Vital.sandbox version/commit:
         - OS (Windows/Linux/macOS):
     validations:
@@ -60,7 +61,7 @@ body:
     id: additional
     attributes:
       label: Additional context (optional)
-      placeholder: Any other context, related issues, or minimal reproducible code snippets.
+      placeholder: Any other context, related issues, or minimal reproducible Lua/JS code snippets.
 
   - type: checkboxes
     id: checklist

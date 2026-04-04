@@ -1,5 +1,5 @@
 name: 💡 Feature Request
-description: Suggest a new feature or enhancement for Vital.sandbox
+description: Suggest a new feature or enhancement for Vital.kit
 title: "[Feature]: "
 labels: ["enhancement"]
 body:
@@ -13,7 +13,7 @@ body:
     attributes:
       label: What feature do you want?
       description: Describe the requested behavior or capability.
-      placeholder: e.g. I'd like Vital.sandbox to support hot-reloading of Lua modules without restarting the sandbox instance.
+      placeholder: e.g. I'd like Vital.kit to include a utility module for deep-copying Lua tables without needing a custom implementation.
     validations:
       required: true
 
@@ -22,7 +22,7 @@ body:
     attributes:
       label: Why is this useful?
       description: Share a real use case or the problem this solves.
-      placeholder: e.g. During development of a vEngine game, reloading the full sandbox on every script change adds significant iteration time...
+      placeholder: e.g. When building game logic, immutable state snapshots are needed frequently and rolling a custom deep-copy each time adds boilerplate...
     validations:
       required: true
 
@@ -32,11 +32,11 @@ body:
       label: Which area does this relate to?
       description: Select the primary area this feature falls under.
       options:
-        - Sandboxing / Isolation
-        - Threading / Concurrency
-        - Networking
-        - Lua Scripting
-        - JavaScript Scripting
+        - Lua Utilities / Modules
+        - JavaScript Utilities / Modules
+        - Console / CLI Tooling
+        - Vital.sandbox Integration
+        - Configuration
         - SDK API / Bindings
         - Build System / Tooling
         - Documentation
@@ -54,7 +54,7 @@ body:
     id: additional
     attributes:
       label: Additional context (optional)
-      placeholder: Links, mockups, related issues, or code snippets that illustrate the idea.
+      placeholder: Links, mockups, related issues, or Lua/JS code snippets that illustrate the idea.
 
   - type: checkboxes
     id: checklist
