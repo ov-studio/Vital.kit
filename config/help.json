@@ -13,6 +13,9 @@
         "start": { "syntax": "<resource_name>", "desc": "Starts the specified loaded resource" },
         "stop": { "syntax": "<resource_name>", "desc": "Stops the specified running resource" },
         "restart": { "syntax": "<resource_name>", "desc": "Restarts the specified running resource" },
+        "start_all": { "syntax": "", "desc": "Starts all loaded resources" },
+        "stop_all": { "syntax": "", "desc": "Stops all running resources" },
+        "restart_all": { "syntax": "", "desc": "Restarts all running resources" },
         "shutdown": { "syntax": "", "desc": "Gracefully shuts down the server" }
     },
     
