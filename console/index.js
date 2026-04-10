@@ -99,13 +99,13 @@ const ActionButton = ({ icon: Icon, label, on_click }) => (
 
 const LogText = ({ text, color }) => {
     const segments = parse_segments(text);
-    const lightened = color ? rgb_lighten(color, 0.35) : null;
+    const lightened = color ? rgb_lighten(color, 0.4) : null;
     return segments.map((seg, i) =>
         seg.is_code
             ? <code key={i} className="log-code" style={lightened ? {
                 color: rgb_to_css(lightened),
-                background: rgb_to_css_alpha(lightened, 0.07),
-                borderColor: rgb_to_css_alpha(lightened, 0.2),
+                background: rgb_to_css_alpha(lightened, 0.025),
+                borderColor: rgb_to_css_alpha(lightened, 0.3),
             } : {}}>{seg.text}</code>
             : <React.Fragment key={i}>{seg.text}</React.Fragment>
     );
@@ -114,14 +114,13 @@ const LogText = ({ text, color }) => {
 const LogRow = ({ type, badge, color, timestamp, message, repeat_count, is_hidden }) => {
     const lines = parse_lines(message);
     const is_multiline = lines.length > 1;
-    const label_color = rgb_to_css(color);
     return (
         <div
             className={`log-row ${type} ${is_hidden ? 'hidden' : ''} ${is_multiline ? 'log-row-multiline' : ''}`}
-            style={{ color: label_color }}
+            style={{ color: rgb_to_css(rgb_lighten(color, 0.05)) }}
         >
             <span className="log-ts">{timestamp}</span>
-            <span className="log-level" style={{ color: label_color }}>{badge}</span>
+            <span className="log-level" style={{ color: rgb_to_css(color) }}>{badge}</span>
             <span className="log-msg">
                 {lines.map((line, i) => (
                     <span key={i} className={line.is_quote ? 'log-line log-quote' : 'log-line'}>
