@@ -411,12 +411,12 @@ body,
     display: inline;
     vertical-align: middle;
     line-height: 1.8;
-    transition: background 0.15s, border-color 0.15s;
+    transition: background 0.15s, border-color 0.15s, filter 0.15s;
 }
 
 .log-code:hover {
-    background: hsla(220, 95%, 76%, 0.12);
-    border-color: hsla(220, 95%, 76%, 0.35);
+    filter: brightness(1.15) saturate(1.15);
+    border-color: hsla(220, 95%, 76%, 0.4);
 }
 
 .resize-handle {
