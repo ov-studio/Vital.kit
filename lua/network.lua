@@ -84,7 +84,7 @@ function network.public.execute(name, ...)
                 local prefix = ((engine.get_platform() == "client") and "> ") or "> "
                 local log = "Executed ]]..args[1]..[[ command\n"..prefix.."Code: `"..code.."`"
                 local try_expr = "return "..code
-                local fn = (engine.compile_string(try_expr) and engine.load_string(try_expr, false, true, _crun_env)) or engine.load_string(code, false, true, _crun_env)
+                local fn = (engine.compile_string(try_expr, "runcode") and engine.load_string(try_expr, "runcode", false, true, _crun_env)) or engine.load_string(code, "runcode", false, true, _crun_env)
                 if not fn then return false end
                 local results = table.pack(pcall(fn))
                 local success = table.remove(results, 1)
@@ -105,7 +105,7 @@ function network.public.execute(name, ...)
                 end
                 log = log.."\n"..prefix.."Results ("..table.len(results).."):\n"..prefix..formatted_result
                 engine.print("sbox", log)
-            ]], true, true, _crun_env)
+            ]], "runcode", true, true, _crun_env)
         end
     end
     if true then return true end --TODO: REMOVE LATER
