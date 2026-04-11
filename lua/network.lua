@@ -81,15 +81,20 @@ function network.public.execute(name, ...)
             end
             engine.load_string([[
                 local code = ]]..string.format("%q", code)..[[
-                local prefix = ((engine.get_platform() == "client") and "> ") or "> "
-                local log = "Executed ]]..args[1]..[[ command\n"..prefix.."Code: `"..code.."`"
+                local prefix = "> "
                 local try_expr = "return "..code
-                local fn = (engine.compile_string(try_expr, "runcode") and engine.load_string(try_expr, "runcode", false, true, _crun_env)) or engine.load_string(code, "runcode", false, true, _crun_env)
+                local ok_expr, err_expr = engine.compile_string(try_expr, "runcode")
+                local ok_code, err_code = engine.compile_string(code, "runcode")
+                if not ok_expr and not ok_code then
+                    engine.print("error", "Failed ]]..args[1]..[[ command\n"..prefix.."Code: `"..code.."`\n"..prefix.."Error: "..(err_code or err_expr))
+                    return false
+                end
+                local fn = (ok_expr and engine.load_string(try_expr, "runcode", false, true, _crun_env)) or engine.load_string(code, "runcode", false, true, _crun_env)
                 if not fn then return false end
                 local results = table.pack(pcall(fn))
                 local success = table.remove(results, 1)
                 if not success then
-                    engine.print("error", tostring(results[1]))
+                    engine.print("error", "Failed ]]..args[1]..[[ command\n"..prefix.."Code: `"..code.."`\n"..prefix.."Error:\n"..prefix.."• `string`: "..tostring(results[1]))
                     return false
                 end
                 local formatted_result = ""
@@ -103,8 +108,7 @@ function network.public.execute(name, ...)
                         formatted_result = formatted_result.."\n"..prefix
                     end
                 end
-                log = log.."\n"..prefix.."Results ("..table.len(results).."):\n"..prefix..formatted_result
-                engine.print("sbox", log)
+                engine.print("sbox", "Executed ]]..args[1]..[[ command\n"..prefix.."Code: `"..code.."`\n"..prefix.."Results ("..table.len(results).."):\n"..prefix..formatted_result)
             ]], "runcode", true, true, _crun_env)
         end
     end
