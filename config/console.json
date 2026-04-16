@@ -3,7 +3,7 @@
 
     "log": {
         "sbox": {
-            "label": "SBox",
+            "label": "Sandbox",
             "badge": "SBOX",
             "priority": 1,
             "color": [106, 153, 230]
