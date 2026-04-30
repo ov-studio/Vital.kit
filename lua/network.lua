@@ -12,6 +12,7 @@
 --[[ Imports ]]--
 -----------------
 
+--TODO: Update `thread:` based functions to match with C++ ones
 local imports = {
     type = type,
     pairs = pairs,
