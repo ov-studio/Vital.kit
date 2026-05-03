@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
 --[[ Resource: Vital.sandbox
-     Script: Module: Lua: namespace.lua
+     Script: module: lua: namespace.lua
      Author: ov-studio
      Developer(s): Aviril, Tron, Mario, Аниса, A-Variakojiene
      DOC: 14/09/2022
@@ -20,9 +20,9 @@ local imports = {
 }
 
 
-----------------------
---[[ Class: Class ]]--
-----------------------
+--------------------------
+--[[ Namespace: Class ]]--
+--------------------------
 
 class = {}
 class.__index = class
@@ -104,9 +104,9 @@ function class:destroy(instance)
 end
 
 
---------------------------
---[[ Class: Namespace ]]--
---------------------------
+------------------------------
+--[[ Namespace: Namespace ]]--
+------------------------------
 
 namespace = class:create("namespace")
 namespace.private.buffer = {}

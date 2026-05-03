@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
 --[[ Resource: Vital.sandbox
-     Script: Module: Lua: math: index.lua
+     Script: module: lua: math.lua
      Author: ov-studio
      Developer(s): Aviril, Tron, Mario, Аниса, A-Variakojiene
      DOC: 14/09/2022
@@ -19,9 +19,9 @@ local imports = {
 }
 
 
----------------------
---[[ Class: Math ]]--
----------------------
+-------------------------
+--[[ Namespace: Math ]]--
+-------------------------
 
 local math = namespace:create("math", math)
 

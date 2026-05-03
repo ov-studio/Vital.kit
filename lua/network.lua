@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
 --[[ Resource: Vital.sandbox
-     Script: Module: Lua: network.lua
+     Script: module: lua: network.lua
      Author: ov-studio
      Developer(s): Aviril, Tron, Mario, Аниса, A-Variakojiene
      DOC: 14/09/2022
@@ -22,9 +22,9 @@ local imports = {
 }
 
 
-------------------------
---[[ Class: Network ]]--
-------------------------
+----------------------------
+--[[ Namespace: Network ]]--
+----------------------------
 
 local network = class:create("network", {
     --isServerInstance = (not localPlayer and true) or false --TODO: WIP

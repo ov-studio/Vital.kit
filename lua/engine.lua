@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
 --[[ Resource: Vital.sandbox
-     Script: Module: Lua: engine.lua
+     Script: module: lua: engine.lua
      Author: ov-studio
      Developer(s): Aviril, Tron, Mario, Аниса, A-Variakojiene
      DOC: 14/09/2022
@@ -21,9 +21,9 @@ local imports = {
 }
 
 
------------------------
---[[ Class: Engine ]]--
------------------------
+---------------------------
+--[[ Namespace: Engine ]]--
+---------------------------
 
 local engine = class:create("engine", engine)
 

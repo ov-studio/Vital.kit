@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
 --[[ Resource: Vital.sandbox
-     Script: Module: Lua: string.lua
+     Script: module: lua: string.lua
      Author: ov-studio
      Developer(s): Aviril, Tron, Mario, Аниса, A-Variakojiene
      DOC: 14/09/2022
@@ -21,9 +21,9 @@ local imports = {
 }
 
 
------------------------
---[[ Class: String ]]--
------------------------
+---------------------------
+--[[ Namespace: String ]]--
+---------------------------
 
 local module = {
     ["stringn"] = class:create("stringn", string),

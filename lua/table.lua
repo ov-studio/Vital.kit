@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
 --[[ Resource: Vital.sandbox
-     Script: Module: Lua: table.lua
+     Script: module: lua: table.lua
      Author: ov-studio
      Developer(s): Aviril, Tron, Mario, Аниса, A-Variakojiene
      DOC: 14/09/2022
@@ -26,9 +26,9 @@ local imports = {
 json = nil
 
 
-----------------------
---[[ Class: Table ]]--
-----------------------
+--------------------------
+--[[ Namespace: Table ]]--
+--------------------------
 
 local table = class:create("table", table)
 
