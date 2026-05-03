@@ -95,7 +95,7 @@ function network.public.execute(name, ...)
                 local results = table.pack(pcall(fn))
                 local success = table.remove(results, 1)
                 if not success then
-                    engine.print("error", "Failed ]]..args[1]..[[ command\n"..prefix.."Code: `"..code.."`\n"..prefix.."Error:\n"..prefix.."• `string`: "..tostring(results[1]))
+                    engine.print("error", "Failed ]]..args[1]..[[ command\n"..prefix.."Code: `"..code.."`\n"..prefix.."Error: "..tostring(results[1]))
                     return false
                 end
                 local formatted_result = ""
