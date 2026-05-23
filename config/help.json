@@ -21,9 +21,9 @@
     },
     
     "client": {
-        "crun": { "syntax": "<code>", "desc": "Compiles and runs a Lua chunk with full scope" },
+        "crun": { "syntax": "<code>", "desc": "Compiles and runs a Lua chunk with full scope", "require_connection": true },
         "connect": { "syntax": "<ip> <port>", "desc": "Connects to a server" },
-        "disconnect": { "syntax": "", "desc": "Disconnects from the current server" },
-        "status": { "syntax": "", "desc": "Shows current connection status" }
+        "disconnect": { "syntax": "", "desc": "Disconnects from the current server", "require_connection": true },
+        "status": { "syntax": "", "desc": "Shows current connection status", "require_connection": true }
     }
 }
