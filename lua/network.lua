@@ -73,7 +73,7 @@ function network.public.execute(name, ...)
     --if not string.find(name, "vsdk.network") then return false end
     --payload = table.decode(payload)
 
-    if name == "vital.sandbox:console_input" then
+    if name == "sandbox:console_input" then
         local args = {...}
         if args[1] == (((engine.get_platform() == "client") and "crun") or "srun") then
             local code = table.concat(args[2], " ")
