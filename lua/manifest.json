@@ -1,6 +1,5 @@
 {
     "sources": [
-        "namespace.lua",
         "table.lua",
         "string.lua",
         "engine.lua",
