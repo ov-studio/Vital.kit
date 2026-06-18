@@ -49,7 +49,7 @@ function private.inspect(input, show_hidden, depth_limit, level, buffer, visited
             local v = input[k]
             util.table.insert(buffer, indent..tostring(k)..": ")
             if k ~= "__index" then
-                engine.private.inspect(v, show_hidden, depth_limit, level + 1, buffer, visited)
+                private.inspect(v, show_hidden, depth_limit, level + 1, buffer, visited)
             else
                 util.table.insert(buffer, "{<__index>}\n")
             end
@@ -58,7 +58,7 @@ function private.inspect(input, show_hidden, depth_limit, level, buffer, visited
             local metadata = getmetatable(input)
             if metadata and not visited[metadata] then
                 util.table.insert(buffer, indent.."<metatable>: ")
-                engine.private.inspect(metadata, show_hidden, depth_limit, level + 1, buffer, visited)
+                private.inspect(metadata, show_hidden, depth_limit, level + 1, buffer, visited)
             end
         end
         util.table.insert(buffer, util.string.rep("\t", level).."}\n")
@@ -68,13 +68,13 @@ function private.inspect(input, show_hidden, depth_limit, level, buffer, visited
 end
 
 function core.engine.inspect(...) 
-    return engine.private.inspect(util.table.unpack(util.table.pack(...), 1, 3))
+    return private.inspect(util.table.unpack(util.table.pack(...), 1, 3))
 end
 
 function core.engine.iprint(input, ...)
-    local separator = ((engine.public.get_platform() == "client") and "> ") or "> "
+    local separator = ((core.engine.get_platform() == "client") and "> ") or "> "
     local output = core.engine.inspect(input, ...)
     local result = "Inspect: "..tostring(input).."\n"
     result = result..util.string.gsub(output, "([^\n]+)", separator.."%1")
-    return engine.public.print("info", result)
+    return core.engine.print("info", result)
 end
