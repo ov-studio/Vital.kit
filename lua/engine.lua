@@ -42,6 +42,7 @@ function private.inspect(input, show_hidden, depth_limit, level, buffer, visited
         end
         util.table.sort(scalar_keys, function(a, b) return tostring(a) < tostring(b) end)
         util.table.sort(table_keys, function(a, b) return tostring(a) < tostring(b) end)
+
         local ordered_keys = {}
         for _, k in ipairs(scalar_keys) do util.table.insert(ordered_keys, k) end
         for _, k in ipairs(table_keys) do util.table.insert(ordered_keys, k) end
@@ -54,6 +55,7 @@ function private.inspect(input, show_hidden, depth_limit, level, buffer, visited
                 util.table.insert(buffer, "{<__index>}\n")
             end
         end
+        
         if show_hidden then
             local metadata = getmetatable(input)
             if metadata and not visited[metadata] then
