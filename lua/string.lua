@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
 --[[ Resource: Vital.sandbox
-     Script: module: lua: string.lua
+     Script: string.lua
      Author: ov-studio
      Developer(s): Aviril, Tron, Mario, Аниса, A-Variakojiene
      DOC: 14/09/2022
