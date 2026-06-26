@@ -6,6 +6,7 @@
 .bin/
 .dist/
 .build_*
+.DS_Store
 node_modules/
 
 
