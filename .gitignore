@@ -8,6 +8,7 @@
 .build_*
 .DS_Store
 node_modules/
+build/
 
 
 # Binaries
