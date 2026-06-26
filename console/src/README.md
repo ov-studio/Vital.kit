@@ -40,7 +40,7 @@ npm run preview
 ## Updating theme.css
 
 `app/theme.css` should stay in sync with the same file from the Vital.sandbox documentation site. 
-If the site's palette changes, copy the updated `theme.css` here and run `npm run build` again - `index.css` references its variables directly (`var(--blue)`, `var(--bg2)`, etc.), so no other changes are needed.
+If the site's palette changes, copy the updated `theme.css` here and run `npm run build` again - `index.css` references its variables directly, so no other changes are needed.
 
 ## Browser/WebView compatibility
 
