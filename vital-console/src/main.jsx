@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import { Console } from './Console.jsx';
+import { Console } from './console.jsx';
 import './theme.css';
 import './index.css';
 
