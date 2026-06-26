@@ -1,24 +1,15 @@
 :root {
+    /* ── Console-only layout tokens (no theme.css equivalent) ───── */
     --radius: 0.3rem;
-    --bg-deep: hsl(250, 25%, 2%);
-    --bg-card: hsl(248, 22%, 4%);
-    --border: hsl(220, 18%, 9%);
-    --fg: hsl(0, 0%, 97%);
-    --fg-muted: hsl(220, 10%, 72%);
-    --fg-dark: hsl(220, 10%, 42%);
-    --accent: hsl(220, 95%, 76%);
-    --accent-bg: hsla(220, 95%, 76%, 0.1);
-    --accent-hover: hsla(220, 95%, 76%, 0.3);
-    --accent-tint: hsla(220, 95%, 76%, 0.05);
+    --ts-opacity: 0.35;
+
+    /* ── Console-only colors (no theme.css equivalent) ──────────── */
     --accent-border: hsla(220, 95%, 76%, 0.18);
     --filter-all-bg: hsla(220, 15%, 100%, 0.04);
     --code-bg: hsla(220, 95%, 76%, 0.07);
     --code-fg: hsl(220, 80%, 78%);
     --code-border: hsla(220, 95%, 76%, 0.2);
     --ts-color: hsl(220, 40%, 70%);
-    --ts-opacity: 0.35;
-    --row-hover: hsla(220, 95%, 76%, 0.05);
-    --badge-bg: hsl(220, 18%, 9%);
     --shadow-inset: hsla(0, 0%, 100%, 0.04);
     --shadow-dark: hsla(0, 0%, 0%, 0.4);
     --shadow-darker: hsla(0, 0%, 0%, 0.5);
@@ -85,8 +76,8 @@
 }
 
 *::selection {
-    color: var(--selection-fg);
-    background: var(--selection-bg);
+    color: var(--bg);
+    background: var(--blue);
 }
 
 html,
@@ -95,7 +86,7 @@ body,
     width: 100%;
     height: 100%;
     background: transparent;
-    color: var(--fg);
+    color: var(--white);
     font-family: 'Geist', monospace;
     font-size: 13.5px;
     -webkit-font-smoothing: antialiased;
@@ -103,7 +94,7 @@ body,
 
 .console {
     position: absolute;
-    background: var(--bg-card);
+    background: var(--bg2);
     border-radius: calc(var(--radius) + 2px);
     display: flex;
     flex-direction: column;
@@ -121,8 +112,8 @@ body,
     align-items: center;
     padding: 0 4px 0 14px;
     gap: 10px;
-    background: var(--bg-deep);
-    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
     cursor: grab;
     user-select: none;
     flex-shrink: 0;
@@ -137,7 +128,7 @@ body,
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.025em;
-    color: var(--accent);
+    color: var(--blue);
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -147,7 +138,7 @@ body,
 .header-divider {
     width: 1px;
     height: 16px;
-    background: var(--fg);
+    background: var(--white);
     opacity: 0.08;
     flex-shrink: 0;
 }
@@ -177,14 +168,14 @@ body,
 
 .filter:hover {
     opacity: 0.85;
-    background: var(--accent-tint);
+    background: var(--b05);
 }
 
 .filter:active {}
 
 .filter.active {
     opacity: 1;
-    border-color: var(--border);
+    border-color: var(--rule);
 }
 
 .filter-dot {
@@ -221,7 +212,7 @@ body,
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--fg-muted);
+    color: var(--dim);
     background: hsla(220, 95%, 76%, 0.03);
     cursor: pointer;
     transition: background 0.15s, color 0.15s, transform 0.1s;
@@ -231,12 +222,12 @@ body,
     width: auto;
     padding: 0 8px;
     gap: 5px;
-    background: var(--badge-bg);
+    background: var(--rule);
 }
 
 .icon-btn:hover {
-    background: var(--accent-bg);
-    color: var(--accent);
+    background: var(--b10);
+    color: var(--blue);
 }
 
 .icon-btn:active {}
@@ -264,13 +255,13 @@ body,
 }
 
 .log-body::-webkit-scrollbar-thumb {
-    background: var(--border);
+    background: var(--rule);
     border-radius: 9px;
     transition: background 0.2s;
 }
 
 .log-body::-webkit-scrollbar-thumb:hover {
-    background: var(--accent-hover);
+    background: var(--b30);
 }
 
 .log-row {
@@ -286,7 +277,7 @@ body,
 }
 
 .log-row:hover {
-    background: var(--row-hover);
+    background: var(--b05);
 }
 
 .log-row-multiline {
@@ -332,8 +323,8 @@ body,
     flex-shrink: 0;
     align-self: center;
     line-height: 1.3;
-    color: var(--accent);
-    background: var(--accent-bg);
+    color: var(--blue);
+    background: var(--b10);
     transition: transform 0.07s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -350,14 +341,14 @@ body,
     align-items: center;
     padding: 0 14px;
     gap: 8px;
-    background: var(--bg-deep);
-    border-top: 1px solid var(--border);
+    background: var(--bg);
+    border-top: 1px solid var(--rule);
     flex-shrink: 0;
     animation: fade-in 0.3s 0.1s ease both;
 }
 
 .input-prompt {
-    color: var(--accent);
+    color: var(--blue);
     font-size: 13px;
     flex-shrink: 0;
 }
@@ -367,15 +358,15 @@ body,
     background: transparent;
     border: none;
     outline: none;
-    color: var(--fg);
+    color: var(--white);
     font-family: inherit;
     font-size: 13px;
-    caret-color: var(--accent);
+    caret-color: var(--blue);
 }
 
 .input-field::placeholder {
     opacity: 0.6;
-    color: var(--fg-muted);
+    color: var(--dim);
     transition: opacity 0.2s;
 }
 
@@ -436,7 +427,7 @@ body,
 .resize-handle span {
     content: '';
     position: absolute;
-    background: var(--fg-muted);
+    background: var(--dim);
     width: 140%;
     height: 1px;
     transform-origin: right center;
@@ -464,5 +455,5 @@ body,
 .resize-handle:hover::before,
 .resize-handle:hover::after,
 .resize-handle:hover span {
-    background: var(--accent);
+    background: var(--blue);
 }
