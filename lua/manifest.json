@@ -2,6 +2,7 @@
     "sources": [
         "table.lua",
         "string.lua",
-        "engine.lua"
+        "engine.lua",
+        "network.lua"
     ]
 }
