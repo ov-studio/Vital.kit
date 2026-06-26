@@ -29,9 +29,7 @@ This harness is automatically stripped out of production builds - see `app/main.
 npm run build
 ```
 
-Outputs a single self-contained file: `../build/index.html`.
-
-This is the file that sandbox serves. It has no external dependencies (no CDN, no separate JS/CSS files to keep in sync) and no test harness code.
+Outputs a single self-contained file: `../build/index.html`. It has no external dependencies (no CDN, no separate JS/CSS files to keep in sync) and no test harness code.
 
 To preview the production build locally before shipping it:
 
