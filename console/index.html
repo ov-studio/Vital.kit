@@ -17,7 +17,7 @@
         <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
         <script type="text/babel" src="https://cdn.jsdelivr.net/gh/ov-studio/Vital.kit@3993bf0/console/index.js"></script>
 
-        <script type="text/babel">
+        <script type="text/babel" data-presets="react">
             const Console = () => {
                 const { useState, useEffect, useRef, useCallback, useMemo } = React;
                 const [logs, set_logs] = useState([]);
