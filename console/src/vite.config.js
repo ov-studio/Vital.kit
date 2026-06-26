@@ -11,7 +11,7 @@ export default defineConfig({
         viteSingleFile(),
     ],
     build: {
-        outDir: '.dist',
+        outDir: '../build',
         // single output chunk, no hashed filenames needed since
         // viteSingleFile inlines everything anyway
         assetsInlineLimit: 100000000,
