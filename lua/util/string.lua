@@ -41,7 +41,7 @@ function util.string.format_time(milliseconds)
     local minutes = math.floor(totalSeconds/60)
     local hours = math.floor(minutes/60)
     minutes = minutes%60
-    return j.format("%02d:%02d:%02d", hours, minutes, seconds)
+    return util.string.format("%02d:%02d:%02d", hours, minutes, seconds)
 end
 
 function util.string.split(input, separator)
