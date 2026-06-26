@@ -17,8 +17,10 @@ npm install
 npm run dev
 ```
 
-Opens a local dev server (default `http://localhost:5173`) with hot reload. 
+Opens a local dev server (default `http://localhost:5173`) with hot reload.
+
 While in dev mode, a test harness automatically stubs the `ipc` object that sandbox normally injects and feeds fake log data, so you can see and interact with the console without needing sandbox running. 
+
 This harness is automatically stripped out of production builds - see `src/main.jsx`.
 
 ## Production build
