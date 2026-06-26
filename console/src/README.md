@@ -18,7 +18,7 @@ npm run dev
 ```
 
 Opens a local dev server (default `http://localhost:5173`) with hot reload. 
-While in dev mode, a test harness automatically stubs the `ipc` object Godot normally injects and feeds fake log data, so you can see and interact with the console without needing Godot running. 
+While in dev mode, a test harness automatically stubs the `ipc` object that sandbox normally injects and feeds fake log data, so you can see and interact with the console without needing sandbox running. 
 This harness is automatically stripped out of production builds - see `src/main.jsx`.
 
 ## Production build
@@ -28,7 +28,7 @@ npm run build
 ```
 
 Outputs a single self-contained file: `../build/index.html`.
-This is the file that Vital.sandbox serves. It has no external dependencies (no CDN, no separate JS/CSS files to keep in sync) and no test harness code.
+This is the file that sandbox serves. It has no external dependencies (no CDN, no separate JS/CSS files to keep in sync) and no test harness code.
 
 To preview the production build locally before shipping it:
 
