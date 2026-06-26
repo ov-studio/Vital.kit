@@ -1,4 +1,4 @@
-# vital-console
+# Overview
 
 The Vital.kit debug console UI (Godot WebView), built with Vite + React.
 
