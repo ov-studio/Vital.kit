@@ -1,6 +1,6 @@
 # Overview
 
-The Vital.kit debug console UI (Godot WebView), built with Vite + React.
+The Vital.kit debug console UI, built with Vite + React.
 
 No CDN dependency anywhere - React, ReactDOM, and the JSX compiler are all
 installed via npm and bundled at build time. The shipped output is a single
