@@ -42,20 +42,6 @@ To preview the production build locally before shipping it:
 npm run preview
 ```
 
-## Project layout
-
-```
-src/
-  main.jsx           entry point - mounts <Console/>, dev-only test harness
-  Console.jsx         the main Console component (state, event handling)
-  components.jsx       presentational pieces: icons, FilterButton, LogRow, etc.
-  godot-bridge.js      Godot key-name mapping, color helpers, message parsing
-  theme.css            site-wide theme tokens (synced from the main Vital.sandbox site)
-  index.css            console-specific styles, built on top of theme.css variables
-index.html              Vite's dev-server HTML entry point
-vite.config.js          build config (React plugin + single-file output)
-```
-
 ## Updating theme.css
 
 `src/theme.css` should stay in sync with the same file from the
