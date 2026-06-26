@@ -23,7 +23,7 @@ While in dev mode, a test harness automatically stubs the `ipc` object that sand
 
 This harness is automatically stripped out of production builds - see `app/main.jsx`.
 
-## Production build
+## Production
 
 ```
 npm run build
