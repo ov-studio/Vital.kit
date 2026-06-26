@@ -31,7 +31,7 @@ stripped out of production builds - see `src/main.jsx`.
 npm run build
 ```
 
-Outputs a single self-contained file: `dist/index.html`. This is the file
+Outputs a single self-contained file: `../build/index.html`. This is the file
 you give to Godot - drop it in wherever `console/index.html` currently
 lives. It has no external dependencies (no CDN, no separate JS/CSS files to
 keep in sync) and no test harness code.
