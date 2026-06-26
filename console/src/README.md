@@ -27,7 +27,8 @@ This harness is automatically stripped out of production builds - see `src/main.
 npm run build
 ```
 
-Outputs a single self-contained file: `../build/index.html`. This is the file you give to Godot - drop it in wherever `console/index.html` currently lives. It has no external dependencies (no CDN, no separate JS/CSS files to keep in sync) and no test harness code.
+Outputs a single self-contained file: `../build/index.html`.
+This is the file that Vital.sandbox serves. It has no external dependencies (no CDN, no separate JS/CSS files to keep in sync) and no test harness code.
 
 To preview the production build locally before shipping it:
 
