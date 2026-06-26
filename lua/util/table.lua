@@ -36,7 +36,7 @@ function util.table.len(input)
   return imports.rawget(input, "n") or #input
 end
 
-function table.unpack(input, start_at, end_at)
+function util.table.unpack(input, start_at, end_at)
   return imports.unpack(input, start_at or 1, end_at or util.table.len(input))
 end
 
