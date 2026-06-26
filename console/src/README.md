@@ -60,17 +60,6 @@ default `modules` target, since the console renders inside whatever
 WebView engine the OS provides rather than a browser you control the
 version of.
 
-## Known timing edge case (pre-existing, not introduced by this port)
-
-If Godot dispatches an `init` message and the first `print` message in the
-exact same synchronous turn (no tick/frame between them), the first log can
-be silently dropped. This is because `handle_message` is a `useCallback`
-that closes over `seed_meta`, and the effect that re-subscribes it with the
-updated `seed_meta` hasn't run yet when the synchronous `print` arrives.
-In practice this hasn't surfaced, since `init` typically fires once on
-mount, before any real log calls happen. Flagging it here in case your
-Godot-side code ever batches these calls together.
-
 ## Updating React or other dependencies
 
 ```
