@@ -2,7 +2,8 @@
 
 The Vital.kit debug console UI, built with Vite + React.
 
-No CDN dependency anywhere - React, ReactDOM, and the JSX compiler are all installed via npm and bundled at build time. The shipped output is a single static HTML file with everything inlined, so it works offline, works via `file://`, and never breaks due to a CDN outage or version drift.
+No CDN dependency anywhere - React, ReactDOM, and the JSX compiler are all installed via npm and bundled at build time. 
+The shipped output is a single static HTML file with everything inlined, so it works offline, works via `file://`, and never breaks due to a CDN outage or version drift.
 
 ## Setup
 
@@ -16,7 +17,9 @@ npm install
 npm run dev
 ```
 
-Opens a local dev server (default `http://localhost:5173`) with hot reload. While in dev mode, a test harness automatically stubs the `ipc` object Godot normally injects and feeds fake log data, so you can see and interact with the console without needing Godot running. This harness is automatically stripped out of production builds - see `src/main.jsx`.
+Opens a local dev server (default `http://localhost:5173`) with hot reload. 
+While in dev mode, a test harness automatically stubs the `ipc` object Godot normally injects and feeds fake log data, so you can see and interact with the console without needing Godot running. 
+This harness is automatically stripped out of production builds - see `src/main.jsx`.
 
 ## Production build
 
@@ -34,7 +37,8 @@ npm run preview
 
 ## Updating theme.css
 
-`src/theme.css` should stay in sync with the same file from the Vital.sandbox documentation site. If the site's palette changes, copy the updated `theme.css` here and run `npm run build` again - `index.css` references its variables directly (`var(--blue)`, `var(--bg2)`, etc.), so no other changes are needed.
+`src/theme.css` should stay in sync with the same file from the Vital.sandbox documentation site. 
+If the site's palette changes, copy the updated `theme.css` here and run `npm run build` again - `index.css` references its variables directly (`var(--blue)`, `var(--bg2)`, etc.), so no other changes are needed.
 
 ## Browser/WebView compatibility
 
