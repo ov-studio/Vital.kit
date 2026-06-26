@@ -45,6 +45,7 @@ If the site's palette changes, copy the updated `theme.css` here and run `npm ru
 ## Browser/WebView compatibility
 
 The build targets `es2020` (`vite.config.js`), which is supported by all native WebView backends in current use (WebView2/Chromium on Windows, WebKitGTK on Linux, WKWebView on macOS) as of any reasonably recent OS.
+
 This was deliberately set conservative rather than relying on Vite's default `modules` target, since the console renders inside whatever WebView engine the OS provides rather than a browser you control the version of.
 
 ## Updating React or other dependencies
@@ -54,6 +55,4 @@ npm outdated      # see what's behind
 npm update        # update within semver ranges in package.json
 ```
 
-To bump a major version (e.g. React 19), update the version in
-`package.json` first, then `npm install`, then test thoroughly with
-`npm run dev` before shipping.
+To bump a major version (e.g. React 19), update the version in `package.json` first, then `npm install`, then test thoroughly with `npm run dev` before shipping.
