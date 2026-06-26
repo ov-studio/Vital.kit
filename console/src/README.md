@@ -31,7 +31,7 @@ npm run build
 
 Outputs a single self-contained file: `../build/index.html`. It has no external dependencies (no CDN, no separate JS/CSS files to keep in sync) and no test harness code.
 
-To preview the production build locally before shipping it:
+To preview the production build locally prior shipping it:
 
 ```
 npm run preview
@@ -56,4 +56,4 @@ npm outdated      # see what's behind
 npm update        # update within semver ranges in package.json
 ```
 
-To bump a major version (e.g. React 19), update the version in `package.json` first, then `npm install`, then test thoroughly with `npm run dev` before shipping.
+To bump a major version (e.g. React 19), update the version in `package.json` first, then `npm install`, then test thoroughly with `npm run dev` prior shipping.
