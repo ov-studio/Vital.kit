@@ -214,7 +214,7 @@ export const Console = () => {
   // fake events now that the 'message' listener is attached. Fires once on
   // mount. Harmless in production - nothing listens for it inside Godot.
   useEffect(() => {
-    window.dispatchEvent(new Event('vital-console-mounted'));
+    window.dispatchEvent(new Event('console-mounted'));
   }, []);
 
   useEffect(() => {

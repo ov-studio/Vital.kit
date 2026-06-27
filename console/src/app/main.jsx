@@ -30,7 +30,7 @@ if (import.meta.env.DEV) {
     }));
   };
 
-  window.addEventListener('vital-console-mounted', () => {
+  window.addEventListener('console-mounted', () => {
     send({
       action: 'init',
       bind: 'f1',
