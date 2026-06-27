@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import * as bridge from './bridge.js';
+import * as bridge from './bridge';
 import { FilterButton, ActionButton, LogRow, TrashIcon, RotateIcon } from './components.jsx';
 
 export const Console = () => {
