@@ -58,12 +58,7 @@ jobs:
 
               (
                   cd "$dir"
-                  if [ -f package-lock.json ]; then
-                      npm ci
-                  else
-                      echo "WARNING: $dir has no package-lock.json, falling back to npm install" >&2
-                      npm install
-                  fi
+                  npm install
                   npm run build
               )
 
