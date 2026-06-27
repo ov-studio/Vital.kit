@@ -1,6 +1,6 @@
 import * as react from 'react';
 import * as app_bridge from './bridge';
-import { FilterButton, ActionButton, LogRow, TrashIcon, RotateIcon } from './components';
+import * as app_components from './components';
 
 export const Console = () => {
   const [logs, set_logs] = react.useState([]);
@@ -232,9 +232,9 @@ export const Console = () => {
         <span className="titlebar-label">Console</span>
         <div className="header-divider"></div>
         <div className="filters">
-          <FilterButton type="all" label="All" count={total_count} is_active={active_filters.size === level_types.length} on_click={() => toggle_filter('all')}/>
+          <app_components.FilterButton type="all" label="All" count={total_count} is_active={active_filters.size === level_types.length} on_click={() => toggle_filter('all')}/>
           {level_types.map(type => (
-            <FilterButton
+            <app_components.FilterButton
               key={type}
               type={type}
               label={level_meta[type]?.label ?? type}
@@ -246,8 +246,8 @@ export const Console = () => {
           ))}
         </div>
         <div className="tabbar-actions">
-          <ActionButton icon={RotateIcon} label="Reset" on_click={() => set_position(app_bridge.DEFAULT_POSITION)}/>
-          <ActionButton icon={TrashIcon} label="Clear" on_click={clear_logs}/>
+          <app_components.ActionButton icon={app_components.RotateIcon} label="Reset" on_click={() => set_position(app_bridge.DEFAULT_POSITION)}/>
+          <app_components.ActionButton icon={app_components.TrashIcon} label="Clear" on_click={clear_logs}/>
         </div>
       </div>
 
@@ -255,7 +255,7 @@ export const Console = () => {
         {logs.map(log => {
           const meta = level_meta[log.type] ?? {};
           return (
-            <LogRow
+            <app_components.LogRow
               key={log.id}
               type={log.type}
               badge={meta.badge}
