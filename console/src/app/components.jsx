@@ -1,5 +1,5 @@
 import React from 'react';
-import { rgb_to_css, rgb_to_css_alpha, rgb_lighten, parse_lines, parse_segments } from './bridge.js';
+import { rgb_to_css, rgb_to_css_alpha, rgb_lighten, parse_lines, parse_segments } from './bridge';
 
 export const TrashIcon = ({ size = 24, strokeWidth = 2, ...props }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" {...props}>
