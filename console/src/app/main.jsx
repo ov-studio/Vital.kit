@@ -62,5 +62,16 @@ if (import.meta.env.DEV) {
 }
 // ===== END LOCAL TEST HARNESS =====
 
+
+// Globally disable Tab-driven focus traversal across the entire console.
+// Capture phase (the `true` third arg) means this fires before React or
+// any element's own handlers see the event, so Tab is suppressed no
+// matter what gets added to the component tree later - no need to set
+// tabIndex={-1} on individual elements one by one.
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Tab') e.preventDefault();
+}, true);
+
+
 const root = createRoot(document.getElementById('root'));
 root.render(<Console/>);
