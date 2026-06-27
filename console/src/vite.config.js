@@ -1,10 +1,10 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import * as vite from 'vite';
+import * as react from '@vitejs/plugin-react';
 import { viteSingleFile } from 'vite-plugin-singlefile';
 
-export default defineConfig({
+export default vite.defineConfig({
   plugins: [
-    react(),
+    react.default(),
     // Bundles the entire app (JS + CSS) into one dist/index.html with
     // no separate asset files. Drop that single file straight into
     // Godot's WebView - no server, no relative-path asset management.
