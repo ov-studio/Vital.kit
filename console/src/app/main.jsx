@@ -3,9 +3,7 @@ import { Console } from './console.jsx';
 import './theme.css';
 import './index.css';
 
-// ============================================================
-// LOCAL TEST HARNESS (dev-only)
-// ============================================================
+
 // In production this page runs inside a Godot WebView. Godot injects a
 // global `ipc` object (for outgoing messages) and dispatches a "message"
 // CustomEvent on `document` (for incoming data: init/print/clear). Neither
@@ -60,7 +58,6 @@ if (import.meta.env.DEV) {
     setTimeout(() => send({ action: 'print', mode: 'warn', message: 'Texture `player_atlas.dds` missing mip levels, falling back to `auto`' }), 2900);
   });
 }
-// ===== END LOCAL TEST HARNESS =====
 
 
 // Globally disable Tab-driven focus traversal across the entire console.
