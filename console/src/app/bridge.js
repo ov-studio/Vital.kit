@@ -24,7 +24,7 @@ const GODOT_KEY = {
   'f7': 'F7', 'f8': 'F8', 'f9': 'F9', 'f10': 'F10', 'f11': 'F11', 'f12': 'F12',
 };
 
-export function Godot_To_Key(key) {
+export function godot_to_key(key) {
   if (!key) return null;
   return GODOT_KEY[key.toLowerCase()] ?? key;
 }

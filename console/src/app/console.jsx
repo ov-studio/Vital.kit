@@ -112,7 +112,7 @@ export const Console = () => {
 
   const handle_message = useCallback((e) => {
     const data = JSON.parse(e.detail);
-    if (data.action === 'init') { set_seed_meta(data.types); if (data.bind) set_bind_key(bridge.Godot_To_Key(data.bind)); }
+    if (data.action === 'init') { set_seed_meta(data.types); if (data.bind) set_bind_key(bridge.godot_to_key(data.bind)); }
     else if (data.action === 'print') add_log(data, seed_meta);
     else if (data.action === 'clear') clear_logs();
   }, [add_log, seed_meta]);
