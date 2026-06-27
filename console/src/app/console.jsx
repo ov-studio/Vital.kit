@@ -232,7 +232,7 @@ export const Console = () => {
         <span className="titlebar-label">Console</span>
         <div className="header-divider"></div>
         <div className="filters">
-          <FilterButton type="all" label="All" count={total_count} is_active={active_filters.size === level_types.length} on_click={() => toggle_filter('all')} />
+          <FilterButton type="all" label="All" count={total_count} is_active={active_filters.size === level_types.length} on_click={() => toggle_filter('all')}/>
           {level_types.map(type => (
             <FilterButton
               key={type}
@@ -246,8 +246,8 @@ export const Console = () => {
           ))}
         </div>
         <div className="tabbar-actions">
-          <ActionButton icon={RotateIcon} label="Reset" on_click={() => set_position(DEFAULT_POSITION)} />
-          <ActionButton icon={TrashIcon} label="Clear" on_click={clear_logs} />
+          <ActionButton icon={RotateIcon} label="Reset" on_click={() => set_position(DEFAULT_POSITION)}/>
+          <ActionButton icon={TrashIcon} label="Clear" on_click={clear_logs}/>
         </div>
       </div>
 
@@ -272,7 +272,7 @@ export const Console = () => {
 
       <div className="input-bar">
         <span className="input-prompt">❯</span>
-        <input ref={input_ref} className="input-field" value={command_input} onChange={(e) => set_command_input(e.target.value)} placeholder="Enter command or expression..." autoComplete="off" spellCheck="false" />
+        <input ref={input_ref} className="input-field" value={command_input} onChange={(e) => set_command_input(e.target.value)} placeholder="Enter command or expression..." autoComplete="off" spellCheck="false"/>
       </div>
 
       <div className="resize-handle" onMouseDown={handle_resize_start}><span></span></div>
