@@ -1,26 +1,26 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import * as react from 'react';
 import * as app_bridge from './bridge';
 import { FilterButton, ActionButton, LogRow, TrashIcon, RotateIcon } from './components';
 
 export const Console = () => {
-  const [logs, set_logs] = useState([]);
-  const [seed_meta, set_seed_meta] = useState({});
-  const [command_input, set_command_input] = useState('');
-  const [is_dragging, set_is_dragging] = useState(false);
-  const [command_history, set_command_history] = useState([]);
-  const [history_index, set_history_index] = useState(-1);
-  const [temp_input, set_temp_input] = useState('');
-  const [position, set_position] = useState(app_bridge.DEFAULT_POSITION);
-  const [bind_key, set_bind_key] = useState(null);
-  const [size, set_size] = useState({ width: '800px', height: '360px' });
+  const [logs, set_logs] = react.useState([]);
+  const [seed_meta, set_seed_meta] = react.useState({});
+  const [command_input, set_command_input] = react.useState('');
+  const [is_dragging, set_is_dragging] = react.useState(false);
+  const [command_history, set_command_history] = react.useState([]);
+  const [history_index, set_history_index] = react.useState(-1);
+  const [temp_input, set_temp_input] = react.useState('');
+  const [position, set_position] = react.useState(app_bridge.DEFAULT_POSITION);
+  const [bind_key, set_bind_key] = react.useState(null);
+  const [size, set_size] = react.useState({ width: '800px', height: '360px' });
 
-  const console_ref = useRef(null);
-  const log_body_ref = useRef(null);
-  const input_ref = useRef(null);
-  const group_map_ref = useRef(new Map());
-  const drag_offset_ref = useRef({ x: 0, y: 0 });
+  const console_ref = react.useRef(null);
+  const log_body_ref = react.useRef(null);
+  const input_ref = react.useRef(null);
+  const group_map_ref = react.useRef(new Map());
+  const drag_offset_ref = react.useRef({ x: 0, y: 0 });
 
-  const level_meta = useMemo(() => {
+  const level_meta = react.useMemo(() => {
     const map = { ...seed_meta };
     logs.forEach(l => {
       if (!map[l.type]) map[l.type] = {
@@ -34,14 +34,14 @@ export const Console = () => {
     return map;
   }, [logs, seed_meta]);
 
-  const level_types = useMemo(() => (
+  const level_types = react.useMemo(() => (
     [...new Set([...Object.keys(seed_meta), ...logs.map(l => l.type)])]
       .sort((a, b) => (level_meta[a]?.priority ?? 99) - (level_meta[b]?.priority ?? 99))
   ), [logs, level_meta, seed_meta]);
 
-  const [active_filters, set_active_filters] = useState(new Set());
+  const [active_filters, set_active_filters] = react.useState(new Set());
 
-  useEffect(() => {
+  react.useEffect(() => {
     set_active_filters(prev => {
       const next = new Set(prev);
       level_types.forEach(t => next.add(t));
@@ -49,15 +49,15 @@ export const Console = () => {
     });
   }, [level_types]);
 
-  const log_counts = useMemo(() => {
+  const log_counts = react.useMemo(() => {
     const counts = Object.fromEntries(level_types.map(t => [t, 0]));
     logs.forEach(log => { if (counts[log.type] !== undefined) counts[log.type]++; });
     return counts;
   }, [logs, level_types]);
 
-  const total_count = useMemo(() => Object.values(log_counts).reduce((s, c) => s + c, 0), [log_counts]);
+  const total_count = react.useMemo(() => Object.values(log_counts).reduce((s, c) => s + c, 0), [log_counts]);
 
-  const scroll_bottom = useCallback(() => {
+  const scroll_bottom = react.useCallback(() => {
     setTimeout(() => {
       const el = log_body_ref.current;
       if (el && el.scrollHeight - el.scrollTop - el.clientHeight < 6)
@@ -65,7 +65,7 @@ export const Console = () => {
     }, 0);
   }, []);
 
-  const add_log = useCallback((entry, meta) => {
+  const add_log = react.useCallback((entry, meta) => {
     if (!entry.mode || !entry.message) return;
     const resolved = meta?.[entry.mode];
     if (!resolved) return;
@@ -104,20 +104,20 @@ export const Console = () => {
     }
   }, [scroll_bottom]);
 
-  const clear_logs = useCallback(() => {
+  const clear_logs = react.useCallback(() => {
     set_logs([]);
     group_map_ref.current.clear();
     ipc.postMessage(JSON.stringify({ action: 'clear' }));
   }, []);
 
-  const handle_message = useCallback((e) => {
+  const handle_message = react.useCallback((e) => {
     const data = JSON.parse(e.detail);
     if (data.action === 'init') { set_seed_meta(data.types); if (data.bind) set_bind_key(app_bridge.godot_to_key(data.bind)); }
     else if (data.action === 'print') add_log(data, seed_meta);
     else if (data.action === 'clear') clear_logs();
   }, [add_log, seed_meta]);
 
-  const handle_command = useCallback((command) => {
+  const handle_command = react.useCallback((command) => {
     const message = command.trim();
     if (!message) return;
     set_command_history(prev => prev[prev.length - 1] !== message ? [...prev, message] : prev);
@@ -126,7 +126,7 @@ export const Console = () => {
     ipc.postMessage(JSON.stringify({ action: 'input', message }));
   }, []);
 
-  const handle_key_down = useCallback((e) => {
+  const handle_key_down = react.useCallback((e) => {
     if (bind_key && e.key === bind_key) {
       e.preventDefault();
       ipc.postMessage(JSON.stringify({ action: 'toggle' }));
@@ -154,7 +154,7 @@ export const Console = () => {
     }
   }, [command_input, command_history, history_index, temp_input, handle_command, bind_key]);
 
-  const toggle_filter = useCallback((type) => {
+  const toggle_filter = react.useCallback((type) => {
     if (type === 'all') {
       set_active_filters(active_filters.size === level_types.length ? new Set() : new Set(level_types));
     }
@@ -167,7 +167,7 @@ export const Console = () => {
     }
   }, [level_types, active_filters.size]);
 
-  const handle_mouse_down = useCallback((e) => {
+  const handle_mouse_down = react.useCallback((e) => {
     if (e.target.closest('.icon-btn, .filter')) return;
     e.preventDefault();
     set_is_dragging(true);
@@ -175,14 +175,14 @@ export const Console = () => {
     drag_offset_ref.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
   }, []);
 
-  const handle_mouse_move = useCallback((e) => {
+  const handle_mouse_move = react.useCallback((e) => {
     if (!is_dragging) return;
     set_position({ x: e.clientX - drag_offset_ref.current.x, y: e.clientY - drag_offset_ref.current.y });
   }, [is_dragging]);
 
-  const handle_mouse_up = useCallback(() => set_is_dragging(false), []);
+  const handle_mouse_up = react.useCallback(() => set_is_dragging(false), []);
 
-  const handle_resize_start = useCallback((e) => {
+  const handle_resize_start = react.useCallback((e) => {
     e.preventDefault(); e.stopPropagation();
     const { clientX: sx, clientY: sy } = e;
     const { width: sw, height: sh } = console_ref.current.getBoundingClientRect();
@@ -192,20 +192,20 @@ export const Console = () => {
     document.addEventListener('mouseup', on_end);
   }, []);
 
-  useEffect(() => {
+  react.useEffect(() => {
     const prevent = (e) => e.preventDefault();
     document.addEventListener('contextmenu', prevent);
     return () => document.removeEventListener('contextmenu', prevent);
   }, []);
 
-  useEffect(() => {
+  react.useEffect(() => {
     if (!is_dragging) return;
     document.addEventListener('mousemove', handle_mouse_move);
     document.addEventListener('mouseup', handle_mouse_up);
     return () => { document.removeEventListener('mousemove', handle_mouse_move); document.removeEventListener('mouseup', handle_mouse_up); };
   }, [is_dragging, handle_mouse_move, handle_mouse_up]);
 
-  useEffect(() => {
+  react.useEffect(() => {
     document.addEventListener('message', handle_message);
     return () => document.removeEventListener('message', handle_message);
   }, [handle_message]);
@@ -213,16 +213,16 @@ export const Console = () => {
   // dev-only: signals the test harness (see main.jsx) that it's safe to send
   // fake events now that the 'message' listener is attached. Fires once on
   // mount. Harmless in production - nothing listens for it inside Godot.
-  useEffect(() => {
+  react.useEffect(() => {
     window.dispatchEvent(new Event('console-mounted'));
   }, []);
 
-  useEffect(() => {
+  react.useEffect(() => {
     document.addEventListener('keydown', handle_key_down);
     return () => document.removeEventListener('keydown', handle_key_down);
   }, [handle_key_down]);
 
-  useEffect(() => {
+  react.useEffect(() => {
     ipc.postMessage(JSON.stringify({ action: 'ready' }));
   }, []);
 
