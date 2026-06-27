@@ -21,6 +21,9 @@ export const Console = () => {
   const input_ref = react.useRef(null);
   const group_map_ref = react.useRef(new Map());
   const drag_offset_ref = react.useRef({ x: 0, y: 0 });
+  const seed_meta_ref = react.useRef(seed_meta);
+
+  react.useEffect(() => { seed_meta_ref.current = seed_meta; }, [seed_meta]);
 
   const level_meta = react.useMemo(() => {
     const map = { ...seed_meta };
@@ -115,9 +118,9 @@ export const Console = () => {
   const handle_message = react.useCallback((e) => {
     const data = JSON.parse(e.detail);
     if (data.action === 'init') { set_seed_meta(data.types); if (data.bind) set_bind_key(app_bridge.godot_to_key(data.bind)); }
-    else if (data.action === 'print') add_log(data, seed_meta);
+    else if (data.action === 'print') add_log(data, seed_meta_ref.current);
     else if (data.action === 'clear') clear_logs();
-  }, [add_log, seed_meta]);
+  }, [add_log, clear_logs]);
 
   const handle_command = react.useCallback((command) => {
     const message = command.trim();
