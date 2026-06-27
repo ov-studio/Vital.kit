@@ -22,6 +22,7 @@ export const Console = () => {
   const group_map_ref = react.useRef(new Map());
   const drag_offset_ref = react.useRef({ x: 0, y: 0 });
   const seed_meta_ref = react.useRef(seed_meta);
+  const level_types_ref = react.useRef([]);
 
   react.useEffect(() => { seed_meta_ref.current = seed_meta; }, [seed_meta]);
 
@@ -39,10 +40,12 @@ export const Console = () => {
     return map;
   }, [logs, seed_meta]);
 
-  const level_types = react.useMemo(() => (
-    [...new Set([...Object.keys(seed_meta), ...logs.map(l => l.type)])]
-      .sort((a, b) => (level_meta[a]?.priority ?? 99) - (level_meta[b]?.priority ?? 99))
-  ), [logs, level_meta, seed_meta]);
+  const level_types = react.useMemo(() => {
+    const result = [...new Set([...Object.keys(seed_meta), ...logs.map(l => l.type)])]
+      .sort((a, b) => (level_meta[a]?.priority ?? 99) - (level_meta[b]?.priority ?? 99));
+    level_types_ref.current = result;
+    return result;
+  }, [logs, level_meta, seed_meta]);
 
   const [active_filters, set_active_filters] = react.useState(new Set());
 
@@ -161,7 +164,9 @@ export const Console = () => {
 
   const toggle_filter = react.useCallback((type) => {
     if (type === 'all') {
-      set_active_filters(active_filters.size === level_types.length ? new Set() : new Set(level_types));
+      set_active_filters(prev =>
+        prev.size === level_types_ref.current.length ? new Set() : new Set(level_types_ref.current)
+      );
     }
     else {
       set_active_filters(prev => {
@@ -170,7 +175,7 @@ export const Console = () => {
         return next;
       });
     }
-  }, [level_types, active_filters.size]);
+  }, []);
 
   const handle_mouse_down = react.useCallback((e) => {
     if (e.target.closest('.icon-btn, .filter')) return;
