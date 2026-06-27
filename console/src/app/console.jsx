@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { LOG_DEBOUNCE, LOG_LIMIT, Godot_To_Key, make_key } from './godot-bridge.js';
+import { DEFAULT_POSITION, LOG_DEBOUNCE, LOG_LIMIT, Godot_To_Key, make_key } from './godot-bridge.js';
 import { FilterButton, ActionButton, LogRow, TrashIcon, RotateIcon } from './components.jsx';
 
 export const Console = () => {
@@ -10,7 +10,7 @@ export const Console = () => {
   const [command_history, set_command_history] = useState([]);
   const [history_index, set_history_index] = useState(-1);
   const [temp_input, set_temp_input] = useState('');
-  const [position, set_position] = useState({ x: 0, y: 0 });
+  const [position, set_position] = useState(DEFAULT_POSITION);
   const [bind_key, set_bind_key] = useState(null);
   const [size, set_size] = useState({ width: '800px', height: '360px' });
 
@@ -246,7 +246,7 @@ export const Console = () => {
           ))}
         </div>
         <div className="tabbar-actions">
-          <ActionButton icon={RotateIcon} label="Reset" on_click={() => set_position({ x: 0, y: 0 })} />
+          <ActionButton icon={RotateIcon} label="Reset" on_click={() => set_position(DEFAULT_POSITION)} />
           <ActionButton icon={TrashIcon} label="Clear" on_click={clear_logs} />
         </div>
       </div>
