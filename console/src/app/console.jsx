@@ -47,15 +47,15 @@ export const Console = () => {
     return result;
   }, [logs, level_meta, seed_meta]);
 
-  const [active_filters, set_active_filters] = react.useState(new Set());
+  const deactivated_ref = react.useRef(new Set());
 
-  react.useEffect(() => {
-    set_active_filters(prev => {
-      const next = new Set(prev);
-      level_types.forEach(t => next.add(t));
-      return next;
+  const active_filters = react.useMemo(() => {
+    const result = new Set();
+    level_types_ref.current.forEach(t => {
+      if (!deactivated_ref.current.has(t)) result.add(t);
     });
-  }, [level_types]);
+    return result;
+  }, [logs, seed_meta]);
 
   const log_counts = react.useMemo(() => {
     const counts = Object.fromEntries(level_types.map(t => [t, 0]));
@@ -162,19 +162,19 @@ export const Console = () => {
     }
   }, [command_input, command_history, history_index, temp_input, handle_command, bind_key]);
 
+  const [, force_update] = react.useReducer(x => x + 1, 0);
+
   const toggle_filter = react.useCallback((type) => {
     if (type === 'all') {
-      set_active_filters(prev =>
-        prev.size === level_types_ref.current.length ? new Set() : new Set(level_types_ref.current)
-      );
+      const all_active = level_types_ref.current.every(t => !deactivated_ref.current.has(t));
+      if (all_active) level_types_ref.current.forEach(t => deactivated_ref.current.add(t));
+      else deactivated_ref.current.clear();
     }
     else {
-      set_active_filters(prev => {
-        const next = new Set(prev);
-        next.has(type) ? next.delete(type) : next.add(type);
-        return next;
-      });
+      if (deactivated_ref.current.has(type)) deactivated_ref.current.delete(type);
+      else deactivated_ref.current.add(type);
     }
+    force_update();
   }, []);
 
   const handle_mouse_down = react.useCallback((e) => {
