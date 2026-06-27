@@ -1,5 +1,5 @@
-import { createRoot } from 'react-dom/client';
-import { Console } from './console.jsx';
+import * as react from 'react-dom/client';
+import * as app_console from './console.jsx';
 import './theme.css';
 import './index.css';
 
@@ -70,5 +70,5 @@ document.addEventListener('keydown', (e) => {
 }, true);
 
 
-const root = createRoot(document.getElementById('root'));
-root.render(<Console/>);
+const root = react.createRoot(document.getElementById('root'));
+root.render(<app_console.Console/>);
