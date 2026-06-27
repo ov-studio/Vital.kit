@@ -1,4 +1,5 @@
 import * as react from 'react';
+import * as app_config from './config';
 import * as app_bridge from './bridge';
 
 export const TrashIcon = ({ size = 24, strokeWidth = 2, ...props }) => (

@@ -1,4 +1,5 @@
 import * as react from 'react';
+import * as app_config from './config';
 import * as app_bridge from './bridge';
 import * as app_components from './components';
 
@@ -10,7 +11,7 @@ export const Console = () => {
   const [command_history, set_command_history] = react.useState([]);
   const [history_index, set_history_index] = react.useState(-1);
   const [temp_input, set_temp_input] = react.useState('');
-  const [position, set_position] = react.useState(app_bridge.DEFAULT_POSITION);
+  const [position, set_position] = react.useState(app_config.DEFAULT_POSITION);
   const [bind_key, set_bind_key] = react.useState(null);
   const [size, set_size] = react.useState({ width: '800px', height: '360px' });
 
@@ -79,7 +80,7 @@ export const Console = () => {
     const existing = group_map_ref.current.get(key);
     if (existing) {
       existing.count++;
-      existing.expires_at = now + app_bridge.LOG_DEBOUNCE;
+      existing.expires_at = now + app_config.LOG_DEBOUNCE;
       existing.timestamp = ts;
       set_logs(prev => prev.map(log =>
         log.id === existing.id ? { ...log, repeat_count: existing.count, timestamp: ts } : log
@@ -94,10 +95,10 @@ export const Console = () => {
         timestamp: ts,
         repeat_count: 1
       };
-      group_map_ref.current.set(key, { id: new_log.id, count: 1, expires_at: now + app_bridge.LOG_DEBOUNCE, timestamp: ts });
+      group_map_ref.current.set(key, { id: new_log.id, count: 1, expires_at: now + app_config.LOG_DEBOUNCE, timestamp: ts });
       set_logs(prev => {
         const updated = [...prev, new_log];
-        if (updated.length > app_bridge.LOG_LIMIT) return updated.slice(updated.length - app_bridge.LOG_LIMIT);
+        if (updated.length > app_config.LOG_LIMIT) return updated.slice(updated.length - app_config.LOG_LIMIT);
         return updated;
       });
       setTimeout(() => { if (log_body_ref.current) log_body_ref.current.scrollTop = log_body_ref.current.scrollHeight; }, 0);
@@ -246,7 +247,7 @@ export const Console = () => {
           ))}
         </div>
         <div className="tabbar-actions">
-          <app_components.ActionButton icon={app_components.RotateIcon} label="Reset" on_click={() => set_position(app_bridge.DEFAULT_POSITION)}/>
+          <app_components.ActionButton icon={app_components.RotateIcon} label="Reset" on_click={() => set_position(app_config.DEFAULT_POSITION)}/>
           <app_components.ActionButton icon={app_components.TrashIcon} label="Clear" on_click={clear_logs}/>
         </div>
       </div>
