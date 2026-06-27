@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import * as app_bridge from './bridge';
-import { FilterButton, ActionButton, LogRow, TrashIcon, RotateIcon } from './components.jsx';
+import { FilterButton, ActionButton, LogRow, TrashIcon, RotateIcon } from './components';
 
 export const Console = () => {
   const [logs, set_logs] = useState([]);
