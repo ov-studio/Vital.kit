@@ -1,5 +1,5 @@
 import React from 'react';
-import { rgb_to_css, rgb_to_css_alpha, rgb_lighten, parse_lines, parse_segments } from './bridge';
+import * as bridge from './bridge';
 
 export const TrashIcon = ({ size = 24, strokeWidth = 2, ...props }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -19,7 +19,7 @@ export const FilterButton = ({ type, label, count, is_active, on_click, color })
     className={`filter ${is_active ? 'active' : ''}`}
     data-type={type}
     onClick={on_click}
-    style={color ? { color: rgb_to_css(color), backgroundColor: rgb_to_css_alpha(color, 0.1) } : {}}
+    style={color ? { color: bridge.bridge.rgb_to_css_alpha(color), backgroundColor: rgb_to_css_alpha(color, 0.1) } : {}}
   >
     <div className="filter-dot"></div>
     {label}
@@ -35,12 +35,12 @@ export const ActionButton = ({ icon: Icon, label, on_click }) => (
 );
 
 export const LogText = ({ text, color }) => {
-  const segments = parse_segments(text);
-  const lightened = color ? rgb_lighten(color, 0.4) : null;
+  const segments = bridge.parse_segments(text);
+  const lightened = color ? bridge.rgb_lighten(color, 0.4) : null;
   return segments.map((seg, i) =>
     seg.is_code
       ? <code key={i} className="log-code" style={lightened ? {
-        color: rgb_to_css(lightened),
+        color: bridge.bridge.rgb_to_css_alpha(lightened),
         background: rgb_to_css_alpha(lightened, 0.025),
         borderColor: rgb_to_css_alpha(lightened, 0.3),
       } : {}}>{seg.text}</code>
@@ -49,15 +49,15 @@ export const LogText = ({ text, color }) => {
 };
 
 export const LogRow = ({ type, badge, color, timestamp, message, repeat_count, is_hidden }) => {
-  const lines = parse_lines(message);
+  const lines = bridge.parse_lines(message);
   const is_multiline = lines.length > 1;
   return (
     <div
       className={`log-row ${type} ${is_hidden ? 'hidden' : ''} ${is_multiline ? 'log-row-multiline' : ''}`}
-      style={{ color: rgb_to_css(rgb_lighten(color, 0.05)) }}
+      style={{ color: bridge.bridge.rgb_to_css_alpha(bridge.rgb_lighten(color, 0.05)) }}
     >
       <span className="log-ts">{timestamp}</span>
-      <span className="log-level" style={{ color: rgb_to_css(color) }}>{badge}</span>
+      <span className="log-level" style={{ color: bridge.bridge.rgb_to_css_alpha(color) }}>{badge}</span>
       <span className="log-msg">
         {lines.map((line, i) => (
           <span key={i} className={line.is_quote ? 'log-line log-quote' : 'log-line'}>
