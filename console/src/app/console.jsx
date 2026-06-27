@@ -1,4 +1,5 @@
 import * as react from 'react';
+import * as lucide from 'lucide-react';
 import * as app_config from './config';
 import * as app_bridge from './bridge';
 import * as app_components from './components';
@@ -247,8 +248,8 @@ export const Console = () => {
           ))}
         </div>
         <div className="tabbar-actions">
-          <app_components.ActionButton icon={app_components.RotateIcon} label="Reset" on_click={() => set_position(app_config.DEFAULT_POSITION)}/>
-          <app_components.ActionButton icon={app_components.TrashIcon} label="Clear" on_click={clear_logs}/>
+          <app_components.ActionButton icon={lucide.Trash2} label="Reset" on_click={() => set_position(app_config.DEFAULT_POSITION)}/>
+          <app_components.ActionButton icon={lucide.RotateCcw} label="Clear" on_click={clear_logs}/>
         </div>
       </div>
 
