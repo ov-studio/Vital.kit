@@ -23,7 +23,120 @@ jobs:
         with:
           fetch-depth: 0
 
-      # ── 2. Generate checksum manifest (JSON) ──────────────────────────────
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # ── 2. Build every npm subproject, ship build/dist output only ────────
+      # Auto-detects any directory (excluding node_modules) containing a
+      # package.json with a "build" script - e.g. console/ right now, and
+      # any future npm subproject without needing to touch this workflow.
+      # After building, the subproject directory is pruned down to just its
+      # build/ or dist/ output: src/, node_modules/, package.json,
+      # package-lock.json, vite.config.js, README.md, etc. are all removed
+      # from what gets released. They remain in git history/the source repo,
+      # just not in the shipped archive.
+      - name: Build npm subprojects
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          find . -name "package.json" -not -path "*/node_modules/*" -print0 |
+          while IFS= read -r -d '' pkg; do
+              dir=$(dirname "$pkg")
+              has_build=$(PKG_PATH="$pkg" node -e "
+                const p = require(require('path').resolve(process.env.PKG_PATH));
+                console.log(p.scripts && p.scripts.build ? 'yes' : 'no');
+              " 2>/dev/null || echo "no")
+
+              if [ "$has_build" != "yes" ]; then
+                  continue
+              fi
+
+              echo "::group::Building $dir"
+
+              (
+                  cd "$dir"
+                  if [ -f package-lock.json ]; then
+                      npm ci
+                  else
+                      echo "WARNING: $dir has no package-lock.json, falling back to npm install" >&2
+                      npm install
+                  fi
+                  npm run build
+              )
+
+              # Determine the actual build output directory. For Vite projects,
+              # ask Vite directly via its own config-loading API rather than
+              # guessing a fixed path - this is the only way to be correct
+              # when outDir is customized (e.g. "../build", placing output
+              # OUTSIDE the project directory, as vital-console's config does).
+              # Falls back to checking dist/ or build/ inside the project dir
+              # for non-Vite projects that don't have this API available.
+              build_dir=$(
+                  cd "$dir" && PROJECT_DIR="$(pwd)" node -e "
+                    (async () => {
+                      try {
+                        const path = require('path');
+                        const { loadConfigFromFile } = require('vite');
+                        const result = await loadConfigFromFile(
+                          { command: 'build', mode: 'production' },
+                          undefined,
+                          process.env.PROJECT_DIR
+                        );
+                        const outDir = result?.config?.build?.outDir ?? 'dist';
+                        console.log(path.resolve(process.env.PROJECT_DIR, outDir));
+                      } catch (e) {
+                        process.exit(1);
+                      }
+                    })();
+                  " 2>/dev/null
+              ) || build_dir=""
+
+              # Fallback for non-Vite projects (or if the Vite API call failed):
+              # check the conventional dist/ or build/ inside the project dir.
+              if [ -z "$build_dir" ] || [ ! -d "$build_dir" ]; then
+                  if [ -d "$dir/dist" ]; then
+                      build_dir="$dir/dist"
+                  elif [ -d "$dir/build" ]; then
+                      build_dir="$dir/build"
+                  else
+                      build_dir=""
+                  fi
+              fi
+
+              if [ -z "$build_dir" ] || [ ! -d "$build_dir" ]; then
+                  echo "ERROR: '$dir' has a build script but no build output could be located (checked Vite's configured outDir, then dist/, then build/)" >&2
+                  exit 1
+              fi
+
+              echo "Resolved build output: $build_dir"
+
+              # Prune the subproject directory down to just its build output,
+              # normalized to a "build" subfolder at the same level as the
+              # project directory itself - regardless of whether the build
+              # output originally lived inside the project dir (dist/, build/)
+              # or outside it (e.g. "../build").
+              parent_dir=$(dirname "$dir")
+              target="$parent_dir/build"
+
+              tmp_hold=$(mktemp -d)
+              mv "$build_dir" "$tmp_hold/output"
+              rm -rf "${dir:?}"
+              # build_dir may have been *inside* $dir (already removed above)
+              # or a sibling of it (still present) - rm -rf is safe either way.
+              rm -rf "$target" 2>/dev/null || true
+              mv "$tmp_hold/output" "$target"
+              rmdir "$tmp_hold"
+
+              echo "Pruned $dir - build output now at $target"
+              echo "::endgroup::"
+          done
+
+      # ── 3. Generate checksum manifest (JSON) ──────────────────────────────
+      # Runs AFTER the build/prune step above, so checksums reflect exactly
+      # what ships in the archive - not the pre-build source tree.
       - name: Generate checksum manifest
         shell: bash
         run: |
@@ -87,7 +200,7 @@ jobs:
           TAG:    ${{ github.ref_name }}
           COMMIT: ${{ github.sha }}
 
-      # ── 3. Build the release zip ───────────────────────────────────────────
+      # ── 4. Build the release zip ───────────────────────────────────────────
       - name: Build release archive
         shell: bash
         run: |
@@ -100,7 +213,7 @@ jobs:
           unzip -l "$ARCHIVE" | grep -q "checksum.json"
           echo "Archive: $(du -sh "$ARCHIVE" | cut -f1)  →  $ARCHIVE"
 
-      # ── 4. Create GitHub release & upload assets ───────────────────────────
+      # ── 5. Create GitHub release & upload assets ───────────────────────────
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
         with:
