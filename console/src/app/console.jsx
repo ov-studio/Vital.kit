@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { DEFAULT_POSITION, LOG_DEBOUNCE, LOG_LIMIT, Godot_To_Key, make_key } from './godot-bridge.js';
+import * as bridge from './bridge.js';
 import { FilterButton, ActionButton, LogRow, TrashIcon, RotateIcon } from './components.jsx';
 
 export const Console = () => {
@@ -10,7 +10,7 @@ export const Console = () => {
   const [command_history, set_command_history] = useState([]);
   const [history_index, set_history_index] = useState(-1);
   const [temp_input, set_temp_input] = useState('');
-  const [position, set_position] = useState(DEFAULT_POSITION);
+  const [position, set_position] = useState(bridge.DEFAULT_POSITION);
   const [bind_key, set_bind_key] = useState(null);
   const [size, set_size] = useState({ width: '800px', height: '360px' });
 
@@ -72,14 +72,14 @@ export const Console = () => {
 
     const ts = entry.timestamp || new Date().toTimeString().slice(0, 8);
     const now = Date.now();
-    const key = make_key(entry.mode, entry.message);
+    const key = bridge.make_key(entry.mode, entry.message);
     for (const [k, e] of group_map_ref.current)
       if (now >= e.expires_at) group_map_ref.current.delete(k);
 
     const existing = group_map_ref.current.get(key);
     if (existing) {
       existing.count++;
-      existing.expires_at = now + LOG_DEBOUNCE;
+      existing.expires_at = now + bridge.LOG_DEBOUNCE;
       existing.timestamp = ts;
       set_logs(prev => prev.map(log =>
         log.id === existing.id ? { ...log, repeat_count: existing.count, timestamp: ts } : log
@@ -94,10 +94,10 @@ export const Console = () => {
         timestamp: ts,
         repeat_count: 1
       };
-      group_map_ref.current.set(key, { id: new_log.id, count: 1, expires_at: now + LOG_DEBOUNCE, timestamp: ts });
+      group_map_ref.current.set(key, { id: new_log.id, count: 1, expires_at: now + bridge.LOG_DEBOUNCE, timestamp: ts });
       set_logs(prev => {
         const updated = [...prev, new_log];
-        if (updated.length > LOG_LIMIT) return updated.slice(updated.length - LOG_LIMIT);
+        if (updated.length > bridge.LOG_LIMIT) return updated.slice(updated.length - bridge.LOG_LIMIT);
         return updated;
       });
       setTimeout(() => { if (log_body_ref.current) log_body_ref.current.scrollTop = log_body_ref.current.scrollHeight; }, 0);
@@ -112,7 +112,7 @@ export const Console = () => {
 
   const handle_message = useCallback((e) => {
     const data = JSON.parse(e.detail);
-    if (data.action === 'init') { set_seed_meta(data.types); if (data.bind) set_bind_key(Godot_To_Key(data.bind)); }
+    if (data.action === 'init') { set_seed_meta(data.types); if (data.bind) set_bind_key(bridge.Godot_To_Key(data.bind)); }
     else if (data.action === 'print') add_log(data, seed_meta);
     else if (data.action === 'clear') clear_logs();
   }, [add_log, seed_meta]);
@@ -246,7 +246,7 @@ export const Console = () => {
           ))}
         </div>
         <div className="tabbar-actions">
-          <ActionButton icon={RotateIcon} label="Reset" on_click={() => set_position(DEFAULT_POSITION)}/>
+          <ActionButton icon={RotateIcon} label="Reset" on_click={() => set_position(bridge.DEFAULT_POSITION)}/>
           <ActionButton icon={TrashIcon} label="Clear" on_click={clear_logs}/>
         </div>
       </div>
