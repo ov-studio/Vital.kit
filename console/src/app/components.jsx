@@ -1,4 +1,4 @@
-import React from 'react';
+import * as react from 'react';
 import * as app_bridge from './bridge';
 
 export const TrashIcon = ({ size = 24, strokeWidth = 2, ...props }) => (
@@ -44,7 +44,7 @@ export const LogText = ({ text, color }) => {
         background: app_bridge.rgb_to_css_alpha(lightened, 0.025),
         borderColor: app_bridge.rgb_to_css_alpha(lightened, 0.3),
       } : {}}>{seg.text}</code>
-      : <React.Fragment key={i}>{seg.text}</React.Fragment>
+      : <react.default.Fragment key={i}>{seg.text}</react.default.Fragment>
   );
 };
 
