@@ -63,4 +63,4 @@ if (import.meta.env.DEV) {
 // ===== END LOCAL TEST HARNESS =====
 
 const root = createRoot(document.getElementById('root'));
-root.render(<Console />);
+root.render(<Console/>);
