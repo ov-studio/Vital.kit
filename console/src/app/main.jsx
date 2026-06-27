@@ -56,6 +56,20 @@ if (import.meta.env.DEV) {
     // Demonstrates repeat/debounce grouping (same message sent twice quickly)
     setTimeout(() => send({ action: 'print', mode: 'warn', message: 'Texture `player_atlas.dds` missing mip levels, falling back to `auto`' }), 2600);
     setTimeout(() => send({ action: 'print', mode: 'warn', message: 'Texture `player_atlas.dds` missing mip levels, falling back to `auto`' }), 2900);
+
+    // Spam simulation - fires after sample logs settle, runs for 10 seconds.
+    // Mimics the high-frequency log bursts that cause filter clicks to lag.
+    const spam_messages = [
+      { mode: 'info', message: 'drawing' },
+      { mode: 'debug', message: 'tick: frame update' },
+      { mode: 'warn', message: 'slow frame detected' },
+    ];
+    let spam_i = 0;
+    const spam = setInterval(() => {
+      send({ action: 'print', ...spam_messages[spam_i % spam_messages.length] });
+      spam_i++;
+    }, 1);
+    setTimeout(() => clearInterval(spam), 10000);
   });
 }
 
