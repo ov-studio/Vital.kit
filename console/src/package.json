@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react-dom": "18.3.1",
+    "lucide-react": "0.525.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "6.0.3",
