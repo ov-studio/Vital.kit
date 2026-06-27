@@ -248,8 +248,8 @@ export const Console = () => {
           ))}
         </div>
         <div className="tabbar-actions">
-          <app_components.ActionButton icon={lucide.Trash2} label="Reset" on_click={() => set_position(app_config.DEFAULT_POSITION)}/>
-          <app_components.ActionButton icon={lucide.RotateCcw} label="Clear" on_click={clear_logs}/>
+          <app_components.ActionButton icon={lucide.RotateCcw} label="Reset" on_click={() => set_position(app_config.DEFAULT_POSITION)}/>
+          <app_components.ActionButton icon={lucide.Trash2} label="Clear" on_click={clear_logs}/>
         </div>
       </div>
 
