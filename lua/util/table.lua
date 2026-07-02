@@ -15,10 +15,8 @@
 local private = {
     rawset = rawset,
     rawget = rawget,
-    unpack = util.table.unpack,
-    json = json
+    unpack = util.table.unpack
 }
-json = nil
 
 function util.table.len(input)
   return private.rawget(input, "n") or #input
@@ -54,20 +52,6 @@ function util.table.remove(input, index)
     input[n] = nil
     private.rawset(input, "n", n - 1)
     return result
-end
-
-function util.table.encode(input, mode, ...)
-    if not input or (type(input) ~= "table") then return false end
-    mode = mode or "JSON"
-    if mode == "JSON" then return private.json.encode(input, ...) end
-    return false
-end
-
-function util.table.decode(input, mode, ...)
-    if not input or (type(input) ~= "string") then return false end
-    mode = mode or "JSON"
-    if mode == "JSON" then return private.json.decode(input, ...) end
-    return false
 end
 
 function util.table.clone(input, recursive)
