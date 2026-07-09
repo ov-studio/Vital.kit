@@ -1,6 +1,8 @@
 ## Overview
 
-A curated set of utilities, modules, and extensions designed to extend and complement the [Vital.sandbox](https://github.com/ov-studio/Vital.sandbox) ecosystem. Vital.kit provides ready-to-use Lua modules that integrate directly with the sandbox runtime — covering networking helpers, UI patterns, data structures, and more — so you can focus on building rather than reinventing foundations.
+A curated set of utilities, modules, and extensions designed to extend and complement the Vital.sandbox ecosystem.
+
+Vital.kit provides ready-to-use Lua modules that integrate directly with the sandbox runtime — covering networking helpers, UI patterns, data structures, and more — so you can focus on building rather than reinventing foundations.
 
 ## Getting Started
 
