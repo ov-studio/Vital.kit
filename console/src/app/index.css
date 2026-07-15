@@ -183,7 +183,7 @@ body,
   padding-right: 4px;
 }
 
-.icon-btn {
+.action-btn {
   padding: 0 8px;
   gap: 5px;
   height: 22px;
@@ -199,7 +199,7 @@ body,
   transition: background 0.15s, color 0.15s, transform 0.1s;
 }
 
-.icon-btn:hover {
+.action-btn:hover {
   background: var(--b10);
   color: var(--blue);
 }
