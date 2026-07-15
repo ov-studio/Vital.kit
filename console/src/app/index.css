@@ -105,7 +105,7 @@ body,
 .titlebar-label {
   font-family: 'Rajdhani', sans-serif;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.025em;
   color: var(--blue);
   flex-shrink: 0;
