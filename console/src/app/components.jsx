@@ -15,9 +15,8 @@ export const FilterButton = ({ type, label, count, is_active, on_click, color })
 );
 
 export const ActionButton = ({ icon: Icon, label, on_click }) => (
-  <button className="icon-btn icon-btn-labeled" onClick={on_click}>
-    <Icon size={12} strokeWidth={2}/>
-    <span className="btn-label">{label}</span>
+  <button className="icon-btn" onClick={on_click}>
+    <Icon size={13} strokeWidth={3}/>
   </button>
 );
 

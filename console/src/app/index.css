@@ -184,6 +184,8 @@ body,
 }
 
 .icon-btn {
+  padding: 0 8px;
+  gap: 5px;
   height: 22px;
   width: auto;
   border-radius: calc(var(--radius) - 2px);
@@ -192,30 +194,14 @@ body,
   align-items: center;
   justify-content: center;
   color: var(--dim);
-  background: hsla(220, 95%, 76%, 0.03);
+  background: var(--rule);
   cursor: pointer;
   transition: background 0.15s, color 0.15s, transform 0.1s;
-}
-
-.icon-btn-labeled {
-  width: auto;
-  padding: 0 8px;
-  gap: 5px;
-  background: var(--rule);
 }
 
 .icon-btn:hover {
   background: var(--b10);
   color: var(--blue);
-}
-
-.icon-btn:active {}
-
-.btn-label {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
 }
 
 .log-body {
