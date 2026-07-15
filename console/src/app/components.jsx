@@ -52,7 +52,11 @@ export const LogRow = ({ type, badge, color, timestamp, message, repeat_count, i
           </span>
         ))}
       </span>
-      {repeat_count > 1 && <span className="badge visible">x{repeat_count}</span>}
+      {repeat_count > 1 && (
+        <span className="badge">
+          x{repeat_count}
+        </span>
+      )}
     </div>
   );
 };
