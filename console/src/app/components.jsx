@@ -23,15 +23,18 @@ export const ActionButton = ({ icon: Icon, label, on_click }) => (
 export const LogText = ({ text, color }) => {
   const segments = app_bridge.parse_segments(text);
   const lightened = color ? app_bridge.rgb_lighten(color, 0.4) : null;
-  return segments.map((seg, i) =>
-    seg.is_code
-      ? <code key={i} className="log-code" style={lightened ? {
-        color: app_bridge.rgb_to_css(lightened),
-        background: app_bridge.rgb_to_css_alpha(lightened, 0.025),
-        borderColor: app_bridge.rgb_to_css_alpha(lightened, 0.3),
-      } : {}}>{seg.text}</code>
-      : <react.default.Fragment key={i}>{seg.text}</react.default.Fragment>
-  );
+  const code_style = lightened ? {
+    color: app_bridge.rgb_to_css(lightened),
+    background: app_bridge.rgb_to_css_alpha(lightened, 0.025),
+    borderColor: app_bridge.rgb_to_css_alpha(lightened, 0.3),
+  } : {};
+  return segments.map((seg, i) => {
+    if (!seg.is_code) return <react.default.Fragment key={i}>{seg.text}</react.default.Fragment>;
+    const is_multiline = seg.text.includes('\n');
+    return is_multiline
+      ? <pre key={i} className="log-code log-code-block" style={code_style}>{seg.text}</pre>
+      : <code key={i} className="log-code" style={code_style}>{seg.text}</code>;
+  });
 };
 
 export const LogRow = ({ type, badge, color, timestamp, message, repeat_count, is_hidden }) => {
@@ -44,13 +47,13 @@ export const LogRow = ({ type, badge, color, timestamp, message, repeat_count, i
     >
       <span className="log-ts">{timestamp}</span>
       <span className="log-level" style={{ color: app_bridge.rgb_to_css(color) }}>{badge}</span>
-      <span className="log-msg">
+      <div className="log-msg">
         {lines.map((line, i) => (
-          <span key={i} className={line.is_quote ? 'log-line log-quote' : 'log-line'}>
+          <div key={i} className={line.is_quote ? 'log-line log-quote' : 'log-line'}>
             <LogText text={line.text} color={color}/>
-          </span>
+          </div>
         ))}
-      </span>
+      </div>
       {repeat_count > 1 && (
         <span className="badge">
           x{repeat_count}

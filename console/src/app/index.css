@@ -276,6 +276,7 @@ body,
   min-width: 0;
   overflow-wrap: break-word;
   word-break: break-word;
+  align-self: flex-start;
 }
 
 .badge {
@@ -344,6 +345,10 @@ body,
   margin-top: 2px;
 }
 
+.log-quote+.log-quote {
+  margin-top: 0;
+}
+
 .log-code {
   font-family: 'Geist Mono', monospace;
   font-size: 12px;
@@ -364,6 +369,18 @@ body,
 .log-code:hover {
   filter: brightness(1.15) saturate(1.15);
   border-color: hsla(220, 95%, 76%, 0.4);
+}
+
+.log-code-block {
+  display: block;
+  width: fit-content;
+  min-width: 0;
+  margin: 4px 0 2px;
+  padding: 6px 10px;
+  line-height: 1.6;
+  vertical-align: unset;
+  white-space: pre;
+  overflow-x: auto;
 }
 
 .resize-handle {

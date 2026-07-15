@@ -45,7 +45,7 @@ if (import.meta.env.DEV) {
       { mode: 'debug', message: 'Loaded module `vm_module` with scope `core.thread`' },
       { mode: 'info', message: 'Resource group `world_assets` ready (12/12)' },
       { mode: 'warn', message: 'Texture `player_atlas.dds` missing mip levels, falling back to `auto`' },
-      { mode: 'error', message: 'Failed to bind `event.on` handler:\n> stack overflow in `signal()`\n> at Manager::Sandbox::dispatch' },
+      { mode: 'error', message: 'Failed to bind `event.on` handler:\n> stack overflow in `signal(\n\ta, \n\tb\n)` at Manager::Sandbox::dispatch' },
       { mode: 'info', message: 'Connected to server as `client_07`' },
     ];
 

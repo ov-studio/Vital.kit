@@ -36,17 +36,23 @@ export const rgb_lighten = (rgb, factor) => [
 
 export const parse_lines = (message) => {
   if (typeof message !== 'string') return [{ is_quote: false, text: String(message) }];
-  const raw = message.split('\n').map(line => {
-    const match = line.match(/^>\s?(.*)/);
-    if (match) return { is_quote: true, text: match[1] };
-    return { is_quote: false, text: line };
-  });
-  return raw.reduce((acc, line) => {
-    const prev = acc[acc.length - 1];
-    if (prev && prev.is_quote && line.is_quote) prev.text += '\n' + line.text;
-    else acc.push({ ...line });
-    return acc;
-  }, []);
+  const groups = [];
+  let open_code = false;
+  message.split('\n').forEach(raw_line => {
+    const prev = groups[groups.length - 1];
+    if (open_code && prev) {
+      prev.text += '\n' + raw_line;
+      if (((raw_line.match(/`/g) || []).length) % 2 === 1) open_code = false;
+      return;
+    }
+    const match = raw_line.match(/^>\s?(.*)/);
+    const is_quote = !!match;
+    const text = match ? match[1] : raw_line;
+    if (prev && prev.is_quote && is_quote) prev.text += '\n' + text;
+    else groups.push({ is_quote, text });
+    if (((text.match(/`/g) || []).length) % 2 === 1) open_code = true;
+  })
+  return groups;
 };
 
 export const parse_segments = (text) => {
@@ -54,10 +60,16 @@ export const parse_segments = (text) => {
   const regex = /`([^`]+)`/g;
   let last = 0, match;
   while ((match = regex.exec(text)) !== null) {
-    if (match.index > last) segments.push({ is_code: false, text: text.slice(last, match.index) });
+    if (match.index > last) {
+      const t = text.slice(last, match.index).replace(/^\n+/, '').replace(/\n+$/, '');
+      if (t) segments.push({ is_code: false, text: t });
+    }
     segments.push({ is_code: true, text: match[1] });
     last = match.index + match[0].length;
   }
-  if (last < text.length) segments.push({ is_code: false, text: text.slice(last) });
+  if (last < text.length) {
+    const t = text.slice(last).replace(/^\n+/, '').replace(/\n+$/, '');
+    if (t) segments.push({ is_code: false, text: t });
+  }
   return segments;
 };
