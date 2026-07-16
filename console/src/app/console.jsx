@@ -194,7 +194,7 @@ export const Console = () => {
   }, []);
 
   const handle_mouse_down = react.useCallback((e) => {
-    if (e.target.closest('.icon-btn, .filter')) return;
+    if (e.target.closest('.action-btn, .filter')) return;
 
     e.preventDefault();
     set_is_dragging(true);
