@@ -48,8 +48,7 @@ export const parse_lines = (message) => {
     const match = raw_line.match(/^>\s?(.*)/);
     const is_quote = !!match;
     const text = match ? match[1] : raw_line;
-    if (prev && prev.is_quote && is_quote) prev.text += '\n' + text;
-    else groups.push({ is_quote, text });
+    groups.push({ is_quote, text });
     if (((text.match(/`/g) || []).length) % 2 === 1) open_code = true;
   })
   return groups;
