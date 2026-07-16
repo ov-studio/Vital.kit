@@ -1,4 +1,4 @@
-const GODOT_KEY = {
+const KEY = {
   // Alphabet
   'A': 'a',
   'B': 'b',
@@ -184,7 +184,7 @@ const GODOT_KEY = {
 
 export function godot_to_key(key) {
   if (!key) return null;
-  return GODOT_KEY[key.toUpperCase()] ?? key;
+  return KEY[key.toUpperCase()] ?? key;
 }
 
 export const make_key = (type, msg) => `${type}:${msg}`;
