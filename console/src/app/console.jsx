@@ -24,8 +24,9 @@ export const Console = () => {
   const seed_meta_ref = react.useRef(seed_meta);
   const level_types_ref = react.useRef([]);
   const pinned_ref = react.useRef(true);
-  const programmatic_scroll_ref = react.useRef(false);
   const last_scroll_top_ref = react.useRef(0);
+  const scroll_idle_ref = react.useRef(null);
+  const raf_ref = react.useRef(null);
 
   react.useEffect(() => { seed_meta_ref.current = seed_meta; }, [seed_meta]);
 
@@ -44,8 +45,7 @@ export const Console = () => {
   }, [logs, seed_meta]);
 
   const level_types = react.useMemo(() => {
-    const result = [...new Set([...Object.keys(seed_meta), ...logs.map(l => l.type)])]
-      .sort((a, b) => (level_meta[a]?.priority ?? 99) - (level_meta[b]?.priority ?? 99));
+    const result = [...new Set([...Object.keys(seed_meta), ...logs.map(l => l.type)])].sort((a, b) => (level_meta[a]?.priority ?? 99) - (level_meta[b]?.priority ?? 99));
     level_types_ref.current = result;
     return result;
   }, [logs, level_meta, seed_meta]);
@@ -68,31 +68,23 @@ export const Console = () => {
 
   const total_count = react.useMemo(() => Object.values(log_counts).reduce((s, c) => s + c, 0), [log_counts]);
 
-  const scroll_bottom = react.useCallback(() => {
-    setTimeout(() => {
-      const el = log_body_ref.current;
-      if (!el || !pinned_ref.current) return;
-      programmatic_scroll_ref.current = true;
-      el.scrollTo({ top: el.scrollHeight, behavior: 'auto' });
-    }, 0);
-  }, []);
-
   const handle_scroll = react.useCallback(() => {
     const el = log_body_ref.current;
-    if (programmatic_scroll_ref.current) {
-      programmatic_scroll_ref.current = false;
-      if (el) last_scroll_top_ref.current = el.scrollTop;
-      return;
-    }
     if (!el) return;
-    const scrolled_up = el.scrollTop < last_scroll_top_ref.current;
+
+    if (el.scrollTop < last_scroll_top_ref.current) pinned_ref.current = false;
     last_scroll_top_ref.current = el.scrollTop;
-    pinned_ref.current = scrolled_up ? false : (el.scrollHeight - el.scrollTop - el.clientHeight < 30);
+    clearTimeout(scroll_idle_ref.current);
+    scroll_idle_ref.current = setTimeout(() => {
+      const near_bottom = el.scrollHeight - el.scrollTop - el.clientHeight < 30;
+      if (near_bottom) pinned_ref.current = true;
+    }, 150);
   }, []);
 
   const handle_log_mousedown = react.useCallback((e) => {
     const el = log_body_ref.current;
     if (!el) return;
+
     const scrollbar_width = el.offsetWidth - el.clientWidth;
     const rect = el.getBoundingClientRect();
     const clicked_scrollbar = scrollbar_width > 0 && e.clientX >= rect.right - scrollbar_width;
@@ -118,7 +110,6 @@ export const Console = () => {
       set_logs(prev => prev.map(log =>
         log.id === existing.id ? { ...log, repeat_count: existing.count, timestamp: ts } : log
       ));
-      scroll_bottom();
     }
     else {
       const new_log = {
@@ -134,9 +125,8 @@ export const Console = () => {
         if (updated.length > app_config.LOG_LIMIT) return updated.slice(updated.length - app_config.LOG_LIMIT);
         return updated;
       });
-      scroll_bottom();
     }
-  }, [scroll_bottom]);
+  }, []);
 
   const clear_logs = react.useCallback(() => {
     set_logs([]);
@@ -154,6 +144,7 @@ export const Console = () => {
   const handle_command = react.useCallback((command) => {
     const message = command.trim();
     if (!message) return;
+    
     set_command_history(prev => prev[prev.length - 1] !== message ? [...prev, message] : prev);
     set_history_index(-1);
     set_temp_input('');
@@ -167,6 +158,7 @@ export const Console = () => {
       return;
     }
     if (document.activeElement !== input_ref.current) return;
+
     if (e.key === 'Enter' && command_input.trim()) {
       handle_command(command_input);
       set_command_input('');
@@ -205,6 +197,7 @@ export const Console = () => {
 
   const handle_mouse_down = react.useCallback((e) => {
     if (e.target.closest('.icon-btn, .filter')) return;
+
     e.preventDefault();
     set_is_dragging(true);
     const rect = console_ref.current.getBoundingClientRect();
@@ -213,6 +206,7 @@ export const Console = () => {
 
   const handle_mouse_move = react.useCallback((e) => {
     if (!is_dragging) return;
+
     set_position({ x: e.clientX - drag_offset_ref.current.x, y: e.clientY - drag_offset_ref.current.y });
   }, [is_dragging]);
 
@@ -229,6 +223,16 @@ export const Console = () => {
   }, []);
 
   react.useEffect(() => {
+    const tick = () => {
+      const el = log_body_ref.current;
+      if (el && pinned_ref.current) el.scrollTop = el.scrollHeight;
+      raf_ref.current = requestAnimationFrame(tick);
+    };
+    raf_ref.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf_ref.current);
+  }, []);
+
+  react.useEffect(() => {
     const prevent = (e) => e.preventDefault();
     document.addEventListener('contextmenu', prevent);
     return () => document.removeEventListener('contextmenu', prevent);
@@ -236,6 +240,7 @@ export const Console = () => {
 
   react.useEffect(() => {
     if (!is_dragging) return;
+
     document.addEventListener('mousemove', handle_mouse_move);
     document.addEventListener('mouseup', handle_mouse_up);
     return () => { document.removeEventListener('mousemove', handle_mouse_move); document.removeEventListener('mouseup', handle_mouse_up); };
