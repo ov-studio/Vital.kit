@@ -74,7 +74,7 @@ function core.engine.inspect(...)
 end
 
 function core.engine.iprint(input, ...)
-    local separator = ((core.engine.get_platform() == "client") and "> ") or "> "
+    local separator = "> "
     local output = core.engine.inspect(input, ...)
     local result = "Inspect: "..tostring(input).."\n"
     result = result..util.string.gsub(output, "([^\n]+)", separator.."%1")
