@@ -46,7 +46,7 @@ if (import.meta.env.DEV) {
       { mode: 'info', message: 'Resource group `world_assets` ready (12/12)' },
       { mode: 'warn', message: 'Texture `player_atlas.dds` missing mip levels, falling back to `auto`' },
       { mode: 'error', message: 'Failed to bind `event.on` handler:\n> stack overflow in `signal()`\n> at Manager::Sandbox::dispatch' },
-      { mode: 'error', message: 'Failed to bind `event.on` handler:\n> stack overflow in `signal(\n\ta, \n\tb\n)`\n> at Manager::Sandbox::dispatch' },
+      { mode: 'error', message: 'Failed to bind `event.on` handler:\n> stack overflow in `signal(\n\ta, \n\tb\n)`\n at Manager::Sandbox::dispatch' },
       { mode: 'info', message: 'Connected to server as `client_07`' },
     ];
 
@@ -54,23 +54,20 @@ if (import.meta.env.DEV) {
       setTimeout(() => send({ action: 'print', ...log }), 300 * (i + 1));
     });
 
-    // Demonstrates repeat/debounce grouping (same message sent twice quickly)
     setTimeout(() => send({ action: 'print', mode: 'warn', message: 'Texture `player_atlas.dds` missing mip levels, falling back to `auto`' }), 2600);
     setTimeout(() => send({ action: 'print', mode: 'warn', message: 'Texture `player_atlas.dds` missing mip levels, falling back to `auto`' }), 2900);
 
-    // Spam simulation - fires after sample logs settle, runs for 10 seconds.
-    // Mimics the high-frequency log bursts that cause filter clicks to lag.
     const spam_messages = [
       { mode: 'info', message: 'drawing' },
       { mode: 'debug', message: 'tick: frame update' },
       { mode: 'warn', message: 'slow frame detected' },
+      { mode: 'error', message: 'Failed to bind `event.on` handler:\n> stack overflow in `signal()`\n> at Manager::Sandbox::dispatch' },
     ];
     let spam_i = 0;
     const spam = setInterval(() => {
       send({ action: 'print', ...spam_messages[spam_i % spam_messages.length] });
       spam_i++;
-    }, 1);
-    setTimeout(() => clearInterval(spam), 10000);
+    }, 50);
   });
 }
 
@@ -86,4 +83,4 @@ document.addEventListener('keydown', (e) => {
 
 
 const root = react.createRoot(document.getElementById('root'));
-root.render(<app_console.Console/>);
+root.render(<app_console.Console />);
