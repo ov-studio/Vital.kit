@@ -57,17 +57,19 @@ if (import.meta.env.DEV) {
     setTimeout(() => send({ action: 'print', mode: 'warn', message: 'Texture `player_atlas.dds` missing mip levels, falling back to `auto`' }), 2600);
     setTimeout(() => send({ action: 'print', mode: 'warn', message: 'Texture `player_atlas.dds` missing mip levels, falling back to `auto`' }), 2900);
 
-    const spam_messages = [
-      { mode: 'info', message: 'drawing' },
-      { mode: 'debug', message: 'tick: frame update' },
-      { mode: 'warn', message: 'slow frame detected' },
-      { mode: 'error', message: 'Failed to bind `event.on` handler:\n> stack overflow in `signal()`\n> at Manager::Sandbox::dispatch' },
-    ];
-    let spam_i = 0;
-    const spam = setInterval(() => {
-      send({ action: 'print', ...spam_messages[spam_i % spam_messages.length] });
-      spam_i++;
-    }, 50);
+    setTimeout(() => {
+      const spam_messages = [
+        { mode: 'info', message: 'drawing' },
+        { mode: 'debug', message: 'tick: frame update' },
+        { mode: 'warn', message: 'slow frame detected' },
+        { mode: 'error', message: 'Failed to bind `event.on` handler:\n> stack overflow in `signal()`\n> at Manager::Sandbox::dispatch' },
+      ];
+      let spam_i = 0;
+      const spam = setInterval(() => {
+        send({ action: 'print', ...spam_messages[spam_i % spam_messages.length] });
+        spam_i++;
+      }, 50);
+    }, 2900);
   });
 }
 

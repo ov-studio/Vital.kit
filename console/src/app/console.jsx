@@ -28,8 +28,6 @@ export const Console = () => {
   const scroll_idle_ref = react.useRef(null);
   const raf_ref = react.useRef(null);
 
-  react.useEffect(() => { seed_meta_ref.current = seed_meta; }, [seed_meta]);
-
   const level_meta = react.useMemo(() => {
     const map = { ...seed_meta };
     logs.forEach(l => {
@@ -221,6 +219,8 @@ export const Console = () => {
     document.addEventListener('mousemove', on_move);
     document.addEventListener('mouseup', on_end);
   }, []);
+
+  react.useEffect(() => { seed_meta_ref.current = seed_meta; }, [seed_meta]);
 
   react.useEffect(() => {
     const tick = () => {
