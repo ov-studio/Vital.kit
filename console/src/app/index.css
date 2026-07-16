@@ -380,6 +380,7 @@ body,
   line-height: 1.6;
   vertical-align: unset;
   white-space: pre;
+  tab-size: 4;
   overflow-x: auto;
 }
 
