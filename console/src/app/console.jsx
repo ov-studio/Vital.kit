@@ -23,6 +23,9 @@ export const Console = () => {
   const drag_offset_ref = react.useRef({ x: 0, y: 0 });
   const seed_meta_ref = react.useRef(seed_meta);
   const level_types_ref = react.useRef([]);
+  const pinned_ref = react.useRef(true);
+  const programmatic_scroll_ref = react.useRef(false);
+  const last_scroll_top_ref = react.useRef(0);
 
   react.useEffect(() => { seed_meta_ref.current = seed_meta; }, [seed_meta]);
 
@@ -68,9 +71,32 @@ export const Console = () => {
   const scroll_bottom = react.useCallback(() => {
     setTimeout(() => {
       const el = log_body_ref.current;
-      if (el && el.scrollHeight - el.scrollTop - el.clientHeight < 6)
-        el.scrollTop = el.scrollHeight;
+      if (!el || !pinned_ref.current) return;
+      programmatic_scroll_ref.current = true;
+      el.scrollTo({ top: el.scrollHeight, behavior: 'auto' });
     }, 0);
+  }, []);
+
+  const handle_scroll = react.useCallback(() => {
+    const el = log_body_ref.current;
+    if (programmatic_scroll_ref.current) {
+      programmatic_scroll_ref.current = false;
+      if (el) last_scroll_top_ref.current = el.scrollTop;
+      return;
+    }
+    if (!el) return;
+    const scrolled_up = el.scrollTop < last_scroll_top_ref.current;
+    last_scroll_top_ref.current = el.scrollTop;
+    pinned_ref.current = scrolled_up ? false : (el.scrollHeight - el.scrollTop - el.clientHeight < 30);
+  }, []);
+
+  const handle_log_mousedown = react.useCallback((e) => {
+    const el = log_body_ref.current;
+    if (!el) return;
+    const scrollbar_width = el.offsetWidth - el.clientWidth;
+    const rect = el.getBoundingClientRect();
+    const clicked_scrollbar = scrollbar_width > 0 && e.clientX >= rect.right - scrollbar_width;
+    if (e.button === 1 || clicked_scrollbar) pinned_ref.current = false;
   }, []);
 
   const add_log = react.useCallback((entry, meta) => {
@@ -108,7 +134,7 @@ export const Console = () => {
         if (updated.length > app_config.LOG_LIMIT) return updated.slice(updated.length - app_config.LOG_LIMIT);
         return updated;
       });
-      setTimeout(() => { if (log_body_ref.current) log_body_ref.current.scrollTop = log_body_ref.current.scrollHeight; }, 0);
+      scroll_bottom();
     }
   }, [scroll_bottom]);
 
@@ -242,7 +268,7 @@ export const Console = () => {
         <span className="titlebar-label">Console</span>
         <div className="header-divider"></div>
         <div className="filters">
-          <app_components.FilterButton type="all" label="All" count={total_count} is_active={active_filters.size === level_types.length} on_click={() => toggle_filter('all')}/>
+          <app_components.FilterButton type="all" label="All" count={total_count} is_active={active_filters.size === level_types.length} on_click={() => toggle_filter('all')} />
           {level_types.map(type => (
             <app_components.FilterButton
               key={type}
@@ -256,12 +282,12 @@ export const Console = () => {
           ))}
         </div>
         <div className="tabbar-actions">
-          <app_components.ActionButton icon={lucide.RotateCcw} label="Reset" on_click={() => set_position(app_config.DEFAULT_POSITION)}/>
-          <app_components.ActionButton icon={lucide.Trash2} label="Clear" on_click={clear_logs}/>
+          <app_components.ActionButton icon={lucide.RotateCcw} label="Reset" on_click={() => set_position(app_config.DEFAULT_POSITION)} />
+          <app_components.ActionButton icon={lucide.Trash2} label="Clear" on_click={clear_logs} />
         </div>
       </div>
 
-      <div ref={log_body_ref} className="log-body">
+      <div ref={log_body_ref} className="log-body" onScroll={handle_scroll} onMouseDown={handle_log_mousedown}>
         {logs.map(log => {
           const meta = level_meta[log.type] ?? {};
           return (
@@ -282,7 +308,7 @@ export const Console = () => {
 
       <div className="input-bar">
         <span className="input-prompt">❯</span>
-        <input ref={input_ref} className="input-field" value={command_input} onChange={(e) => set_command_input(e.target.value)} placeholder="Enter command or expression..." autoComplete="off" spellCheck="false"/>
+        <input ref={input_ref} className="input-field" value={command_input} onChange={(e) => set_command_input(e.target.value)} placeholder="Enter command or expression..." autoComplete="off" spellCheck="false" />
       </div>
 
       <div className="resize-handle" onMouseDown={handle_resize_start}><span></span></div>
