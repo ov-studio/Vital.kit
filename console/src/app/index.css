@@ -335,6 +335,7 @@ body,
   border-left: 2px solid currentColor;
   padding-left: 10px;
   opacity: 0.85;
+  display: flow-root;
 }
 
 .log-line {
@@ -375,7 +376,7 @@ body,
   display: block;
   width: fit-content;
   min-width: 0;
-  margin: 4px 0 2px;
+  margin: 4px 0 0px;
   padding: 6px 10px;
   line-height: 1.6;
   vertical-align: unset;
