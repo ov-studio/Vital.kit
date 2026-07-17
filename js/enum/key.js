@@ -215,16 +215,3 @@ window.KEY = {
     LAUNCH_MAIL: "LaunchMail",
     LAUNCH_MEDIA: "LaunchMediaPlayer"
 };
-
-
-///////////////////
-// Key Resolver //
-///////////////////
-
-// Converts a KEY name (e.g. "F8") into the DOM e.key string — use when
-// comparing a stored bind name directly against a KeyboardEvent:
-//   if (bind_key && e.key === window.to_key(bind_key)) { ... }
-window.to_key = (key) => {
-    if (!key) return null;
-    return window.KEY[String(key).toUpperCase()] ?? key;
-};
