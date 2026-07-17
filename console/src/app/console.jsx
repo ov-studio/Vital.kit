@@ -1,7 +1,6 @@
 import * as react from 'react';
 import * as lucide from 'lucide-react';
 import * as app_config from './config';
-import * as app_bridge from './bridge';
 import * as app_components from './components';
 
 export const Console = () => {
@@ -96,7 +95,7 @@ export const Console = () => {
 
     const ts = entry.timestamp || new Date().toTimeString().slice(0, 8);
     const now = Date.now();
-    const key = app_bridge.make_key(entry.mode, entry.message);
+    const key = make_key(entry.mode, entry.message);
     for (const [k, e] of group_map_ref.current)
       if (now >= e.expires_at) group_map_ref.current.delete(k);
 
@@ -134,7 +133,7 @@ export const Console = () => {
 
   const handle_message = react.useCallback((e) => {
     const data = JSON.parse(e.detail);
-    if (data.action === 'init') { set_seed_meta(data.types); if (data.bind) set_bind_key(app_bridge.godot_to_key(data.bind)); }
+    if (data.action === 'init') { set_seed_meta(data.types); if (data.bind) set_bind_key(godot_to_key(data.bind)); }
     else if (data.action === 'print') add_log(data, seed_meta_ref.current);
     else if (data.action === 'clear') clear_logs();
   }, [add_log, clear_logs]);
