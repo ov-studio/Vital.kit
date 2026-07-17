@@ -38,7 +38,7 @@ export const LogText = ({ text, color }) => {
 };
 
 export const LogRow = ({ type, badge, color, timestamp, message, repeat_count, is_hidden }) => {
-  const lines = parse_lines(message);
+  const lines = app_util.parse_lines(message);
   const is_multiline = lines.length > 1;
   return (
     <div
