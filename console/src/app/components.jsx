@@ -23,6 +23,7 @@ export const ActionButton = ({ icon: Icon, label, on_click }) => (
 export const LogText = ({ text, color }) => {
   const segments = parse_segments(text);
   const lightened = color ? rgb_lighten(color, 0.4) : null;
+  const segments = app_util.parse_segments(text);
   const code_style = lightened ? {
     color: rgb_to_css(lightened),
     background: rgb_to_css_alpha(lightened, 0.025),
