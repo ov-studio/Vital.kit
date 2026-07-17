@@ -216,17 +216,17 @@ body,
 }
 
 .log-body::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--rule);
 }
 
 .log-body::-webkit-scrollbar-thumb {
-  background: var(--rule);
-  border-radius: 9px;
-  transition: background 0.2s;
+  background: var(--b30);
+  border-radius: 0;
+  transition: background 0.5s;
 }
 
 .log-body::-webkit-scrollbar-thumb:hover {
-  background: var(--b30);
+  background: var(--blue);
 }
 
 .log-row {
