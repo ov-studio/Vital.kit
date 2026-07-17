@@ -1,6 +1,7 @@
 {
     "sources": [
         "enum/key.js",
-        "enum/cursor.js"
+        "enum/cursor.js",
+        "util/bridge.js"
     ]
 }

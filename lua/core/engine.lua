@@ -1,5 +1,5 @@
 ----------------------------------------------------------------
---[[ Resource: Vital.sandbox
+--[[ Resource: Vital.kit
      Script: core: engine.lua
      Author: ov-studio
      Developer(s): Aviril, Tron, Mario, Аниса, A-Variakojiene

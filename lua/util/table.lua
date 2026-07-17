@@ -1,5 +1,5 @@
 ----------------------------------------------------------------
---[[ Resource: Vital.sandbox
+--[[ Resource: Vital.kit
      Script: util: table.lua
      Author: ov-studio
      Developer(s): Aviril, Tron, Mario, Аниса, A-Variakojiene
