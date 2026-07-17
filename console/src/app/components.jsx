@@ -1,4 +1,5 @@
 import * as react from 'react';
+import * as app_util from './util';
 
 export const FilterButton = ({ type, label, count, is_active, on_click, color }) => (
   <div
