@@ -96,7 +96,7 @@ export const Console = () => {
 
     const ts = entry.timestamp || new Date().toTimeString().slice(0, 8);
     const now = Date.now();
-    const key = make_key(entry.mode, entry.message);
+    const key = app_util.make_key(entry.mode, entry.message);
     for (const [k, e] of group_map_ref.current)
       if (now >= e.expires_at) group_map_ref.current.delete(k);
 
