@@ -15,5 +15,5 @@
 window.CURSOR_MODE = {
     VISIBLE:  0,
     HIDDEN:   1,
-    CAPTURED: 2,
+    CAPTURED: 2
 };
