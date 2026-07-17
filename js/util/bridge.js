@@ -12,11 +12,6 @@
 // Util: Bridge //
 ///////////////////
 
-window.godot_to_key = (key) => {
-    if (!key) return null;
-    return KEY[key.toUpperCase()] ?? key;
-};
-
 window.rgb_to_css = (rgb) => `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
 
 window.rgb_to_css_alpha = (rgb, a) => `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${a})`;
