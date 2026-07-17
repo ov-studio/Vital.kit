@@ -1,6 +1,7 @@
 import * as react from 'react';
 import * as lucide from 'lucide-react';
 import * as app_config from './config';
+import * as app_util from './util';
 import * as app_components from './components';
 
 export const Console = () => {
