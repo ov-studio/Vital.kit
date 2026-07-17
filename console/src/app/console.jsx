@@ -150,7 +150,7 @@ export const Console = () => {
   }, []);
 
   const handle_key_down = react.useCallback((e) => {
-    if (bind_key && e.key === bind_key) {
+    if (bind_key && e.key === to_key(bind_key)) {
       e.preventDefault();
       ipc.postMessage(JSON.stringify({ action: 'toggle' }));
       return;
