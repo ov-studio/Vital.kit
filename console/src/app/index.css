@@ -212,7 +212,7 @@ body,
 }
 
 .log-body::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 
 .log-body::-webkit-scrollbar-track {
@@ -221,7 +221,7 @@ body,
 
 .log-body::-webkit-scrollbar-thumb {
   background: var(--b30);
-  border-radius: 0;
+  border-radius: 2px;
   transition: background 0.5s;
 }
 
