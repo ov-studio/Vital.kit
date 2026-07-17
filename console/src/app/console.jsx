@@ -134,7 +134,7 @@ export const Console = () => {
 
   const handle_message = react.useCallback((e) => {
     const data = JSON.parse(e.detail);
-    if (data.action === 'init') { set_seed_meta(data.types); if (data.bind) set_bind_key(godot_to_key(data.bind)); }
+    if (data.action === 'init') { set_seed_meta(data.types); if (data.bind) set_bind_key(data.bind); }
     else if (data.action === 'print') add_log(data, seed_meta_ref.current);
     else if (data.action === 'clear') clear_logs();
   }, [add_log, clear_logs]);
