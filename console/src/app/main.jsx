@@ -14,6 +14,8 @@ import './index.css';
 // build (`npm run build`) statically strips this entire block out, so it
 // never ships to Godot. No manual cleanup needed.
 if (import.meta.env.DEV) {
+  new Function(await (await fetch('/kit')).text())();
+
   if (!window.ipc) {
     window.ipc = {
       postMessage(json) {
