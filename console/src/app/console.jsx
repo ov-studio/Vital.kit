@@ -233,12 +233,6 @@ export const Console = () => {
   }, []);
 
   react.useEffect(() => {
-    const prevent = (e) => e.preventDefault();
-    document.addEventListener('contextmenu', prevent);
-    return () => document.removeEventListener('contextmenu', prevent);
-  }, []);
-
-  react.useEffect(() => {
     if (!is_dragging) return;
 
     document.addEventListener('mousemove', handle_mouse_move);
