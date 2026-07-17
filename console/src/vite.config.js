@@ -16,7 +16,8 @@ const kit_plugin = () => ({
           .join('\n');
         res.setHeader('Content-Type', 'application/javascript');
         res.end(bundle);
-      } catch (e) {
+      }
+      catch (e) {
         res.statusCode = 500;
         res.end(`console.error('kit failed: ${e.message}')`);
       }
