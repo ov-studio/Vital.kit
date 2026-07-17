@@ -1,0 +1,6 @@
+{
+    "sources": [
+        "enum/key.js",
+        "enum/cursor.js"
+    ]
+}
