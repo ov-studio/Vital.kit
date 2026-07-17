@@ -11,9 +11,7 @@ const kit_plugin = () => ({
       try {
         const manifest_path = path.resolve(__dirname, '../../js/manifest.json');
         const manifest = JSON.parse(fs.readFileSync(manifest_path, 'utf-8'));
-        const bundle = manifest.sources
-          .map(src => fs.readFileSync(path.resolve(__dirname, '../../js', src), 'utf-8'))
-          .join('\n');
+        const bundle = manifest.sources.map(src => fs.readFileSync(path.resolve(__dirname, '../../js', src), 'utf-8')).join('\n');
         res.setHeader('Content-Type', 'application/javascript');
         res.end(bundle);
       }
