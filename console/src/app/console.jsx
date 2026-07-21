@@ -120,7 +120,13 @@ export const Console = () => {
       group_map_ref.current.set(key, { id: new_log.id, count: 1, expires_at: now + app_config.LOG_DEBOUNCE, timestamp: ts });
       set_logs(prev => {
         const updated = [...prev, new_log];
-        if (updated.length > app_config.LOG_LIMIT) return updated.slice(updated.length - app_config.LOG_LIMIT);
+        if (updated.length > app_config.LOG_LIMIT) {
+          const overflow = updated.length - app_config.LOG_LIMIT;
+          const dropped_ids = new Set(updated.slice(0, overflow).map(l => l.id));
+          for (const [k, e] of group_map_ref.current)
+            if (dropped_ids.has(e.id)) group_map_ref.current.delete(k);
+          return updated.slice(overflow);
+        }
         return updated;
       });
     }
