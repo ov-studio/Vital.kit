@@ -44,3 +44,89 @@ window.to_key = (key) => {
     if (!key) return null;
     return window.KEY[String(key).toUpperCase()] ?? key;
 };
+
+
+// Godot input forwarding.
+//
+// vsdk_forward_input is set/cleared exclusively by the C++ Webview wrapper
+// via eval(). Only one webview owns input at a time — the C++ input_forwarder
+// is the single source of truth. All listeners are always registered so that
+// the flag can be toggled without re-injecting scripts.
+window.vsdk_forward_input = false;
+
+window.addEventListener('mousemove', (e) => {
+    if (!window.vsdk_forward_input) return;
+    window.ipc.postMessage(JSON.stringify({
+        type: '_mouse_move',
+        x: e.clientX,
+        y: e.clientY,
+        movementX: e.movementX,
+        movementY: e.movementY,
+        button: e.button
+    }));
+});
+
+window.addEventListener('mousedown', (e) => {
+    if (!window.vsdk_forward_input) return;
+    window.ipc.postMessage(JSON.stringify({
+        type: '_mouse_down',
+        x: e.clientX,
+        y: e.clientY,
+        button: e.button
+    }));
+});
+
+window.addEventListener('mouseup', (e) => {
+    if (!window.vsdk_forward_input) return;
+    window.ipc.postMessage(JSON.stringify({
+        type: '_mouse_up',
+        x: e.clientX,
+        y: e.clientY,
+        button: e.button
+    }));
+});
+
+window.addEventListener('wheel', (e) => {
+    if (!window.vsdk_forward_input) return;
+    window.ipc.postMessage(JSON.stringify({
+        type: '_mouse_wheel',
+        x: e.clientX,
+        y: e.clientY,
+        deltaX: e.deltaX,
+        deltaY: e.deltaY,
+        shift: e.shiftKey,
+        ctrl: e.ctrlKey,
+        alt: e.altKey,
+        meta: e.metaKey
+    }));
+});
+
+window.addEventListener('keydown', (e) => {
+    if (!window.vsdk_forward_input) return;
+    const modifier = ["Alt", "Shift", "Control", "Meta"].includes(e.key);
+    window.ipc.postMessage(JSON.stringify({
+        type: '_key_down',
+        key: e.key,
+        code: e.code,
+        keyCode: e.keyCode,
+        shift: modifier ? false : e.shiftKey,
+        ctrl: modifier ? false : e.ctrlKey,
+        alt: modifier ? false : e.altKey,
+        meta: modifier ? false : e.metaKey
+    }));
+});
+
+window.addEventListener('keyup', (e) => {
+    if (!window.vsdk_forward_input) return;
+    const modifier = ["Alt", "Shift", "Control", "Meta"].includes(e.key);
+    window.ipc.postMessage(JSON.stringify({
+        type: '_key_up',
+        key: e.key,
+        code: e.code,
+        keyCode: e.keyCode,
+        shift: modifier ? false : e.shiftKey,
+        ctrl: modifier ? false : e.ctrlKey,
+        alt: modifier ? false : e.altKey,
+        meta: modifier ? false : e.metaKey
+    }));
+});
