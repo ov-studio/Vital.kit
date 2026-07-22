@@ -17,7 +17,7 @@
 // Accelerator blocking: prevents browser-native actions (reload, devtools,
 // print, find, view-source) from firing when the webview is focused.
 // The keydown event still propagates — other listeners are unaffected.
-window.addEventListener('keydown', function (e) {
+window.addEventListener('keydown', (e) => {
     const blocked_keys = new Set(['F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12']);
     if (blocked_keys.has(e.key)) { e.preventDefault(); }
     if (e.ctrlKey || e.metaKey) {
@@ -29,7 +29,7 @@ window.addEventListener('keydown', function (e) {
 
 // Disables the browser's native right-click context menu to prevent
 // clients from accessing browser internals via the webview.
-window.addEventListener('contextmenu', function (e) {
+window.addEventListener('contextmenu', (e) => {
     e.preventDefault();
 }, true);
 
