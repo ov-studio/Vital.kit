@@ -2,7 +2,8 @@
   /* ── Base ───────────────────── */
   --bg: hsl(250, 25%, 2%);
   --bg2: hsl(248, 22%, 3%);
-  --bg3: hsl(246, 20%, 5.5%);
+  --bg3: hsla(252, 20%, 3.25%);
+  --bg4: hsla(250, 21%, 5.5%);
 
   /* ── Accent ──────────────────────────── */
   --blue: hsl(220, 95%, 76%);
@@ -37,7 +38,7 @@
   --brand-color: var(--blue);
 
   /* ── Section ────────────────── */
-  --section-width: 1500px;
+  --section-width: 1550px;
 
   /* ── Nav ─────────────────────────────── */
   --nav-h: 68px;
@@ -52,4 +53,8 @@ html {
   font-variant-ligatures: none;
   scroll-behavior: smooth;
   overflow-x: hidden;
+}
+
+*:focus {
+  outline: none;
 }
