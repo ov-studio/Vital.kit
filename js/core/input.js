@@ -26,6 +26,7 @@ window.addEventListener('keydown', function (e) {
     }
 }, true);
 
+
 // Disables the browser's native right-click context menu to prevent
 // clients from accessing browser internals via the webview.
 window.addEventListener('contextmenu', function (e) {
