@@ -78,7 +78,6 @@ function core.engine.iprint(input, ...)
     local output = core.engine.inspect(input, ...)
     local result = "Inspect: "..tostring(input).."\n"..separator
     local index = 1
-
     while true do
         local nl = util.string.find(output, "\n", index, true)
         if not nl then
