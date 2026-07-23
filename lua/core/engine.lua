@@ -76,7 +76,17 @@ end
 function core.engine.iprint(input, ...)
     local separator = "> "
     local output = core.engine.inspect(input, ...)
-    local result = "Inspect: "..tostring(input).."\n"
-    result = result..util.string.gsub(output, "([^\n]+)", separator.."%1")
+    local result = "Inspect: "..tostring(input).."\n"..separator
+    local index = 1
+
+    while true do
+        local nl = string.find(output, "\n", index, true)
+        if not nl then
+            result = result..string.sub(output, index)
+            break
+        end
+        result = result..string.sub(output, index, nl - 1).."\n"..separator
+        index = nl + 1
+    end
     return core.engine.print("info", result)
 end
