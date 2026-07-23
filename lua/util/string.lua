@@ -15,25 +15,25 @@
 local private = {}
 
 function util.string.void(input)
-    if not input or (imports.type(input) ~= "string") then return false end
+    if not input or (type(input) ~= "string") then return false end
     return (not util.string.find(input, "[%S]") and true) or false
 end
 
 function util.string.parse(input)
-    if imports.tostring(input) == "nil" then return nil
-    elseif imports.tostring(input) == "false" then return false
-    elseif imports.tostring(input) == "true" then return true
-    else return imports.tonumber(input) or input end
+    if tostring(input) == "nil" then return nil
+    elseif tostring(input) == "false" then return false
+    elseif tostring(input) == "true" then return true
+    else return tonumber(input) or input end
 end
 
 function util.string.parse_hex(input)
     if not input then return false end
     input = util.string.gsub(input, "#", "")
-    return imports.tonumber("0x"..util.string.sub(input, 1, 2)) or 0, imports.tonumber("0x"..util.string.sub(input, 3, 4)) or 0, imports.tonumber("0x"..util.string.sub(input, 5, 6)) or 0
+    return tonumber("0x"..util.string.sub(input, 1, 2)) or 0, tonumber("0x"..util.string.sub(input, 3, 4)) or 0, tonumber("0x"..util.string.sub(input, 5, 6)) or 0
 end
 
 function util.string.format_time(milliseconds)
-    milliseconds = imports.tonumber(milliseconds)
+    milliseconds = tonumber(milliseconds)
     if not milliseconds then return false end
     milliseconds = math.floor(milliseconds)
     local totalSeconds = math.floor(milliseconds/1000)
@@ -45,7 +45,7 @@ function util.string.format_time(milliseconds)
 end
 
 function util.string.split(input, separator)
-    if not input or (imports.type(input) ~= "string") or not separator or (imports.type(separator) ~= "string") then return false end
+    if not input or (type(input) ~= "string") or not separator or (type(separator) ~= "string") then return false end
     local result = {}
     local index = 1
     local count = 1
@@ -64,11 +64,11 @@ function util.string.split(input, separator)
 end
 
 function util.string.kern(input, kerner)
-    if not input or (imports.type(input) ~= "string") then return false end
+    if not input or (type(input) ~= "string") then return false end
     return util.string.sub(util.string.gsub(input, ".", (kerner or " ").."%0"), 2)
 end
 
 function util.string.detab(input)
-    if not input or (imports.type(input) ~= "string") then return false end
+    if not input or (type(input) ~= "string") then return false end
     return util.string.gsub(input, "\t", "    ")
 end
