@@ -80,12 +80,12 @@ function core.engine.iprint(input, ...)
     local index = 1
 
     while true do
-        local nl = string.find(output, "\n", index, true)
+        local nl = util.string.find(output, "\n", index, true)
         if not nl then
-            result = result..string.sub(output, index)
+            result = result..util.string.sub(output, index)
             break
         end
-        result = result..string.sub(output, index, nl - 1).."\n"..separator
+        result = result..util.string.sub(output, index, nl - 1).."\n"..separator
         index = nl + 1
     end
     return core.engine.print("info", result)
