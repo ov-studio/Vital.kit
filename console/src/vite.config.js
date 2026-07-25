@@ -1,8 +1,8 @@
-import * as fs            from 'fs';
-import * as path          from 'path';
-import * as vite          from 'vite';
-import * as react         from '@vitejs/plugin-react';
-import { viteSingleFile } from 'vite-plugin-singlefile';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as vite from 'vite';
+import * as react from '@vitejs/plugin-react';
+import * as viteSingleFile from 'vite-plugin-singlefile';
 
 const kit_plugin = () => ({
   name: 'kit',
@@ -29,7 +29,7 @@ export default vite.defineConfig({
     // Bundles the entire app (JS + CSS) into one dist/index.html with
     // no separate asset files. Drop that single file straight into
     // Godot's WebView - no server, no relative-path asset management.
-    viteSingleFile(),
+    viteSingleFile.viteSingleFile(),
     kit_plugin()
   ],
   build: {
