@@ -10,6 +10,11 @@
   
   /* ── Accent ── */
   --blue: hsl(220, 95%, 76%);
+  --b90: hsla(220, 95%, 76%, .9);
+  --b80: hsla(220, 95%, 76%, .8);
+  --b70: hsla(220, 95%, 76%, .7);
+  --b60: hsla(220, 95%, 76%, .6);
+  --b50: hsla(220, 95%, 76%, .5);
   --b40: hsla(220, 95%, 76%, .4);
   --b30: hsla(220, 95%, 76%, .3);
   --b20: hsla(220, 95%, 76%, .2);
@@ -44,6 +49,11 @@
   --syn-pu: hsl(220, 12%, 50%);
 
 
+  /* ── Selection ── */
+  --selection-bg: hsl(220, 40%, 40%);
+  --selection-text: var(--white);
+
+
   /* ── Brand ── */
   --brand-color: var(--blue);
 
@@ -70,4 +80,9 @@ html {
 
 *:focus {
   outline: none;
+}
+
+*::selection {
+  color: var(--selection-text);
+  background: var(--selection-bg);
 }
