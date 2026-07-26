@@ -5,9 +5,12 @@
   --bg3: hsla(252, 20%, 4%);
   --bg4: hsla(252, 20%, 4.5%);
   --bg5: hsla(250, 21%, 5.5%);
+  --bg6: hsla(250, 21%, 6.5%);
   --bg7: hsla(250, 21%, 7.5%);
+  --bg8: hsla(250, 21%, 8.5%);
+  --bg9: hsla(250, 21%, 9.5%);
 
-  
+
   /* ── Accent ── */
   --blue: hsl(220, 95%, 76%);
   --b90: hsla(220, 95%, 76%, .9);
@@ -39,6 +42,7 @@
 
   /* ── Borders ── */
   --rule: hsl(220, 18%, 9%);
+  --rule-dim: hsl(220, 18%, 7%);
 
 
   /* ── Syntax highlight ── */
@@ -72,11 +76,18 @@
   --social-hover-bg: hsla(220, 20%, 100%, .06);
 }
 
+
 html {
+  overflow-x: hidden;
   font-variant-ligatures: none;
   scroll-behavior: smooth;
-  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--b10) var(--rule-dim);
 }
+*::-webkit-scrollbar { width: 6px; height: 6px; }
+*::-webkit-scrollbar-track { background: var(--rule-dim); }
+*::-webkit-scrollbar-thumb { background: var(--b10); border-radius: 3px; }
+*::-webkit-scrollbar-thumb:hover { background: var(--b20); }
 
 *:focus {
   outline: none;
@@ -86,3 +97,26 @@ html {
   color: var(--selection-text);
   background: var(--selection-bg);
 }
+
+.kw { color: var(--blue) }
+.fn { color: var(--syn-fn) }
+.st { color: var(--syn-st) }
+.cm { color: var(--syn-cm) }
+.nm { color: var(--syn-nm) }
+.pu { color: var(--syn-pu) }
+
+.code-pill {
+  padding: 1px 4px;
+  margin: 0 1px;
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: .78rem;
+  font-weight: 500;
+  line-height: 1.8;
+  color: var(--blue);
+  background: var(--b05);
+  border: 1px solid var(--b20);
+  border-radius: 4px;
+  white-space: nowrap;
+  transition: background .25s, border-color .25s, filter .25s;
+}
+.code-pill:hover { filter: brightness(1.15) saturate(1.15); }
