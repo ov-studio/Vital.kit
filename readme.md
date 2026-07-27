@@ -8,7 +8,7 @@ Vital.kit provides ready-to-use Lua modules that integrate directly with the san
 
 Requires no manual installation — Vital.sandbox automatically pulls the latest available version.
 - **Releases**: Grab the latest stable build from [Releases](https://github.com/ov-studio/Vital.kit/releases).
-- **Documentation**: Learn the APIs, scripting patterns, and engine integration in the [Guides](https://vital-site.vercel.app/docs).
+- **Documentation**: Learn the APIs, scripting patterns, and engine integration in the [Guides](https://vital-sandbox.com/docs).
 - **Community**: Got questions or want to connect? Join us on [Discord](http://discord.gg/sVCnxPW).
 
 ## Contributing
