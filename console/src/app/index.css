@@ -232,7 +232,7 @@ body,
 }
 
 .log-row:hover {
-  background: var(--b10);
+  background: var(--b20);
 }
 
 .log-row.hidden {
