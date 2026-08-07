@@ -156,7 +156,7 @@ body,
 .tabbar-actions {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   flex-shrink: 0;
 }
 
@@ -165,18 +165,18 @@ body,
   align-items: center;
   justify-content: center;
   height: 22px;
-  width: 28px;
+  width: 30px;
   border: none;
   border-radius: 3px;
-  background: var(--rule);
-  color: var(--dim);
+  background: var(--b20);
+  color: var(--text-muted);
   cursor: pointer;
   transition: background .15s, color .15s;
 }
 
 .action-btn:hover {
-  background: var(--b10);
-  color: var(--blue);
+  background: var(--b40);
+  color: var(--white);
 }
 
 
