@@ -165,7 +165,7 @@ body,
   font-weight: 700;
   letter-spacing: .065em;
   color: var(--b30);
-  min-width: 78px;
+  min-width: 70px;
   flex-shrink: 0;
 }
 
@@ -177,7 +177,7 @@ body,
   min-width: 48px;
   flex-shrink: 0;
   text-align: right;
-  margin-right: 24px;
+  margin-right: 18px;
   opacity: 0.5;
 }
 
