@@ -36,7 +36,6 @@ body,
   flex-direction: column;
   justify-content: center;
   padding: 10px 14px;
-  gap: 0px;
   background: var(--bg);
   border-bottom: 2px solid var(--bg);
   cursor: grab;
