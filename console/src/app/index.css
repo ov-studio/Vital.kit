@@ -214,8 +214,8 @@ body,
   display: flex;
   align-items: center;
   min-height: 30px;
-  padding: 4px 14px;
-  margin-bottom: 6px;
+  padding: 6px 14px;
+  margin-bottom: 4px;
   white-space: pre-wrap;
   word-break: break-word;
   transition: background .08s;
