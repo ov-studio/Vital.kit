@@ -242,7 +242,7 @@ body,
 }
 
 .log-row:hover {
-  background: var(--b20);
+  background: var(--b10);
 }
 
 .log-row.hidden {
