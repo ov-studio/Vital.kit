@@ -265,7 +265,7 @@ export const Console = () => {
 
   react.useEffect(() => {
     ipc.postMessage(JSON.stringify({ action: 'ready' }));
-    window.vsdk_on_visible = (state) => { if (state) input_ref.current?.focus(); };
+    window.addEventListener('webview:visible', (e) => { if (e.detail.visible) input_ref.current?.focus(); });
   }, []);
 
   return (
