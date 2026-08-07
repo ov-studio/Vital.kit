@@ -72,7 +72,8 @@ body,
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 14px 14px;
+  padding: 10px 14px;
+  gap: 4px;
   background: var(--bg);
   border-bottom: 2px solid var(--bg);
   cursor: grab;
@@ -85,7 +86,7 @@ body,
 
 .header-top {
   display: flex;
-  align-items: center;
+  align-items: baseline;
 }
 
 .header-top .count {
