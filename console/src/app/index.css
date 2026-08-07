@@ -74,7 +74,7 @@ body,
   justify-content: space-between;
   height: 50px;
   padding: 0 14px;
-  gap: 12px;
+  gap: 20px;
   background: var(--bg);
   border-bottom: 2px solid var(--bg);
   cursor: grab;
