@@ -98,7 +98,7 @@ body,
 .filters {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   flex: 1;
   overflow: hidden;
 }
