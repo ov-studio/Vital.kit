@@ -166,7 +166,7 @@ body,
   font-weight: 700;
   letter-spacing: .065em;
   color: var(--b30);
-  min-width: 80px;
+  min-width: 78px;
   flex-shrink: 0;
 }
 
