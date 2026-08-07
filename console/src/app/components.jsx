@@ -1,7 +1,6 @@
 import * as react    from 'react';
 import * as app_util from './util';
 
-export const FilterButton = ({ type, label, count, is_active, on_click, color }) => (
 export const FilterButton = ({ type, label, count, is_active, on_click, color, bg_alpha, border_alpha }) => (
   <div
     className={`filter ${is_active ? 'active' : ''}`}
