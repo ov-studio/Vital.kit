@@ -148,7 +148,7 @@ export const Console = () => {
   const handle_command = react.useCallback((command) => {
     const message = command.trim();
     if (!message) return;
-    
+
     set_command_history(prev => prev[prev.length - 1] !== message ? [...prev, message] : prev);
     set_history_index(-1);
     set_temp_input('');
@@ -273,7 +273,14 @@ export const Console = () => {
       <div className={`header ${is_dragging ? 'dragging' : ''}`} onMouseDown={handle_mouse_down}>
         <span className="slabel">Console</span>
         <div className="filters">
-          <app_components.FilterButton type="all" label="All" count={total_count} is_active={active_filters.size === level_types.length} on_click={() => toggle_filter('all')} />
+          <app_components.FilterButton 
+            type="all" 
+            label="All" 
+            count={total_count} 
+            is_active={active_filters.size === level_types.length} 
+            on_click={() => toggle_filter('all')} 
+            color={[100, 220, 190]}
+          />
           {level_types.map(type => (
             <app_components.FilterButton
               key={type}
@@ -287,7 +294,7 @@ export const Console = () => {
           ))}
         </div>
         <div className="tabbar-actions">
-          <app_components.ActionButton icon={lucide.RotateCcw} label="Reset" on_click={() => set_position(app_config.DEFAULT_POSITION)} />
+          <app_components.ActionButton icon={lucide.RotateCcw} label="Reset" on_click={() => set_position(app_config.DEFAULT_POSITION)}/>
           <app_components.ActionButton icon={lucide.Trash2} label="Clear" on_click={clear_logs} />
         </div>
       </div>
@@ -313,7 +320,7 @@ export const Console = () => {
 
       <div className="input-bar">
         <span className="input-prompt">❯</span>
-        <input ref={input_ref} className="input-field" value={command_input} onChange={(e) => set_command_input(e.target.value)} placeholder="Enter command or expression..." autoComplete="off" spellCheck="false" />
+        <input ref={input_ref} className="input-field" value={command_input} onChange={(e) => set_command_input(e.target.value)} placeholder="Enter command or expression..." autoComplete="off" spellCheck="false"/>
       </div>
 
       <div className="resize-handle" onMouseDown={handle_resize_start}><span></span></div>
