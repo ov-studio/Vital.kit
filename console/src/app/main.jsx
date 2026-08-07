@@ -61,13 +61,13 @@ if (import.meta.env.DEV) {
 
     setTimeout(() => {
       const spam_messages = [
-        { mode: 'info', message: 'drawing' },
+        { mode: 'info',  message: 'drawing' },
         { mode: 'debug', message: 'tick: frame update' },
-        { mode: 'warn', message: 'slow frame detected' },
+        { mode: 'warn',  message: 'slow frame detected' },
         { mode: 'error', message: 'Failed to bind `event.on` handler:\n> stack overflow in `signal()`\n> at Manager::Sandbox::dispatch' },
       ];
       let spam_i = 0;
-      const spam = setInterval(() => {
+      setInterval(() => {
         send({ action: 'print', ...spam_messages[spam_i % spam_messages.length] });
         spam_i++;
       }, 50);
@@ -79,8 +79,7 @@ if (import.meta.env.DEV) {
 // Globally disable Tab-driven focus traversal across the entire console.
 // Capture phase (the `true` third arg) means this fires before React or
 // any element's own handlers see the event, so Tab is suppressed no
-// matter what gets added to the component tree later - no need to set
-// tabIndex={-1} on individual elements one by one.
+// matter what gets added to the component tree later.
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Tab') e.preventDefault();
 }, true);
