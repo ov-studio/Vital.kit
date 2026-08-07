@@ -23,7 +23,7 @@ body,
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: var(--bg9);
+  background: var(--bg7);
   border: 2px solid var(--bg);
   box-shadow:
     0 0 0 1px var(--shadow-inset) inset,
@@ -36,7 +36,7 @@ body,
   flex-direction: column;
   justify-content: center;
   padding: 10px 14px;
-  gap: 4px;
+  gap: 0px;
   background: var(--bg);
   border-bottom: 2px solid var(--bg);
   cursor: grab;
