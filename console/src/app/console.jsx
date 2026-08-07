@@ -271,31 +271,35 @@ export const Console = () => {
   return (
     <div ref={console_ref} className="console" style={{ left: `${position.x}px`, top: `${position.y}px`, width: size.width, height: size.height }}>
       <div className={`header ${is_dragging ? 'dragging' : ''}`} onMouseDown={handle_mouse_down}>
-        <span className="slabel">Console</span>
-        <div className="filters">
-          <app_components.FilterButton 
-            type="all" 
-            label="All" 
-            count={total_count} 
-            is_active={active_filters.size === level_types.length} 
-            on_click={() => toggle_filter('all')} 
-            color={[100, 220, 190]}
-          />
-          {level_types.map(type => (
-            <app_components.FilterButton
-              key={type}
-              type={type}
-              label={level_meta[type]?.label ?? type}
-              count={log_counts[type]}
-              is_active={active_filters.has(type)}
-              on_click={() => toggle_filter(type)}
-              color={level_meta[type]?.color ?? [220, 220, 220]}
-            />
-          ))}
+        <div className="header-top">
+          <span className="slabel">IG-Console</span>
         </div>
-        <div className="tabbar-actions">
-          <app_components.ActionButton icon={lucide.RotateCcw} label="Reset" on_click={() => set_position(app_config.DEFAULT_POSITION)}/>
-          <app_components.ActionButton icon={lucide.Trash2} label="Clear" on_click={clear_logs} />
+        <div className="header-bottom">
+          <div className="filters">
+            <app_components.FilterButton 
+              type="all" 
+              label="All" 
+              count={total_count} 
+              is_active={active_filters.size === level_types.length} 
+              on_click={() => toggle_filter('all')} 
+              color={[100, 220, 190]}
+            />
+            {level_types.map(type => (
+              <app_components.FilterButton
+                key={type}
+                type={type}
+                label={level_meta[type]?.label ?? type}
+                count={log_counts[type]}
+                is_active={active_filters.has(type)}
+                on_click={() => toggle_filter(type)}
+                color={level_meta[type]?.color ?? [220, 220, 220]}
+              />
+            ))}
+          </div>
+          <div className="tabbar-actions">
+            <app_components.ActionButton icon={lucide.RotateCcw} label="Reset" on_click={() => set_position(app_config.DEFAULT_POSITION)}/>
+            <app_components.ActionButton icon={lucide.Trash2} label="Clear" on_click={clear_logs} />
+          </div>
         </div>
       </div>
 
