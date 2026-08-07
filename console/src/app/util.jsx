@@ -1,5 +1,14 @@
 export const make_key = (type, msg) => `${type}:${msg}`;
 
+export const color_style = (color, { bg_alpha = 0.1, border_alpha = 0.3 } = {}) => {
+  if (!color) return {};
+  return {
+    color: window.rgb_to_css(color),
+    backgroundColor: window.rgb_to_css_alpha(color, bg_alpha),
+    borderColor: window.rgb_to_css_alpha(color, border_alpha),
+  };
+};
+
 export const parse_lines = (message) => {
   if (typeof message !== 'string') return [{ is_quote: false, text: String(message) }];
   const groups = [];
