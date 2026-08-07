@@ -4,8 +4,6 @@
   --shadow-outer: hsla(0, 0%, 0%, 0.55);
 }
 
-
-/* ── Reset (global.css already handles box-sizing / margin / padding) ── */
 html,
 body,
 #root {
@@ -16,41 +14,20 @@ body,
   user-select: none;
 }
 
-/* override global.css cursor: none from theme */
-* {
+* { 
   cursor: auto;
 }
 
-
-/* ── Animations ── */
 @keyframes console-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px) scale(0.98);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 @keyframes row-in {
-  from {
-    opacity: 0;
-    transform: translateX(-5px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(-5px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
-
-/* ══════════════════════════════════════════════════════════════
-   CONSOLE SHELL
-══════════════════════════════════════════════════════════════*/
 .console {
   position: absolute;
   display: flex;
@@ -75,15 +52,9 @@ body,
   cursor: grab;
   flex-shrink: 0;
 }
+.header.dragging { cursor: grabbing; }
 
-.header.dragging {
-  cursor: grabbing;
-}
-
-.header-top {
-  display: flex;
-  align-items: baseline;
-}
+.header-top { display: flex; align-items: baseline; }
 
 .header-top .count {
   margin-left: auto;
@@ -102,14 +73,11 @@ body,
   gap: 12px;
 }
 
-/* slabel from global.css — reset margin/font-size for inline header use */
 .header .slabel {
   font-size: .7rem;
   flex-shrink: 0;
 }
 
-
-/* ── Filter pills ── */
 .filters {
   display: flex;
   align-items: center;
@@ -135,20 +103,9 @@ body,
   flex-shrink: 0;
   transition: opacity .15s, background .15s, border-color .15s;
 }
-
-.filter:hover {
-  opacity: 0.8;
-  background: var(--b05);
-}
-
+.filter:hover { opacity: 0.8; background: var(--b05); }
 .filter.active {
   opacity: 1;
-  border-color: currentColor;
-  border-opacity: 0.3;
-  box-shadow: none;
-}
-
-.filter.active {
   border-color: color-mix(in srgb, currentColor 35%, transparent);
 }
 
@@ -160,14 +117,8 @@ body,
   flex-shrink: 0;
 }
 
-.filter-count {
-  opacity: 0.45;
-  font-size: .6rem;
-  font-weight: 600;
-}
+.filter-count { opacity: 0.45; font-size: .6rem; font-weight: 600; }
 
-
-/* ── Action buttons ── */
 .tabbar-actions {
   display: flex;
   align-items: center;
@@ -188,11 +139,7 @@ body,
   cursor: pointer;
   transition: background .15s, color .15s;
 }
-
-.action-btn:hover {
-  background: var(--b40);
-  color: var(--white);
-}
+.action-btn:hover { background: var(--b40); color: var(--white); }
 
 .log-body {
   flex: 1;
@@ -201,10 +148,7 @@ body,
   padding: 8px 0;
   background: color-mix(in srgb, var(--bg7) 35%, transparent);
 }
-
-.log-body::-webkit-scrollbar {
-  width: 5px;
-}
+.log-body::-webkit-scrollbar { width: 5px; }
 
 .log-row {
   display: flex;
@@ -217,14 +161,8 @@ body,
   transition: background .08s;
   animation: row-in 0.16s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-
-.log-row:hover {
-  background: var(--b10);
-}
-
-.log-row.hidden {
-  display: none;
-}
+.log-row:hover  { background: var(--b10); }
+.log-row.hidden { display: none; }
 
 .log-row-multiline {
   align-items: flex-start;
@@ -249,8 +187,7 @@ body,
   text-transform: uppercase;
   min-width: 48px;
   flex-shrink: 0;
-  opacity: 0.85;
-  text-align:right;
+  text-align: right;
   margin-right: 24px;
   opacity: 0.5;
 }
@@ -267,11 +204,8 @@ body,
 
 .log-row-multiline .log-ts,
 .log-row-multiline .log-level,
-.log-row-multiline .log-msg {
-  align-self: flex-start;
-}
+.log-row-multiline .log-msg { align-self: flex-start; }
 
-/* repeat badge */
 .badge {
   margin-left: 10px;
   padding: 2px 6px;
@@ -287,14 +221,8 @@ body,
   line-height: 1.4;
 }
 
-/* quote lines */
-.log-line {
-  display: block;
-}
-
-.log-line+.log-line {
-  margin-top: 2px;
-}
+.log-line { display: block; }
+.log-line + .log-line { margin-top: 2px; }
 
 .log-quote {
   border-left: 2px solid currentColor;
@@ -302,10 +230,7 @@ body,
   opacity: 0.75;
   display: flow-root;
 }
-
-.log-quote+.log-quote {
-  margin-top: 0;
-}
+.log-quote + .log-quote { margin-top: 0; }
 
 .log-code-block {
   display: block;
@@ -331,10 +256,10 @@ body,
   flex-shrink: 0;
 }
 
-.input-prompt {
-  color: var(--blue);
-  font-size: .8rem;
-  flex-shrink: 0;
+.input-prompt { 
+  color: var(--blue); 
+  font-size: .8rem; 
+  flex-shrink: 0; 
 }
 
 .input-field {
@@ -347,16 +272,8 @@ body,
   font-size: .8rem;
   caret-color: var(--blue);
 }
-
-.input-field::placeholder {
-  color: var(--text-muted);
-  opacity: 1;
-  transition: opacity .2s;
-}
-
-.input-field:focus::placeholder {
-  opacity: 0.4;
-}
+.input-field::placeholder       { color: var(--text-muted); opacity: 1; transition: opacity .2s; }
+.input-field:focus::placeholder { opacity: 0.4; }
 
 .resize-handle {
   position: absolute;
@@ -369,10 +286,7 @@ body,
   opacity: 0.3;
   transition: opacity .15s;
 }
-
-.resize-handle:hover {
-  opacity: 1;
-}
+.resize-handle:hover { opacity: 1; }
 
 .resize-handle::before,
 .resize-handle::after,
@@ -387,21 +301,9 @@ body,
   right: 0;
   transition: background .15s;
 }
-
-.resize-handle::before {
-  bottom: 2px;
-}
-
-.resize-handle span {
-  bottom: 6px;
-}
-
-.resize-handle::after {
-  bottom: 10px;
-}
-
+.resize-handle::before { bottom: 2px; }
+.resize-handle span    { bottom: 6px; }
+.resize-handle::after  { bottom: 10px; }
 .resize-handle:hover::before,
 .resize-handle:hover::after,
-.resize-handle:hover span {
-  background: var(--blue);
-}
+.resize-handle:hover span { background: var(--blue); }
