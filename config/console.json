@@ -25,7 +25,7 @@
     
         "error": {
             "label": "Error",
-            "badge": "ERRO",
+            "badge": "ERROR",
             "priority": 3,
             "color": [219, 82, 82]
         }
