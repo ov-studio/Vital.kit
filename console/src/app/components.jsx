@@ -2,11 +2,13 @@ import * as react    from 'react';
 import * as app_util from './util';
 
 export const FilterButton = ({ type, label, count, is_active, on_click, color }) => (
+export const FilterButton = ({ type, label, count, is_active, on_click, color, bg_alpha, border_alpha }) => (
   <div
     className={`filter ${is_active ? 'active' : ''}`}
     data-type={type}
     onClick={on_click}
     style={color ? { color: rgb_to_css(color), backgroundColor: rgb_to_css_alpha(color, 0.1), borderColor: rgb_to_css_alpha(color, 0.3) } : {}}
+    style={app_util.color_style(color, { bg_alpha, border_alpha })}
   >
     <div className="filter-dot"></div>
     {label}
