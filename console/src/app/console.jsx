@@ -141,7 +141,6 @@ export const Console = () => {
   const handle_message = react.useCallback((e) => {
     const data = JSON.parse(e.detail);
     if (data.action === 'init') { set_seed_meta(data.types); if (data.bind) set_bind_key(data.bind); }
-    else if (data.action === 'focus') input_ref.current?.focus();
     else if (data.action === 'print') add_log(data, seed_meta_ref.current);
     else if (data.action === 'clear') clear_logs();
   }, [add_log, clear_logs]);
@@ -266,6 +265,7 @@ export const Console = () => {
 
   react.useEffect(() => {
     ipc.postMessage(JSON.stringify({ action: 'ready' }));
+    window.vsdk_on_visible = (state) => { if (state) input_ref.current?.focus(); };
   }, []);
 
   return (
