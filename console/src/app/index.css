@@ -86,7 +86,16 @@ body,
 .header-top {
   display: flex;
   align-items: center;
-  margin-bottom: 5px;
+}
+
+.header-top .count {
+  margin-left: auto;
+  font-size: 0.9rem;
+  line-height: 1;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  color: var(--text-faint);
 }
 
 .header-bottom {

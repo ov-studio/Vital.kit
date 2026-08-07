@@ -273,6 +273,7 @@ export const Console = () => {
       <div className={`header ${is_dragging ? 'dragging' : ''}`} onMouseDown={handle_mouse_down}>
         <div className="header-top">
           <span className="slabel">IG-Console</span>
+          <span className="count">#{total_count}</span>
         </div>
         <div className="header-bottom">
           <div className="filters">
