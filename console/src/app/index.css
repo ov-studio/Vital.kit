@@ -306,10 +306,6 @@ body,
   margin-top: 0;
 }
 
-/* inline / block code — base look (font, padding, background, border,
-   transition) comes from .code-pill in theme.css; only the deltas live here */
-
-
 .log-code-block {
   display: block;
   width: fit-content;
