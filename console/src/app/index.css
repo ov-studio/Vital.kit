@@ -214,19 +214,6 @@ body,
   width: 5px;
 }
 
-.log-body::-webkit-scrollbar-track {
-  background: var(--rule7);
-}
-
-.log-body::-webkit-scrollbar-thumb {
-  background: var(--b10);
-  border-radius: 3px;
-}
-
-.log-body::-webkit-scrollbar-thumb:hover {
-  background: var(--b20);
-}
-
 
 /* ── Log rows — profiler .row pattern ── */
 .log-row {
