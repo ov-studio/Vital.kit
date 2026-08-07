@@ -207,7 +207,6 @@ body,
   overflow-y: auto;
   overflow-x: hidden;
   padding: 8px 0;
-  background: hsla(250, 21%, 7.5%, 0.35);
 }
 
 .log-body::-webkit-scrollbar {
