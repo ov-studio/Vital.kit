@@ -233,17 +233,18 @@ body,
 }
 
 .log-ts {
-  font-size: .68rem;
-  font-weight: 500;
-  letter-spacing: .05em;
+  font-family: 'Geist Mono', sans-serif;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .065em;
   color: var(--b30);
-  min-width: 80px;
+  min-width: 76px;
   flex-shrink: 0;
 }
 
 .log-level {
   font-size: .68rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: .05em;
   text-transform: uppercase;
   min-width: 48px;
