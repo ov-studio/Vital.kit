@@ -34,10 +34,10 @@ if (import.meta.env.DEV) {
       action: 'init',
       bind: 'f1',
       types: {
-        debug: { label: 'Debug', badge: 'DEBU', color: [150, 150, 160], priority: 0 },
+        debug: { label: 'Debug', badge: 'DEBUG', color: [150, 150, 160], priority: 0 },
         info:  { label: 'Info',  badge: 'INFO',  color: [120, 170, 255], priority: 1 },
         warn:  { label: 'Warn',  badge: 'WARN',  color: [255, 190, 90],  priority: 2 },
-        error: { label: 'Error', badge: 'ERRO', color: [255, 100, 100], priority: 3 },
+        error: { label: 'Error', badge: 'ERROR', color: [255, 100, 100], priority: 3 },
       }
     });
 
