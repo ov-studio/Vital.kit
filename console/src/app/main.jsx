@@ -43,13 +43,13 @@ if (import.meta.env.DEV) {
     });
 
     const sample_logs = [
-      { mode: 'info', message: 'Vital.sandbox boot sequence started' },
+      { mode: 'info',  message: 'Vital.sandbox boot sequence started' },
       { mode: 'debug', message: 'Loaded module `vm_module` with scope `core.thread`' },
-      { mode: 'info', message: 'Resource group `world_assets` ready (12/12)' },
-      { mode: 'warn', message: 'Texture `player_atlas.dds` missing mip levels, falling back to `auto`' },
+      { mode: 'info',  message: 'Resource group `world_assets` ready (12/12)' },
+      { mode: 'warn',  message: 'Texture `player_atlas.dds` missing mip levels, falling back to `auto`' },
       { mode: 'error', message: 'Failed to bind `event.on` handler:\n> stack overflow in `signal()`\n> at Manager::Sandbox::dispatch' },
       { mode: 'error', message: 'Failed to bind `event.on` handler:\n> stack overflow in `signal(\n\ta, \n\tb\n)`\n at Manager::Sandbox::dispatch' },
-      { mode: 'info', message: 'Connected to server as `client_07`' },
+      { mode: 'info',  message: 'Connected to server as `client_07`' },
     ];
 
     sample_logs.forEach((log, i) => {
