@@ -72,7 +72,7 @@ body,
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 10px 14px;
+  padding: 14px 14px;
   background: var(--bg);
   border-bottom: 2px solid var(--bg);
   cursor: grab;
@@ -86,6 +86,7 @@ body,
 .header-top {
   display: flex;
   align-items: center;
+  margin-bottom: 5px;
 }
 
 .header-bottom {
@@ -114,7 +115,7 @@ body,
 .filter {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   height: 22px;
   padding: 0 8px;
   font-size: .64rem;
@@ -231,7 +232,7 @@ body,
 }
 
 .log-row:hover {
-  background: var(--b20);
+  background: var(--b10);
 }
 
 .log-row.hidden {
