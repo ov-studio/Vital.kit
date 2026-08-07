@@ -123,12 +123,12 @@ body,
   width: 30px;
   border: none;
   border-radius: 3px;
-  background: var(--b20);
+  background: var(--b18);
   color: var(--text-muted);
   cursor: pointer;
   transition: background .15s, color .15s;
 }
-.action-btn:hover { background: var(--b40); color: var(--white); }
+.action-btn:hover { background: var(--b30); color: var(--white); }
 
 .log-body {
   flex: 1;
