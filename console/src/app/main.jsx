@@ -85,4 +85,4 @@ document.addEventListener('keydown', (e) => {
 
 
 const root = react.createRoot(document.getElementById('root'));
-root.render(<app_console.Console />);
+root.render(<app_console.Console/>);
