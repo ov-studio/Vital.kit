@@ -1,6 +1,5 @@
 import * as react       from 'react-dom/client';
 import * as app_console from './console.jsx';
-import './theme.css';
 import './index.css';
 
 
