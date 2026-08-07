@@ -1,29 +1,29 @@
 :root {
-  --radius: 0.26rem;
   --ts-opacity: 0.35;
-  --accent-border: hsla(220, 95%, 76%, 0.18);
-  --filter-all-bg: hsla(220, 15%, 100%, 0.04);
-  --code-bg: hsla(220, 95%, 76%, 0.07);
-  --code-fg: hsl(220, 80%, 78%);
-  --code-border: hsla(220, 95%, 76%, 0.2);
-  --ts-color: hsl(220, 40%, 70%);
   --shadow-inset: hsla(0, 0%, 100%, 0.04);
   --shadow-dark: hsla(0, 0%, 0%, 0.4);
-  --shadow-darker: hsla(0, 0%, 0%, 0.5);
+  --shadow-outer: hsla(0, 0%, 0%, 0.55);
 }
 
-@keyframes row-in {
-  from {
-    opacity: 0;
-    transform: translateX(-6px);
-  }
 
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+/* ── Reset (global.css already handles box-sizing / margin / padding) ── */
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+  user-select: none;
 }
 
+/* override global.css cursor: none from theme */
+* {
+  cursor: auto;
+}
+
+
+/* ── Animations ── */
 @keyframes console-in {
   from {
     opacity: 0;
@@ -36,65 +36,49 @@
   }
 }
 
-@keyframes fade-in {
+@keyframes row-in {
   from {
     opacity: 0;
+    transform: translateX(-5px);
   }
 
   to {
     opacity: 1;
+    transform: translateX(0);
   }
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
 
-*::selection {
-  color: var(--bg);
-  background: var(--blue);
-}
-
-html,
-body,
-#root {
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  color: var(--white);
-  font-family: 'Geist', monospace;
-  font-size: 13.5px;
-  -webkit-font-smoothing: antialiased;
-}
-
+/* ══════════════════════════════════════════════════════════════
+   CONSOLE SHELL
+══════════════════════════════════════════════════════════════*/
 .console {
   position: absolute;
-  background: var(--bg2);
-  border-radius: calc(var(--radius) + 2px);
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  background: var(--bg9);
+  border: 2px solid var(--bg);
   box-shadow:
     0 0 0 1px var(--shadow-inset) inset,
-    0 4px 6px -1px var(--shadow-dark),
-    0 10px 30px -5px var(--shadow-darker);
+    0 8px 32px var(--shadow-outer);
   animation: console-in 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+
+/* ══════════════════════════════════════════════════════════════
+   HEADER  — matches profiler .panel-header exactly
+══════════════════════════════════════════════════════════════*/
 .header {
-  height: 48px;
   display: flex;
   align-items: center;
-  padding: 0 4px 0 14px;
-  gap: 10px;
+  justify-content: space-between;
+  height: 50px;
+  padding: 0 14px;
+  gap: 12px;
   background: var(--bg);
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 2px solid var(--bg);
   cursor: grab;
-  user-select: none;
   flex-shrink: 0;
 }
 
@@ -102,59 +86,56 @@ body,
   cursor: grabbing;
 }
 
-.titlebar-label {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.025em;
-  color: var(--blue);
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.header-divider {
-  width: 1px;
-  height: 16px;
-  background: var(--white);
-  opacity: 0.08;
+/* slabel from global.css — reset margin/font-size for inline header use */
+.header .slabel {
+  margin-bottom: 0;
+  font-size: .7rem;
   flex-shrink: 0;
 }
 
+
+
+/* ── Filter pills ── */
 .filters {
   display: flex;
   align-items: center;
   gap: 4px;
   flex: 1;
+  overflow: hidden;
 }
 
 .filter {
-  opacity: 0.55;
-  height: 22px;
-  padding: 0 8px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  border-radius: calc(var(--radius) - 1px);
-  border: 1px solid transparent;
-  cursor: pointer;
   display: flex;
   align-items: center;
   gap: 5px;
-  transition: opacity 0.15s, background 0.15s;
+  height: 22px;
+  padding: 0 8px;
+  font-size: .64rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  opacity: 0.45;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: opacity .15s, background .15s, border-color .15s;
 }
 
 .filter:hover {
-  opacity: 0.85;
+  opacity: 0.8;
   background: var(--b05);
 }
 
-.filter:active {}
-
 .filter.active {
   opacity: 1;
-  border-color: var(--rule);
+  border-color: currentColor;
+  border-opacity: 0.3;
+  box-shadow: none;
+}
+
+.filter.active {
+  border-color: color-mix(in srgb, currentColor 35%, transparent);
 }
 
 .filter-dot {
@@ -166,37 +147,32 @@ body,
 }
 
 .filter-count {
-  opacity: 0.5;
-  font-size: 10px;
+  opacity: 0.45;
+  font-size: .6rem;
   font-weight: 600;
 }
 
-.log-row.hidden {
-  display: none;
-}
 
+/* ── Action buttons ── */
 .tabbar-actions {
-  margin-left: auto;
   display: flex;
   align-items: center;
   gap: 4px;
-  padding-right: 4px;
+  flex-shrink: 0;
 }
 
 .action-btn {
-  padding: 0 8px;
-  gap: 5px;
-  height: 22px;
-  width: auto;
-  border-radius: calc(var(--radius) - 2px);
-  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--dim);
+  height: 22px;
+  width: 28px;
+  border: none;
+  border-radius: 3px;
   background: var(--rule);
+  color: var(--dim);
   cursor: pointer;
-  transition: background 0.15s, color 0.15s, transform 0.1s;
+  transition: background .15s, color .15s;
 }
 
 .action-btn:hover {
@@ -204,11 +180,16 @@ body,
   color: var(--blue);
 }
 
+
+/* ══════════════════════════════════════════════════════════════
+   LOG BODY
+══════════════════════════════════════════════════════════════*/
 .log-body {
   flex: 1;
   overflow-y: auto;
-  padding: 10px 0;
-  scroll-behavior: smooth;
+  overflow-x: hidden;
+  padding: 8px 0;
+  background: hsla(250, 21%, 7.5%, 0.35);
 }
 
 .log-body::-webkit-scrollbar {
@@ -216,128 +197,100 @@ body,
 }
 
 .log-body::-webkit-scrollbar-track {
-  background: var(--rule);
+  background: var(--rule7);
 }
 
 .log-body::-webkit-scrollbar-thumb {
-  background: var(--b30);
-  border-radius: 2px;
-  transition: background 0.5s;
+  background: var(--b10);
+  border-radius: 3px;
 }
 
 .log-body::-webkit-scrollbar-thumb:hover {
-  background: var(--blue);
+  background: var(--b20);
 }
 
+
+/* ── Log rows — profiler .row pattern ── */
 .log-row {
   display: flex;
   align-items: center;
-  padding: 5px 14px;
-  margin-bottom: 1px;
-  line-height: 18px;
+  min-height: 30px;
+  padding: 4px 14px;
+  margin-bottom: 2px;
+  background: hsla(250, 21%, 5.5%, 0.45);
   white-space: pre-wrap;
-  word-break: break-all;
-  transition: background 0.08s;
-  animation: row-in 0.18s cubic-bezier(0.16, 1, 0.3, 1) both;
+  word-break: break-word;
+  transition: background .08s;
+  animation: row-in 0.16s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .log-row:hover {
-  background: var(--b05);
+  background: var(--b20);
+}
+
+.log-row.hidden {
+  display: none;
 }
 
 .log-row-multiline {
   align-items: flex-start;
+  padding-top: 6px;
+  padding-bottom: 6px;
 }
 
 .log-ts {
-  color: var(--ts-color);
+  font-size: .68rem;
+  font-weight: 500;
+  letter-spacing: .05em;
+  color: var(--text-faint);
   opacity: var(--ts-opacity);
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 12.5px;
-  letter-spacing: 0.125em;
-  min-width: 78px;
+  min-width: 72px;
   flex-shrink: 0;
 }
 
 .log-level {
-  opacity: 0.65;
-  min-width: 46px;
-  font-family: 'Geist Mono', monospace;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.05em;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  min-width: 44px;
   flex-shrink: 0;
+  opacity: 0.85;
 }
 
 .log-msg {
   flex: 1;
-  font-size: 13px;
-  letter-spacing: 0.01em;
+  font-size: .8rem;
+  font-weight: 400;
+  letter-spacing: .01em;
   min-width: 0;
   overflow-wrap: break-word;
-  word-break: break-word;
+  color: inherit;
+}
+
+.log-row-multiline .log-ts,
+.log-row-multiline .log-level,
+.log-row-multiline .log-msg {
   align-self: flex-start;
 }
 
+/* repeat badge */
 .badge {
   margin-left: 10px;
-  padding: 3px 6px;
-  font-size: 10.5px;
+  padding: 2px 6px;
+  font-size: .62rem;
   font-weight: 700;
-  border-radius: calc(var(--radius) - 2px);
+  letter-spacing: .04em;
+  border-radius: 3px;
+  background: var(--b10);
+  color: var(--blue);
+  border: 1px solid var(--b18);
   flex-shrink: 0;
   align-self: center;
-  line-height: 1.3;
-  color: var(--ts-color);
-  transition: transform 0.07s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.15s, color 0.15s;
+  line-height: 1.4;
 }
 
-.input-bar {
-  height: 38px;
-  display: flex;
-  align-items: center;
-  padding: 0 14px;
-  gap: 8px;
-  background: var(--bg);
-  border-top: 1px solid var(--rule);
-  flex-shrink: 0;
-  animation: fade-in 0.3s 0.1s ease both;
-}
-
-.input-prompt {
-  color: var(--blue);
-  font-size: 13px;
-  flex-shrink: 0;
-}
-
-.input-field {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: var(--white);
-  font-family: inherit;
-  font-size: 13px;
-  caret-color: var(--blue);
-}
-
-.input-field::placeholder {
-  opacity: 0.6;
-  color: var(--dim);
-  transition: opacity 0.2s;
-}
-
-.input-field:focus::placeholder {
-  opacity: 0.3;
-}
-
-.log-quote {
-  border-left: 2px solid currentColor;
-  padding-left: 10px;
-  opacity: 0.85;
-  display: flow-root;
-}
-
+/* quote lines */
 .log-line {
   display: block;
 }
@@ -346,37 +299,45 @@ body,
   margin-top: 2px;
 }
 
+.log-quote {
+  border-left: 2px solid currentColor;
+  padding-left: 10px;
+  opacity: 0.75;
+  display: flow-root;
+}
+
 .log-quote+.log-quote {
   margin-top: 0;
 }
 
+/* inline / block code */
 .log-code {
-  font-family: 'Geist Mono', monospace;
-  font-size: 12px;
-  padding: 1px 7px;
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: .72rem;
+  padding: 1px 6px;
   margin: 0 1px;
-  border-radius: calc(var(--radius) - 1px);
-  background: var(--code-bg);
-  color: var(--code-fg);
-  border: 1px solid var(--code-border);
+  border-radius: 3px;
+  background: var(--b05);
+  color: var(--blue);
+  border: 1px solid var(--b18);
   white-space: pre-wrap;
   word-break: break-all;
   display: inline;
   vertical-align: middle;
   line-height: 1.8;
-  transition: background 0.15s, border-color 0.15s, filter 0.15s;
+  transition: background .15s, border-color .15s;
 }
 
 .log-code:hover {
-  filter: brightness(1.15) saturate(1.15);
-  border-color: hsla(220, 95%, 76%, 0.4);
+  background: var(--b10);
+  border-color: var(--b30);
 }
 
 .log-code-block {
   display: block;
   width: fit-content;
   min-width: 0;
-  margin: 4px 0 0px;
+  margin: 4px 0 2px;
   padding: 6px 10px;
   line-height: 1.6;
   vertical-align: unset;
@@ -385,16 +346,67 @@ body,
   overflow-x: auto;
 }
 
+
+/* ══════════════════════════════════════════════════════════════
+   INPUT BAR
+══════════════════════════════════════════════════════════════*/
+.input-bar {
+  display: flex;
+  align-items: center;
+  height: 38px;
+  padding: 0 14px;
+  gap: 8px;
+  background: var(--bg);
+  border-top: 2px solid var(--bg);
+  flex-shrink: 0;
+}
+
+.input-prompt {
+  color: var(--blue);
+  font-size: .8rem;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.input-field {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--white);
+  font-family: 'Geist', sans-serif;
+  font-size: .8rem;
+  caret-color: var(--blue);
+}
+
+.input-field::placeholder {
+  color: var(--text-faint);
+  opacity: 1;
+  transition: opacity .2s;
+}
+
+.input-field:focus::placeholder {
+  opacity: 0.4;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   RESIZE HANDLE — matches profiler .panel-resize pattern
+══════════════════════════════════════════════════════════════*/
 .resize-handle {
-  opacity: 0.3;
   position: absolute;
-  right: 3px;
-  bottom: 3px;
-  width: 14px;
-  height: 14px;
+  right: 0;
+  bottom: 0;
+  width: 16px;
+  height: 16px;
   cursor: se-resize;
   overflow: hidden;
-  transition: opacity 0.15s;
+  opacity: 0.3;
+  transition: opacity .15s;
+}
+
+.resize-handle:hover {
+  opacity: 1;
 }
 
 .resize-handle::before,
@@ -408,23 +420,19 @@ body,
   transform-origin: right center;
   transform: rotate(-45deg);
   right: 0;
-  transition: background 0.15s;
+  transition: background .15s;
 }
 
 .resize-handle::before {
-  bottom: 1px;
+  bottom: 2px;
 }
 
 .resize-handle span {
-  bottom: 5px;
+  bottom: 6px;
 }
 
 .resize-handle::after {
-  bottom: 9px;
-}
-
-.resize-handle:hover {
-  opacity: 1;
+  bottom: 10px;
 }
 
 .resize-handle:hover::before,

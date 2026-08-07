@@ -271,8 +271,7 @@ export const Console = () => {
   return (
     <div ref={console_ref} className="console" style={{ left: `${position.x}px`, top: `${position.y}px`, width: size.width, height: size.height }}>
       <div className={`header ${is_dragging ? 'dragging' : ''}`} onMouseDown={handle_mouse_down}>
-        <span className="titlebar-label">Console</span>
-        <div className="header-divider"></div>
+        <span className="slabel">Console</span>
         <div className="filters">
           <app_components.FilterButton type="all" label="All" count={total_count} is_active={active_filters.size === level_types.length} on_click={() => toggle_filter('all')} />
           {level_types.map(type => (
