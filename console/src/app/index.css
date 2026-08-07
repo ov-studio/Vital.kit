@@ -72,7 +72,6 @@ body,
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 14px;
   padding: 10px 14px;
   background: var(--bg);
   border-bottom: 2px solid var(--bg);
@@ -98,7 +97,6 @@ body,
 
 /* slabel from global.css — reset margin/font-size for inline header use */
 .header .slabel {
-  margin-bottom: 0;
   font-size: .7rem;
   flex-shrink: 0;
 }
@@ -363,7 +361,7 @@ body,
   height: 38px;
   padding: 0 14px;
   gap: 8px;
-  background: var(--bg);
+  background: var(--b10);
   border-top: 2px solid var(--bg);
   flex-shrink: 0;
 }
