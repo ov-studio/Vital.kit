@@ -64,10 +64,6 @@ body,
   animation: console-in 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-
-/* ══════════════════════════════════════════════════════════════
-   HEADER  — matches profiler .panel-header exactly
-══════════════════════════════════════════════════════════════*/
 .header {
   display: flex;
   flex-direction: column;
@@ -198,23 +194,18 @@ body,
   color: var(--white);
 }
 
-
-/* ══════════════════════════════════════════════════════════════
-   LOG BODY
-══════════════════════════════════════════════════════════════*/
 .log-body {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 8px 0;
+  background: color-mix(in srgb, var(--bg7) 35%, transparent);
 }
 
 .log-body::-webkit-scrollbar {
   width: 5px;
 }
 
-
-/* ── Log rows — profiler .row pattern ── */
 .log-row {
   display: flex;
   align-items: center;
@@ -315,21 +306,16 @@ body,
   margin-top: 0;
 }
 
-/* inline / block code */
+/* inline / block code — base look (font, padding, background, border,
+   transition) comes from .code-pill in theme.css; only the deltas live here */
 .log-code {
-  font-family: 'Geist Mono', ui-monospace, monospace;
   font-size: .72rem;
   padding: 1px 6px;
-  margin: 0 1px;
   border-radius: 3px;
-  background: var(--b05);
-  color: var(--blue);
-  border: 1px solid var(--b18);
+  border-color: var(--b18);
   white-space: pre-wrap;
   word-break: break-all;
-  display: inline;
   vertical-align: middle;
-  line-height: 1.8;
   transition: background .15s, border-color .15s;
 }
 
@@ -351,10 +337,6 @@ body,
   overflow-x: auto;
 }
 
-
-/* ══════════════════════════════════════════════════════════════
-   INPUT BAR
-══════════════════════════════════════════════════════════════*/
 .input-bar {
   display: flex;
   align-items: center;
@@ -393,10 +375,6 @@ body,
   opacity: 0.4;
 }
 
-
-/* ══════════════════════════════════════════════════════════════
-   RESIZE HANDLE — matches profiler .panel-resize pattern
-══════════════════════════════════════════════════════════════*/
 .resize-handle {
   position: absolute;
   right: 0;
