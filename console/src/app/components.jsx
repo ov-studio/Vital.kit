@@ -28,8 +28,8 @@ export const LogText = ({ text, color }) => {
     if (!seg.is_code) return <react.default.Fragment key={i}>{seg.text}</react.default.Fragment>;
     const is_multiline = seg.text.includes('\n');
     return is_multiline
-      ? <pre key={i} className="code-pill log-code log-code-block" style={code_style}>{seg.text}</pre>
-      : <code key={i} className="code-pill log-code" style={code_style}>{seg.text}</code>;
+      ? <pre key={i} className="code-pill log-code-block" style={code_style}>{seg.text}</pre>
+      : <code key={i} className="code-pill" style={code_style}>{seg.text}</code>;
   });
 };
 

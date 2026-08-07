@@ -308,21 +308,7 @@ body,
 
 /* inline / block code — base look (font, padding, background, border,
    transition) comes from .code-pill in theme.css; only the deltas live here */
-.log-code {
-  font-size: .72rem;
-  padding: 1px 6px;
-  border-radius: 3px;
-  border-color: var(--b18);
-  white-space: pre-wrap;
-  word-break: break-all;
-  vertical-align: middle;
-  transition: background .15s, border-color .15s;
-}
 
-.log-code:hover {
-  background: var(--b10);
-  border-color: var(--b30);
-}
 
 .log-code-block {
   display: block;
