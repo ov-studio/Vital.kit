@@ -22,7 +22,7 @@ export const ActionButton = ({ icon: Icon, label, on_click }) => (
 
 export const LogText = ({ text, color }) => {
   const segments = app_util.parse_segments(text);
-  const lightened = color ? rgb_lighten(color, 0.4) : null;
+  const lightened = color ? window.rgb_lighten(color, 0.4) : null;
   const code_style = app_util.color_style(lightened, { bg_alpha: 0.025, border_alpha: 0.3 });
   return segments.map((seg, i) => {
     if (!seg.is_code) return <react.default.Fragment key={i}>{seg.text}</react.default.Fragment>;
@@ -39,10 +39,10 @@ export const LogRow = ({ type, badge, color, timestamp, message, repeat_count, i
   return (
     <div
       className={`log-row ${type} ${is_hidden ? 'hidden' : ''} ${is_multiline ? 'log-row-multiline' : ''}`}
-      style={{ color: rgb_to_css(rgb_lighten(color, 0.05)) }}
+      style={{ color: window.rgb_to_css(window.rgb_lighten(color, 0.05)) }}
     >
       <span className="log-ts">{timestamp}</span>
-      <span className="log-level" style={{ color: rgb_to_css(color) }}>{badge}</span>
+      <span className="log-level" style={{ color: window.rgb_to_css(color) }}>{badge}</span>
       <div className="log-msg">
         {lines.map((line, i) => (
           <div key={i} className={line.is_quote ? 'log-line log-quote' : 'log-line'}>
