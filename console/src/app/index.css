@@ -267,7 +267,6 @@ body,
 .input-field:focus::placeholder { opacity: 0.4; }
 
 .input-send-btn {
-  opacity: 0.45;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -276,7 +275,6 @@ body,
   flex-shrink: 0;
   border: none;
   border-radius: 4px;
-  cursor: pointer;
   color: var(--selection-text);
   background: var(--selection-bg);
   box-shadow:
