@@ -198,14 +198,10 @@ body,
 
 .badge {
   margin-left: 10px;
-  padding: 2px 6px;
   font-size: .62rem;
-  font-weight: 700;
-  letter-spacing: .04em;
-  border-radius: 3px;
-  background: var(--b10);
-  color: var(--blue);
-  border: 1px solid var(--b18);
+  font-weight: 800;
+  letter-spacing: .01em;
+  color: var(--text-faint);
   flex-shrink: 0;
   align-self: center;
   line-height: 1.4;
@@ -283,6 +279,7 @@ body,
 .send-btn.active {
   opacity: 1;
   color: var(--selection-color);
+  color: var(--selection-text);
   background: var(--selection-bg);
   box-shadow:
     0 2px 6px hsla(0, 0%, 0%, 0.55),
