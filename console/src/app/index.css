@@ -109,6 +109,7 @@ body,
 }
 
 .filter-count { opacity: 0.45; font-size: .6rem; font-weight: 600; }
+  font-size: .6rem; 
 
 .tabbar-actions {
   display: flex;
