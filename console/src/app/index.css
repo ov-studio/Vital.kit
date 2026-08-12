@@ -246,10 +246,10 @@ body,
   flex-shrink: 0;
 }
 
-.input-prompt { 
-  color: var(--blue); 
-  font-size: .8rem; 
-  flex-shrink: 0; 
+.input-prompt {
+  color: var(--blue);
+  font-size: .8rem;
+  flex-shrink: 0;
 }
 
 .input-field {
@@ -262,6 +262,7 @@ body,
   font-size: .8rem;
   font-weight: 500;
   caret-color: var(--blue);
+  cursor: text;
 }
 .input-field::placeholder       { color: var(--text-muted); opacity: 1; transition: opacity .2s; }
 .input-field:focus::placeholder { opacity: 0.4; }
