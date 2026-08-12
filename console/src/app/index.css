@@ -285,15 +285,15 @@ body,
   position: absolute;
   background: var(--dim);
   width: 140%;
-  height: 1px;
+  height: 3px;
   transform-origin: right center;
   transform: rotate(-45deg);
   right: 0;
   transition: background .15s;
 }
 .resize-handle::before { bottom: 2px; }
-.resize-handle span    { bottom: 6px; }
-.resize-handle::after  { bottom: 10px; }
+.resize-handle span    { bottom: 5px; }
+.resize-handle::after  { bottom: 8px; }
 .resize-handle:hover::before,
 .resize-handle:hover::after,
 .resize-handle:hover span { background: var(--selection-bg); }
