@@ -283,14 +283,12 @@ body,
     0 2px 6px hsla(0, 0%, 0%, 0.55),
     0 4px 14px hsla(0, 0%, 0%, 0.45),
     inset 0 1px 0 hsla(0, 0%, 100%, 0.18);
-  transition: background .15s, color .15s, opacity .15s;
+  opacity: 0.45;
+  cursor: default;
+  transition: opacity .15s;
 }
-.input-send-btn.active {
-  opacity: 1;
-  color: var(--selection-text);
-  background: var(--selection-bg);
-}
-.input-send-btn.active:hover { opacity: 0.9; }
+.input-send-btn.active        { opacity: 1; cursor: pointer; }
+.input-send-btn.active:hover  { opacity: 0.9; }
 
 .resize-handle {
   position: absolute;
@@ -310,12 +308,12 @@ body,
 .resize-handle span {
   content: '';
   position: absolute;
+  right: 0;
   background: var(--dim);
   width: 140%;
   height: 3px;
   transform-origin: right center;
   transform: rotate(-45deg);
-  right: 0;
   transition: background .15s;
 }
 .resize-handle::before { bottom: 2px; }
