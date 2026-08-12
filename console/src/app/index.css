@@ -14,15 +14,7 @@ body,
   user-select: none;
 }
 
-* { 
-  cursor: default;
-}
-
-.action-btn,
-.input-send-btn.active,
-.filter,
-.resize-handle { cursor: pointer; }
-.input-send-btn:not(.active) { cursor: default; }
+* { cursor: default; }
 
 .action-btn *,
 .input-send-btn * { pointer-events: none; }
