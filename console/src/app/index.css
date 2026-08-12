@@ -94,11 +94,7 @@ body,
   flex-shrink: 0;
   transition: opacity .15s, background .15s, border-color .15s;
 }
-.filter:hover { opacity: 0.8; background: var(--b05); }
-.filter.active {
-  opacity: 1;
-  border-color: color-mix(in srgb, currentColor 35%, transparent);
-}
+.filter:hover  { opacity: 0.8; background: var(--b05); }
 .filter.active { opacity: 1; border-color: color-mix(in srgb, currentColor 35%, transparent); }
 
 .filter-dot {
@@ -156,7 +152,6 @@ body,
   word-break: break-word;
   transition: background .08s;
   animation: row-in 0.16s cubic-bezier(0.16, 1, 0.3, 1) both;
-  cursor: default;
 }
 .log-row:hover  { background: var(--b10); }
 .log-row.hidden { display: none; }
