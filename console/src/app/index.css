@@ -121,8 +121,8 @@ body,
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 22px;
   width: 30px;
+  height: 22px;
   border: none;
   border-radius: 3px;
   background: var(--b18);
