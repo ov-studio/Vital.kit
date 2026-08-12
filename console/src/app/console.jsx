@@ -268,6 +268,13 @@ export const Console = () => {
     window.addEventListener('webview:visible', (e) => { if (e.detail.visible) input_ref.current?.focus(); });
   }, []);
 
+  const handle_send = react.useCallback(() => {
+    if (!command_input.trim()) return;
+    handle_command(command_input);
+    set_command_input('');
+    input_ref.current?.focus();
+  }, [command_input, handle_command]);
+
   return (
     <div ref={console_ref} className="console" style={{ left: `${position.x}px`, top: `${position.y}px`, width: size.width, height: size.height }}>
       <div className={`header ${is_dragging ? 'dragging' : ''}`} onMouseDown={handle_mouse_down}>
@@ -325,7 +332,23 @@ export const Console = () => {
 
       <div className="input-bar">
         <span className="input-prompt">❯</span>
-        <input ref={input_ref} className="input-field" value={command_input} onChange={(e) => set_command_input(e.target.value)} placeholder="Enter command or expression..." autoComplete="off" spellCheck="false"/>
+        <input
+          ref={input_ref}
+          className="input-field"
+          value={command_input}
+          onChange={(e) => set_command_input(e.target.value)}
+          placeholder="Enter command or expression..."
+          autoComplete="off"
+          spellCheck="false"
+        />
+        <button
+          className={`send-btn${command_input.trim() ? ' active' : ''}`}
+          onClick={handle_send}
+          tabIndex={-1}
+          aria-label="Send"
+        >
+          <lucide.SendHorizontal size={13} strokeWidth={2.5} />
+        </button>
       </div>
 
       <div className="resize-handle" onMouseDown={handle_resize_start}><span></span></div>

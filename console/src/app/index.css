@@ -265,6 +265,45 @@ body,
 .input-field::placeholder       { color: var(--text-muted); opacity: 1; transition: opacity .2s; }
 .input-field:focus::placeholder { opacity: 0.4; }
 
+.send-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 26px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-faint);
+  cursor: pointer;
+  opacity: 0.25;
+  transition: background .15s, color .15s, opacity .15s, transform .15s, box-shadow .15s;
+}
+.send-btn.active {
+  opacity: 1;
+  color: var(--selection-color);
+  background: var(--selection-bg);
+  box-shadow:
+    0 2px 6px hsla(0, 0%, 0%, 0.55),
+    0 4px 14px hsla(0, 0%, 0%, 0.45),
+    inset 0 1px 0 hsla(0, 0%, 100%, 0.18);
+}
+.send-btn.active:hover {
+  opacity: 0.9;
+  transform: translateX(1px);
+  box-shadow:
+    0 4px 10px hsla(0, 0%, 0%, 0.65),
+    0 6px 18px hsla(0, 0%, 0%, 0.5),
+    inset 0 1px 0 hsla(0, 0%, 100%, 0.18);
+}
+.send-btn.active:active {
+  transform: translateY(0) translateX(0);
+  box-shadow:
+    0 1px 3px hsla(0, 0%, 0%, 0.5),
+    inset 0 1px 0 hsla(0, 0%, 100%, 0.1);
+}
+
 .resize-handle {
   position: absolute;
   right: 0;
