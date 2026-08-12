@@ -156,11 +156,7 @@ body,
 .log-row:hover  { background: var(--b10); }
 .log-row.hidden { display: none; }
 
-.log-row-multiline {
-  align-items: flex-start;
-  padding-top: 6px;
-  padding-bottom: 6px;
-}
+.log-row-multiline { align-items: flex-start; padding-top: 6px; padding-bottom: 6px; }
 
 .log-ts {
   font-family: 'Geist Mono', sans-serif;
