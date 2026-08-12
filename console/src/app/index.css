@@ -1,6 +1,6 @@
 :root {
   --shadow-inset: hsla(0, 0%, 100%, 0.04);
-  --shadow-dark: hsla(0, 0%, 0%, 0.4);
+  --shadow-dark:  hsla(0, 0%, 0%, 0.4);
   --shadow-outer: hsla(0, 0%, 0%, 0.55);
 }
 
