@@ -190,6 +190,8 @@ body,
   min-width: 0;
   overflow-wrap: break-word;
   color: inherit;
+  user-select: text;
+  cursor: text;
 }
 
 .log-row-multiline .log-ts,
