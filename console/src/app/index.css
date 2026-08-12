@@ -296,7 +296,7 @@ body,
 .resize-handle::after  { bottom: 10px; }
 .resize-handle:hover::before,
 .resize-handle:hover::after,
-.resize-handle:hover span { background: var(--blue); }
+.resize-handle:hover span { background: var(--selection-bg); }
 
 
 /* ── @keyframes ── */
