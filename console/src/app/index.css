@@ -131,6 +131,7 @@ body,
   cursor: pointer;
   transition: background .15s, color .15s;
 }
+.action-btn *     { pointer-events: none; }
 .action-btn:hover { background: var(--b30); color: var(--white); }
 
 .log-body {
