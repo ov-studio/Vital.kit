@@ -237,7 +237,7 @@ body,
   height: 40px;
   padding: 0 14px;
   gap: 8px;
-  background: var(--b10);
+  background: var(--b18);
   border-top: 2px solid var(--bg);
   flex-shrink: 0;
 }
