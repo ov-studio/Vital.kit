@@ -256,12 +256,13 @@ body,
   color: var(--dim);
   font-family: 'Geist', sans-serif;
   font-size: .8rem;
+  font-weight: 500;
   caret-color: var(--blue);
 }
 .input-field::placeholder       { color: var(--text-muted); opacity: 1; transition: opacity .2s; }
 .input-field:focus::placeholder { opacity: 0.4; }
 
-.send-btn {
+.input-send-btn {
   opacity: 0.45;
   display: flex;
   align-items: center;
@@ -278,16 +279,14 @@ body,
     0 2px 6px hsla(0, 0%, 0%, 0.55),
     0 4px 14px hsla(0, 0%, 0%, 0.45),
     inset 0 1px 0 hsla(0, 0%, 100%, 0.18);
-  transition: background .15s, color .15s, opacity .15s, transform .15s, box-shadow .15s;
+  transition: background .15s, color .15s, opacity .15s;
 }
-.send-btn.active {
+.input-send-btn.active {
   opacity: 1;
   color: var(--selection-text);
   background: var(--selection-bg);
 }
-.send-btn.active:hover {
-  opacity: 0.9;
-}
+.input-send-btn.active:hover { opacity: 0.9; }
 
 .resize-handle {
   position: absolute;

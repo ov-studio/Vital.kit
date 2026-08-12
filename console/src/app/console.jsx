@@ -342,7 +342,7 @@ export const Console = () => {
           spellCheck="false"
         />
         <button
-          className={`send-btn${command_input.trim() ? ' active' : ''}`}
+          className={`input-send-btn${command_input.trim() ? ' active' : ''}`}
           onClick={handle_send}
           tabIndex={-1}
           aria-label="Send"
