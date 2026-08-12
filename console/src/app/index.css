@@ -16,9 +16,6 @@ body,
 
 * { cursor: default; }
 
-.action-btn *,
-.input-send-btn * { pointer-events: none; }
-
 .console {
   position: absolute;
   display: flex;
@@ -283,6 +280,7 @@ body,
   cursor: default;
   transition: opacity .15s;
 }
+.input-send-btn *             { pointer-events: none; }
 .input-send-btn.active        { opacity: 1; cursor: pointer; }
 .input-send-btn.active:hover  { opacity: 0.9; }
 
