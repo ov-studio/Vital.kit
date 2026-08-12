@@ -99,6 +99,7 @@ body,
   opacity: 1;
   border-color: color-mix(in srgb, currentColor 35%, transparent);
 }
+.filter.active { opacity: 1; border-color: color-mix(in srgb, currentColor 35%, transparent); }
 
 .filter-dot {
   width: 5px;
