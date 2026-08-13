@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vital.sandbox</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ov-studio/Vital.site@main/app/theme.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ov-studio/Vital.site@main/app/global.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; background: var(--bg3); overflow: hidden; }
+
+#vignette {
+  position: fixed; inset: 0;
+  background: radial-gradient(ellipse at center,
+    transparent 38%, rgba(0,0,0,.55) 70%, rgba(0,0,0,.92) 100%);
+  pointer-events: none; z-index: 50;
+  opacity: 0;
+  transition: opacity 1200ms ease;
+}
+
+#scanlines {
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(
+    to bottom, transparent 0px, transparent 3px,
+    rgba(0,0,0,.08) 3px, rgba(0,0,0,.08) 4px);
+  pointer-events: none; z-index: 48; opacity: 0;
+  transition: opacity 1200ms ease;
+}
+
+#scene {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+
+#godot-seq {
+  position: absolute;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+}
+#godot-logo { width: 200px; height: 200px; }
+
+.g-stroke {
+  fill: none;
+  stroke: var(--blue);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: var(--len);
+  stroke-dashoffset: var(--len);
+  filter: drop-shadow(0 0 5px var(--b60));
+}
+.g-fill { opacity: 0; transition: opacity 180ms ease; }
+
+#sandbox-seq {
+  position: absolute;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+}
+#sandbox-logo { width: 210px; height: 152px; }
+
+.s-stroke {
+  fill: none;
+  stroke: var(--blue);
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-width: 3;
+  stroke-dasharray: 3000;
+  stroke-dashoffset: 3000;
+  filter: drop-shadow(0 0 8px var(--b50));
+}
+.s-fill { fill: var(--blue); opacity: 0; transition: opacity 200ms ease; }
+
+#flash {
+  position: fixed; inset: 0;
+  background: #fff; opacity: 0;
+  pointer-events: none; z-index: 999;
+}
+#flicker {
+  position: fixed; inset: 0;
+  background: var(--blue); opacity: 0;
+  pointer-events: none; z-index: 5;
+  mix-blend-mode: overlay;
+}
+
+.particle { position: fixed; border-radius: 50%; pointer-events: none; }
+.ripple   { position: fixed; border-radius: 50%; border: 1px solid; transform: scale(0); opacity: 0; pointer-events: none; }
+
+#curtain {
+  position: fixed; inset: 0;
+  background: #000; opacity: 0;
+  pointer-events: none; z-index: 900; transition: none;
+}
+#blackcover {
+  position: fixed; inset: 0;
+  background: #000; opacity: 1;
+  pointer-events: none; z-index: 800;
+  transition: opacity 800ms ease;
+}
+
+</style>
+</head>
+<body>
+
+
+<div id="vignette"></div>
+<div id="scanlines"></div>
+<div id="flash"></div>
+<div id="flicker"></div>
+<div id="curtain"></div>
+<div id="blackcover"></div>
+
+<div id="scene">
+
+  <!-- VITAL ICON -->
+  <div id="godot-seq">
+    <!--
+      Single viewBox 0 0 1024 1024.
+      The original SVG has 4 sub-paths:
+        1. Main body compound path (gear head + body + eye holes + chin slot) — drawn as one stroke
+        2. Jaw/smile bottom — kept on original transform so shape is pixel-perfect
+        3. Left pupil dot (small circle via transform)
+        4. Right pupil dot (small circle via transform)
+
+      For the jaw: keep the original matrix transform but set stroke-width
+      compensated by the scale factor (8 / 4.162611 ≈ 1.921) so it renders
+      at the same visual thickness as the body stroke-width="8".
+
+      For dasharray: the jaw path in local coords has a total length of ~456 local units
+      (measured: top edge ~131, two short notch sides ~40 each, bottom arc ~245).
+      In screen space: 456 * 4.162611 ≈ 1898px → use 1900.
+    -->
+    <svg id="godot-logo" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+
+      <!-- STROKE PASS -->
+
+      <!-- 1. Main body (gear + ears + body shell, eye-ring holes, chin notch) -->
+      <path class="g-stroke" id="go-body" stroke-width="8" style="--len:6200px"
+        d="m417.61523 76.875c-42.39203 9.424151-84.32671 22.54494-123.64257 42.33398.89912 34.71618 3.14362 67.97967 7.69336 101.76758-15.26846 9.78214-31.31507 18.17757-45.57618 29.62891-14.49005 11.14747-29.2896 21.81231-42.41015 34.84961-26.21196-17.33728-53.95467-33.6299-82.53516-48.01172C100.33705 270.59856 71.53124 306.38342 48 346.42773c18.493057 29.02877 38.32949 58.20569 56.69922 80.95899v197.7832 25.1211 22.86132c.44956.00417.89835.02088 1.34375.0625l150.66992 14.52735c7.89231.76176 14.07749 7.11448 14.62695 15.02343l4.64649 66.50977 131.42969 9.37891 9.05468-61.38672c1.17386-7.95891 8.00029-13.85742 16.05078-13.85742h158.96094c8.04633.0 14.87302 5.89851 16.04688 13.85742l9.05468 61.38672 131.4336-9.37891 4.64258-66.50977c.55362-7.90895 6.73464-14.25751 14.62695-15.02343l150.61133-14.52735c.4454-.04162.89028-.05833 1.33984-.0625v-19.61132l.0625-.01954V427.38672c21.2165-26.70928 41.30684-56.1715 56.69922-80.95899-23.52291-40.04431-52.34486-75.82917-83.15234-108.98437-28.57217 14.38182-56.32515 30.67444-82.53711 48.01172-13.11639-13.0373-27.88953-23.70214-42.40039-34.84961-14.25695-11.45134-30.32318-19.84677-45.5625-29.62891 4.53724-33.78791 6.7803-67.0514 7.68359-101.76758-39.32002-19.78904-81.24927-32.909829-123.66211-42.33398-16.9335 28.45977-32.41939 59.27922-45.90625 89.4082-15.99275-2.67239-32.05995-3.66203-48.14844-3.85351v-.02539c-.11239.0-.21676.02539-.3125.02539-.0999.0-.20478-.02539-.30468-.02539v.02539c-16.11763.19148-32.17106 1.18112-48.16797 3.85351-13.47854-30.12898-28.95559-60.94843-45.91407-89.4082z"/>
+
+      <!-- 2. Jaw/smile — original path + transform, stroke-width compensated for scale -->
+      <path class="g-stroke" id="go-jaw" stroke-width="1.921" style="--len:1900px"
+        transform="matrix(4.162611 0 0 -4.162611 784.07144 718.723121)"
+        d="m0 0-1.121-16.063c-.135-1.936-1.675-3.477-3.611-3.616l-38.555-2.751c-.094-.007-.188-.01-.281-.01-1.916.0-3.569 1.406-3.852 3.33l-2.211 14.994H-81.09l-2.211-14.994c-.297-2.018-2.101-3.469-4.133-3.32l-38.555 2.751c-1.936.139-3.476 1.68-3.611 3.616L-130.721.0l-32.547 3.138c.015-3.498.06-7.33.06-8.093.0-34.374 43.605-50.896 97.781-51.086h.066.067c54.176.19 97.766 16.712 97.766 51.086.0.777.047 4.593.063 8.093z"/>
+
+      <!-- 3. Left eye ring -->
+      <circle class="g-stroke" id="go-eyelout" cx="298.41602" cy="527.15039" r="90.79882"
+        stroke-width="8" style="--len:570px"/>
+
+      <!-- 4. Right eye ring -->
+      <circle class="g-stroke" id="go-eyerout" cx="725.59375" cy="527.15039" r="90.7793"
+        stroke-width="8" style="--len:570px"/>
+
+      <!-- 5. Left pupil dot -->
+      <path class="g-stroke" id="go-pupl" stroke-width="8" style="--len:91px"
+        transform="matrix(4.162611 0 0 -4.162611 367.36686 532.537071)"
+        d="m0 0c0-7.994-6.479-14.473-14.479-14.473-7.996.0-14.479 6.479-14.479 14.473s6.483 14.479 14.479 14.479C-6.479 14.479.0 7.994.0.0"/>
+
+      <!-- 6. Right pupil dot -->
+      <path class="g-stroke" id="go-pupr" stroke-width="8" style="--len:91px"
+        transform="matrix(4.162611 0 0 -4.162611 656.64056 532.537071)"
+        d="m0 0c0-7.994 6.477-14.473 14.471-14.473C22.473-14.473 28.95-7.994 28.95.0s-6.477 14.479-14.479 14.479C6.477 14.479.0 7.994.0.0"/>
+
+      <!-- FILL PASS -->
+
+      <path class="g-fill" id="gf-body" fill="var(--blue)"
+        style="filter:drop-shadow(0 0 28px var(--b50))"
+        d="m417.61523 76.875c-42.39203 9.424151-84.32671 22.54494-123.64257 42.33398.89912 34.71618 3.14362 67.97967 7.69336 101.76758-15.26846 9.78214-31.31507 18.17757-45.57618 29.62891-14.49005 11.14747-29.2896 21.81231-42.41015 34.84961-26.21196-17.33728-53.95467-33.6299-82.53516-48.01172C100.33705 270.59856 71.53124 306.38342 48 346.42773c18.493057 29.02877 38.32949 58.20569 56.69922 80.95899v197.7832 25.1211 22.86132c.44956.00417.89835.02088 1.34375.0625l150.66992 14.52735c7.89231.76176 14.07749 7.11448 14.62695 15.02343l4.64649 66.50977 131.42969 9.37891 9.05468-61.38672c1.17386-7.95891 8.00029-13.85742 16.05078-13.85742h158.96094c8.04633.0 14.87302 5.89851 16.04688 13.85742l9.05468 61.38672 131.4336-9.37891 4.64258-66.50977c.55362-7.90895 6.73464-14.25751 14.62695-15.02343l150.61133-14.52735c.4454-.04162.89028-.05833 1.33984-.0625v-19.61132l.0625-.01954V427.38672c21.2165-26.70928 41.30684-56.1715 56.69922-80.95899-23.52291-40.04431-52.34486-75.82917-83.15234-108.98437-28.57217 14.38182-56.32515 30.67444-82.53711 48.01172-13.11639-13.0373-27.88953-23.70214-42.40039-34.84961-14.25695-11.45134-30.32318-19.84677-45.5625-29.62891 4.53724-33.78791 6.7803-67.0514 7.68359-101.76758-39.32002-19.78904-81.24927-32.909829-123.66211-42.33398-16.9335 28.45977-32.41939 59.27922-45.90625 89.4082-15.99275-2.67239-32.05995-3.66203-48.14844-3.85351v-.02539c-.11239.0-.21676.02539-.3125.02539-.0999.0-.20478-.02539-.30468-.02539v.02539c-16.11763.19148-32.17106 1.18112-48.16797 3.85351-13.47854-30.12898-28.95559-60.94843-45.91407-89.4082z"/>
+
+      <path class="g-fill" id="gf-jaw" fill="var(--blue)"
+        transform="matrix(4.162611 0 0 -4.162611 784.07144 718.723121)"
+        d="m0 0-1.121-16.063c-.135-1.936-1.675-3.477-3.611-3.616l-38.555-2.751c-.094-.007-.188-.01-.281-.01-1.916.0-3.569 1.406-3.852 3.33l-2.211 14.994H-81.09l-2.211-14.994c-.297-2.018-2.101-3.469-4.133-3.32l-38.555 2.751c-1.936.139-3.476 1.68-3.611 3.616L-130.721.0l-32.547 3.138c.015-3.498.06-7.33.06-8.093.0-34.374 43.605-50.896 97.781-51.086h.066.067c54.176.19 97.766 16.712 97.766 51.086.0.777.047 4.593.063 8.093z"/>
+
+      <circle class="g-fill" id="gf-eyelw" cx="298.41602" cy="527.15039" r="90.79882" fill="#fff"/>
+      <circle class="g-fill" id="gf-eyerw" cx="725.59375" cy="527.15039" r="90.7793"  fill="#fff"/>
+
+      <path class="g-fill" id="gf-pupl" fill="var(--blue)"
+        transform="matrix(4.162611 0 0 -4.162611 367.36686 532.537071)"
+        d="m0 0c0-7.994-6.479-14.473-14.479-14.473-7.996.0-14.479 6.479-14.479 14.473s6.483 14.479 14.479 14.479C-6.479 14.479.0 7.994.0.0"/>
+
+      <path class="g-fill" id="gf-pupr" fill="var(--blue)"
+        transform="matrix(4.162611 0 0 -4.162611 656.64056 532.537071)"
+        d="m0 0c0-7.994 6.477-14.473 14.471-14.473C22.473-14.473 28.95-7.994 28.95.0s-6.477 14.479-14.479 14.479C6.477 14.479.0 7.994.0.0"/>
+
+      <!-- Eye whites (drawn on top of body fill) -->
+      <circle class="g-fill" id="gf-eyelw2" cx="298.41602" cy="527.15039" r="90.79882" fill="#fff"/>
+      <circle class="g-fill" id="gf-eyerw2" cx="725.59375" cy="527.15039" r="90.7793"  fill="#fff"/>
+      <path class="g-fill" id="gf-pupl2" fill="var(--blue)"
+        transform="matrix(4.162611 0 0 -4.162611 367.36686 532.537071)"
+        d="m0 0c0-7.994-6.479-14.473-14.479-14.473-7.996.0-14.479 6.479-14.479 14.473s6.483 14.479 14.479 14.479C-6.479 14.479.0 7.994.0.0"/>
+      <path class="g-fill" id="gf-pupr2" fill="var(--blue)"
+        transform="matrix(4.162611 0 0 -4.162611 656.64056 532.537071)"
+        d="m0 0c0-7.994 6.477-14.473 14.471-14.473C22.473-14.473 28.95-7.994 28.95.0s-6.477 14.479-14.479 14.479C6.477 14.479.0 7.994.0.0"/>
+      <!-- Shine -->
+      <circle class="g-fill" id="gf-shinl" cx="308" cy="517" r="18" fill="#fff"/>
+      <circle class="g-fill" id="gf-shinr" cx="736" cy="517" r="18" fill="#fff"/>
+
+    </svg>
+  </div>
+
+  <!-- VITAL SANDBOX LOGO -->
+  <div id="sandbox-seq">
+    <svg id="sandbox-logo" viewBox="0 0 1050.38 762.84" xmlns="http://www.w3.org/2000/svg">
+      <polygon class="s-stroke" id="sA-out"  points="699.95 178.62 549.11 744.84 1050.38 8.48 540.23 174.01 699.95 178.62"/>
+      <polygon class="s-stroke" id="sB-out"  points="1021.93 0 0 0 398.25 279.71 352.99 179.27 1021.93 0"/>
+      <polygon class="s-stroke" id="sC-out"  points="9.85 25.14 527.44 762.84 601.23 359.36 523.05 446.3 9.85 25.14"/>
+      <polygon class="s-fill"   id="sA-fill" points="699.95 178.62 549.11 744.84 1050.38 8.48 540.23 174.01 699.95 178.62"/>
+      <polygon class="s-fill"   id="sB-fill" points="1021.93 0 0 0 398.25 279.71 352.99 179.27 1021.93 0"/>
+      <polygon class="s-fill"   id="sC-fill" points="9.85 25.14 527.44 762.84 601.23 359.36 523.05 446.3 9.85 25.14"/>
+    </svg>
+  </div>
+
+</div>
+
+<script>
+const CX = window.innerWidth / 2, CY = window.innerHeight / 2;
+const $ = id => document.getElementById(id);
+
+const flickEl = $('flicker');
+let _flickIv = null;
+
+function flicker(intensity, intervalMs) {
+  stopFlicker();
+  _flickIv = setInterval(() => {
+    const r = Math.random();
+    if (r < 0.38) {
+      flickEl.style.transition = 'opacity 12ms linear';
+      flickEl.style.opacity = (Math.random() * intensity).toFixed(3);
+      setTimeout(() => { flickEl.style.transition = 'opacity 30ms linear'; flickEl.style.opacity = 0; }, 16);
+    } else if (r < 0.55) {
+      flickEl.style.opacity = (Math.random() * intensity).toFixed(3);
+      setTimeout(() => {
+        flickEl.style.opacity = 0;
+        setTimeout(() => {
+          flickEl.style.opacity = (Math.random() * intensity * 0.5).toFixed(3);
+          setTimeout(() => { flickEl.style.opacity = 0; }, 22);
+        }, 28);
+      }, 14);
+    }
+  }, intervalMs);
+}
+function stopFlicker() {
+  if (_flickIv) { clearInterval(_flickIv); _flickIv = null; }
+  flickEl.style.opacity = 0;
+}
+
+function doFlash(delay, color) {
+  const f = $('flash');
+  setTimeout(() => {
+    f.style.background = color || '#fff';
+    f.style.transition = 'opacity 40ms ease'; f.style.opacity = 1;
+    setTimeout(() => { f.style.transition = 'opacity 600ms ease'; f.style.opacity = 0; }, 45);
+  }, delay);
+}
+
+function ripple(cx, cy, color, delay, size) {
+  setTimeout(() => {
+    const r = document.createElement('div'); r.className = 'ripple';
+    const s = size || 320;
+    Object.assign(r.style, { width:s+'px', height:s+'px', left:cx-s/2+'px', top:cy-s/2+'px', borderColor:color, borderWidth:'1.5px' });
+    document.body.appendChild(r);
+    requestAnimationFrame(() => {
+      r.style.transition = 'transform 1000ms cubic-bezier(.15,0,.5,1), opacity 1000ms ease';
+      r.style.transform = 'scale(2.6)'; r.style.opacity = 0;
+    });
+    setTimeout(() => r.remove(), 1100);
+  }, delay);
+}
+
+function burst(cx, cy, color, n, delay) {
+  setTimeout(() => {
+    for (let i = 0; i < n; i++) {
+      const p = document.createElement('div'); p.className = 'particle';
+      p.style.cssText = `background:${color};left:${cx}px;top:${cy}px;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px`;
+      document.body.appendChild(p);
+      const a = Math.random()*Math.PI*2, d = 50+Math.random()*180, dur = 700+Math.random()*600;
+      requestAnimationFrame(() => {
+        p.style.transition = `transform ${dur}ms cubic-bezier(.15,.8,.3,1), opacity ${dur}ms ease`;
+        p.style.transform = `translate(${Math.cos(a)*d}px,${Math.sin(a)*d}px) scale(0)`;
+        p.style.opacity = 0;
+      });
+      setTimeout(() => p.remove(), dur+50);
+    }
+  }, delay);
+}
+
+// ══════════════════════════════════════════════════════════════
+// CONFIG — tweak these freely
+// ══════════════════════════════════════════════════════════════
+const CONFIG = {
+  startDelay:   1000,  // ms of silence before anything begins
+  strokeSpeed:  1.2,   // multiplier on all stroke draw durations (higher = slower)
+  holdSandbox:  2000,  // ms to hold Vital.sandbox logo after fully revealed
+  holdIcon:     1800,  // ms to hold Godot icon after fully revealed
+  gapGlitch:    1000,   // ms of suspense gap between the two logos
+  fadeOut:      1400,  // ms of final black curtain fade
+};
+// ══════════════════════════════════════════════════════════════
+
+const D = (t) => CONFIG.startDelay + t;   // absolute time from page load
+const S = (ms) => Math.round(ms * CONFIG.strokeSpeed); // scaled stroke duration
+
+// ── TIMELINE ──────────────────────────────────────────────────
+const gSeq  = $('godot-seq');
+const sbSeq = $('sandbox-seq');
+const BLUE  = 'hsl(220,95%,76%)';
+
+// Fade in after start delay — reveal from pure black
+setTimeout(() => {
+  $('blackcover').style.opacity = '0';
+  $('vignette').style.opacity   = '1';
+  $('scanlines').style.opacity  = '.6';
+}, D(0));
+
+setTimeout(() => flicker(0.05, 350), D(0));
+
+// ── PHASE 1: Vital.sandbox logo ───────────────────────────────
+setTimeout(() => { sbSeq.style.opacity = 1; }, D(0));
+
+const SB_DUR     = S(580);
+const SB_STAGGER = S(220);
+[['sA-out','sA-fill', 0],
+ ['sB-out','sB-fill', SB_STAGGER],
+ ['sC-out','sC-fill', SB_STAGGER * 2]]
+  .forEach(([outId, fillId, delay]) => {
+    const outEl=$(outId), fillEl=$(fillId); if(!outEl) return;
+    outEl.style.opacity = 1;
+    setTimeout(() => {
+      outEl.style.transition = `stroke-dashoffset ${SB_DUR}ms cubic-bezier(.35,0,.2,1)`;
+      outEl.style.strokeDashoffset = '0';
+    }, D(delay));
+    setTimeout(() => {
+      outEl.style.transition = 'opacity 100ms ease'; outEl.style.opacity = 0;
+      fillEl.style.opacity = 1;
+    }, D(delay + SB_DUR + 60));
+  });
+
+const SB_DRAW_DONE = SB_STAGGER * 2 + SB_DUR + 60; // when last poly fill appears
+
+// Loadbar: 0% → 45% during sandbox draw
+
+setTimeout(() => { flicker(0.12, 80); setTimeout(() => flicker(0.06, 300), 150); }, D(S(400)));
+
+// Phase 1 resolve — flash + punch
+setTimeout(() => {
+  stopFlicker();
+  setTimeout(() => {
+    doFlash(0, '#fff');
+    ripple(CX, CY, '#fff', 50, 360);
+    ripple(CX, CY, BLUE,   120, 480);
+    ripple(CX, CY, '#fff', 220, 600);
+    burst(CX, CY, '#fff', 20, 50);
+    burst(CX, CY, BLUE,   16, 80);
+    const sLogo = $('sandbox-logo');
+    sLogo.style.transition = 'transform 200ms cubic-bezier(.15,1.2,.3,1), filter 200ms ease';
+    sLogo.style.transform  = 'scale(1.09)';
+    sLogo.style.filter     = 'drop-shadow(0 0 60px var(--b60))';
+    setTimeout(() => {
+      sLogo.style.transition = 'transform 600ms cubic-bezier(.4,0,.2,1), filter 800ms ease';
+      sLogo.style.transform  = 'scale(1)';
+      sLogo.style.filter     = 'drop-shadow(0 0 20px var(--b30))';
+      setTimeout(() => flicker(0.04, 450), 300);
+    }, 200);
+  }, 180);
+}, D(SB_DRAW_DONE));
+
+// Phase 1 exit
+const SB_EXIT = SB_DRAW_DONE + 200 + CONFIG.holdSandbox;
+// Loadbar: 45% → 55% during gap
+setTimeout(() => {
+  stopFlicker();
+  setTimeout(() => {
+    const sLogo = $('sandbox-logo');
+    sLogo.style.transition = 'opacity 600ms cubic-bezier(.4,0,1,1), transform 600ms cubic-bezier(.4,0,1,1), filter 400ms ease';
+    sLogo.style.opacity = 0; sLogo.style.transform = 'scale(0.88)'; sLogo.style.filter = 'none';
+  }, 120);
+  setTimeout(() => { sbSeq.style.transition = 'opacity 400ms ease'; sbSeq.style.opacity = 0; }, 280);
+}, D(SB_EXIT));
+
+// ── Suspense gap glitch ────────────────────────────────────────
+const GAP_START = SB_EXIT + 400;
+setTimeout(() => { flicker(0.18, 100); }, D(GAP_START));
+setTimeout(() => {
+  stopFlicker(); flicker(0.08, 200);
+  setTimeout(stopFlicker, 200);
+}, D(GAP_START + CONFIG.gapGlitch));
+
+// ── PHASE 3: Godot icon ───────────────────────────────────────
+const ICON_START = GAP_START + CONFIG.gapGlitch + 300;
+setTimeout(() => {
+  flicker(0.06, 280);
+  gSeq.style.opacity = 1;
+
+  const gStrokes = [
+    ['go-body',    S(900),    0],
+    ['go-jaw',     S(400), S(500)],
+    ['go-eyelout', S(300), S(680)],
+    ['go-eyerout', S(300), S(780)],
+    ['go-pupl',    S(180), S(920)],
+    ['go-pupr',    S(180), S(1000)],
+  ];
+
+  gStrokes.forEach(([id, dur, delay]) => {
+    const el = $(id); if (!el) return;
+    el.style.opacity = 1;
+    setTimeout(() => {
+      el.style.transition = `stroke-dashoffset ${dur}ms cubic-bezier(.35,0,.2,1)`;
+      el.style.strokeDashoffset = '0';
+    }, delay);
+  });
+
+  const ICON_DRAW_DONE = S(1000) + S(180); // last stroke starts + its duration
+  // Loadbar: 55% → 95% during icon draw
+  setTimeout(() => { flicker(0.12, 80); setTimeout(() => flicker(0.06, 300), 150); }, S(550));
+
+  // Phase 3 resolve — flash + fill
+  setTimeout(() => {
+    stopFlicker();
+    setTimeout(() => {
+      doFlash(0, '#fff');
+      ripple(CX, CY, BLUE, 60, 340);
+      ripple(CX, CY, BLUE, 160, 500);
+      burst(CX, CY, BLUE, 32, 60);
+
+      gStrokes.forEach(([id]) => {
+        const e=$(id); if(e){ e.style.transition='opacity 80ms ease'; e.style.opacity=0; }
+      });
+      ['gf-body','gf-jaw','gf-eyelw2','gf-eyerw2','gf-pupl2','gf-pupr2','gf-shinl','gf-shinr']
+        .forEach(id => { const e=$(id); if(e) e.style.opacity=1; });
+
+      const logo = $('godot-logo');
+      logo.style.transition = 'transform 180ms cubic-bezier(.15,1.2,.3,1), filter 180ms ease';
+      logo.style.transform  = 'scale(1.10)';
+      logo.style.filter     = `drop-shadow(0 0 50px ${BLUE})`;
+      setTimeout(() => {
+        logo.style.transition = 'transform 500ms cubic-bezier(.4,0,.2,1), filter 600ms ease';
+        logo.style.transform  = 'scale(1)';
+        logo.style.filter     = 'drop-shadow(0 0 18px var(--b40))';
+        setTimeout(() => flicker(0.05, 380), 200);
+      }, 180);
+    }, 160);
+  }, ICON_DRAW_DONE);
+
+  // Final fade
+  setTimeout(() => {
+    stopFlicker();
+    setTimeout(() => {
+      const curtain = $('curtain');
+      curtain.style.transition = `opacity ${CONFIG.fadeOut}ms cubic-bezier(.4,0,.6,1)`;
+      curtain.style.opacity = 1;
+    }, 160);
+  }, ICON_DRAW_DONE + 200 + CONFIG.holdIcon);
+
+}, D(ICON_START));
+</script>
+</body>
+</html>
