@@ -1,4 +1,4 @@
 {
-    "interval": 300,
-    "debounce": 5
+    "interval": 600,
+    "debounce": 10
 }
