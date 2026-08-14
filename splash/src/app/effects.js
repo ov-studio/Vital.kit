@@ -1,5 +1,3 @@
-// Reusable visual effect helpers — flash, ripple, burst, flicker.
-
 const flickEl = () => document.getElementById('flicker');
 let _flickIv = null;
 

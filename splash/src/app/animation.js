@@ -3,21 +3,18 @@ import { flicker, stop_flicker, flash, ripple, burst } from './effects.js';
 
 const D = (t) => START_DELAY + t;
 const S = (ms) => Math.round(ms * STROKE_SPEED);
-
 const $ = (id) => document.getElementById(id);
 const BLUE = 'hsl(220,95%,76%)';
 
 let _hasRun = false;
 
 export function run() {
-  // Guard: prevent overlapping timelines from duplicate "start" messages or hot-reload.
   if (_hasRun) return;
   _hasRun = true;
 
   const CX = window.innerWidth / 2;
   const CY = window.innerHeight / 2;
 
-  // ── Initial reveal ────────────────────────────────────────────
   setTimeout(() => {
     $('blackcover').style.opacity = '0';
     $('vignette').style.opacity = '1';
@@ -130,7 +127,7 @@ export function run() {
     });
 
     const ICON_DRAW_DONE = S(1000) + S(180);
-
+    
     setTimeout(() => { flicker(0.12, 80); setTimeout(() => flicker(0.06, 300), 150); }, S(550));
 
     // Phase 2 resolve — flash + fill strokes with solid fills
@@ -144,11 +141,16 @@ export function run() {
 
         gStrokes.forEach(([id]) => {
           const e = $(id);
-          if (e) { e.style.transition = 'opacity 80ms ease'; e.style.opacity = 0; }
+          if (e) { 
+            e.style.transition = 'opacity 80ms ease'; 
+            e.style.opacity = 0; 
+          }
         });
 
-        ['gf-body', 'gf-jaw', 'gf-eyelw2', 'gf-eyerw2', 'gf-pupl2', 'gf-pupr2', 'gf-shinl', 'gf-shinr']
-          .forEach(id => { const e = $(id); if (e) e.style.opacity = 1; });
+        ['gf-body', 'gf-jaw', 'gf-eyelw2', 'gf-eyerw2', 'gf-pupl2', 'gf-pupr2', 'gf-shinl', 'gf-shinr'].forEach(id => { 
+          const e = $(id); 
+          if (e) e.style.opacity = 1; 
+        });
 
         const logo = $('godot-logo');
         logo.style.transition = 'transform 180ms cubic-bezier(.15,1.2,.3,1), filter 180ms ease';
@@ -172,12 +174,8 @@ export function run() {
       setTimeout(() => {
         const curtain = $('curtain');
         const fadeDur = FADE_TO_BLACK;
-
         curtain.style.transition = `opacity ${fadeDur}ms cubic-bezier(.4,0,.6,1)`;
         curtain.style.opacity = 1;
-
-        // Fade logo + scene out in sync with the curtain so nothing shows
-        // through once the black starts dissolving in stage 3.
         const sceneLayers = [$('godot-logo'), gSeq, $('vignette'), $('scanlines')].filter(Boolean);
         sceneLayers.forEach((el) => {
           el.style.transition = `opacity ${fadeDur}ms cubic-bezier(.4,0,.6,1)`;
@@ -185,12 +183,10 @@ export function run() {
         });
 
         setTimeout(() => {
-          // Clear html + body backgrounds so the page goes fully transparent.
           document.documentElement.style.background = 'transparent';
           document.body.style.background = 'transparent';
-
           curtain.style.transition = `opacity ${FADE_TO_TRANSPARENT}ms cubic-bezier(.4,0,.6,1)`;
-          void curtain.offsetHeight; // flush transition before opacity change
+          void curtain.offsetHeight;
           curtain.style.opacity = 0;
         }, fadeDur + BLACK_HOLD_DELAY);
       }, 160);
@@ -200,6 +196,5 @@ export function run() {
     setTimeout(() => {
       window.dispatchEvent(new Event('splash-done'));
     }, TOTAL_DONE);
-
   }, D(ICON_START));
 }
