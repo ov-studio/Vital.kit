@@ -1,5 +1,8 @@
-import { CONFIG, D, S } from './config.js';
+import { START_DELAY, STROKE_SPEED, HOLD_SANDBOX, HOLD_ICON, GAP_GLITCH, FADE_TO_BLACK, BLACK_HOLD_DELAY, FADE_TO_TRANSPARENT } from './config.js';
 import { flicker, stop_flicker, flash, ripple, burst } from './effects.js';
+
+const D = (t) => START_DELAY + t;
+const S = (ms) => Math.round(ms * STROKE_SPEED);
 
 const $ = (id) => document.getElementById(id);
 const BLUE = 'hsl(220,95%,76%)';
@@ -77,7 +80,7 @@ export function run() {
   }, D(SB_DRAW_DONE));
 
   // Phase 1 exit — fade and shrink sandbox logo out
-  const SB_EXIT = SB_DRAW_DONE + 200 + CONFIG.holdSandbox;
+  const SB_EXIT = SB_DRAW_DONE + 200 + HOLD_SANDBOX;
   setTimeout(() => {
     stop_flicker();
     setTimeout(() => {
@@ -99,10 +102,10 @@ export function run() {
   setTimeout(() => {
     stop_flicker(); flicker(0.08, 200);
     setTimeout(stop_flicker, 200);
-  }, D(GAP_START + CONFIG.gapGlitch));
+  }, D(GAP_START + GAP_GLITCH));
 
   // ── PHASE 2: Godot icon ───────────────────────────────────────
-  const ICON_START = GAP_START + CONFIG.gapGlitch + 300;
+  const ICON_START = GAP_START + GAP_GLITCH + 300;
   setTimeout(() => {
     flicker(0.06, 280);
     const gSeq = $('godot-seq');
@@ -162,13 +165,13 @@ export function run() {
 
     // Exit — three stages:
     //   1. Curtain fades in to black; logo + scene fade out simultaneously.
-    //   2. Hold on solid black (CONFIG.blackHoldDelay).
+    //   2. Hold on solid black (BLACK_HOLD_DELAY).
     //   3. Curtain fades to transparent, revealing Vital.sandbox behind.
     setTimeout(() => {
       stop_flicker();
       setTimeout(() => {
         const curtain = $('curtain');
-        const fadeDur = CONFIG.fadeToBlack;
+        const fadeDur = FADE_TO_BLACK;
 
         curtain.style.transition = `opacity ${fadeDur}ms cubic-bezier(.4,0,.6,1)`;
         curtain.style.opacity = 1;
@@ -186,14 +189,14 @@ export function run() {
           document.documentElement.style.background = 'transparent';
           document.body.style.background = 'transparent';
 
-          curtain.style.transition = `opacity ${CONFIG.fadeToTransparent}ms cubic-bezier(.4,0,.6,1)`;
+          curtain.style.transition = `opacity ${FADE_TO_TRANSPARENT}ms cubic-bezier(.4,0,.6,1)`;
           void curtain.offsetHeight; // flush transition before opacity change
           curtain.style.opacity = 0;
-        }, fadeDur + CONFIG.blackHoldDelay);
+        }, fadeDur + BLACK_HOLD_DELAY);
       }, 160);
-    }, ICON_DRAW_DONE + 200 + CONFIG.holdIcon);
+    }, ICON_DRAW_DONE + 200 + HOLD_ICON);
 
-    const TOTAL_DONE = ICON_DRAW_DONE + 200 + CONFIG.holdIcon + 160 + CONFIG.fadeToBlack + CONFIG.blackHoldDelay + CONFIG.fadeToTransparent + 100;
+    const TOTAL_DONE = ICON_DRAW_DONE + 200 + HOLD_ICON + 160 + FADE_TO_BLACK + BLACK_HOLD_DELAY + FADE_TO_TRANSPARENT + 100;
     setTimeout(() => {
       window.dispatchEvent(new Event('splash-done'));
     }, TOTAL_DONE);
