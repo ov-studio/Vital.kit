@@ -194,7 +194,7 @@ export function run() {
 
     const TOTAL_DONE = ICON_DRAW_DONE + 200 + HOLD_ICON + 160 + FADE_TO_BLACK + BLACK_HOLD_DELAY + FADE_TO_TRANSPARENT + 100;
     setTimeout(() => {
-      window.dispatchEvent(new Event('splash-done'));
+      window.dispatchEvent(new Event('splash:hide'));
     }, TOTAL_DONE);
   }, D(ICON_START));
 }

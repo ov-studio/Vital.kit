@@ -39,7 +39,9 @@ window.ipc.postMessage(JSON.stringify({
   action: 'ready' 
 }));
 
-window.addEventListener('splash-done', () => {
-  window.ipc.postMessage(JSON.stringify({ action: 'done' }));
+window.addEventListener('splash:hide', () => {
+  window.ipc.postMessage(JSON.stringify({ 
+    action: 'hide' 
+  }));
 });
 
