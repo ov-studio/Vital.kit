@@ -1,27 +1,15 @@
-// Animation timing config — tweak freely.
+// Animation timing — tweak freely.
 export const CONFIG = {
-  startDelay:  1000,  // ms of silence before anything begins
-  strokeSpeed: 1.2,   // multiplier on all stroke draw durations (higher = slower)
-  holdSandbox: 2000,  // ms to hold Vital.sandbox logo after fully revealed
-  holdIcon:    1800,  // ms to hold Godot icon after fully revealed
+  startDelay:  1000,  // ms of pure black before anything starts
+  strokeSpeed: 1.2,   // stroke draw speed multiplier (higher = slower)
+  holdSandbox: 2000,  // ms to hold the Vital.sandbox logo after reveal
+  holdIcon:    1800,  // ms to hold the Godot icon after reveal
   gapGlitch:   1000,  // ms of suspense gap between the two logos
 
-  // ── Exit sequence ──────────────────────────────────────────────────────────
-  // Stage 1 — Godot logo + scene fade to black:
-  //   The Godot logo (and all scene layers) fade out first while the black
-  //   curtain simultaneously fades IN. Duration below controls both.
-  fadeToBlack:       700,   // ms for the curtain to reach solid opaque black
-                            // (Godot logo is fully hidden before this ends)
-
-  // Stage 2 — Hold on black:
-  //   A moment of pure black silence after the scene is fully hidden and
-  //   before the black itself starts fading away.
-  blackHoldDelay:    300,   // ms to hold on solid black before fading out
-
-  // Stage 3 — Black fades to transparent:
-  //   The black curtain dissolves away, revealing whatever is behind the
-  //   overlay (i.e. Vital.sandbox). The Godot logo is already gone.
-  fadeToTransparent: 900,   // ms for black to fade away to fully transparent
+  // Exit sequence (three stages):
+  fadeToBlack:       700,  // 1. curtain fades in / logo + scene fade out
+  blackHoldDelay:    300,  // 2. hold on solid black
+  fadeToTransparent: 900,  // 3. black dissolves to transparent
 };
 
 // Absolute time from page load
