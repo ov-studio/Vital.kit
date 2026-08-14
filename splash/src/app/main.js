@@ -35,7 +35,9 @@ document.addEventListener('message', (e) => {
   if (data.action === 'init') run();
 });
 
-window.ipc.postMessage(JSON.stringify({ action: 'ready' }));
+window.ipc.postMessage(JSON.stringify({ 
+  action: 'ready' 
+}));
 
 window.addEventListener('splash-done', () => {
   window.ipc.postMessage(JSON.stringify({ action: 'done' }));
