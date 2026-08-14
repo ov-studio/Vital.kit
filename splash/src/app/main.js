@@ -5,21 +5,24 @@ import './index.css';
 document.getElementById('godot-seq').innerHTML   = GODOT_SVG;
 document.getElementById('sandbox-seq').innerHTML = SANDBOX_SVG;
 
-// Dev stub — simulates the Godot WebView environment for `npm run dev`.
-// Vite strips this block entirely from production builds.
+// In production this page runs inside a Godot WebView. Godot injects a
+// global `ipc` object (for outgoing messages) and dispatches a "message"
+// CustomEvent on `document` (for incoming data: init/print/clear). Neither
+// exists in a plain browser, so during `npm run dev` this stubs `ipc` and
+// fires fake events so the console UI has something to show.
+//
+// import.meta.env.DEV is true only for `npm run dev` - Vite's production
+// build (`npm run build`) statically strips this entire block out, so it
+// never ships to Godot. No manual cleanup needed.
 if (import.meta.env.DEV) {
-  // Load Vital.kit so theme CSS variables are available, as in the real WebView.
   new Function(await (await fetch('/kit')).text())();
 
-  // Stub ipc so postMessage calls log to console instead of throwing.
   window.ipc = {
     postMessage(json) {
       console.log('[ipc -> godot]', JSON.parse(json));
     }
   };
 
-  // Simulate the C++ "start" reply. Deferred so the listener below is
-  // registered first.
   setTimeout(() => {
     document.dispatchEvent(new CustomEvent('message', {
       detail: JSON.stringify({ action: 'start' })
@@ -32,9 +35,8 @@ document.addEventListener('message', (e) => {
   if (data.action === 'start') run();
 });
 
-// "splash-done" fires when the fade-to-transparent finishes.
+window.ipc.postMessage(JSON.stringify({ action: 'ready' }));
 window.addEventListener('splash-done', () => {
   window.ipc.postMessage(JSON.stringify({ action: 'done' }));
 });
 
-window.ipc.postMessage(JSON.stringify({ action: 'ready' }));
