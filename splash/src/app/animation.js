@@ -1,4 +1,4 @@
-import { CONFIG, D, S }                     from './config.js';
+import { CONFIG, D, S }                                from './config.js';
 import { flicker, stop_flicker, flash, ripple, burst } from './effects.js';
 
 const $ = (id) => document.getElementById(id);
@@ -9,6 +9,8 @@ export function run() {
   const CY = window.innerHeight / 2;
 
   // ── Initial reveal ────────────────────────────────────────────
+  // Fade out the blackcover div and reveal vignette/scanlines.
+  // startDelay gives a brief moment of pure black before anything draws.
   setTimeout(() => {
     $('blackcover').style.opacity = '0';
     $('vignette').style.opacity   = '1';
@@ -47,7 +49,7 @@ export function run() {
 
   setTimeout(() => { flicker(0.12, 80); setTimeout(() => flicker(0.06, 300), 150); }, D(S(400)));
 
-  // Phase 1 resolve
+  // Phase 1 resolve — flash + punch + logo scale
   setTimeout(() => {
     stop_flicker();
     setTimeout(() => {
@@ -70,7 +72,7 @@ export function run() {
     }, 180);
   }, D(SB_DRAW_DONE));
 
-  // Phase 1 exit
+  // Phase 1 exit — fade and shrink sandbox logo out
   const SB_EXIT = SB_DRAW_DONE + 200 + CONFIG.holdSandbox;
   setTimeout(() => {
     stop_flicker();
@@ -124,7 +126,7 @@ export function run() {
 
     setTimeout(() => { flicker(0.12, 80); setTimeout(() => flicker(0.06, 300), 150); }, S(550));
 
-    // Phase 2 resolve
+    // Phase 2 resolve — flash + fill strokes with solid fills
     setTimeout(() => {
       stop_flicker();
       setTimeout(() => {
@@ -154,19 +156,23 @@ export function run() {
       }, 160);
     }, ICON_DRAW_DONE);
 
-    // Final fade → notify C++ we're done
+    // Final fade — bring curtain to full black, then notify C++ we're done.
+    // C++ destroys the webview on receiving { action: "done" }.
     setTimeout(() => {
       stop_flicker();
       setTimeout(() => {
         const curtain = $('curtain');
         curtain.style.transition = `opacity ${CONFIG.fadeOut}ms cubic-bezier(.4,0,.6,1)`;
         curtain.style.opacity = 1;
-        setTimeout(() => {
-          if (window.ipc && typeof window.ipc.postMessage === 'function')
-            window.ipc.postMessage(JSON.stringify({ action: 'done' }));
-        }, CONFIG.fadeOut + 100);
       }, 160);
     }, ICON_DRAW_DONE + 200 + CONFIG.holdIcon);
+
+    // Post "done" after the curtain fade completes.
+    // main.js owns all ipc.postMessage calls; animation just exports run().
+    const TOTAL_DONE = ICON_DRAW_DONE + 200 + CONFIG.holdIcon + 160 + CONFIG.fadeOut + 100;
+    setTimeout(() => {
+      window.dispatchEvent(new Event('splash-done'));
+    }, TOTAL_DONE);
 
   }, D(ICON_START));
 }
