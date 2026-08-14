@@ -1,7 +1,7 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import * as vite from 'vite';
-import * as react from '@vitejs/plugin-react';
+import * as fs             from 'fs';
+import * as path           from 'path';
+import * as vite           from 'vite';
+import * as react          from '@vitejs/plugin-react';
 import * as viteSingleFile from 'vite-plugin-singlefile';
 
 const kit_plugin = () => ({
