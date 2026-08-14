@@ -54,19 +54,19 @@ export function run() {
     stop_flicker();
     setTimeout(() => {
       flash(0, '#fff');
-      ripple(CX, CY, '#fff', 50,  360);
-      ripple(CX, CY, BLUE,  120, 480);
+      ripple(CX, CY, '#fff', 50, 360);
+      ripple(CX, CY, BLUE, 120, 480);
       ripple(CX, CY, '#fff', 220, 600);
       burst(CX, CY, '#fff', 20, 50);
-      burst(CX, CY, BLUE,   16, 80);
+      burst(CX, CY, BLUE, 16, 80);
       const sLogo = $('sandbox-logo');
       sLogo.style.transition = 'transform 200ms cubic-bezier(.15,1.2,.3,1), filter 200ms ease';
-      sLogo.style.transform  = 'scale(1.09)';
-      sLogo.style.filter     = 'drop-shadow(0 0 60px var(--b60))';
+      sLogo.style.transform = 'scale(1.09)';
+      sLogo.style.filter = 'drop-shadow(0 0 60px var(--b60))';
       setTimeout(() => {
         sLogo.style.transition = 'transform 600ms cubic-bezier(.4,0,.2,1), filter 800ms ease';
-        sLogo.style.transform  = 'scale(1)';
-        sLogo.style.filter     = 'drop-shadow(0 0 20px var(--b30))';
+        sLogo.style.transform = 'scale(1)';
+        sLogo.style.filter = 'drop-shadow(0 0 20px var(--b30))';
         setTimeout(() => flicker(0.04, 450), 300);
       }, 200);
     }, 180);
@@ -79,9 +79,9 @@ export function run() {
     setTimeout(() => {
       const sLogo = $('sandbox-logo');
       sLogo.style.transition = 'opacity 600ms cubic-bezier(.4,0,1,1), transform 600ms cubic-bezier(.4,0,1,1), filter 400ms ease';
-      sLogo.style.opacity   = 0;
+      sLogo.style.opacity = 0;
       sLogo.style.transform = 'scale(0.88)';
-      sLogo.style.filter    = 'none';
+      sLogo.style.filter = 'none';
     }, 120);
     setTimeout(() => {
       sbSeq.style.transition = 'opacity 400ms ease';
@@ -105,7 +105,7 @@ export function run() {
     gSeq.style.opacity = 1;
 
     const gStrokes = [
-      ['go-body',    S(900),    0],
+      ['go-body',    S(900), 0],
       ['go-jaw',     S(400), S(500)],
       ['go-eyelout', S(300), S(680)],
       ['go-eyerout', S(300), S(780)],
