@@ -5,7 +5,8 @@ export const CONFIG = {
   holdSandbox: 2000,  // ms to hold Vital.sandbox logo after fully revealed
   holdIcon:    1800,  // ms to hold Godot icon after fully revealed
   gapGlitch:   1000,  // ms of suspense gap between the two logos
-  fadeOut:     1400,  // ms of final black curtain fade
+  fadeToBlack:       700,   // ms for the curtain to reach solid opaque black
+  fadeToTransparent: 900,   // ms for that black to then fade away to nothing
 };
 
 // Absolute time from page load

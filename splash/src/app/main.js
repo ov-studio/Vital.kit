@@ -53,7 +53,7 @@ document.addEventListener('message', (e) => {
   if (data.action === 'start') run();
 });
 
-// Animation fires "splash-done" when the curtain fade finishes.
+// Animation fires "splash-done" when the final fade-to-transparent finishes.
 // Send { action: "done" } so C++ can destroy the webview.
 window.addEventListener('splash-done', () => {
   window.ipc.postMessage(JSON.stringify({ action: 'done' }));
