@@ -131,7 +131,7 @@ export function run() {
       stop_flicker();
       setTimeout(() => {
         flash(0, '#fff');
-        ripple(CX, CY, BLUE, 60,  340);
+        ripple(CX, CY, BLUE, 60, 340);
         ripple(CX, CY, BLUE, 160, 500);
         burst(CX, CY, BLUE, 32, 60);
 
