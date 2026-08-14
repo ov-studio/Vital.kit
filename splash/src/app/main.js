@@ -2,8 +2,6 @@ import * as icons     from './icons.js';
 import * as animation from './animation.js';
 import './index.css';
 
-document.getElementById('godot-seq').innerHTML   = icons.GODOT;
-document.getElementById('sandbox-seq').innerHTML = icons.VITAL;
 
 // In production this page runs inside a Godot WebView. Godot injects a
 // global `ipc` object (for outgoing messages) and dispatches a "message"
@@ -29,6 +27,10 @@ if (import.meta.env.DEV) {
     }));
   }, 0);
 }
+
+
+document.getElementById('godot-seq').innerHTML = icons.GODOT;
+document.getElementById('sandbox-seq').innerHTML = icons.VITAL;
 
 document.addEventListener('message', (e) => {
   const data = JSON.parse(e.detail);
