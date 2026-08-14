@@ -25,17 +25,18 @@ if (import.meta.env.DEV) {
 
   setTimeout(() => {
     document.dispatchEvent(new CustomEvent('message', {
-      detail: JSON.stringify({ action: 'start' })
+      detail: JSON.stringify({ action: 'init' })
     }));
   }, 0);
 }
 
 document.addEventListener('message', (e) => {
   const data = JSON.parse(e.detail);
-  if (data.action === 'start') run();
+  if (data.action === 'init') run();
 });
 
 window.ipc.postMessage(JSON.stringify({ action: 'ready' }));
+
 window.addEventListener('splash-done', () => {
   window.ipc.postMessage(JSON.stringify({ action: 'done' }));
 });
