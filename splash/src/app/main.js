@@ -1,9 +1,9 @@
-import { GODOT_SVG, SANDBOX_SVG } from './icons.js';
-import { run }                    from './animation.js';
+import * as icons     from './icons.js';
+import * as animation from './animation.js';
 import './index.css';
 
-document.getElementById('godot-seq').innerHTML   = GODOT_SVG;
-document.getElementById('sandbox-seq').innerHTML = SANDBOX_SVG;
+document.getElementById('godot-seq').innerHTML   = icons.GODOT_SVG;
+document.getElementById('sandbox-seq').innerHTML = icons.SANDBOX_SVG;
 
 // In production this page runs inside a Godot WebView. Godot injects a
 // global `ipc` object (for outgoing messages) and dispatches a "message"
@@ -32,7 +32,7 @@ if (import.meta.env.DEV) {
 
 document.addEventListener('message', (e) => {
   const data = JSON.parse(e.detail);
-  if (data.action === 'init') run();
+  if (data.action === 'init') animation.run();
 });
 
 window.ipc.postMessage(JSON.stringify({ 
