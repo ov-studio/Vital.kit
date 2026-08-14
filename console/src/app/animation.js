@@ -146,8 +146,10 @@ export function run() {
           if (e) { e.style.transition = 'opacity 80ms ease'; e.style.opacity = 0; }
         });
 
-        ['gf-body', 'gf-jaw', 'gf-eyelw2', 'gf-eyerw2', 'gf-pupl2', 'gf-pupr2', 'gf-shinl', 'gf-shinr']
-          .forEach(id => { const e = $(id); if (e) e.style.opacity = 1; });
+        ['gf-body', 'gf-jaw', 'gf-eyelw2', 'gf-eyerw2', 'gf-pupl2', 'gf-pupr2', 'gf-shinl', 'gf-shinr'].forEach(id => { 
+          const e = $(id); 
+          if (e) e.style.opacity = 1; 
+        });
 
         const logo = $('godot-logo');
         logo.style.transition = 'transform 180ms cubic-bezier(.15,1.2,.3,1), filter 180ms ease';
