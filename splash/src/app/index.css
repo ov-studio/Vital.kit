@@ -1,0 +1,142 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background: var(--bg3);
+  overflow: hidden;
+}
+
+#vignette {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center,
+    transparent 38%, rgba(0,0,0,.55) 70%, rgba(0,0,0,.92) 100%);
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0;
+  transition: opacity 1200ms ease;
+}
+
+#scanlines {
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom, transparent 0px, transparent 3px,
+    rgba(0,0,0,.08) 3px, rgba(0,0,0,.08) 4px);
+  pointer-events: none;
+  z-index: 48;
+  opacity: 0;
+  transition: opacity 1200ms ease;
+}
+
+#scene {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Godot icon sequence ── */
+#godot-seq {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+}
+
+#godot-logo { width: 200px; height: 200px; }
+
+.g-stroke {
+  fill: none;
+  stroke: var(--blue);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: var(--len);
+  stroke-dashoffset: var(--len);
+  filter: drop-shadow(0 0 5px var(--b60));
+}
+
+.g-fill { opacity: 0; transition: opacity 180ms ease; }
+
+/* ── Vital.sandbox logo sequence ── */
+#sandbox-seq {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+}
+
+#sandbox-logo { width: 210px; height: 152px; }
+
+.s-stroke {
+  fill: none;
+  stroke: var(--blue);
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-width: 3;
+  stroke-dasharray: 3000;
+  stroke-dashoffset: 3000;
+  filter: drop-shadow(0 0 8px var(--b50));
+}
+
+.s-fill { fill: var(--blue); opacity: 0; transition: opacity 200ms ease; }
+
+/* ── Overlay elements ── */
+#flash {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 999;
+}
+
+#flicker {
+  position: fixed;
+  inset: 0;
+  background: var(--blue);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 5;
+  mix-blend-mode: overlay;
+}
+
+.particle {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.ripple {
+  position: fixed;
+  border-radius: 50%;
+  border: 1px solid;
+  transform: scale(0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+#curtain {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 900;
+  transition: none;
+}
+
+#blackcover {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  opacity: 1;
+  pointer-events: none;
+  z-index: 800;
+  transition: opacity 800ms ease;
+}
