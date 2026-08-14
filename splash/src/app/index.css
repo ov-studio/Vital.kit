@@ -55,9 +55,16 @@ body {
   stroke: var(--blue);
   stroke-linecap: round;
   stroke-linejoin: round;
+  stroke-width: var(--sw-godot, 8);
   stroke-dasharray: var(--len);
   stroke-dashoffset: var(--len);
   filter: drop-shadow(0 0 5px var(--b60));
+}
+
+/* The jaw path has matrix(4.162611…) so its stroke-width must be divided
+   by that scale factor to render the same visual thickness as the body. */
+.g-stroke-jaw {
+  stroke-width: var(--sw-godot-jaw, 1.922);
 }
 
 .g-fill { 
@@ -83,7 +90,7 @@ body {
   stroke: var(--blue);
   stroke-linejoin: round;
   stroke-linecap: round;
-  stroke-width: 3;
+  stroke-width: var(--sw-vital, 8);
   stroke-dasharray: 3000;
   stroke-dashoffset: 3000;
   filter: drop-shadow(0 0 8px var(--b50));

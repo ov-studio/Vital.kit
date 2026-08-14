@@ -1,5 +1,6 @@
 import * as icons     from './icons.js';
 import * as animation from './animation.js';
+import * as config    from './config.js';
 import './index.css';
 
 
@@ -25,10 +26,18 @@ if (import.meta.env.DEV) {
     document.dispatchEvent(new CustomEvent('message', {
       detail: JSON.stringify({ action: 'init' })
     }));
-  }, 0);
+  }, 1);
 }
 
 
+// Apply configurable stroke widths as CSS custom properties so both
+// .s-stroke and .g-stroke pick them up without hardcoded values.
+// The jaw path has an internal matrix(4.162611…) transform, so its
+// stroke-width must be divided by that factor to match the body visually.
+const GODOT_JAW_MATRIX_SCALE = 4.162611;
+document.documentElement.style.setProperty('--sw-vital', config.STROKE_WIDTH_VITAL);
+document.documentElement.style.setProperty('--sw-godot', config.STROKE_WIDTH_GODOT);
+document.documentElement.style.setProperty('--sw-godot-jaw', (config.STROKE_WIDTH_GODOT / GODOT_JAW_MATRIX_SCALE).toFixed(4));
 document.getElementById('godot-seq').innerHTML = icons.GODOT;
 document.getElementById('sandbox-seq').innerHTML = icons.VITAL;
 
