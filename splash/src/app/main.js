@@ -28,21 +28,22 @@ if (import.meta.env.DEV) {
   // exactly as they are inside the real WebView at runtime.
   new Function(await (await fetch('/kit')).text())();
 
-  if (!window.ipc) {
-    window.ipc = {
-      postMessage(json) {
-        console.log('[ipc -> godot]', JSON.parse(json));
-      }
-    };
-  }
+  // Stub ipc so postMessage calls log to the browser console instead of
+  // throwing — production Godot injects the real object before the page loads.
+  window.ipc = {
+    postMessage(json) {
+      console.log('[ipc -> godot]', JSON.parse(json));
+    }
+  };
 
-  // Simulate the C++ "start" reply. We wait for "splash-ready" (fired below
-  // after the message listener is attached) so the event never races the handler.
-  window.addEventListener('splash-ready', () => {
+  // Simulate the C++ "start" reply that arrives after Vital.kit is confirmed
+  // loaded. We defer via setTimeout(0) so the document "message" listener
+  // below is guaranteed to be registered before this fires.
+  setTimeout(() => {
     document.dispatchEvent(new CustomEvent('message', {
       detail: JSON.stringify({ action: 'start' })
     }));
-  });
+  }, 0);
 }
 
 // Listen for incoming messages from C++ (or the dev stub above).
@@ -58,11 +59,7 @@ window.addEventListener('splash-done', () => {
   window.ipc.postMessage(JSON.stringify({ action: 'done' }));
 });
 
-// Signal C++ (or the dev stub) that the page is ready and waiting.
-// C++ will reply with { action: "start" } once Vital.kit is confirmed loaded.
+// Signal C++ that the page is ready and waiting for the "start" reply.
+// In dev the stub above handles this instead; this call is a no-op there
+// since the stub's ipc just logs to console.
 window.ipc.postMessage(JSON.stringify({ action: 'ready' }));
-
-// Let the dev stub know the message listener is now attached and it is
-// safe to dispatch the synthetic "start" event. Harmless in production —
-// nothing inside Godot listens for this custom window event.
-window.dispatchEvent(new Event('splash-ready'));
