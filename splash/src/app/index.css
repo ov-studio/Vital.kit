@@ -62,13 +62,13 @@ body {
 
 .v-stroke {
   fill: none;
-  stroke: var(--b20);
+  stroke: var(--b10);
   stroke-linejoin: round;
   stroke-linecap: round;
   stroke-width: var(--sw-vital, 8);
   stroke-dasharray: 3000;
   stroke-dashoffset: 3000;
-  filter: drop-shadow(0 0 8px var(--b50));
+  filter: drop-shadow(0 0 8px var(--b60));
 }
 
 .v-fill {
@@ -83,7 +83,7 @@ body {
 
 .g-stroke {
   fill: none;
-  stroke: var(--b20);
+  stroke: var(--b10);
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: var(--sw-godot, 8);
