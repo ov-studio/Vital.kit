@@ -38,8 +38,8 @@ const GODOT_JAW_MATRIX_SCALE = 4.162611;
 document.documentElement.style.setProperty('--sw-vital', config.STROKE_WIDTH_VITAL);
 document.documentElement.style.setProperty('--sw-godot', config.STROKE_WIDTH_GODOT);
 document.documentElement.style.setProperty('--sw-godot-jaw', (config.STROKE_WIDTH_GODOT / GODOT_JAW_MATRIX_SCALE).toFixed(4));
+document.getElementById('vital-seq').innerHTML = icons.VITAL;
 document.getElementById('godot-seq').innerHTML = icons.GODOT;
-document.getElementById('sandbox-seq').innerHTML = icons.VITAL;
 
 document.addEventListener('message', (e) => {
   const data = JSON.parse(e.detail);

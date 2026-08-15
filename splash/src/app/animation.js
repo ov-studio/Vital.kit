@@ -24,7 +24,7 @@ export function run() {
   setTimeout(() => effects.flicker(0.05, 350), D(0));
 
   // ── PHASE 1: Vital.sandbox logo ───────────────────────────────
-  const sbSeq = $('sandbox-seq');
+  const sbSeq = $('vital-seq');
   sbSeq.style.opacity = 0;
   setTimeout(() => { sbSeq.style.opacity = 1; }, D(0));
 
@@ -63,7 +63,7 @@ export function run() {
       effects.ripple(CX, CY, '#fff', 220, 600);
       effects.burst(CX, CY, '#fff', 20, 50);
       effects.burst(CX, CY, BLUE, 16, 80);
-      const sLogo = $('sandbox-logo');
+      const sLogo = $('vital-logo');
       sLogo.style.transition = 'transform 200ms cubic-bezier(.15,1.2,.3,1), filter 200ms ease';
       sLogo.style.transform = 'scale(1.09)';
       sLogo.style.filter = 'drop-shadow(0 0 60px var(--b60))';
@@ -77,11 +77,11 @@ export function run() {
   }, D(SB_DRAW_DONE));
 
   // Phase 1 exit — fade and shrink sandbox logo out
-  const SB_EXIT = SB_DRAW_DONE + 200 + config.HOLD_SANDBOX;
+  const SB_EXIT = SB_DRAW_DONE + 200 + config.HOLD_VITAL;
   setTimeout(() => {
     effects.stop_flicker();
     setTimeout(() => {
-      const sLogo = $('sandbox-logo');
+      const sLogo = $('vital-logo');
       sLogo.style.transition = 'opacity 600ms cubic-bezier(.4,0,1,1), transform 600ms cubic-bezier(.4,0,1,1), filter 400ms ease';
       sLogo.style.opacity = 0;
       sLogo.style.transform = 'scale(0.88)';
@@ -194,9 +194,9 @@ export function run() {
           curtain.style.opacity = 0;
         }, fadeDur + config.BLACK_HOLD_DELAY);
       }, 160);
-    }, ICON_DRAW_DONE + 200 + config.HOLD_ICON);
+    }, ICON_DRAW_DONE + 200 + config.HOLD_GODOT);
 
-    const TOTAL_DONE = ICON_DRAW_DONE + 200 + config.HOLD_ICON + 160 + config.FADE_TO_BLACK + config.BLACK_HOLD_DELAY + config.FADE_TO_TRANSPARENT + 100;
+    const TOTAL_DONE = ICON_DRAW_DONE + 200 + config.HOLD_GODOT + 160 + config.FADE_TO_BLACK + config.BLACK_HOLD_DELAY + config.FADE_TO_TRANSPARENT + 100;
     setTimeout(() => {
       window.dispatchEvent(new Event('splash:hide'));
     }, TOTAL_DONE);

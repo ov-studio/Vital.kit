@@ -48,11 +48,42 @@ body {
   opacity: 0;
 }
 
-#godot-logo { width: 200px; height: 200px; }
+#vital-logo {
+  height: 152px;
+}
+
+#vital-seq {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+}
+
+.s-stroke {
+  fill: none;
+  stroke: var(--b20);
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-width: var(--sw-vital, 8);
+  stroke-dasharray: 3000;
+  stroke-dashoffset: 3000;
+  filter: drop-shadow(0 0 8px var(--b50));
+}
+
+.s-fill {
+  fill: var(--blue);
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+#godot-logo { 
+  height: 200px; 
+}
 
 .g-stroke {
   fill: none;
-  stroke: var(--blue);
+  stroke: var(--b20);
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: var(--sw-godot, 8);
@@ -70,36 +101,6 @@ body {
 .g-fill { 
   opacity: 0; 
   transition: opacity 180ms ease; 
-}
-
-#sandbox-seq {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-}
-
-#sandbox-logo { 
-  width: 210px; 
-  height: 152px; 
-}
-
-.s-stroke {
-  fill: none;
-  stroke: var(--blue);
-  stroke-linejoin: round;
-  stroke-linecap: round;
-  stroke-width: var(--sw-vital, 8);
-  stroke-dasharray: 3000;
-  stroke-dashoffset: 3000;
-  filter: drop-shadow(0 0 8px var(--b50));
-}
-
-.s-fill { 
-  fill: var(--blue); 
-  opacity: 0; 
-  transition: opacity 200ms ease; 
 }
 
 #flash {

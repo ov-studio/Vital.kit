@@ -1,5 +1,5 @@
 export const VITAL = `
-  <svg id="sandbox-logo" viewBox="0 0 1050.38 762.84" xmlns="http://www.w3.org/2000/svg">
+  <svg id="vital-logo" viewBox="0 0 1050.38 762.84" xmlns="http://www.w3.org/2000/svg">
     <polygon class="s-stroke" id="sA-out"  points="699.95 178.62 549.11 744.84 1050.38 8.48 540.23 174.01 699.95 178.62"/>
     <polygon class="s-stroke" id="sB-out"  points="1021.93 0 0 0 398.25 279.71 352.99 179.27 1021.93 0"/>
     <polygon class="s-stroke" id="sC-out"  points="9.85 25.14 527.44 762.84 601.23 359.36 523.05 446.3 9.85 25.14"/>
