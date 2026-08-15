@@ -110,7 +110,7 @@ export function run() {
 
     const gStrokes = [
       ['go-body',    S(900), 0],
-      ['go-jaw',     S(400), S(500)],
+      ['go-jaw',     S(700), S(500)],
       ['go-eyelout', S(300), S(680)],
       ['go-eyerout', S(300), S(780)],
       ['go-pupl',    S(180), S(920)],
@@ -119,10 +119,14 @@ export function run() {
 
     gStrokes.forEach(([id, dur, delay]) => {
       const el = $(id); if (!el) return;
+      const rawLen = el.style.getPropertyValue('--len').trim() || '3000px';
+      const lenNum = parseFloat(rawLen);
+      el.style.setProperty('stroke-dasharray', lenNum);
+      el.style.setProperty('stroke-dashoffset', lenNum);
       el.style.opacity = 1;
       setTimeout(() => {
         el.style.transition = `stroke-dashoffset ${dur}ms cubic-bezier(.35,0,.2,1)`;
-        el.style.strokeDashoffset = '0';
+        el.style.setProperty('stroke-dashoffset', '0');
       }, delay);
     });
 
