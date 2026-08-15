@@ -31,7 +31,7 @@ if (import.meta.env.DEV) {
 
 
 // Apply configurable stroke widths as CSS custom properties so both
-// .s-stroke and .g-stroke pick them up without hardcoded values.
+// .v-stroke and .g-stroke pick them up without hardcoded values.
 // The jaw path has an internal matrix(4.162611…) transform, so its
 // stroke-width must be divided by that factor to match the body visually.
 const GODOT_JAW_MATRIX_SCALE = 4.162611;

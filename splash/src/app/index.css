@@ -60,7 +60,7 @@ body {
   opacity: 0;
 }
 
-.s-stroke {
+.v-stroke {
   fill: none;
   stroke: var(--b20);
   stroke-linejoin: round;
@@ -71,7 +71,7 @@ body {
   filter: drop-shadow(0 0 8px var(--b50));
 }
 
-.s-fill {
+.v-fill {
   fill: var(--blue);
   opacity: 0;
   transition: opacity 200ms ease;
