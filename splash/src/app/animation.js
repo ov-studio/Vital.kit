@@ -114,7 +114,7 @@ export function run() {
       ['go-eyelout', S(300), S(680)],
       ['go-eyerout', S(300), S(780)],
       ['go-pupl',    S(180), S(920)],
-      ['go-pupr',    S(180), S(1000)],
+      ['go-pupr',    S(180), S(1000)]
     ];
 
     gStrokes.forEach(([id, dur, delay]) => {
