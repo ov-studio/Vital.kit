@@ -2,7 +2,6 @@
 :root {
   --red:   hsl(0,68%,56%);
   --gold:  hsl(40,88%,56%);
-
   --w04: hsla(220,20%,100%,.04);
   --w05: hsla(220,20%,100%,.05);
   --w06: hsla(220,20%,100%,.06);
@@ -27,10 +26,17 @@ html, body, #root {
   user-select: none;
 }
 
+
 /* ── Global overrides (undo vital.site cursor:none) ── */
-* { cursor: auto }
+* { 
+  cursor: auto 
+  user-drag: none;
+  -webkit-user-drag: none;
+  -moz-user-select: none;
+}
 button, a, [onclick], select, input { cursor: pointer }
 input[type="text"], input:not([type]) { cursor: text }
+
 
 /* ── Vignette ── */
 .vignette {
@@ -85,7 +91,14 @@ input[type="text"], input:not([type]) { cursor: text }
 }
 .sidebar-nav { display: flex; flex-direction: column; gap: 6px; }
 
-/* ── HUD brand ── */
+/* ── HUD brand ──
+   NOTE: mainmenu/index.html only pulls theme.css + global.css from
+   Vital.site, not components/brand/index.css — so .brand / .brand_logo-
+   wrapper / .brand_logo have zero structural styling on their own here.
+   Everything below (sizing + --blue fill) is defined locally to match
+   the site's brand component, and the mask stays base64-embedded (not
+   url('/logo.svg')) so it survives vite-plugin-singlefile's inlined,
+   asset-free build for Godot's WebView. */
 .hud-logo {
   width: 76px;
   flex-shrink: 0;
@@ -95,9 +108,20 @@ input[type="text"], input:not([type]) { cursor: text }
   align-self: stretch;
   margin-right: 32px;
 }
+.brand_logo-wrapper {
+  width: 1.7rem;
+  height: 1.7rem;
+  flex-shrink: 0;
+  display: flex;
+}
 .brand_logo {
+  width: 100%;
+  height: 100%;
+  background-color: var(--blue);
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
   mask-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMiIgZGF0YS1uYW1lPSJMYXllciAyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDUwLjM4IDc2Mi44NCI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5jbHMtMSB7CiAgICAgICAgZmlsbDogI2ZmZjsKICAgICAgfQogICAgPC9zdHlsZT4KICA8L2RlZnM+CiAgPGcgaWQ9Ik91dGxpbmUiPgogICAgPHBvbHlnb24gY2xhc3M9ImNscy0xIiBwb2ludHM9IjY5OS45NSAxNzguNjIgNTQ5LjExIDc0NC44NCAxMDUwLjM4IDguNDggNTQwLjIzIDE3NC4wMSA2OTkuOTUgMTc4LjYyIi8+CiAgICA8cG9seWdvbiBjbGFzcz0iY2xzLTEiIHBvaW50cz0iMTAyMS45MyAwIDAgMCAzOTguMjUgMjc5LjcxIDM1Mi45OSAxNzkuMjcgMTAyMS45MyAwIi8+CiAgICA8cG9seWdvbiBjbGFzcz0iY2xzLTEiIHBvaW50cz0iOS44NSAyNS4xNCA1MjcuNDQgNzYyLjg0IDYwMS4yMyAzNTkuMzYgNTIzLjA1IDQ0Ni4zIDkuODUgMjUuMTQiLz4KICA8L2c+Cjwvc3ZnPg==');
-  -webkit-mask-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMiIgZGF0YS1uYW1lPSJMYXllciAyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDUwLjM4IDc2Mi44NCI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5jbHMtMSB7CiAgICAgICAgZmlsbDogI2ZmZjsKICAgICAgfQogICAgPC9zdHlsZT4KICA8L2RlZnM+CiAgPGcgaWQ9Ik91dGxpbmUiPgogICAgPHBvbHlnb24gY2xhc3M9ImNscy0xIiBwb2ludHM9IjY5OS45NSAxNzguNjIgNTQ5LjExIDc0NC44NCAxMDUwLjM4IDguNDggNTQwLjIzIDE3NC4wMSA2OTkuOTUgMTc4LjYyIi8+CiAgICA8cG9seWdvbiBjbGFzcz0iY2xzLTEiIHBvaW50cz0iMTAyMS45MyAwIDAgMCAzOTguMjUgMjc5LjcxIDM1Mi45OSAxNzkuMjcgMTAyMS45MyAwIi8+CiAgICA8cG9seWdvbiBjbGFzcz0iY2xzLTEiIHBvaW50cz0iOS44NSAyNS4xNCA1MjcuNDQgNzYyLjg0IDYwMS4yMyAzNTkuMzYgNTIzLjA1IDQ0Ni4zIDkuODUgMjUuMTQiLz4KICA8L2c+Cjwvc3ZnPg==');
 }
 
 .hud-greet { font-size: .9rem; color: var(--text-mid); display: flex; align-items: center; gap: 7px; letter-spacing: .01em; }
@@ -172,18 +196,6 @@ input[type="text"], input:not([type]) { cursor: text }
 
 /* ── View header ── */
 .view-head { flex-shrink: 0; margin-bottom: 24px; }
-.view-eyebrow {
-  font-size: .68rem;
-  font-weight: 600;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--blue);
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.view-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--blue); flex-shrink: 0; }
 .view-title-row { display: flex; align-items: flex-end; justify-content: space-between; }
 .view-title {
   font-family: 'Rajdhani', sans-serif;

@@ -176,7 +176,7 @@ function ViewPlay({ favs, onToggleFav }) {
       </div>
 
       <div className="view-head">
-        <div className="view-eyebrow">Trending</div>
+        <div className="slabel">Trending</div>
       </div>
 
       <div className="cgrid-wrap">
@@ -208,7 +208,7 @@ function ViewFavs({ favs, onToggleFav }) {
   return (
     <div className="view" id="view-favs">
       <div className="view-head">
-        <div className="view-eyebrow">Your Library</div>
+        <div className="slabel">Your Library</div>
         <div className="view-title-row"><span className="view-title">Favourites</span></div>
       </div>
       {favServers.length === 0 ? (
@@ -247,7 +247,7 @@ function ViewSettings() {
   return (
     <div className="view" id="view-settings">
       <div className="view-head">
-        <div className="view-eyebrow">Preferences</div>
+        <div className="slabel">Preferences</div>
         <div className="view-title-row"><span className="view-title">Settings</span></div>
       </div>
       <div className="view-body">
