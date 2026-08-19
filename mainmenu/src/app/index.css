@@ -82,13 +82,13 @@ input[type="text"], input:not([type]) { cursor: text }
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 16px 0 18px;
+  padding: 24px 0 18px;
   gap: 4px;
   background: var(--nav-bg);
   border-right: 1px solid var(--w06);
   backdrop-filter: blur(20px);
 }
-.sidebar-nav { display: flex; flex-direction: column; gap: 6px; }
+.sidebar-nav { display: flex; flex-direction: column; gap: 12px; }
 
 /* ── HUD brand ──
    NOTE: mainmenu/index.html only pulls theme.css + global.css from
@@ -297,7 +297,7 @@ input[type="text"], input:not([type]) { cursor: text }
   border-radius: 10px;
   overflow: hidden;
   background: var(--bg3);
-  border: 2px solid var(--b70);
+  border: 2px solid var(--blue);
 }
 .hero-banner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(.5) saturate(1.1); }
 .hero-banner::after {
@@ -402,7 +402,7 @@ input[type="text"], input:not([type]) { cursor: text }
 .gcard:nth-child(11){animation-delay:.44s} .gcard:nth-child(12){animation-delay:.48s}
 .gcard:nth-child(13){animation-delay:.52s} .gcard:nth-child(14){animation-delay:.56s}
 .gcard:hover {
-  border-color: var(--b70);
+  border-color: var(--selection-bg);
 }
 
 .gc-cover { position: absolute; inset: 0; overflow: hidden; background: var(--bg3); }
@@ -423,16 +423,6 @@ input[type="text"], input:not([type]) { cursor: text }
 
 .gc-top { position: absolute; top: 10px; left: 10px; right: 10px; z-index: 4; display: flex; align-items: flex-start; justify-content: space-between; }
 .gc-top-left { display: flex; flex-direction: column; align-items: flex-start; }
-.gc-logo {
-  width: 36px; height: 36px; border-radius: 9px; overflow: hidden; flex-shrink: 0;
-  border: 2px solid hsla(0,0%,100%,.14); box-shadow: 0 3px 12px hsla(222,40%,3%,.7);
-  background: linear-gradient(135deg, hsl(220,50%,18%), hsl(240,40%,12%));
-}
-.gc-logo img { width: 100%; height: 100%; object-fit: cover; display: hidden; }
-.gc-logo-fallback {
-  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
-  font-family: 'Rajdhani', sans-serif; font-size: .85rem; font-weight: 700; color: var(--blue);
-}
 
 .gc-fav {
   width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
@@ -474,7 +464,7 @@ input[type="text"], input:not([type]) { cursor: text }
 .glink svg { width: 11px; height: 11px; flex-shrink: 0; }
 .gjoin {
   display: flex; align-items: center; gap: 5px;
-  padding: 5px 12px; border-radius: 6px; flex-shrink: 0;
+  padding: 5px 12px; border-radius: 4px; flex-shrink: 0;
   font-family: 'Geist', sans-serif; font-size: .72rem; font-weight: 700;
   background: var(--blue); color: hsl(222,28%,5%);
   border: none; cursor: pointer; transition: opacity .14s, transform .1s;
@@ -491,11 +481,15 @@ input[type="text"], input:not([type]) { cursor: text }
   width: 50px; height: 50px; border-radius: 10px;
   background: none; border: none; cursor: pointer; position: relative; transition: background .15s;
 }
-.nav-btn::before { content: ''; position: absolute; left: -16px; top: 50%; transform: translateY(-50%); width: 3px; height: 0; background: var(--blue); border-radius: 0 3px 3px 0; box-shadow: 0 0 8px var(--b60); transition: height .15s; }
+.nav-btn::before { content: ''; position: absolute; left: -14px; top: 50%; transform: translateY(-50%); width: 4px; height: 0; background: var(--selection-bg); border-radius: 12px; transition: height .15s; }
 .nav-btn:hover { background: var(--w06); }
-.nav-btn.on { background: var(--b10); }
-.nav-btn.on::before { height: 24px; }
+.nav-btn.on { background: var(--selection-bg); }
+.nav-btn.on::before { height: 14px; }
 .nav-btn-ico { width: 19px; height: 19px; color: var(--dark); transition: color .15s; }
 .nav-btn.on .nav-btn-ico,
 .nav-btn:hover .nav-btn-ico { color: var(--white); }
-.nav-btn.on .nav-btn-ico { color: var(--blue); }
+.nav-btn.on .nav-btn-ico { color: var(--white); }
+
+.slabel:before {
+  display: none;
+}

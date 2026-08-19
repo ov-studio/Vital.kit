@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import {
-  LayoutGrid, Star, Settings, Play, Users, ExternalLink,
+  LayoutGrid, Star, Flame, Settings, Play, UsersRound, ExternalLink,
   Download
 } from 'lucide-react';
 import { SERVERS, FEATURED, HERO, BANNERS, LOGOS, shuffle } from './data.jsx';
@@ -56,13 +56,7 @@ function GameCard({ server, banner, logo, isFav, onToggleFav, style }) {
 
       <div className="gc-top">
         <div className="gc-top-left">
-          <div className="gc-logo">
-            <img
-              src={logo}
-              alt={server.name}
-              onError={e => { e.target.parentNode.innerHTML = `<div class="gc-logo-fallback">${abbr}</div>`; }}
-            />
-          </div>
+
         </div>
         <button
           className={`gc-fav${isFav ? ' on' : ''}`}
@@ -78,12 +72,9 @@ function GameCard({ server, banner, logo, isFav, onToggleFav, style }) {
       <div className="gc-body">
         <div className="gc-name">{server.name}</div>
         <div className="gc-desc">{server.desc}</div>
-        <div className="gc-pbar">
-          <div className={`gc-pfill ${barC}`} style={{ width: `${pct(p, m)}%` }} />
-        </div>
         <div className="gc-foot">
           <div className="gc-stat">
-            <Users size={11} />
+            <UsersRound size={11} fill="currentColor" />
             <strong>{p}</strong>/{m}
           </div>
           <div className="gc-links">
@@ -137,6 +128,8 @@ function ViewPlay({ favs, onToggleFav }) {
   return (
     <div className="view active" id="view-play">
       {/* HERO */}
+
+      <div className="slabel"><Star size={11} fill="currentColor"/>Featured</div>
       <div className="hero-row">
         <div className="hero-banner">
           <img src={HERO.img} alt={HERO.name} onError={e => e.target.style.opacity = '0'} />
@@ -153,7 +146,7 @@ function ViewPlay({ favs, onToggleFav }) {
                 Join Server
               </button>
               <div className="hero-viewers">
-                <Users size={12} />
+                <UsersRound size={12} fill="currentColor" />
                 <strong>{heroPlayers}</strong>&nbsp;/ {HERO.max} online
               </div>
             </div>
@@ -175,9 +168,7 @@ function ViewPlay({ favs, onToggleFav }) {
         </div>
       </div>
 
-      <div className="view-head">
-        <div className="slabel">Trending</div>
-      </div>
+      <div className="slabel"><Flame size={11} fill="currentColor" />Trending</div>
 
       <div className="cgrid-wrap">
         <div className="cgrid">
