@@ -5,7 +5,6 @@
   --w04: hsla(220,20%,100%,.04);
   --w05: hsla(220,20%,100%,.05);
   --w06: hsla(220,20%,100%,.06);
-  --w07: hsla(220,20%,100%,.07);
   --w08: hsla(220,20%,100%,.08);
   --w09: hsla(220,20%,100%,.09);
   --w10: hsla(220,20%,100%,.1);
@@ -125,14 +124,14 @@ input[type="text"], input:not([type]) { cursor: text }
 }
 
 .hud-greet { font-size: .9rem; color: var(--text-mid); display: flex; align-items: center; gap: 7px; letter-spacing: .01em; }
-.hud-greet strong { color: var(--white); font-weight: 700; letter-spacing: .02em; }
+.hud-greet strong { color: var(--blue); font-weight: 500; letter-spacing: .02em; }
 .hud-right { display: flex; align-items: center; gap: 6px; margin-left: auto; }
 
 /* ── HUD nav links ── */
 .hud-nav-links {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 6px;
   margin-right: 10px;
   padding-right: 14px;
   border-right: 1px solid var(--w10);
@@ -141,13 +140,14 @@ input[type="text"], input:not([type]) { cursor: text }
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 7px 13px;
-  border-radius: 4px;
+  height: 36px;
+  padding: 0px 13px;
+  border-radius: 6px;
   font-size: .9rem;
   font-weight: 600;
   letter-spacing: .02em;
   color: var(--text-muted);
-  background: none;
+  background: var(--rule);
   border: none;
   cursor: pointer;
   transition: color .14s, background .14s;
@@ -155,30 +155,28 @@ input[type="text"], input:not([type]) { cursor: text }
   text-decoration: none;
 }
 .hud-nav-link svg { width: 12px; height: 12px; flex-shrink: 0; transition: color .14s; opacity: .7; }
-.hud-nav-link:hover { color: var(--white); background: var(--w07); }
+.hud-nav-link:hover { color: var(--dim); }
 .hud-nav-link:hover svg { opacity: 1; }
-.hud-nav-link.active { color: var(--blue); background: var(--b10); }
-.hud-nav-link.active svg { color: var(--blue); opacity: 1; }
 .hud-nav-link .ext-ico { width: 10px; height: 10px; opacity: .45; }
 .hud-nav-link:hover .ext-ico { opacity: .7; }
 
 .hud-icon-btn {
-  width: 34px;
-  height: 34px;
-  border-radius: 9px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 6px;
   flex-shrink: 0;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--w05);
-  border: 1px solid var(--w08);
+  background: var(--b20);
   cursor: pointer;
   transition: all .14s;
 }
-.hud-icon-btn:hover { background: var(--w10); border-color: var(--b30); }
-.hud-icon-btn svg { width: 15px; height: 15px; color: var(--text-soft); transition: color .14s; }
-.hud-icon-btn:hover svg { color: var(--white); }
+.hud-icon-btn:hover { background: var(--selection-bg); }
+.hud-icon-btn svg { width: 15px; height: 15px; color: var(--text-muted); transition: color .14s; }
+.hud-icon-btn:hover svg { color: var(--selection-text); }
 
 /* ── CENTER CONTENT ── */
 .center-panel {
@@ -234,7 +232,7 @@ input[type="text"], input:not([type]) { cursor: text }
   transition: background .13s;
   gap: 16px;
 }
-.setting-row:hover { background: var(--w07); }
+.setting-row:hover { background: var(--rule); }
 .setting-name { font-size: .86rem; font-weight: 600; color: var(--white); margin-bottom: 3px; }
 .setting-desc { font-size: .72rem; color: var(--text-muted); line-height: 1.4; }
 .toggle {
@@ -334,7 +332,7 @@ input[type="text"], input:not([type]) { cursor: text }
   align-items: center;
   gap: 7px;
   padding: 10px 20px;
-  border-radius: 10px;
+  border-radius: 6px;
   font-size: .82rem;
   font-weight: 700;
   background: var(--blue);
@@ -355,15 +353,16 @@ input[type="text"], input:not([type]) { cursor: text }
   min-height: 0;
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 10px;
   padding: 10px 12px;
   border-radius: 10px;
-  background: var(--w04);
-  border: 1px solid var(--w08);
+  background: var(--rule);
+  border: 2px solid var(--b05);
   cursor: pointer;
   transition: background .14s, border-color .14s;
+  opacity: 0.75
 }
-.feat-item:hover { background: var(--w08); border-color: var(--w16); }
+.feat-item:hover { opacity: 1; background: var(--b18); border-color: var(--b70); }
 .feat-thumb { width: 46px; height: 46px; border-radius: 9px; overflow: hidden; flex-shrink: 0; position: relative; background: var(--bg3); }
 .feat-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .feat-info { flex: 1; min-width: 0; }
