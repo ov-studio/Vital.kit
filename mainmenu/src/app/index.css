@@ -29,7 +29,7 @@ html, body, #root {
 
 /* ── Global overrides (undo vital.site cursor:none) ── */
 * { 
-  cursor: auto 
+  cursor: auto;
   user-drag: none;
   -webkit-user-drag: none;
   -moz-user-select: none;
@@ -142,7 +142,7 @@ input[type="text"], input:not([type]) { cursor: text }
   align-items: center;
   gap: 6px;
   padding: 7px 13px;
-  border-radius: 10px;
+  border-radius: 4px;
   font-size: .9rem;
   font-weight: 600;
   letter-spacing: .02em;
