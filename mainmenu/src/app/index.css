@@ -143,7 +143,7 @@ input[type="text"], input:not([type]) { cursor: text }
   height: 36px;
   padding: 0px 13px;
   border-radius: 6px;
-  font-size: .9rem;
+  font-size: .86rem;
   font-weight: 600;
   letter-spacing: .02em;
   color: var(--text-muted);
