@@ -170,7 +170,7 @@ input[type="text"], input:not([type]) { cursor: text }
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--b20);
+  background: var(--b18);
   cursor: pointer;
   transition: all .14s;
 }
