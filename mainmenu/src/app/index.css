@@ -58,7 +58,7 @@ input[type="text"], input:not([type]) { cursor: text }
   align-items: center;
   justify-content: flex-start;
   padding: 0 32px 0 0;
-  background: var(--nav-bg);
+  background: var(--bg2);
   backdrop-filter: blur(24px) saturate(1.4);
 }
 .hud-top::after {
@@ -84,7 +84,7 @@ input[type="text"], input:not([type]) { cursor: text }
   align-items: center;
   padding: 24px 0 18px;
   gap: 4px;
-  background: var(--nav-bg);
+  background: var(--bg2);
   border-right: 1px solid var(--w06);
   backdrop-filter: blur(20px);
 }
