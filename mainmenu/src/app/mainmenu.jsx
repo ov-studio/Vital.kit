@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import {
   LayoutGrid, Star, Flame, Settings, Play, UsersRound, ExternalLink,
-  Download
+  Download, X
 } from 'lucide-react';
 import { SERVERS, FEATURED, HERO, BANNERS, LOGOS, shuffle } from './data.jsx';
 
@@ -305,6 +305,9 @@ export function MainMenu() {
     });
   };
 
+  // TODO: wire this up to actually exit the game
+  const handleExit = () => {};
+
   const views = {
     play:     <ViewPlay     favs={favs}    onToggleFav={toggleFav} />,
     favs:     <ViewFavs     favs={favs}    onToggleFav={toggleFav} />,
@@ -355,6 +358,9 @@ export function MainMenu() {
           </nav>
           <button className="hud-icon-btn" title="Downloads">
             <Download size={15} />
+          </button>
+          <button className="hud-icon-btn" title="Exit Game" onClick={handleExit}>
+            <X size={15} />
           </button>
         </div>
       </header>
