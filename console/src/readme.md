@@ -18,9 +18,7 @@ npm run dev
 
 Opens a local dev server (default `http://localhost:5173`) with hot reload.
 
-`app/main.jsx` stubs the `ipc` object Godot normally injects and dispatches fake `init`/`print` events with sample log entries, so the console works without Godot running. This is gated behind `import.meta.env.DEV` and stripped entirely in production.
-
-The dev server also serves `/kit` (`vite.config.js`), bundling the source files listed in `../../js/manifest.json` so the console can be tested against the same kit code it ships alongside.
+`app/main.jsx` stubs Godot's `ipc` object and fires fake `init`/`print` events with sample logs, so the console works standalone. It also serves `/kit`, bundling `../../js/manifest.json`'s sources for testing against the real kit code. Both are dev-only and stripped via `import.meta.env.DEV`.
 
 ## Production
 

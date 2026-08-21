@@ -18,7 +18,7 @@ npm install
 npm run dev
 ```
 
-Opens a local dev server (default `http://localhost:5173`) with hot reload. With no live `ipc` connection to Godot yet, the menu renders directly against the placeholder data in `app/data.jsx`.
+Opens a local dev server (default `http://localhost:5173`) with hot reload, rendering against the placeholder data in `app/data.jsx` since there's no live `ipc` connection yet.
 
 ## Production
 

@@ -20,11 +20,9 @@ npm run dev
 
 Opens a local dev server (default `http://localhost:5173`) with hot reload.
 
-`app/main.js` stubs the `ipc` object Godot normally injects and dispatches a fake `init` event after a 1ms delay, so the full animation runs without Godot present. This is gated behind `import.meta.env.DEV` and stripped entirely in production.
+`app/main.js` stubs Godot's `ipc` object and fires a fake `init` event, so the full animation runs without Godot present. It also serves `/kit`, bundling `../../js/manifest.json`'s sources for testing against the real kit code. Both are dev-only and stripped via `import.meta.env.DEV`.
 
-The dev server also serves `/kit` (`vite.config.js`), bundling the source files listed in `../../js/manifest.json` so the splash screen can be tested against the same kit code it ships alongside.
-
-In production, Godot sends `init` once it's ready to show the splash, and the splash screen sends `ready` (on load) and `hide` (once the exit animation finishes, via the `splash:hide` window event) back over `ipc.postMessage`.
+In production, Godot sends `init` when ready to show the splash; the splash sends `ready` (on load) and `hide` (after the exit animation, via `splash:hide`) back over `ipc.postMessage`.
 
 ## Production
 
