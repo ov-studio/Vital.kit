@@ -39,7 +39,3 @@ npm run preview
 ```
 
 Serves the production build locally so it can be checked before shipping. In a plain browser preview, the real `ready`/`hide` `ipc.postMessage` calls will throw unless something on the page defines `window.ipc` - check the console rather than expecting Godot-side behaviour.
-
-## Tuning the animation
-
-All timing and stroke widths live in `app/config.js` as named constants (`START_DELAY`, `STROKE_SPEED`, `STROKE_WIDTH_VITAL`/`STROKE_WIDTH_GODOT`, `HOLD_VITAL`/`HOLD_GODOT`, `GAP_GLITCH`, `FADE_TO_BLACK`, `BLACK_HOLD_DELAY`, `FADE_TO_TRANSPARENT`) - adjust these rather than editing values inside `app/animation.js`. The Godot logo's jaw path carries an internal SVG matrix transform (scale factor `4.162611`, in `app/main.js`), so its stroke width derives from `STROKE_WIDTH_GODOT` rather than being set independently - keep that in mind if the jaw stroke looks mismatched after a width change.
