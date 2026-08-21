@@ -428,7 +428,7 @@ input[type="text"], input:not([type]) { cursor: text }
   width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
   background: var(--rule); border: 1px solid var(--w14);
   display: flex; align-items: center; justify-content: center;
-  cursor: pointer; backdrop-filter: blur(8px); transition: transform .1s;
+  cursor: pointer; backdrop-filter: blur(8px);
 }
 .gc-fav svg { width: 13px; height: 13px; color: var(--dim); transition: color .14s; fill: none; }
 .gc-fav.on svg { color: var(--blue); fill: var(--blue); }
