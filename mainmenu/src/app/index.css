@@ -432,7 +432,6 @@ input[type="text"], input:not([type]) { cursor: text }
 }
 .gc-fav svg { width: 13px; height: 13px; color: var(--dim); transition: color .14s; fill: none; }
 .gc-fav.on svg { color: var(--blue); fill: var(--blue); }
-.gc-fav:hover { transform: scale(1.1); }
 .gc-fav:not(.on):hover svg { color: var(--blue); }
 
 .gc-body { position: absolute; left: 0; right: 0; bottom: 0; z-index: 4; padding: 12px 12px 13px; display: flex; flex-direction: column; gap: 0; }
