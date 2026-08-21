@@ -26,22 +26,13 @@ Opens a local dev server (default `http://localhost:5173`) with hot reload. With
 npm run build
 ```
 
-Outputs a single self-contained file: `../build/index.html`. No CDN, no separate JS/CSS files to keep in sync.
+Outputs `../build/index.html`, ready to drop into Godot's WebView.
 
-To preview the production build locally before shipping:
+To preview locally before shipping:
 
 ```
 npm run preview
 ```
-
-## Updating React or other dependencies
-
-```
-npm outdated      # see what's behind
-npm update        # update within semver ranges in package.json
-```
-
-To bump a major version (e.g. React 19), update the version in `package.json`, run `npm install`, then test with `npm run dev` before shipping.
 
 ## Wiring up real data
 

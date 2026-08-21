@@ -20,9 +20,9 @@ npm run dev
 
 Opens a local dev server (default `http://localhost:5173`) with hot reload.
 
-In dev mode, `app/main.js` stubs the `ipc` object Godot normally injects and dispatches a fake `init` event after a 1ms delay, so the full animation runs without Godot present. This is gated behind `import.meta.env.DEV`, which Vite sets to `true` in dev and strips out entirely in production - none of this code ships.
+`app/main.js` stubs the `ipc` object Godot normally injects and dispatches a fake `init` event after a 1ms delay, so the full animation runs without Godot present. This is gated behind `import.meta.env.DEV` and stripped entirely in production.
 
-Dev mode also serves `/kit`, a Vite middleware (`vite.config.js`) that concatenates the source files listed in `../../js/manifest.json` into one script, so the splash screen can be tested against the same kit code it ships alongside.
+The dev server also serves `/kit` (`vite.config.js`), bundling the source files listed in `../../js/manifest.json` so the splash screen can be tested against the same kit code it ships alongside.
 
 In production, Godot sends `init` once it's ready to show the splash, and the splash screen sends `ready` (on load) and `hide` (once the exit animation finishes, via the `splash:hide` window event) back over `ipc.postMessage`.
 
@@ -32,9 +32,9 @@ In production, Godot sends `init` once it's ready to show the splash, and the sp
 npm run build
 ```
 
-Outputs a single self-contained file: `../build/index.html`. No CDN, no separate JS/CSS files, and no dev-only code - `import.meta.env.DEV` is `false`, so the `/kit` fetch and `ipc` stub are stripped at build time.
+Outputs `../build/index.html`, ready to drop into Godot's WebView. Dev-only code (`ipc` stub, `/kit` fetch) is stripped automatically.
 
-To preview the production build locally before shipping:
+To preview locally before shipping:
 
 ```
 npm run preview
@@ -45,12 +45,3 @@ In a plain browser preview, the real `ready`/`hide` `ipc.postMessage` calls will
 ## Tuning the animation
 
 All timing and stroke widths live in `app/config.js` as named constants (`START_DELAY`, `STROKE_SPEED`, `STROKE_WIDTH_VITAL`/`STROKE_WIDTH_GODOT`, `HOLD_VITAL`/`HOLD_GODOT`, `GAP_GLITCH`, `FADE_TO_BLACK`, `BLACK_HOLD_DELAY`, `FADE_TO_TRANSPARENT`) - adjust these rather than editing values inside `app/animation.js`. The Godot logo's jaw path carries an internal SVG matrix transform (scale factor `4.162611`, in `app/main.js`), so its stroke width derives from `STROKE_WIDTH_GODOT` rather than being set independently - keep that in mind if the jaw stroke looks mismatched after a width change.
-
-## Updating dependencies
-
-```
-npm outdated      # see what's behind
-npm update        # update within semver ranges in package.json
-```
-
-This only affects `vite` and `vite-plugin-singlefile`, since the module has no runtime dependencies. Test with `npm run dev` after any bump.

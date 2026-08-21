@@ -18,9 +18,9 @@ npm run dev
 
 Opens a local dev server (default `http://localhost:5173`) with hot reload.
 
-In dev mode, `app/main.jsx` stubs the `ipc` object Godot normally injects and dispatches fake `init`/`print` events with sample log entries, so the console can be exercised without Godot running. This is gated behind `import.meta.env.DEV`, which Vite sets to `true` in dev and strips out entirely in production - none of this code ships.
+`app/main.jsx` stubs the `ipc` object Godot normally injects and dispatches fake `init`/`print` events with sample log entries, so the console works without Godot running. This is gated behind `import.meta.env.DEV` and stripped entirely in production.
 
-Dev mode also serves `/kit`, a Vite middleware (`vite.config.js`) that concatenates the source files listed in `../../js/manifest.json` into one script, so the console can be tested against the same kit code it ships alongside.
+The dev server also serves `/kit` (`vite.config.js`), bundling the source files listed in `../../js/manifest.json` so the console can be tested against the same kit code it ships alongside.
 
 ## Production
 
@@ -28,19 +28,10 @@ Dev mode also serves `/kit`, a Vite middleware (`vite.config.js`) that concatena
 npm run build
 ```
 
-Outputs a single self-contained file: `../build/index.html`. No CDN, no separate JS/CSS files, and no dev-only code - `import.meta.env.DEV` is `false`, so the `/kit` fetch and `ipc` stub are stripped at build time.
+Outputs `../build/index.html`, ready to drop into Godot's WebView. Dev-only code (`ipc` stub, `/kit` fetch) is stripped automatically.
 
-To preview the production build locally before shipping:
+To preview locally before shipping:
 
 ```
 npm run preview
 ```
-
-## Updating React or other dependencies
-
-```
-npm outdated      # see what's behind
-npm update        # update within semver ranges in package.json
-```
-
-To bump a major version (e.g. React 19), update the version in `package.json`, run `npm install`, then test with `npm run dev` before shipping.
