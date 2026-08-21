@@ -168,7 +168,7 @@ function ViewPlay({ favs, onToggleFav }) {
         </div>
       </div>
 
-      <div className="slabel"><Flame size={11} fill="currentColor" />Trending</div>
+      <div className="slabel slabel-trending"><Flame size={11} fill="currentColor" />Trending</div>
 
       <div className="cgrid-wrap">
         <div className="cgrid">
@@ -197,7 +197,7 @@ function ViewFavs({ favs, onToggleFav }) {
   const favServers = SERVERS.filter(s => favs.has(s.name));
 
   return (
-    <div className="view" id="view-favs">
+    <div className="view active" id="view-favs">
       <div className="view-head">
         <div className="slabel">Your Library</div>
         <div className="view-title-row"><span className="view-title">Favourites</span></div>
@@ -236,7 +236,7 @@ function ViewSettings() {
   const [name, setName] = useState('FallingStickman');
 
   return (
-    <div className="view" id="view-settings">
+    <div className="view active" id="view-settings">
       <div className="view-head">
         <div className="slabel">Preferences</div>
         <div className="view-title-row"><span className="view-title">Settings</span></div>

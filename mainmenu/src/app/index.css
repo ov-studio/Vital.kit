@@ -492,3 +492,7 @@ input[type="text"], input:not([type]) { cursor: text }
 .slabel:before {
   display: none;
 }
+
+.slabel-trending {
+  margin-top: 18px;
+}
