@@ -30,8 +30,10 @@ npm run build
 
 Outputs `../build/index.html`, ready to drop into Godot's WebView. Dev-only code (`ipc` stub, `/kit` fetch) is stripped automatically.
 
-To preview locally before shipping:
+## Preview
 
 ```
 npm run preview
 ```
+
+Serves the production build locally so it can be checked before shipping.

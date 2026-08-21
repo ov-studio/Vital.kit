@@ -28,11 +28,13 @@ npm run build
 
 Outputs `../build/index.html`, ready to drop into Godot's WebView.
 
-To preview locally before shipping:
+## Preview
 
 ```
 npm run preview
 ```
+
+Serves the production build locally so it can be checked before shipping.
 
 ## Wiring up real data
 

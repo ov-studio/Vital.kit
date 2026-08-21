@@ -34,13 +34,13 @@ npm run build
 
 Outputs `../build/index.html`, ready to drop into Godot's WebView. Dev-only code (`ipc` stub, `/kit` fetch) is stripped automatically.
 
-To preview locally before shipping:
+## Preview
 
 ```
 npm run preview
 ```
 
-In a plain browser preview, the real `ready`/`hide` `ipc.postMessage` calls will throw unless something on the page defines `window.ipc` - check the console rather than expecting Godot-side behaviour.
+Serves the production build locally so it can be checked before shipping. In a plain browser preview, the real `ready`/`hide` `ipc.postMessage` calls will throw unless something on the page defines `window.ipc` - check the console rather than expecting Godot-side behaviour.
 
 ## Tuning the animation
 
