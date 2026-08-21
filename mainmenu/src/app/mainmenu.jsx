@@ -348,7 +348,6 @@ function ViewMasterlist({ favs, onToggleFav }) {
                   logo={logoList[origIndex]}
                   isFav={favs.has(s.name)}
                   onToggleFav={onToggleFav}
-                  showTag
                   style={{ animationDelay: `${0.04 + i * 0.04}s` }}
                 />
               );
