@@ -1,13 +1,47 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef, useMemo } from 'react';
 import {
   LayoutGrid, Star, Flame, Settings, Play, UsersRound, ExternalLink,
-  Download, X
+  Download, X, List, Search
 } from 'lucide-react';
 import { SERVERS, FEATURED, HERO, BANNERS, LOGOS, shuffle } from './data.jsx';
 
 /* ─────────────────────── tiny helpers ─────────────────────── */
 const pct  = (p, m) => Math.round(p / m * 100);
 const bar  = (p, m) => { const v = pct(p,m); return v >= 100 ? 'hi' : v >= 65 ? 'md' : 'lo'; };
+
+/* Genre/tag list derived from the server data, used by the Masterlist filters */
+const ALL_GENRES = [...new Set(SERVERS.map(s => s.genre))];
+
+/* ───────────── fit-to-space hook (no scroller, most cards win) ───────────── */
+/* Measures a grid container and works out how many cards (given a minimum
+   column width, gap and aspect-ratio) can be shown without overflowing —
+   so bigger screens simply reveal more of the sorted list. */
+function useFitCount(ref, { minColWidth = 210, gap = 14, aspectRatio = 3 / 4 } = {}) {
+  const [count, setCount] = useState(null);
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const compute = () => {
+      const w = el.clientWidth;
+      const h = el.clientHeight;
+      if (!w || !h) return;
+      const cols = Math.max(1, Math.floor((w + gap) / (minColWidth + gap)));
+      const colWidth  = (w - (cols - 1) * gap) / cols;
+      const rowHeight = colWidth / aspectRatio;
+      const rows = Math.max(1, Math.floor((h + gap) / (rowHeight + gap)));
+      setCount(cols * rows);
+    };
+
+    compute();
+    const ro = new ResizeObserver(compute);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [ref, minColWidth, gap, aspectRatio]);
+
+  return count;
+}
 
 /* ─────────────────────── Brand logo ────────────────────────── */
 function BrandLogo() {
@@ -41,7 +75,7 @@ function DiscordSvg({ size = 11 }) {
 }
 
 /* ─────────────────────── Game Card ─────────────────────────── */
-function GameCard({ server, banner, logo, isFav, onToggleFav, style }) {
+function GameCard({ server, banner, logo, isFav, onToggleFav, style, showTag }) {
   const p    = server.players;
   const m    = server.max;
   const barC = bar(p, m);
@@ -56,7 +90,7 @@ function GameCard({ server, banner, logo, isFav, onToggleFav, style }) {
 
       <div className="gc-top">
         <div className="gc-top-left">
-
+          {showTag && <span className="tag-pill gc-tag">#{server.genre}</span>}
         </div>
         <button
           className={`gc-fav${isFav ? ' on' : ''}`}
@@ -118,6 +152,14 @@ function ViewPlay({ favs, onToggleFav }) {
   const bannerList = useRef(shuffle(Array.from({ length: SERVERS.length }, (_, i) => BANNERS[i % BANNERS.length]))).current;
   const logoList   = useRef(shuffle(Array.from({ length: SERVERS.length }, (_, i) => LOGOS[i % LOGOS.length]))).current;
 
+  // Highest player count first — the grid below only ever shows as many of
+  // these as physically fit, so the top servers always win the visible slots.
+  const trendingSorted = useMemo(() => [...SERVERS].sort((a, b) => b.players - a.players), []);
+
+  const trendingWrapRef = useRef(null);
+  const fitCount = useFitCount(trendingWrapRef);
+  const trendingVisible = fitCount == null ? trendingSorted : trendingSorted.slice(0, fitCount);
+
   const [heroPlayers, setHeroPlayers] = useState(HERO.players);
 
   useEffect(() => {
@@ -170,19 +212,22 @@ function ViewPlay({ favs, onToggleFav }) {
 
       <div className="slabel slabel-trending"><Flame size={11} fill="currentColor" />Trending</div>
 
-      <div className="cgrid-wrap">
+      <div className="cgrid-wrap cgrid-wrap-fit" ref={trendingWrapRef}>
         <div className="cgrid">
-          {SERVERS.map((s, i) => (
-            <GameCard
-              key={s.name}
-              server={s}
-              banner={bannerList[i]}
-              logo={logoList[i]}
-              isFav={favs.has(s.name)}
-              onToggleFav={onToggleFav}
-              style={{ animationDelay: `${0.04 + i * 0.04}s` }}
-            />
-          ))}
+          {trendingVisible.map((s, i) => {
+            const origIndex = SERVERS.indexOf(s);
+            return (
+              <GameCard
+                key={s.name}
+                server={s}
+                banner={bannerList[origIndex]}
+                logo={logoList[origIndex]}
+                isFav={favs.has(s.name)}
+                onToggleFav={onToggleFav}
+                style={{ animationDelay: `${0.04 + i * 0.04}s` }}
+              />
+            );
+          })}
         </div>
       </div>
     </div>
@@ -224,6 +269,90 @@ function ViewFavs({ favs, onToggleFav }) {
                 style={{ animationDelay: `${0.04 + i * 0.04}s` }}
               />
             ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ─────────────────────── View: Masterlist ──────────────────── */
+function ViewMasterlist({ favs, onToggleFav }) {
+  const bannerList = useRef(shuffle(Array.from({ length: SERVERS.length }, (_, i) => BANNERS[i % BANNERS.length]))).current;
+  const logoList   = useRef(shuffle(Array.from({ length: SERVERS.length }, (_, i) => LOGOS[i % LOGOS.length]))).current;
+
+  const [search, setSearch]         = useState('');
+  const [activeTag, setActiveTag]   = useState(null);
+
+  const results = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return SERVERS
+      .filter(s => activeTag === null || s.genre === activeTag)
+      .filter(s => !q || s.name.toLowerCase().includes(q) || s.genre.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }, [search, activeTag]);
+
+  return (
+    <div className="view active" id="view-masterlist">
+      <div className="view-head">
+        <div className="slabel">Masterlist</div>
+        <div className="view-title-row"><span className="view-title">All Servers</span></div>
+      </div>
+
+      <div className="mlist-filters">
+        <div className="mlist-filter-tags">
+          <button
+            className={`mlist-filter-btn${activeTag === null ? ' active' : ''}`}
+            onClick={() => setActiveTag(null)}
+          >All</button>
+          {ALL_GENRES.map(tag => (
+            <button
+              key={tag}
+              className={`mlist-filter-btn${activeTag === tag ? ' active' : ''}`}
+              onClick={() => setActiveTag(t => t === tag ? null : tag)}
+            >{tag}</button>
+          ))}
+        </div>
+
+        <div className="mlist-search">
+          <Search size={14} strokeWidth={2.5} />
+          <input
+            type="text"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder="Search servers…"
+            aria-label="Search"
+            spellCheck={false}
+            autoCorrect="off"
+            autoCapitalize="off"
+          />
+        </div>
+      </div>
+
+      {results.length === 0 ? (
+        <div className="empty-state">
+          <Search size={40} strokeWidth={1.4} />
+          <h3>No Servers Found</h3>
+          <p>Try a different search term or clear the active filter.</p>
+        </div>
+      ) : (
+        <div className="cgrid-wrap">
+          <div className="cgrid">
+            {results.map((s, i) => {
+              const origIndex = SERVERS.indexOf(s);
+              return (
+                <GameCard
+                  key={s.name}
+                  server={s}
+                  banner={bannerList[origIndex]}
+                  logo={logoList[origIndex]}
+                  isFav={favs.has(s.name)}
+                  onToggleFav={onToggleFav}
+                  showTag
+                  style={{ animationDelay: `${0.04 + i * 0.04}s` }}
+                />
+              );
+            })}
           </div>
         </div>
       )}
@@ -309,15 +438,17 @@ export function MainMenu() {
   const handleExit = () => {};
 
   const views = {
-    play:     <ViewPlay     favs={favs}    onToggleFav={toggleFav} />,
-    favs:     <ViewFavs     favs={favs}    onToggleFav={toggleFav} />,
-    settings: <ViewSettings />,
+    play:       <ViewPlay       favs={favs}    onToggleFav={toggleFav} />,
+    masterlist: <ViewMasterlist favs={favs}    onToggleFav={toggleFav} />,
+    favs:       <ViewFavs       favs={favs}    onToggleFav={toggleFav} />,
+    settings:   <ViewSettings />,
   };
 
   const navItems = [
-    { id: 'play',     icon: <LayoutGrid size={19} className="nav-btn-ico" />, title: 'Browse' },
-    { id: 'favs',     icon: <Star       size={19} className="nav-btn-ico" />, title: 'Favourites' },
-    { id: 'settings', icon: <Settings   size={19} className="nav-btn-ico" />, title: 'Settings' },
+    { id: 'play',       icon: <LayoutGrid size={19} className="nav-btn-ico" />, title: 'Browse' },
+    { id: 'masterlist', icon: <List       size={19} className="nav-btn-ico" />, title: 'Masterlist' },
+    { id: 'favs',       icon: <Star       size={19} className="nav-btn-ico" />, title: 'Favourites' },
+    { id: 'settings',   icon: <Settings   size={19} className="nav-btn-ico" />, title: 'Settings' },
   ];
 
   return (
