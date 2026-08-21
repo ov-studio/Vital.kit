@@ -426,7 +426,7 @@ input[type="text"], input:not([type]) { cursor: text }
 
 .gc-fav {
   width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
-  background: hsla(222,30%,5%,.65); border: 1px solid var(--w14);
+  background: var(--rule); border: 1px solid var(--w14);
   display: flex; align-items: center; justify-content: center;
   cursor: pointer; backdrop-filter: blur(8px); transition: transform .1s;
 }
