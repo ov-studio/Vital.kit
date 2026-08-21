@@ -1,7 +1,7 @@
 import { useState, useEffect, useLayoutEffect, useRef, useMemo } from 'react';
 import {
   LayoutGrid, Star, Flame, Settings, Play, UsersRound, ExternalLink,
-  Download, X, List, Search
+  Download, X, LayoutList, Search
 } from 'lucide-react';
 import { SERVERS, FEATURED, HERO, BANNERS, LOGOS, shuffle } from './data.jsx';
 
@@ -446,7 +446,7 @@ export function MainMenu() {
 
   const navItems = [
     { id: 'play',       icon: <LayoutGrid size={19} className="nav-btn-ico" />, title: 'Browse' },
-    { id: 'masterlist', icon: <List       size={19} className="nav-btn-ico" />, title: 'Masterlist' },
+    { id: 'masterlist', icon: <LayoutList size={19} className="nav-btn-ico" />, title: 'Masterlist' },
     { id: 'favs',       icon: <Star       size={19} className="nav-btn-ico" />, title: 'Favourites' },
     { id: 'settings',   icon: <Settings   size={19} className="nav-btn-ico" />, title: 'Settings' },
   ];
