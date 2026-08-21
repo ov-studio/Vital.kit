@@ -142,9 +142,34 @@ function GameCard({ server, banner, logo, isFav, onToggleFav, style, showTag }) 
 }
 
 /* ─────────────────────── Settings toggle ───────────────────── */
-function Toggle({ defaultOn = true }) {
-  const [on, setOn] = useState(defaultOn);
-  return <button className={`toggle${on ? ' on' : ''}`} onClick={() => setOn(v => !v)} />;
+function Toggle({ on: controlledOn, defaultOn = true, onChange }) {
+  const [uncontrolledOn, setUncontrolledOn] = useState(defaultOn);
+  const on = controlledOn !== undefined ? controlledOn : uncontrolledOn;
+  const toggle = () => {
+    const next = !on;
+    if (controlledOn === undefined) setUncontrolledOn(next);
+    onChange?.(next);
+  };
+  return <button className={`toggle${on ? ' on' : ''}`} onClick={toggle} />;
+}
+
+/* ─────────────────────── Settings slider ───────────────────── */
+function RangeSlider({ value, min = 1, max = 100, step = 1, onChange }) {
+  const fillPct = ((value - min) / (max - min)) * 100;
+  return (
+    <div className="rslider">
+      <input
+        type="range"
+        className="rslider-input"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        style={{ '--fill': `${fillPct}%` }}
+        onChange={e => onChange?.(Number(e.target.value))}
+      />
+    </div>
+  );
 }
 
 /* ─────────────────────── View: Play ────────────────────────── */
@@ -361,7 +386,19 @@ function ViewMasterlist({ favs, onToggleFav }) {
 
 /* ─────────────────────── View: Settings ───────────────────── */
 function ViewSettings() {
-  const [name, setName] = useState('FallingStickman');
+  // Graphics settings — pushed out over the game's ipc bridge so server/gamemode
+  // Lua scripts can read them and wire up their own graphics panel accordingly.
+  const [vsync, setVsync]           = useState(true);
+  const [quality, setQuality]       = useState('medium');
+  const [drawDistance, setDrawDistance] = useState(100);
+  const [volume, setVolume]         = useState(80);
+
+  useEffect(() => {
+    window.ipc?.postMessage(JSON.stringify({
+      action: 'settings_update',
+      settings: { vsync, quality, draw_distance_mult: drawDistance / 100, volume: volume / 100 },
+    }));
+  }, [vsync, quality, drawDistance, volume]);
 
   return (
     <div className="view active" id="view-settings">
@@ -371,37 +408,28 @@ function ViewSettings() {
       </div>
       <div className="view-body">
         <div className="settings-section">
-          <div className="settings-label">Display</div>
+          <div className="settings-label">Graphics</div>
           <div className="setting-row">
-            <div><div className="setting-name">Animate Card Hover</div><div className="setting-desc">Enable lift and scale when hovering cards</div></div>
-            <Toggle defaultOn={true} />
+            <div><div className="setting-name">VSync</div><div className="setting-desc">Sync frame rate to your monitor's refresh rate</div></div>
+            <Toggle on={vsync} onChange={setVsync} />
           </div>
           <div className="setting-row">
-            <div><div className="setting-name">Live Player Count</div><div className="setting-desc">Auto-refresh player numbers every 5 seconds</div></div>
-            <Toggle defaultOn={true} />
+            <div><div className="setting-name">Quality Preset</div><div className="setting-desc">Overall rendering quality — shadows, textures, effects</div></div>
+            <div className="setting-control">
+              <select className="setting-select" value={quality} onChange={e => setQuality(e.target.value)}>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </div>
           </div>
           <div className="setting-row">
-            <div><div className="setting-name">Show Player Bar</div><div className="setting-desc">Display fill bar indicating server capacity</div></div>
-            <Toggle defaultOn={true} />
-          </div>
-        </div>
-
-        <div className="settings-section">
-          <div className="settings-label">Account</div>
-          <div className="setting-row">
-            <div><div className="setting-name">Display Name</div><div className="setting-desc">Your visible name across the lobby</div></div>
-            <input className="form-input" style={{ width: 180 }} value={name} onChange={e => setName(e.target.value)} />
+            <div><div className="setting-name">Draw Distance</div><div className="setting-desc">Multiplier applied on top of the server's draw distance</div></div>
+            <RangeSlider value={drawDistance} min={1} max={100} onChange={setDrawDistance} />
           </div>
           <div className="setting-row">
-            <div><div className="setting-name">Default Genre Filter</div><div className="setting-desc">Which tab opens by default on Browse Games</div></div>
-            <select className="setting-select">
-              <option>All</option>
-              <option>Roleplay</option>
-              <option>Racing</option>
-              <option>Shooter</option>
-              <option>Sandbox</option>
-              <option>Survival</option>
-            </select>
+            <div><div className="setting-name">Game Volume</div><div className="setting-desc">Overall in-game audio volume</div></div>
+            <RangeSlider value={volume} min={1} max={100} onChange={setVolume} />
           </div>
         </div>
 

@@ -261,8 +261,15 @@ input[type="text"], input:not([type]) { cursor: text }
 }
 .toggle.on::after { transform: translateX(18px); }
 .setting-select {
-  padding: 7px 12px;
+  width: 100%;
+  padding: 7px 32px 7px 12px;
   background: var(--w06);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%238b93a8' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><path d='M2.5 4.5L6 8l3.5-3.5'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 11px center;
+  background-size: 11px;
+  -webkit-appearance: none;
+  appearance: none;
   border: 1px solid var(--w14);
   border-radius: 7px;
   color: var(--white);
@@ -270,11 +277,16 @@ input[type="text"], input:not([type]) { cursor: text }
   font-size: .78rem;
   outline: none;
   cursor: pointer;
-  transition: border-color .14s;
-  min-width: 130px;
+  transition: border-color .14s, background-color .14s;
 }
-.setting-select:hover, .setting-select:focus { border-color: var(--b30); }
-.setting-select option { background: hsl(222,28%,10%); }
+.setting-select:hover, .setting-select:focus { border-color: var(--b30); background-color: var(--w09); }
+.setting-select option {
+  background: hsl(222,26%,9%);
+  color: var(--white);
+  padding: 8px 10px;
+}
+.setting-select option:checked,
+.setting-select option:hover { background: var(--blue); color: hsl(222,28%,5%); }
 .form-input {
   padding: 7px 12px;
   background: var(--w06);
@@ -287,6 +299,41 @@ input[type="text"], input:not([type]) { cursor: text }
   transition: border-color .14s;
 }
 .form-input:focus { border-color: var(--b30); }
+
+/* Fixed-width control column so selects/sliders in different rows share the
+   same left edge (row uses justify-content: space-between, so equal-width
+   right-hand blocks line up automatically). */
+.setting-control { display: flex; align-items: center; width: 220px; }
+
+/* ── Range slider (Draw Distance / Game Volume) ── */
+.rslider { display: flex; align-items: center; width: 220px; }
+.rslider-input {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 14px;
+  border-radius: 0;
+  outline: none;
+  cursor: pointer;
+  background: linear-gradient(to right, var(--blue) 0%, var(--blue) var(--fill), var(--w14) var(--fill), var(--w14) 100%);
+}
+.rslider-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  opacity: 0;
+  cursor: pointer;
+}
+.rslider-input::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: none;
+  opacity: 0;
+  cursor: pointer;
+}
+.rslider-input::-moz-range-track { height: 14px; border-radius: 0; background: transparent; }
 
 /* ── Hero + Featured row ── */
 .hero-row { display: flex; gap: 14px; flex-shrink: 0; margin-bottom: 26px; height: 250px; }
