@@ -35,7 +35,3 @@ npm run preview
 ```
 
 Serves the production build locally so it can be checked before shipping.
-
-## Wiring up real data
-
-Replace the placeholder arrays in `app/data.jsx` (`SERVERS`, `BANNERS`, `LOGOS`, `FEATURED`, `HERO`) with data received over `ipc`, following the same `message`/`ipc.postMessage` pattern used in `console`'s and `splash`'s `app/main.jsx` - stub `ipc` and dispatch fake `message` events behind `import.meta.env.DEV` so the menu stays testable without Godot running.
