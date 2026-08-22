@@ -71,7 +71,23 @@ function DiscordSvg({ size = 11 }) {
   );
 }
 
-/* ─────────────────────── Game Card ─────────────────────────── */
+/* ─────────────────────── Reusable: IconButton ───────────────── */
+// Wraps any icon in a consistent square button. All pointer events are
+// handled by the button element itself — children have pointer-events:none
+// via CSS so every pixel of the hit area reliably fires onClick.
+function IconButton({ icon, title, onClick, className = '' }) {
+  return (
+    <button
+      className={`hud-icon-btn${className ? ` ${className}` : ''}`}
+      title={title}
+      onClick={onClick}
+    >
+      {icon}
+    </button>
+  );
+}
+
+
 function GameCard({ server, banner, logo, isFav, onToggleFav, style, showTag }) {
   const p    = server.players;
   const m    = server.max;
@@ -252,8 +268,10 @@ function ViewPlay({ favs, onToggleFav }) {
               <Star size={10} fill="currentColor" />
               Featured
             </div>
-            <div className="hero-title">{activeFeat.name}</div>
-            <div className="hero-desc">{activeFeat.desc}</div>
+            <div className="hero-mid">
+              <div className="hero-title">{activeFeat.name}</div>
+              <div className="hero-desc">{activeFeat.desc}</div>
+            </div>
             <div className="hero-meta">
               <button className="hero-join">
                 <Play size={11} fill="currentColor" />
@@ -281,7 +299,7 @@ function ViewPlay({ favs, onToggleFav }) {
         {/* Right sidebar: all 3 featured, active one highlighted */}
         <div className="featured-list">
           {featuredItems.map((f, i) => (
-            <div
+            <button
               className={`feat-item${i === featIdx ? ' feat-item--active' : ''}`}
               key={f.name}
               onClick={() => goTo(i)}
@@ -294,7 +312,7 @@ function ViewPlay({ favs, onToggleFav }) {
                 <div className="feat-meta"><strong>{i === featIdx ? heroPlayers : f.players}</strong> / {f.max} players</div>
               </div>
               {i === featIdx && <div className="feat-active-bar" />}
-            </div>
+            </button>
           ))}
         </div>
       </div>
@@ -575,12 +593,8 @@ export function MainMenu() {
               Donate <ExtIco />
             </a>
           </nav>
-          <button className="hud-icon-btn" title="Downloads">
-            <Download size={15} />
-          </button>
-          <button className="hud-icon-btn" title="Exit Game" onClick={handleExit}>
-            <X size={15} />
-          </button>
+          <IconButton icon={<Download size={15} />} title="Downloads" />
+          <IconButton icon={<X size={15} />} title="Exit Game" onClick={handleExit} />
         </div>
       </header>
 
