@@ -201,22 +201,23 @@ function ViewPlay({ favs, onToggleFav }) {
   // Featured cycling state — capped at 3 items
   const featuredItems = FEATURED.slice(0, 3);
   const [featIdx, setFeatIdx] = useState(0);
-  const [prevIdx, setPrevIdx] = useState(null);   // outgoing slide (stays visible under)
-  const [crossing, setCrossing] = useState(false); // true while new image fades in
+  const [prevIdx, setPrevIdx] = useState(null);
+  const [crossing, setCrossing] = useState(false);
   const [heroPlayers, setHeroPlayers] = useState(featuredItems[0].players);
-  const isAnimating = useRef(false);
+
+  const crossTimer = useRef(null);
 
   const goTo = (next) => {
-    if (isAnimating.current || next === featIdx) return;
-    isAnimating.current = true;
-    setPrevIdx(featIdx);       // keep outgoing image rendered underneath
+    if (next === featIdx) return;
+    // Cancel any in-flight transition so rapid clicks always respond
+    if (crossTimer.current) clearTimeout(crossTimer.current);
+    setPrevIdx(featIdx);
     setFeatIdx(next);
     setHeroPlayers(featuredItems[next].players);
-    setCrossing(true);         // new image fades in on top
-    setTimeout(() => {
+    setCrossing(true);
+    crossTimer.current = setTimeout(() => {
       setCrossing(false);
-      setPrevIdx(null);        // outgoing image no longer needed
-      isAnimating.current = false;
+      setPrevIdx(null);
     }, 500);
   };
 
