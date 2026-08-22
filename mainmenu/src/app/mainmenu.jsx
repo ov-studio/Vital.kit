@@ -166,6 +166,51 @@ function Toggle({ on: controlledOn, defaultOn = true, onChange }) {
   return <button className={`toggle${on ? ' on' : ''}`} onClick={toggle} />;
 }
 
+/* ─────────────────────── Custom dropdown ───────────────────── */
+function CustomSelect({ value, options, onChange }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  // Close on outside click
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [open]);
+
+  const selected = options.find(o => o.value === value) || options[0];
+
+  return (
+    <div className={`cselect${open ? ' open' : ''}`} ref={ref}>
+      <button className="cselect-trigger" onClick={() => setOpen(v => !v)}>
+        <span>{selected.label}</span>
+        <svg className="cselect-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M2.5 4.5L6 8l3.5-3.5"/>
+        </svg>
+      </button>
+      {open && (
+        <div className="cselect-menu">
+          {options.map(o => (
+            <button
+              key={o.value}
+              className={`cselect-option${o.value === value ? ' selected' : ''}`}
+              onClick={() => { onChange(o.value); setOpen(false); }}
+            >
+              {o.label}
+              {o.value === value && (
+                <svg className="cselect-check" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M2 6l3 3 5-5"/>
+                </svg>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ─────────────────────── Settings slider ───────────────────── */
 function RangeSlider({ value, min = 1, max = 100, step = 1, onChange }) {
   const fillPct = ((value - min) / (max - min)) * 100;
@@ -497,11 +542,15 @@ function ViewSettings() {
           <div className="setting-row">
             <div><div className="setting-name">Quality Preset</div><div className="setting-desc">Overall rendering quality — shadows, textures, effects</div></div>
             <div className="setting-control">
-              <select className="setting-select" value={quality} onChange={e => setQuality(e.target.value)}>
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-              </select>
+              <CustomSelect
+                value={quality}
+                onChange={setQuality}
+                options={[
+                  { value: 'low',    label: 'Low'    },
+                  { value: 'medium', label: 'Medium' },
+                  { value: 'high',   label: 'High'   },
+                ]}
+              />
             </div>
           </div>
           <div className="setting-row">
