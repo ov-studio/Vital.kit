@@ -610,10 +610,6 @@ input[type="text"], input:not([type]) { cursor: text }
 .nav-btn:hover .nav-btn-ico { color: var(--white); }
 .nav-btn.on .nav-btn-ico { color: var(--white); }
 
-.slabel:before {
-  display: none;
-}
-
 .slabel-trending {
   margin-top: 18px;
 }
