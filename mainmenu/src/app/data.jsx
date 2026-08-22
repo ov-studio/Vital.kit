@@ -26,19 +26,16 @@ export const SERVERS = [
   { name:'Construct Zero',    desc:'Physics sandbox with full Lua scripting. No limits, no rules.',          genre:'sandbox',  players:9,   max:32,  status:'none', discord:true,  site:false },
 ];
 
+// FEATURED: max 3 entries. Each needs img (hero banner) and logo (thumbnail).
+// The featured section cycles through these one at a time.
 export const FEATURED = [
-  { name:'City Wars RP',    img: LOGOS[0], players:84,  max:128 },
-  { name:'Neon Streets RP', img: LOGOS[1], players:112, max:200 },
-  { name:'Shell Storm',     img: LOGOS[0], players:128, max:128 },
+  { name:'City Wars RP',    desc:'Immersive city roleplay — gang wars, police, civilian life.',             img: BANNERS[1], logo: LOGOS[0], players:84,  max:128 },
+  { name:'Neon Streets RP', desc:'Rain-soaked cyberpunk city. Run heists, own territory, build empires.',  img: BANNERS[2], logo: LOGOS[1], players:112, max:200 },
+  { name:'Shell Storm',     desc:'Tactical 8v8 warfare. Ranked seasons and custom loadouts.',              img: BANNERS[0], logo: LOGOS[0], players:128, max:128 },
 ];
 
-export const HERO = {
-  name:    'Void Sector',
-  desc:    'Open-world Lua sandbox. Build, explore, and automate anything across a vast persistent universe with 200+ custom scripts.',
-  img:     BANNERS[0],
-  players: 201,
-  max:     256,
-};
+// HERO is now derived dynamically from FEATURED in ViewPlay — kept for backward compat.
+export const HERO = FEATURED[0];
 
 export function shuffle(arr) {
   return [...arr].sort(() => Math.random() - .5);

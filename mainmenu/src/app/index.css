@@ -344,16 +344,34 @@ input[type="text"], input:not([type]) { cursor: text }
   border-radius: 10px;
   overflow: hidden;
   background: var(--bg3);
-  border: 2px solid var(--blue);
+  /* gradient border via ::before — no solid border here */
 }
-.hero-banner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(.5) saturate(1.1); }
+/* Gradient border: blue on left, fades to --b40 on right */
+.hero-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  border-radius: 10px;
+  padding: 2px;
+  background: linear-gradient(to right, var(--blue) 0%, var(--b40) 100%);
+  /* punch out the inside so only the 2px rim shows */
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+/* hero images are now .hero-img — see layered crossfade section below */
 .hero-banner::after {
   content: '';
   position: absolute;
   inset: 0;
+  z-index: 2;
   background: linear-gradient(100deg, var(--bg) 8%, var(--b05) 40%, transparent 82%);
 }
-.hero-content { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding: 26px 30px; }
+.hero-content { position: relative; z-index: 3; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding: 26px 30px; }
 .hero-badge {
   align-self: flex-start;
   display: flex;
@@ -621,4 +639,78 @@ input[type="text"], input:not([type]) { cursor: text }
   color: var(--blue);
   background: var(--b10);
   border-color: var(--b30);
+}
+/* ── Featured cycling — layered crossfade (no black gap) ── */
+
+/* All hero images sit absolute, filling the banner */
+.hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(.5) saturate(1.1);
+}
+
+/* Outgoing image stays fully visible underneath — no transition needed */
+.hero-img--under {
+  z-index: 0;
+  opacity: 1;
+}
+
+/* Incoming image starts transparent, sits on top */
+.hero-img--top {
+  z-index: 1;
+  opacity: 1;          /* default: already settled */
+}
+
+/* While crossing=true, fade from 0→1 */
+.hero-img--crossing {
+  opacity: 0;
+  animation: heroCrossfade .5s ease forwards;
+}
+
+@keyframes heroCrossfade {
+  to { opacity: 1; }
+}
+
+/* Cycle indicator dots — bottom-right of hero banner */
+.hero-dots {
+  position: absolute;
+  bottom: 14px;
+  right: 18px;
+  z-index: 5;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.hero-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,.28);
+  cursor: pointer;
+  padding: 0;
+  transition: background .25s, transform .25s, width .25s;
+}
+.hero-dot.active {
+  background: var(--blue);
+  width: 20px;
+  border-radius: 4px;
+}
+
+/* Active featured sidebar item */
+.feat-item--active {
+  opacity: 1 !important;
+  background: var(--b20) !important;
+}
+.feat-active-bar {
+  width: 3px;
+  height: 28px;
+  border-radius: 2px;
+  background: var(--blue);
+  flex-shrink: 0;
+  margin-left: auto;
+  box-shadow: 0 0 8px var(--blue);
 }

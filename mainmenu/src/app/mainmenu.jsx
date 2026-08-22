@@ -3,7 +3,7 @@ import {
   LayoutGrid, Star, Flame, Settings, Play, UsersRound, ExternalLink,
   Download, X, LayoutList, Search
 } from 'lucide-react';
-import { SERVERS, FEATURED, HERO, BANNERS, LOGOS, shuffle } from './data.jsx';
+import { SERVERS, FEATURED, BANNERS, LOGOS, shuffle } from './data.jsx';
 
 /* ─────────────────────── tiny helpers ─────────────────────── */
 const pct  = (p, m) => Math.round(p / m * 100);
@@ -13,9 +13,6 @@ const bar  = (p, m) => { const v = pct(p,m); return v >= 100 ? 'hi' : v >= 65 ? 
 const ALL_GENRES = [...new Set(SERVERS.map(s => s.genre))];
 
 /* ───────────── fit-to-space hook (no scroller, most cards win) ───────────── */
-/* Measures a grid container and works out how many cards (given a minimum
-   column width, gap and aspect-ratio) can be shown without overflowing —
-   so bigger screens simply reveal more of the sorted list. */
 function useFitCount(ref, { minColWidth = 210, gap = 14, aspectRatio = 3 / 4 } = {}) {
   const [count, setCount] = useState(null);
 
@@ -173,40 +170,90 @@ function RangeSlider({ value, min = 1, max = 100, step = 1, onChange }) {
 }
 
 /* ─────────────────────── View: Play ────────────────────────── */
+const FEATURED_INTERVAL = 5000; // ms between cycles
+
 function ViewPlay({ favs, onToggleFav }) {
   const bannerList = useRef(shuffle(Array.from({ length: SERVERS.length }, (_, i) => BANNERS[i % BANNERS.length]))).current;
   const logoList   = useRef(shuffle(Array.from({ length: SERVERS.length }, (_, i) => LOGOS[i % LOGOS.length]))).current;
 
-  // Highest player count first — the grid below only ever shows as many of
-  // these as physically fit, so the top servers always win the visible slots.
   const trendingSorted = useMemo(() => [...SERVERS].sort((a, b) => b.players - a.players), []);
 
   const trendingWrapRef = useRef(null);
   const fitCount = useFitCount(trendingWrapRef);
   const trendingVisible = fitCount == null ? trendingSorted : trendingSorted.slice(0, fitCount);
 
-  const [heroPlayers, setHeroPlayers] = useState(HERO.players);
+  // Featured cycling state — capped at 3 items
+  const featuredItems = FEATURED.slice(0, 3);
+  const [featIdx, setFeatIdx] = useState(0);
+  const [prevIdx, setPrevIdx] = useState(null);   // outgoing slide (stays visible under)
+  const [crossing, setCrossing] = useState(false); // true while new image fades in
+  const [heroPlayers, setHeroPlayers] = useState(featuredItems[0].players);
+  const isAnimating = useRef(false);
 
+  const goTo = (next) => {
+    if (isAnimating.current || next === featIdx) return;
+    isAnimating.current = true;
+    setPrevIdx(featIdx);       // keep outgoing image rendered underneath
+    setFeatIdx(next);
+    setHeroPlayers(featuredItems[next].players);
+    setCrossing(true);         // new image fades in on top
+    setTimeout(() => {
+      setCrossing(false);
+      setPrevIdx(null);        // outgoing image no longer needed
+      isAnimating.current = false;
+    }, 500);
+  };
+
+  // Auto-cycle
   useEffect(() => {
-    const t = setInterval(() => setHeroPlayers(v => Math.max(1, Math.min(HERO.max, v + Math.floor(Math.random() * 6) - 3))), 5000);
+    const timer = setInterval(() => {
+      goTo((featIdx + 1) % featuredItems.length);
+    }, FEATURED_INTERVAL);
+    return () => clearInterval(timer);
+  }, [featIdx, featuredItems.length]);
+
+  // Jitter player count for the active featured server
+  useEffect(() => {
+    const t = setInterval(() => {
+      const f = featuredItems[featIdx];
+      setHeroPlayers(v => Math.max(1, Math.min(f.max, v + Math.floor(Math.random() * 6) - 3)));
+    }, 5000);
     return () => clearInterval(t);
-  }, []);
+  }, [featIdx]);
+
+  const activeFeat = featuredItems[featIdx];
 
   return (
     <div className="view active" id="view-play">
       {/* HERO */}
-
       <div className="slabel"><Star size={11} fill="currentColor"/>Featured</div>
       <div className="hero-row">
         <div className="hero-banner">
-          <img src={HERO.img} alt={HERO.name} onError={e => e.target.style.opacity = '0'} />
+          {/* Outgoing image — stays at full opacity underneath while new one fades in */}
+          {prevIdx !== null && (
+            <img
+              key={`prev-${prevIdx}`}
+              className="hero-img hero-img--under"
+              src={featuredItems[prevIdx].img}
+              alt=""
+              aria-hidden="true"
+            />
+          )}
+          {/* Incoming / active image — fades in on top */}
+          <img
+            key={`active-${featIdx}`}
+            className={`hero-img hero-img--top${crossing ? ' hero-img--crossing' : ''}`}
+            src={activeFeat.img}
+            alt={activeFeat.name}
+            onError={e => e.target.style.opacity = '0'}
+          />
           <div className="hero-content">
             <div className="hero-badge">
               <Star size={10} fill="currentColor" />
               Featured
             </div>
-            <div className="hero-title">{HERO.name}</div>
-            <div className="hero-desc">{HERO.desc}</div>
+            <div className="hero-title">{activeFeat.name}</div>
+            <div className="hero-desc">{activeFeat.desc}</div>
             <div className="hero-meta">
               <button className="hero-join">
                 <Play size={11} fill="currentColor" />
@@ -214,22 +261,39 @@ function ViewPlay({ favs, onToggleFav }) {
               </button>
               <div className="hero-viewers">
                 <UsersRound size={12} fill="currentColor" />
-                <strong>{heroPlayers}</strong>&nbsp;/ {HERO.max} online
+                <strong>{heroPlayers}</strong>&nbsp;/ {activeFeat.max} online
               </div>
             </div>
           </div>
+          {/* Cycle indicator dots */}
+          <div className="hero-dots">
+            {featuredItems.map((_, i) => (
+              <button
+                key={i}
+                className={`hero-dot${i === featIdx ? ' active' : ''}`}
+                onClick={() => goTo(i)}
+                aria-label={`Show ${featuredItems[i].name}`}
+              />
+            ))}
+          </div>
         </div>
 
+        {/* Right sidebar: all 3 featured, active one highlighted */}
         <div className="featured-list">
-          {FEATURED.map(f => (
-            <div className="feat-item" key={f.name}>
+          {featuredItems.map((f, i) => (
+            <div
+              className={`feat-item${i === featIdx ? ' feat-item--active' : ''}`}
+              key={f.name}
+              onClick={() => goTo(i)}
+            >
               <div className="feat-thumb">
-                <img src={f.img} alt={f.name} onError={e => e.target.style.opacity = '0'} />
+                <img src={f.logo} alt={f.name} onError={e => e.target.style.opacity = '0'} />
               </div>
               <div className="feat-info">
                 <div className="feat-name">{f.name}</div>
-                <div className="feat-meta"><strong>{f.players}</strong> / {f.max} players</div>
+                <div className="feat-meta"><strong>{i === featIdx ? heroPlayers : f.players}</strong> / {f.max} players</div>
               </div>
+              {i === featIdx && <div className="feat-active-bar" />}
             </div>
           ))}
         </div>
@@ -386,8 +450,6 @@ function ViewMasterlist({ favs, onToggleFav }) {
 
 /* ─────────────────────── View: Settings ───────────────────── */
 function ViewSettings() {
-  // Graphics settings — pushed out over the game's ipc bridge so server/gamemode
-  // Lua scripts can read them and wire up their own graphics panel accordingly.
   const [vsync, setVsync]           = useState(true);
   const [quality, setQuality]       = useState('medium');
   const [drawDistance, setDrawDistance] = useState(100);
@@ -461,7 +523,6 @@ export function MainMenu() {
     });
   };
 
-  // TODO: wire this up to actually exit the game
   const handleExit = () => {};
 
   const views = {
