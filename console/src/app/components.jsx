@@ -1,5 +1,6 @@
 import * as react    from 'react';
 import * as app_util from './util';
+import * as shared_ui_iconbutton from './shared-ui/iconbutton/index.jsx';
 
 export const FilterButton = ({ type, label, count, is_active, on_click, color, bg_alpha, border_alpha }) => (
   <div
@@ -14,10 +15,14 @@ export const FilterButton = ({ type, label, count, is_active, on_click, color, b
   </div>
 );
 
-export const ActionButton = ({ icon: Icon, label, on_click }) => (
-  <button className="action-btn" onClick={on_click}>
-    <Icon size={13} strokeWidth={2.6}/>
-  </button>
+export const ActionButton = ({ icon, label, on_click }) => (
+  <shared_ui_iconbutton.IconButton
+    className="action-btn"
+    icon={icon}
+    iconProps={{ size: 13, strokeWidth: 2.6 }}
+    label={label}
+    onClick={on_click}
+  />
 );
 
 export const LogText = ({ text, color }) => {
