@@ -9,15 +9,16 @@ const kit_plugin = () => ({
   configureServer(server) {
     server.middlewares.use('/kit', (req, res) => {
       try {
-        const manifest_path = path.resolve(__dirname, '../../js/manifest.json');
+        const manifest_path = path.resolve(__dirname, '../../module/js/manifest.json');
         const manifest = JSON.parse(fs.readFileSync(manifest_path, 'utf-8'));
-        const bundle = manifest.sources.map(src => fs.readFileSync(path.resolve(__dirname, '../../js', src), 'utf-8')).join('\n');
+        const bundle = manifest.sources.map(src => fs.readFileSync(path.resolve(__dirname, '../../module/js', src), 'utf-8')).join('\n');
         res.setHeader('Content-Type', 'application/javascript');
         res.end(bundle);
       }
       catch (e) {
         res.statusCode = 500;
-        res.end(`console.error('kit failed: ${e.message}')`);
+        res.setHeader('Content-Type', 'application/javascript');
+        res.end(`console.error(${JSON.stringify('kit failed: ' + e.message)})`);
       }
     });
   }
