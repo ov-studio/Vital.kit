@@ -1,5 +1,5 @@
-import * as react    from 'react-dom/client';
-import { MainMenu } from './mainmenu.jsx';
+import * as react from 'react-dom/client';
+import * as app_mainmenu from './mainmenu.jsx';
 import './index.css';
 
 // Globally disable Tab-driven focus traversal (mirrors console behaviour).
@@ -8,4 +8,4 @@ document.addEventListener('keydown', (e) => {
 }, true);
 
 const root = react.createRoot(document.getElementById('root'));
-root.render(<MainMenu />);
+root.render(<app_mainmenu.MainMenu />);
