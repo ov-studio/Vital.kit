@@ -1,6 +1,6 @@
-import * as react    from 'react';
-import * as app_util from './util';
-import * as shared_ui_iconbutton from './shared-ui/iconbutton/index.jsx';
+import * as react                from 'react';
+import * as app_util             from './util';
+import * as shared_ui_iconbutton from '../../../shared/ui/iconbutton/index.jsx';
 
 export const FilterButton = ({ type, label, count, is_active, on_click, color, bg_alpha, border_alpha }) => (
   <div
