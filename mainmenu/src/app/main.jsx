@@ -1,4 +1,4 @@
-import * as react from 'react-dom/client';
+import * as react        from 'react-dom/client';
 import * as app_mainmenu from './mainmenu.jsx';
 import './index.css';
 
