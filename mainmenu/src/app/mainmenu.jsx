@@ -4,11 +4,11 @@ import {
   Download, X, LayoutList, Search as SearchIcon
 } from 'lucide-react';
 import { SERVERS, FEATURED, BANNERS, LOGOS, shuffle } from './data.jsx';
-import { IconButton } from './shared-ui/iconbutton/index.jsx';
-import { TagPill }    from './shared-ui/tagpill/index.jsx';
-import { Filter }     from './shared-ui/filter/index.jsx';
-import { Search }     from './shared-ui/search/index.jsx';
-import { Card }       from './shared-ui/card/index.jsx';
+import { IconButton } from '../../../shared/ui/iconbutton/index.jsx';
+import { TagPill }    from '../../../shared/ui/tagpill/index.jsx';
+import { Filter }     from '../../../shared/ui/filter/index.jsx';
+import { Search }     from '../../../shared/ui/search/index.jsx';
+import { Card }       from '../../../shared/ui/card/index.jsx';
 
 /* ─────────────────────── tiny helpers ─────────────────────── */
 const pct  = (p, m) => Math.round(p / m * 100);
