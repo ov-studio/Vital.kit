@@ -1,9 +1,14 @@
 import { useState, useEffect, useLayoutEffect, useRef, useMemo } from 'react';
 import {
   LayoutGrid, Star, Flame, Settings, Play, UsersRound, ExternalLink,
-  Download, X, LayoutList, Search
+  Download, X, LayoutList, Search as SearchIcon
 } from 'lucide-react';
 import { SERVERS, FEATURED, BANNERS, LOGOS, shuffle } from './data.jsx';
+import { IconButton } from './shared-ui/iconbutton/index.jsx';
+import { TagPill }    from './shared-ui/tagpill/index.jsx';
+import { Filter }     from './shared-ui/filter/index.jsx';
+import { Search }     from './shared-ui/search/index.jsx';
+import { Card }       from './shared-ui/card/index.jsx';
 
 /* ─────────────────────── tiny helpers ─────────────────────── */
 const pct  = (p, m) => Math.round(p / m * 100);
@@ -75,19 +80,6 @@ function DiscordSvg({ size = 11 }) {
 // Wraps any icon in a consistent square button. All pointer events are
 // handled by the button element itself — children have pointer-events:none
 // via CSS so every pixel of the hit area reliably fires onClick.
-function IconButton({ icon, title, onClick, className = '' }) {
-  return (
-    <button
-      className={`hud-icon-btn${className ? ` ${className}` : ''}`}
-      title={title}
-      onClick={onClick}
-    >
-      {icon}
-    </button>
-  );
-}
-
-
 function GameCard({ server, banner, logo, isFav, onToggleFav, style, showTag }) {
   const p    = server.players;
   const m    = server.max;
@@ -95,16 +87,18 @@ function GameCard({ server, banner, logo, isFav, onToggleFav, style, showTag }) 
   const abbr = server.name.split(' ').map(w => w[0]).join('').slice(0, 2);
 
   return (
-    <div className="gcard" style={style}>
-      <div className="gc-cover">
-        <img src={banner} alt={server.name} onError={e => e.target.style.opacity = '0'} />
-      </div>
-      <div className="gc-scrim" />
-
-      <div className="gc-top">
-        <div className="gc-top-left">
-          {showTag && <span className="tag-pill gc-tag">#{server.genre}</span>}
-        </div>
+    <Card
+      className="gcard"
+      style={style}
+      cover={banner}
+      coverAlt={server.name}
+      onCoverError={e => e.target.style.opacity = '0'}
+      coverClassName="gc-cover"
+      scrimClassName="gc-scrim"
+      topClassName="gc-top"
+      topLeftClassName="gc-top-left"
+      topLeft={showTag && <TagPill label={server.genre} className="gc-tag" />}
+      topRight={
         <button
           className={`gc-fav${isFav ? ' on' : ''}`}
           onClick={e => { e.stopPropagation(); onToggleFav(server.name); }}
@@ -114,12 +108,15 @@ function GameCard({ server, banner, logo, isFav, onToggleFav, style, showTag }) 
             <path d="M7 2l1.6 3.3 3.6.5-2.6 2.6.6 3.6L7 10.4l-3.2 1.6.6-3.6L1.8 5.8l3.6-.5z"/>
           </svg>
         </button>
-      </div>
-
-      <div className="gc-body">
-        <div className="gc-name">{server.name}</div>
-        <div className="gc-desc">{server.desc}</div>
-        <div className="gc-foot">
+      }
+      bodyClassName="gc-body"
+      title={server.name}
+      titleClassName="gc-name"
+      description={server.desc}
+      descriptionClassName="gc-desc"
+      footerClassName="gc-foot"
+      footer={
+        <>
           <div className="gc-stat">
             <UsersRound size={11} fill="currentColor" />
             <strong>{p}</strong>/{m}
@@ -148,9 +145,9 @@ function GameCard({ server, banner, logo, isFav, onToggleFav, style, showTag }) 
               )
             }
           </div>
-        </div>
-      </div>
-    </div>
+        </>
+      }
+    />
   );
 }
 
@@ -453,38 +450,25 @@ function ViewMasterlist({ favs, onToggleFav }) {
       </div>
 
       <div className="mlist-filters">
-        <div className="mlist-filter-tags">
-          <button
-            className={`mlist-filter-btn${activeTag === null ? ' active' : ''}`}
-            onClick={() => setActiveTag(null)}
-          >All</button>
-          {ALL_GENRES.map(tag => (
-            <button
-              key={tag}
-              className={`mlist-filter-btn${activeTag === tag ? ' active' : ''}`}
-              onClick={() => setActiveTag(t => t === tag ? null : tag)}
-            >{tag}</button>
-          ))}
-        </div>
-
-        <div className="mlist-search">
-          <Search size={14} strokeWidth={2.5} />
-          <input
-            type="text"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder="Search servers…"
-            aria-label="Search"
-            spellCheck={false}
-            autoCorrect="off"
-            autoCapitalize="off"
-          />
-        </div>
+        <Filter
+          className="mlist-filter-tags"
+          buttonClassName="mlist-filter-btn"
+          tags={ALL_GENRES}
+          active={activeTag}
+          onChange={setActiveTag}
+        />
+        <Search
+          className="mlist-search"
+          value={search}
+          onChange={setSearch}
+          placeholder="Search servers…"
+          icon={<SearchIcon size={14} strokeWidth={2.5} />}
+        />
       </div>
 
       {results.length === 0 ? (
         <div className="empty-state">
-          <Search size={40} strokeWidth={1.4} />
+          <SearchIcon size={40} strokeWidth={1.4} />
           <h3>No Servers Found</h3>
           <p>Try a different search term or clear the active filter.</p>
         </div>
