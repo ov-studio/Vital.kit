@@ -89,7 +89,7 @@ body,
   letter-spacing: .06em;
   text-transform: uppercase;
   border-radius: 4px;
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   background: transparent;
   opacity: 0.42;
   cursor: pointer;
@@ -101,15 +101,6 @@ body,
   opacity: 1;
   border-color: color-mix(in srgb, currentColor 40%, transparent);
   background: color-mix(in srgb, currentColor 8%, transparent);
-}
-
-.filter-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: currentColor;
-  flex-shrink: 0;
-  box-shadow: 0 0 6px currentColor;
 }
 
 .filter-count {

@@ -10,7 +10,6 @@ export const FilterButton = ({ type, label, count, is_active, on_click, color, b
     onClick={on_click}
     style={app_util.color_style(color, { bg_alpha, border_alpha })}
   >
-    <span className="filter-dot" aria-hidden="true" />
     {label}
     {count > 0 && <span className="filter-count"> ({count})</span>}
   </button>
