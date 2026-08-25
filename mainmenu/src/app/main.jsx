@@ -1,6 +1,11 @@
 import * as react        from 'react-dom/client';
 import * as app_mainmenu from './mainmenu.jsx';
+import { install_dev_ipc_stub } from '../../../shared/dev-ipc.js';
 import './index.css';
+
+if (import.meta.env.DEV) {
+  await install_dev_ipc_stub();
+}
 
 // Globally disable Tab-driven focus traversal (mirrors console behaviour).
 document.addEventListener('keydown', (e) => {
