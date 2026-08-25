@@ -292,7 +292,7 @@ body,
 .input-bar {
   display: flex;
   align-items: center;
-  height: 42px;
+  height: 48px;
   padding: 12px 12px;
   gap: 8px;
   background: var(--bg);
@@ -320,8 +320,8 @@ body,
 .console-cmd input {
   width: 100%;
   flex: 1;
-  padding: 6px 12px 6px 30px;
-  font-weight: 500;
+  padding: 8px 12px 8px 30px;
+  font-weight: 400;
   color: var(--white);
   border: none;
   background: var(--b20);
