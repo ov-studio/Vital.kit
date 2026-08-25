@@ -452,7 +452,6 @@ function ViewMasterlist({ favs, onToggleFav }) {
       <div className="mlist-filters">
         <Filter
           className="mlist-filter-tags"
-          buttonClassName="mlist-filter-btn"
           tags={ALL_GENRES}
           active={activeTag}
           onChange={setActiveTag}
