@@ -51,14 +51,14 @@ export const Console = () => {
   }, [logs, level_meta, seed_meta]);
 
   const deactivated_ref = react.useRef(new Set());
-
+  const [filter_tick, force_update] = react.useReducer(x => x + 1, 0);
   const active_filters = react.useMemo(() => {
     const result = new Set();
     level_types_ref.current.forEach(t => {
       if (!deactivated_ref.current.has(t)) result.add(t);
     });
     return result;
-  }, [logs, seed_meta]);
+  }, [logs, seed_meta, filter_tick]);
 
   const log_counts = react.useMemo(() => {
     const counts = Object.fromEntries(level_types.map(t => [t, 0]));
@@ -186,8 +186,6 @@ export const Console = () => {
     }
   }, [command_input, command_history, history_index, temp_input, handle_command, bind_key]);
 
-  const [, force_update] = react.useReducer(x => x + 1, 0);
-
   const toggle_filter = react.useCallback((type) => {
     if (type === 'all') {
       const all_active = level_types_ref.current.every(t => !deactivated_ref.current.has(t));
@@ -282,7 +280,7 @@ export const Console = () => {
       <div className={`header ${is_dragging ? 'dragging' : ''}`} onMouseDown={handle_mouse_down}>
         <div className="header-top">
           <span className="slabel">Console</span>
-          <span className="count">#{total_count}</span>
+          <shared_ui_tagpill.TagPill label={total_count} className="count" />
         </div>
         <div className="header-bottom">
           <div className="filters">
