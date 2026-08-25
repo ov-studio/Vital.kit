@@ -1,45 +1,20 @@
-import * as fs             from 'fs';
-import * as path           from 'path';
-import * as vite           from 'vite';
-import * as react          from '@vitejs/plugin-react';
-import * as viteSingleFile from 'vite-plugin-singlefile';
-
-const kit_plugin = () => ({
-  name: 'kit',
-  configureServer(server) {
-    server.middlewares.use('/kit', (req, res) => {
-      try {
-        const manifest_path = path.resolve(__dirname, '../../module/js/manifest.json');
-        const manifest = JSON.parse(fs.readFileSync(manifest_path, 'utf-8'));
-        const bundle = manifest.sources
-          .map(src => fs.readFileSync(path.resolve(__dirname, '../../module/js', src), 'utf-8'))
-          .join('\n');
-        res.setHeader('Content-Type', 'application/javascript');
-        res.end(bundle);
-      }
-      catch (e) {
-        res.statusCode = 500;
-        res.setHeader('Content-Type', 'application/javascript');
-        res.end(`console.error(${JSON.stringify('kit failed: ' + e.message)})`);
-      }
-    });
-  }
-});
+import * as fs                from 'fs';
+import * as path              from 'path';
+import * as vite              from 'vite';
+import * as react             from '@vitejs/plugin-react';
+import * as vite_singlefile   from 'vite-plugin-singlefile';
+import * as shared_kit_plugin from '../../shared/kit-plugin.js';
 
 export default vite.defineConfig({
   plugins: [
     react.default(),
-    // Bundles the entire app (JS + CSS) into one dist/index.html with
-    // no separate asset files. Drop that single file straight into
-    // Godot's WebView — no server, no relative-path asset management.
-    viteSingleFile.viteSingleFile(),
-    kit_plugin()
+    vite_singlefile.vite_singlefile(),
+    shared_kit_plugin.kit_plugin()
   ],
+
   build: {
     outDir: '../build',
     assetsInlineLimit: 100000000,
-    // Conservative target: runs inside Godot's native WebView backend
-    // (WebView2/Chromium on Windows, WebKitGTK on Linux, WKWebView on macOS).
     target: 'es2022'
   }
 });
