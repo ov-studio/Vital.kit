@@ -25,7 +25,7 @@ body,
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: var(--bg9);
+  background: transparent;
   border: 2px solid var(--rule);
   box-shadow:
     0 0 0 1px var(--shadow-inset) inset,
@@ -163,7 +163,7 @@ body,
   overflow-y: auto;
   overflow-x: hidden;
   padding: 6px 0;
-  background: color-mix(in srgb, var(--bg7) 40%, transparent);
+  background: color-mix(in srgb, var(--bg7) 99%, transparent);
 }
 .log-body::-webkit-scrollbar { width: 5px; }
 .log-body::-webkit-scrollbar-thumb {
