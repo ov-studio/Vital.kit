@@ -9,6 +9,7 @@ export default vite.defineConfig({
     vite_singlefile.vite_singlefile(),
     shared_kit_plugin.kit_plugin()
   ],
+  
   build: {
     outDir: '../build',
     assetsInlineLimit: 100000000,
