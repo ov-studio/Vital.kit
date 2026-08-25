@@ -54,6 +54,11 @@ body,
 
 .header-top .count {
   margin-left: auto;
+  font-size: 0.9rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  color: var(--text-faint);
 }
 
 .header-bottom {
