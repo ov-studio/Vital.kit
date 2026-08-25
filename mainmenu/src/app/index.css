@@ -160,6 +160,7 @@ input[type="text"], input:not([type]) { cursor: text }
 .hud-nav-link .ext-ico { width: 10px; height: 10px; opacity: .45; }
 .hud-nav-link:hover .ext-ico { opacity: .7; }
 
+.ui-icon-btn.hud-icon-btn,
 .hud-icon-btn {
   width: 36px;
   height: 36px;
@@ -175,11 +176,17 @@ input[type="text"], input:not([type]) { cursor: text }
   transition: all .14s;
   /* ensure all child elements pass clicks through to the button */
 }
+.ui-icon-btn.hud-icon-btn:hover,
 .hud-icon-btn:hover { background: var(--selection-bg); }
+.ui-icon-btn.hud-icon-btn:focus-visible,
 .hud-icon-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.ui-icon-btn.hud-icon-btn svg,
 .hud-icon-btn svg,
+.ui-icon-btn.hud-icon-btn *,
 .hud-icon-btn * { pointer-events: none; width: 15px; height: 15px; color: var(--text-muted); transition: color .14s; }
+.ui-icon-btn.hud-icon-btn:hover svg,
 .hud-icon-btn:hover svg,
+.ui-icon-btn.hud-icon-btn:hover *,
 .hud-icon-btn:hover * { color: var(--selection-text); }
 
 /* ── CENTER CONTENT ── */

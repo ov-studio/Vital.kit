@@ -628,8 +628,19 @@ export function MainMenu() {
               Donate <ExtIco />
             </a>
           </nav>
-          <IconButton icon={<Download size={15} />} title="Downloads" />
-          <IconButton icon={<X size={15} />} title="Exit Game" onClick={handleExit} />
+          <IconButton
+            className="hud-icon-btn"
+            icon={Download}
+            iconProps={{ size: 15, strokeWidth: 2.2 }}
+            title="Downloads"
+          />
+          <IconButton
+            className="hud-icon-btn"
+            icon={X}
+            iconProps={{ size: 15, strokeWidth: 2.2 }}
+            title="Exit Game"
+            onClick={handleExit}
+          />
         </div>
       </header>
 
