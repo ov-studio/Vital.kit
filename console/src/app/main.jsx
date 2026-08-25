@@ -1,14 +1,14 @@
-import * as react       from 'react-dom/client';
-import * as app_console from './console.jsx';
-import { install_dev_ipc_stub, dispatch_dev_message } from '../../../shared/dev-ipc.js';
+import * as react          from 'react-dom/client';
+import * as app_console    from './console.jsx';
+import * as shared_dev_ipc from '../../../shared/dev-ipc.js';
 import './index.css';
 
 
 if (import.meta.env.DEV) {
-  await install_dev_ipc_stub();
+  await shared_dev_ipc.install_dev_ipc_stub();
 
   window.addEventListener('console-mounted', () => {
-    dispatch_dev_message({
+    shared_dev_ipc.dispatch_dev_message({
       action: 'init',
       bind: 'f1',
       types: {
@@ -30,11 +30,11 @@ if (import.meta.env.DEV) {
     ];
 
     sample_logs.forEach((log, i) => {
-      setTimeout(() => dispatch_dev_message({ action: 'print', ...log }), 300 * (i + 1));
+      setTimeout(() => shared_dev_ipc.dispatch_dev_message({ action: 'print', ...log }), 300 * (i + 1));
     });
 
-    setTimeout(() => dispatch_dev_message({ action: 'print', mode: 'warn', message: 'Texture `player_atlas.dds` missing mip levels, falling back to `auto`' }), 2600);
-    setTimeout(() => dispatch_dev_message({ action: 'print', mode: 'warn', message: 'Texture `player_atlas.dds` missing mip levels, falling back to `auto`' }), 2900);
+    setTimeout(() => shared_dev_ipc.dispatch_dev_message({ action: 'print', mode: 'warn', message: 'Texture `player_atlas.dds` missing mip levels, falling back to `auto`' }), 2600);
+    setTimeout(() => shared_dev_ipc.dispatch_dev_message({ action: 'print', mode: 'warn', message: 'Texture `player_atlas.dds` missing mip levels, falling back to `auto`' }), 2900);
 
     setTimeout(() => {
       const spam_messages = [
@@ -45,7 +45,7 @@ if (import.meta.env.DEV) {
       ];
       let spam_i = 0;
       setInterval(() => {
-        dispatch_dev_message({ action: 'print', ...spam_messages[spam_i % spam_messages.length] });
+        shared_dev_ipc.dispatch_dev_message({ action: 'print', ...spam_messages[spam_i % spam_messages.length] });
         spam_i++;
       }, 50);
     }, 2900);
