@@ -2,24 +2,25 @@
 // global `ipc` object (for outgoing messages) and dispatches a "message"
 // CustomEvent on `document` (for incoming data). Neither exists in a plain
 // browser, so during `npm run dev` this fetches the bundled game module
-// through each app's `/kit` middleware (see vite.config.js) and stubs
-// `ipc` so postMessage calls have somewhere to go.
+// through each app's `/kit` middleware (see shared/kit-plugin.js) and
+// stubs `ipc` so postMessage calls have somewhere to go.
 //
-// import.meta.env.DEV is true only for `npm run dev` — Vite's production
-// build statically strips any `if (import.meta.env.DEV)` block around a
-// call to this, so it never ships to Godot. No manual cleanup needed.
+// Guards internally on import.meta.env.DEV, so callers don't need to wrap
+// this in their own DEV check — Vite statically replaces DEV at every
+// usage site (including inside this shared module) and dead-code-eliminates
+// the unreachable body in production builds. No manual cleanup needed.
 
 export async function install_dev_ipc_stub() {
-  if (!import.meta.env.DEV) return;
+  if (import.meta.env.DEV) {
+    new Function(await (await fetch('/kit')).text())();
 
-  new Function(await (await fetch('/kit')).text())();
-
-  if (!window.ipc) {
-    window.ipc = {
-      postMessage(json) {
-        console.log('[ipc -> godot]', JSON.parse(json));
-      }
-    };
+    if (!window.ipc) {
+      window.ipc = {
+        postMessage(json) {
+          console.log('[ipc -> godot]', JSON.parse(json));
+        }
+      };
+    }
   }
 }
 
