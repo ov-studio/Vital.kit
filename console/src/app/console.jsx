@@ -4,6 +4,7 @@ import * as app_config     from './config';
 import * as app_util       from './util';
 import * as app_components from './components';
 import * as shared_ui_iconbutton from '../../../shared/ui/iconbutton/index.jsx';
+import * as shared_ui_tagpill from '../../../shared/ui/tagpill/index.jsx';
 
 export const Console = () => {
   const [logs, set_logs] = react.useState([]);
@@ -281,7 +282,7 @@ export const Console = () => {
       <div className={`header ${is_dragging ? 'dragging' : ''}`} onMouseDown={handle_mouse_down}>
         <div className="header-top">
           <span className="slabel">Console</span>
-          <span className="count">#{total_count}</span>
+          <shared_ui_tagpill.TagPill label={total_count} className="count" />
         </div>
         <div className="header-bottom">
           <div className="filters">
