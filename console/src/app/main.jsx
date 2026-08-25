@@ -1,36 +1,14 @@
 import * as react       from 'react-dom/client';
 import * as app_console from './console.jsx';
+import { install_dev_ipc_stub, dispatch_dev_message } from '../../../shared/dev-ipc.js';
 import './index.css';
 
 
-// In production this page runs inside a Godot WebView. Godot injects a
-// global `ipc` object (for outgoing messages) and dispatches a "message"
-// CustomEvent on `document` (for incoming data: init/print/clear). Neither
-// exists in a plain browser, so during `npm run dev` this stubs `ipc` and
-// fires fake events so the console UI has something to show.
-//
-// import.meta.env.DEV is true only for `npm run dev` - Vite's production
-// build (`npm run build`) statically strips this entire block out, so it
-// never ships to Godot. No manual cleanup needed.
 if (import.meta.env.DEV) {
-  new Function(await (await fetch('/kit')).text())();
-
-  if (!window.ipc) {
-    window.ipc = {
-      postMessage(json) {
-        console.log('[ipc -> godot]', JSON.parse(json));
-      }
-    };
-  }
-
-  const send = (action_payload) => {
-    document.dispatchEvent(new CustomEvent('message', {
-      detail: JSON.stringify(action_payload)
-    }));
-  };
+  await install_dev_ipc_stub();
 
   window.addEventListener('console-mounted', () => {
-    send({
+    dispatch_dev_message({
       action: 'init',
       bind: 'f1',
       types: {
@@ -52,11 +30,11 @@ if (import.meta.env.DEV) {
     ];
 
     sample_logs.forEach((log, i) => {
-      setTimeout(() => send({ action: 'print', ...log }), 300 * (i + 1));
+      setTimeout(() => dispatch_dev_message({ action: 'print', ...log }), 300 * (i + 1));
     });
 
-    setTimeout(() => send({ action: 'print', mode: 'warn', message: 'Texture `player_atlas.dds` missing mip levels, falling back to `auto`' }), 2600);
-    setTimeout(() => send({ action: 'print', mode: 'warn', message: 'Texture `player_atlas.dds` missing mip levels, falling back to `auto`' }), 2900);
+    setTimeout(() => dispatch_dev_message({ action: 'print', mode: 'warn', message: 'Texture `player_atlas.dds` missing mip levels, falling back to `auto`' }), 2600);
+    setTimeout(() => dispatch_dev_message({ action: 'print', mode: 'warn', message: 'Texture `player_atlas.dds` missing mip levels, falling back to `auto`' }), 2900);
 
     setTimeout(() => {
       const spam_messages = [
@@ -67,7 +45,7 @@ if (import.meta.env.DEV) {
       ];
       let spam_i = 0;
       setInterval(() => {
-        send({ action: 'print', ...spam_messages[spam_i % spam_messages.length] });
+        dispatch_dev_message({ action: 'print', ...spam_messages[spam_i % spam_messages.length] });
         spam_i++;
       }, 50);
     }, 2900);
