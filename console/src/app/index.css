@@ -25,7 +25,7 @@ body,
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: var(--bg7);
+  background: var(--bg9);
   border: 2px solid var(--rule);
   box-shadow:
     0 0 0 1px var(--shadow-inset) inset,
@@ -303,7 +303,7 @@ body,
   display: flex;
   align-items: center;
   height: 42px;
-  padding: 0 12px;
+  padding: 12px 12px;
   gap: 8px;
   background: var(--bg5);
   border-top: 1px solid var(--rule);
@@ -332,12 +332,12 @@ body,
   width: 100%;
   flex: 1;
   padding: 6px 12px 6px 30px;
+  border: none;
 }
 
 /* Don't expand on focus like vault search — stay full width */
 .console-cmd input:focus {
   width: 100%;
-  border-color: var(--b20);
 }
 
 .ui-icon-btn.input-send-btn,
