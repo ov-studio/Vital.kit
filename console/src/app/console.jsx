@@ -1,10 +1,10 @@
-import * as react          from 'react';
-import * as lucide         from 'lucide-react';
-import * as app_config     from './config';
-import * as app_util       from './util';
-import * as app_components from './components';
+import * as react                from 'react';
+import * as lucide               from 'lucide-react';
+import * as app_config           from './config';
+import * as app_util             from './util';
+import * as app_components       from './components';
+import * as shared_ui_tagpill    from '../../../shared/ui/tagpill/index.jsx';
 import * as shared_ui_iconbutton from '../../../shared/ui/iconbutton/index.jsx';
-import * as shared_ui_tagpill from '../../../shared/ui/tagpill/index.jsx';
 
 export const Console = () => {
   const [logs, set_logs] = react.useState([]);
