@@ -49,12 +49,11 @@ body,
 }
 
 .header-top .slabel {
-  margin-bottom: 0;
-}
+  margin-botto}
 
-.header-top .count {
-  margin-left: auto;
-  font-family: 'Rajdhani', sans-serif;
+.header-bottom {
+  display: flex;
+  align-items:  font-family: 'Rajdhani', sans-serif;
   font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: -.01em;
@@ -200,9 +199,9 @@ body,
 
 .log-ts {
   font-family: 'Geist Mono', 'Geist', monospace;
-  font-size: .68rem;
+  font-size: .72rem;
   font-weight: 600;
-  letter-spacing: .04em;
+  letter-spacing: .065em;
   color: var(--text-dim2, var(--text-faint));
   min-width: 64px;
   margin-right: 14px;
@@ -224,7 +223,7 @@ body,
 
 .log-msg {
   flex: 1;
-  font-size: .78rem;
+  font-size: .8rem;
   font-weight: 400;
   letter-spacing: .01em;
   line-height: 1.45;
@@ -269,7 +268,7 @@ body,
   padding: 1px 6px;
   border-radius: 3px;
   font-family: 'Geist Mono', 'Geist', monospace;
-  font-size: .72em;
+  font-size: 0.9em;
   font-weight: 500;
   border: 1px solid transparent;
   vertical-align: baseline;
@@ -325,6 +324,22 @@ body,
   color: var(--white);
   border: none;
   background: color-mix(in srgb, var(--b20) 70%, transparent);
+  border-radius: 4px;
+  transition: background .15s;
+}
+
+.console-cmd input:focus {
+  width: 100%;
+  background: var(--b20);
+}
+
+.ui-icon-btn.input-send-btn,
+.input-send-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+ansparent);
   border-radius: 4px;
   transition: background .15s;
 }
