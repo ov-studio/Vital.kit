@@ -1,34 +1,13 @@
-import * as fs             from 'fs';
-import * as path           from 'path';
-import * as vite           from 'vite';
-import * as viteSingleFile from 'vite-plugin-singlefile';
-
-const kit_plugin = () => ({
-  name: 'kit',
-  configureServer(server) {
-    server.middlewares.use('/kit', (req, res) => {
-      try {
-        const manifest_path = path.resolve(__dirname, '../../module/js/manifest.json');
-        const manifest = JSON.parse(fs.readFileSync(manifest_path, 'utf-8'));
-        const bundle = manifest.sources
-          .map(src => fs.readFileSync(path.resolve(__dirname, '../../module/js', src), 'utf-8'))
-          .join('\n');
-        res.setHeader('Content-Type', 'application/javascript');
-        res.end(bundle);
-      }
-      catch (e) {
-        res.statusCode = 500;
-        res.setHeader('Content-Type', 'application/javascript');
-        res.end(`console.error(${JSON.stringify('kit failed: ' + e.message)})`);
-      }
-    });
-  }
-});
+import * as fs                from 'fs';
+import * as path              from 'path';
+import * as vite              from 'vite';
+import * as vite_singlefile   from 'vite-plugin-singlefile';
+import * as shared_kit_plugin from '../../shared/kit-plugin.js';
 
 export default vite.defineConfig({
   plugins: [
-    viteSingleFile.viteSingleFile(),
-    kit_plugin()
+    vite_singlefile.vite_singlefile(),
+    shared_kit_plugin.kit_plugin()
   ],
   build: {
     outDir: '../build',
