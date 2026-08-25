@@ -333,23 +333,7 @@ body,
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-ansparent);
-  border-radius: 4px;
-  transition: background .15s;
-}
-
-.console-cmd input:focus {
-  width: 100%;
-  background: var(--b20);
-}
-
-.ui-icon-btn.input-send-btn,
-.input-send-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
+  width: 32px;
   height: 32px;
   flex-shrink: 0;
   padding: 0;
