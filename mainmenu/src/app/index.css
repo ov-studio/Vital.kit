@@ -621,7 +621,6 @@ input[type="text"], input:not([type]) { cursor: text }
   display: flex;
   align-items: flex-end;
   gap: 2px;
-  margin-bottom: 18px;
 }
 
 .mlist-filter-tags {

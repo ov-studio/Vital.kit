@@ -21,6 +21,7 @@ const FILES = [
   'tagpill/index.jsx', 'tagpill/index.css',
   'filter/index.jsx', 'filter/index.css',
   'search/index.jsx', 'search/index.css',
+  'divider/index.jsx', 'divider/index.css'
 ];
 
 async function fetch_file(rel_path) {

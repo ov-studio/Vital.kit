@@ -8,6 +8,7 @@ import { IconButton } from '../../../shared/ui/iconbutton/index.jsx';
 import { TagPill }    from '../../../shared/ui/tagpill/index.jsx';
 import { Filter }     from '../../../shared/ui/filter/index.jsx';
 import { Search }     from '../../../shared/ui/search/index.jsx';
+import { Divider }    from '../../../shared/ui/divider/index.jsx';
 import { Card }       from '../../../shared/ui/card/index.jsx';
 
 /* ─────────────────────── tiny helpers ─────────────────────── */
@@ -464,6 +465,7 @@ function ViewMasterlist({ favs, onToggleFav }) {
           icon={<SearchIcon size={14} strokeWidth={2.5} />}
         />
       </div>
+      <Divider />
 
       {results.length === 0 ? (
         <div className="empty-state">
