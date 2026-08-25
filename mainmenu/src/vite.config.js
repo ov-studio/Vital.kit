@@ -8,7 +8,7 @@ import * as shared_kit_plugin from '../../shared/kit-plugin.js';
 export default vite.defineConfig({
   plugins: [
     react.default(),
-    vite_singlefile.vite_singlefile(),
+    vite_singlefile.viteSingleFile(),
     shared_kit_plugin.kit_plugin()
   ],
 
