@@ -355,7 +355,7 @@ export const Console = () => {
         <shared_ui_iconbutton.IconButton
           className={`input-send-btn${command_input.trim() ? ' active' : ''}`}
           icon={lucide.SendHorizontal}
-          iconProps={{ size: 13, strokeWidth: 2.5 }}
+          iconProps={{ size: 13, strokeWidth: 2.5, fill: "currentColor" }}
           title="Send"
           onClick={handle_send}
         />
