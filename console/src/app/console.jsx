@@ -282,7 +282,7 @@ export const Console = () => {
       <div className={`header ${is_dragging ? 'dragging' : ''}`} onMouseDown={handle_mouse_down}>
         <div className="header-top">
           <span className="slabel">Console</span>
-          <shared_ui_tagpill.TagPill label={total_count} className="count" />
+          <span className="count">#{total_count}</span>
         </div>
         <div className="header-bottom">
           <div className="filters">
