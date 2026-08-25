@@ -3,16 +3,17 @@ import * as app_util             from './util';
 import * as shared_ui_iconbutton from '../../../shared/ui/iconbutton/index.jsx';
 
 export const FilterButton = ({ type, label, count, is_active, on_click, color, bg_alpha, border_alpha }) => (
-  <div
-    className={`filter ${is_active ? 'active' : ''}`}
+  <button
+    type="button"
+    className={`filter${is_active ? ' active' : ''}`}
     data-type={type}
     onClick={on_click}
     style={app_util.color_style(color, { bg_alpha, border_alpha })}
   >
-    <div className="filter-dot"></div>
+    <span className="filter-dot" aria-hidden="true" />
     {label}
     {count > 0 && <span className="filter-count"> ({count})</span>}
-  </div>
+  </button>
 );
 
 export const ActionButton = ({ icon, label, on_click }) => (
@@ -20,6 +21,7 @@ export const ActionButton = ({ icon, label, on_click }) => (
     className="action-btn"
     icon={icon}
     iconProps={{ size: 13, strokeWidth: 2.6 }}
+    title={label}
     label={label}
     onClick={on_click}
   />
@@ -43,7 +45,7 @@ export const LogRow = ({ type, badge, color, timestamp, message, repeat_count, i
   const is_multiline = lines.length > 1;
   return (
     <div
-      className={`log-row ${type} ${is_hidden ? 'hidden' : ''} ${is_multiline ? 'log-row-multiline' : ''}`}
+      className={`log-row ${type}${is_hidden ? ' hidden' : ''}${is_multiline ? ' log-row-multiline' : ''}`}
       style={{ color: rgb_to_css(rgb_lighten(color, 0.05)) }}
     >
       <span className="log-ts">{timestamp}</span>
@@ -56,9 +58,7 @@ export const LogRow = ({ type, badge, color, timestamp, message, repeat_count, i
         ))}
       </div>
       {repeat_count > 1 && (
-        <span className="badge">
-          x{repeat_count}
-        </span>
+        <span className="badge">x{repeat_count}</span>
       )}
     </div>
   );

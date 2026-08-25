@@ -3,6 +3,7 @@ import * as lucide         from 'lucide-react';
 import * as app_config     from './config';
 import * as app_util       from './util';
 import * as app_components from './components';
+import * as shared_ui_iconbutton from '../../../shared/ui/iconbutton/index.jsx';
 
 export const Console = () => {
   const [logs, set_logs] = react.useState([]);
@@ -200,7 +201,7 @@ export const Console = () => {
   }, []);
 
   const handle_mouse_down = react.useCallback((e) => {
-    if (e.target.closest('.action-btn, .filter')) return;
+    if (e.target.closest('.action-btn, .filter, .input-send-btn, .console-cmd')) return;
 
     e.preventDefault();
     set_is_dragging(true);
@@ -279,7 +280,7 @@ export const Console = () => {
     <div ref={console_ref} className="console" style={{ left: `${position.x}px`, top: `${position.y}px`, width: size.width, height: size.height }}>
       <div className={`header ${is_dragging ? 'dragging' : ''}`} onMouseDown={handle_mouse_down}>
         <div className="header-top">
-          <span className="slabel">IG-Console</span>
+          <span className="slabel">Console</span>
           <span className="count">#{total_count}</span>
         </div>
         <div className="header-bottom">
@@ -312,7 +313,12 @@ export const Console = () => {
       </div>
 
       <div ref={log_body_ref} className="log-body" onScroll={handle_scroll} onMouseDown={handle_log_mousedown}>
-        {logs.map(log => {
+        {logs.length === 0 ? (
+          <div className="log-empty">
+            <span className="slabel">No logs yet</span>
+            <span>Messages from the runtime will appear here</span>
+          </div>
+        ) : logs.map(log => {
           const meta = level_meta[log.type] ?? {};
           return (
             <app_components.LogRow
@@ -331,24 +337,28 @@ export const Console = () => {
       </div>
 
       <div className="input-bar">
-        <span className="input-prompt">❯</span>
-        <input
-          ref={input_ref}
-          className="input-field"
-          value={command_input}
-          onChange={(e) => set_command_input(e.target.value)}
-          placeholder="Enter command or expression..."
-          autoComplete="off"
-          spellCheck="false"
-        />
-        <button
+        <div className="ui-search console-cmd">
+          <span className="input-prompt" aria-hidden="true">❯</span>
+          <input
+            ref={input_ref}
+            type="text"
+            value={command_input}
+            onChange={(e) => set_command_input(e.target.value)}
+            placeholder="Enter command or expression…"
+            aria-label="Command"
+            autoComplete="off"
+            spellCheck="false"
+            autoCorrect="off"
+            autoCapitalize="off"
+          />
+        </div>
+        <shared_ui_iconbutton.IconButton
           className={`input-send-btn${command_input.trim() ? ' active' : ''}`}
+          icon={lucide.SendHorizontal}
+          iconProps={{ size: 13, strokeWidth: 2.5 }}
+          title="Send"
           onClick={handle_send}
-          tabIndex={-1}
-          aria-label="Send"
-        >
-          <lucide.SendHorizontal size={13} strokeWidth={2.5} />
-        </button>
+        />
       </div>
 
       <div className="resize-handle" onMouseDown={handle_resize_start}><span></span></div>
