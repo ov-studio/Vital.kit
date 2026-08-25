@@ -58,22 +58,3 @@ export function ripple(cx, cy, color, delay, size = 320) {
   }, delay);
 }
 
-export function burst(cx, cy, color, n, delay) {
-  setTimeout(() => {
-    for (let i = 0; i < n; i++) {
-      const p = document.createElement('div');
-      p.className = 'particle';
-      p.style.cssText = `background:${color};left:${cx}px;top:${cy}px;width:${2 + Math.random() * 3}px;height:${2 + Math.random() * 3}px`;
-      document.body.appendChild(p);
-      const a = Math.random() * Math.PI * 2;
-      const d = 50 + Math.random() * 180;
-      const dur = 700 + Math.random() * 600;
-      requestAnimationFrame(() => {
-        p.style.transition = `transform ${dur}ms cubic-bezier(.15,.8,.3,1), opacity ${dur}ms ease`;
-        p.style.transform = `translate(${Math.cos(a) * d}px,${Math.sin(a) * d}px) scale(0)`;
-        p.style.opacity = 0;
-      });
-      setTimeout(() => p.remove(), dur + 50);
-    }
-  }, delay);
-}

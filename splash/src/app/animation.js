@@ -61,8 +61,6 @@ export function run() {
       effects.ripple(CX, CY, '#fff', 50, 360);
       effects.ripple(CX, CY, BLUE, 120, 480);
       effects.ripple(CX, CY, '#fff', 220, 600);
-      effects.burst(CX, CY, '#fff', 20, 50);
-      effects.burst(CX, CY, BLUE, 16, 80);
       const sLogo = $('vital-logo');
       sLogo.style.transition = 'transform 200ms cubic-bezier(.15,1.2,.3,1), filter 200ms ease';
       sLogo.style.transform = 'scale(1.09)';
@@ -141,7 +139,6 @@ export function run() {
         effects.flash(0, '#fff');
         effects.ripple(CX, CY, BLUE, 60, 340);
         effects.ripple(CX, CY, BLUE, 160, 500);
-        effects.burst(CX, CY, BLUE, 32, 60);
 
         gStrokes.forEach(([id]) => {
           const e = $(id);

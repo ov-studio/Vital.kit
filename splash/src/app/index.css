@@ -122,12 +122,6 @@ body {
   mix-blend-mode: overlay;
 }
 
-.particle {
-  position: fixed;
-  border-radius: 50%;
-  pointer-events: none;
-}
-
 .ripple {
   position: fixed;
   border-radius: 50%;
