@@ -175,9 +175,9 @@ body,
 .log-row {
   display: flex;
   align-items: center;
-  min-height: 28px;
+  min-height: 30px;
   padding: 5px 14px;
-  margin-bottom: 1px;
+  margin-bottom: 2px;
   white-space: pre-wrap;
   word-break: break-word;
   transition: background .08s;
