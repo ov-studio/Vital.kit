@@ -136,15 +136,15 @@ body,
   padding: 0;
   border: none;
   border-radius: 4px;
-  background: var(--b10);
+  background: var(--b20);
   color: var(--text-muted);
   cursor: pointer;
   transition: background .15s, color .15s;
 }
 .ui-icon-btn.action-btn:hover,
 .action-btn:hover {
-  background: var(--b20);
-  color: var(--white);
+  background: var(--selection-bg);
+  color: var(--selection-text);
 }
 .ui-icon-btn.action-btn svg,
 .action-btn svg,
@@ -321,10 +321,11 @@ body,
   width: 100%;
   flex: 1;
   padding: 6px 12px 6px 30px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--white);
   border: none;
   background: var(--b20);
+  border-radius: 4px;
   transition: background .15s;
 }
 
