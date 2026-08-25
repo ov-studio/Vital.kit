@@ -1,13 +1,13 @@
-import * as icons     from './icons.js';
-import * as animation from './animation.js';
-import * as config    from './config.js';
-import { install_dev_ipc_stub, dispatch_dev_message } from '../../../shared/dev-ipc.js';
+import * as icons          from './icons.js';
+import * as animation      from './animation.js';
+import * as config         from './config.js';
+import * as shared_dev_ipc from '../../../shared/dev-ipc.js';
 import './index.css';
 
 
 if (import.meta.env.DEV) {
-  await install_dev_ipc_stub();
-  setTimeout(() => dispatch_dev_message({ action: 'init' }), 1);
+  await shared_dev_ipc.install_dev_ipc_stub();
+  setTimeout(() => shared_dev_ipc.dispatch_dev_message({ action: 'init' }), 1);
 }
 
 
