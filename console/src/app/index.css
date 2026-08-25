@@ -1,5 +1,3 @@
-/* Console shell — tokens from CDN theme.css / global.css */
-
 :root {
   --shadow-inset: hsla(0, 0%, 100%, 0.04);
   --shadow-outer: hsla(0, 0%, 0%, 0.55);
@@ -19,7 +17,6 @@ body,
 
 * { cursor: default; }
 
-/* ── Shell ── */
 .console {
   position: absolute;
   display: flex;
@@ -33,7 +30,6 @@ body,
   animation: console-in 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* ── Header ── */
 .header {
   display: flex;
   flex-direction: column;
@@ -52,7 +48,6 @@ body,
   gap: 10px;
 }
 
-/* .slabel from CDN global.css */
 .header-top .slabel {
   margin-bottom: 0;
 }
@@ -74,7 +69,6 @@ body,
   gap: 12px;
 }
 
-/* ── Filters (level chips) ── */
 .filters {
   display: flex;
   align-items: center;
@@ -125,7 +119,6 @@ body,
   font-weight: 600;
 }
 
-/* ── Header actions (shared IconButton + skin) ── */
 .tabbar-actions {
   display: flex;
   align-items: center;
@@ -157,7 +150,6 @@ body,
 .action-btn svg,
 .action-btn * { pointer-events: none; }
 
-/* ── Log body ── */
 .log-body {
   flex: 1;
   overflow-y: auto;
@@ -272,7 +264,6 @@ body,
 }
 .log-quote + .log-quote { margin-top: 0; }
 
-/* Inline / block code — site-like pills */
 .code-pill {
   display: inline;
   padding: 1px 6px;
@@ -298,19 +289,17 @@ body,
   border-radius: 4px;
 }
 
-/* ── Input bar ── */
 .input-bar {
   display: flex;
   align-items: center;
   height: 42px;
   padding: 12px 12px;
   gap: 8px;
-  background: var(--bg5);
+  background: var(--bg);
   border-top: 1px solid var(--rule);
   flex-shrink: 0;
 }
 
-/* Command field — CDN .ui-search + full-width console layout */
 .console-cmd {
   flex: 1;
   min-width: 0;
@@ -332,12 +321,16 @@ body,
   width: 100%;
   flex: 1;
   padding: 6px 12px 6px 30px;
+  font-weight: 600;
+  color: var(--white);
   border: none;
+  background: var(--b20);
+  transition: background .15s;
 }
 
-/* Don't expand on focus like vault search — stay full width */
 .console-cmd input:focus {
   width: 100%;
+  background: var(--b30);
 }
 
 .ui-icon-btn.input-send-btn,
@@ -355,7 +348,7 @@ body,
   background: var(--selection-bg);
   opacity: 0.4;
   cursor: default;
-  transition: opacity .15s, transform .12s;
+  transition: opacity .15s;
 }
 .ui-icon-btn.input-send-btn svg,
 .input-send-btn * { pointer-events: none; }
@@ -365,12 +358,8 @@ body,
   cursor: pointer;
 }
 .ui-icon-btn.input-send-btn.active:hover,
-.input-send-btn.active:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-}
+.input-send-btn.active:hover { opacity: 0.9; }
 
-/* ── Resize — solid corner triangle (full square hit target) ── */
 .resize-handle {
   position: absolute;
   right: 0;
@@ -379,12 +368,10 @@ body,
   height: 18px;
   cursor: se-resize;
   z-index: 5;
-  /* invisible hit box — whole corner is draggable */
   background: transparent;
 }
 .resize-handle:hover { cursor: se-resize; }
 
-/* filled triangle visual only */
 .resize-handle span {
   position: absolute;
   right: 0;
@@ -406,7 +393,8 @@ body,
 .resize-handle::before,
 .resize-handle::after { display: none; }
 
-/* ── Motion ── */
+
+/* ── Keyframes ── */
 @keyframes console-in {
   from { opacity: 0; transform: translateY(8px) scale(0.985); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
