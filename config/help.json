@@ -21,6 +21,7 @@
     
     "client": {
         "connect": { "syntax": "<ip> <port>", "desc": "Connects to a server" },
+        "reconnect": { "syntax": "", "desc": "Reconnects to the last connected server" },
         "disconnect": { "syntax": "", "desc": "Disconnects from the current server", "require_connection": true },
         "status": { "syntax": "", "desc": "Shows current connection status", "require_connection": true },
         "quit": { "syntax": "", "desc": "Quits the application" }
