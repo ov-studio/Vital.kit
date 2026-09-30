@@ -7,8 +7,8 @@
     
     "server": {
         "info": { "syntax": "", "desc": "Displays server info and current stats" },
-        "kick": { "syntax": "<id>", "desc": "Kicks a player by peer ID" },
         "players": { "syntax": "", "desc": "Lists all connected players" },
+        "kick": { "syntax": "<peer_id>", "desc": "Kicks the specified connected player" },
         "refresh":  { "syntax": "", "desc": "Rescans and reloads all resources" },
         "start": { "syntax": "<resource_name>", "desc": "Starts the specified loaded resource" },
         "stop": { "syntax": "<resource_name>", "desc": "Stops the specified running resource" },
