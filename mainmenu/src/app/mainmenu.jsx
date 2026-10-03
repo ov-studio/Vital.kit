@@ -1,9 +1,9 @@
 import { useState, useEffect, useLayoutEffect, useRef, useMemo } from 'react';
 import {
-  LayoutGrid, Star, Flame, Settings, Play, UsersRound, ExternalLink,
+  LayoutGrid, Star, Flame, Settings, Play, UsersRound, ExternalLink, Globe,
   Download, X, LayoutList, Search as SearchIcon
 } from 'lucide-react';
-import { SERVERS, FEATURED, BANNERS, LOGOS, shuffle } from './data.jsx';
+import { SERVERS, FEATURED, BANNERS, shuffle } from './data.jsx';
 import { IconButton } from '../../../shared/ui/iconbutton/index.jsx';
 import { TagPill }    from '../../../shared/ui/tagpill/index.jsx';
 import { Filter }     from '../../../shared/ui/filter/index.jsx';
@@ -12,10 +12,13 @@ import { Divider }    from '../../../shared/ui/divider/index.jsx';
 import { Card }       from '../../../shared/ui/card/index.jsx';
 import { Button }     from '../../../shared/ui/button/index.jsx';
 import { EmptyState } from '../../../shared/ui/empty/index.jsx';
+import { Checkbox }   from '../../../shared/ui/checkbox/index.jsx';
+import { Select }     from '../../../shared/ui/select/index.jsx';
+import { Brand }      from '../../../shared/ui/brand/index.jsx';
 
 /* ─────────────────────── tiny helpers ─────────────────────── */
-const pct  = (p, m) => Math.round(p / m * 100);
-const bar  = (p, m) => { const v = pct(p,m); return v >= 100 ? 'hi' : v >= 65 ? 'md' : 'lo'; };
+/* One shuffled banner per server, shared by every view */
+const BANNER_LIST = shuffle(SERVERS.map((_, i) => BANNERS[i % BANNERS.length]));
 
 /* Genre/tag list derived from the server data, used by the Masterlist filters */
 const ALL_GENRES = [...new Set(SERVERS.map(s => s.genre))];
@@ -52,21 +55,8 @@ function useFitCount(ref, { minColWidth = 210, gap = 14, aspectRatio = 3 / 4 } =
 function BrandLogo() {
   return (
     <div className="hud-logo">
-      <div className="brand brand--xs brand--logo-only">
-        <div className="brand_logo-wrapper">
-          <div className="brand_logo" />
-        </div>
-      </div>
+      <Brand size="xs" variant="logo-only" />
     </div>
-  );
-}
-
-/* ────────────────────── External link icon ─────────────────── */
-function ExtIco() {
-  return (
-    <svg className="ext-ico" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.3">
-      <path d="M5 2.5H2.5a1 1 0 00-1 1v6a1 1 0 001 1h6a1 1 0 001-1V7M8.5 1.5h2m0 0v2m0-2L5.5 6.5"/>
-    </svg>
   );
 }
 
@@ -80,17 +70,15 @@ function DiscordSvg({ size = 11 }) {
 }
 
 /* ─────────────────────── Game card ─────────────────────────── */
-function GameCard({ server, banner, logo, isFav, onToggleFav, style, showTag }) {
-  const p    = server.players;
-  const m    = server.max;
-  const barC = bar(p, m);
-  const abbr = server.name.split(' ').map(w => w[0]).join('').slice(0, 2);
+function GameCard({ server, isFav, onToggleFav, style, showTag }) {
+  const p = server.players;
+  const m = server.max;
 
   return (
     <Card
       className="gcard"
       style={style}
-      cover={banner}
+      cover={BANNER_LIST[SERVERS.indexOf(server)]}
       coverAlt={server.name}
       onCoverError={e => e.target.style.opacity = '0'}
       coverClassName="gc-cover"
@@ -99,15 +87,12 @@ function GameCard({ server, banner, logo, isFav, onToggleFav, style, showTag }) 
       topLeftClassName="gc-top-left"
       topLeft={showTag && <TagPill label={server.genre} className="gc-tag" />}
       topRight={
-        <button
+        <IconButton
           className={`gc-fav${isFav ? ' on' : ''}`}
-          onClick={e => { e.stopPropagation(); onToggleFav(server.name); }}
+          icon={<Star size={13} strokeWidth={1.4} />}
           title="Favourite"
-        >
-          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4">
-            <path d="M7 2l1.6 3.3 3.6.5-2.6 2.6.6 3.6L7 10.4l-3.2 1.6.6-3.6L1.8 5.8l3.6-.5z"/>
-          </svg>
-        </button>
+          onClick={e => { e.stopPropagation(); onToggleFav(server.name); }}
+        />
       }
       bodyClassName="gc-body"
       title={server.name}
@@ -129,10 +114,7 @@ function GameCard({ server, banner, logo, isFav, onToggleFav, style, showTag }) 
             )}
             {server.site && (
               <a className="glink" href="#" onClick={e => e.preventDefault()} title="Site">
-                <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.3">
-                  <circle cx="6" cy="6" r="4.5"/>
-                  <path d="M6 1.5c-1.7 1.3-2.2 2.8-2.2 4.5S4.3 9.2 6 10.5M6 1.5c1.7 1.3 2.2 2.8 2.2 4.5S7.7 9.2 6 10.5M1.5 6h9"/>
-                </svg>
+                <Globe size={11} strokeWidth={1.3} />
               </a>
             )}
             <Button variant="action" className="gjoin" disabled={server.status === 'full'}>
@@ -142,63 +124,6 @@ function GameCard({ server, banner, logo, isFav, onToggleFav, style, showTag }) 
         </>
       }
     />
-  );
-}
-
-/* ─────────────────────── Settings toggle ───────────────────── */
-function Toggle({ on: controlledOn, defaultOn = true, onChange }) {
-  const [uncontrolledOn, setUncontrolledOn] = useState(defaultOn);
-  const on = controlledOn !== undefined ? controlledOn : uncontrolledOn;
-  const toggle = () => {
-    const next = !on;
-    if (controlledOn === undefined) setUncontrolledOn(next);
-    onChange?.(next);
-  };
-  return <button className={`toggle${on ? ' on' : ''}`} onClick={toggle} />;
-}
-
-/* ─────────────────────── Custom dropdown ───────────────────── */
-function CustomSelect({ value, options, onChange }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef(null);
-
-  // Close on outside click
-  useEffect(() => {
-    if (!open) return;
-    const handler = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
-  }, [open]);
-
-  const selected = options.find(o => o.value === value) || options[0];
-
-  return (
-    <div className={`cselect${open ? ' open' : ''}`} ref={ref}>
-      <button className="cselect-trigger" onClick={() => setOpen(v => !v)}>
-        <span>{selected.label}</span>
-        <svg className="cselect-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M2.5 4.5L6 8l3.5-3.5"/>
-        </svg>
-      </button>
-      {open && (
-        <div className="cselect-menu">
-          {options.map(o => (
-            <button
-              key={o.value}
-              className={`cselect-option${o.value === value ? ' selected' : ''}`}
-              onClick={() => { onChange(o.value); setOpen(false); }}
-            >
-              {o.label}
-              {o.value === value && (
-                <svg className="cselect-check" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M2 6l3 3 5-5"/>
-                </svg>
-              )}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
   );
 }
 
@@ -221,13 +146,27 @@ function RangeSlider({ value, min = 1, max = 100, step = 1, onChange }) {
   );
 }
 
+/* ─────────────────────── Card grid ─────────────────────────── */
+function CardGrid({ servers, favs, onToggleFav }) {
+  return (
+    <div className="cgrid">
+      {servers.map((s, i) => (
+        <GameCard
+          key={s.name}
+          server={s}
+          isFav={favs.has(s.name)}
+          onToggleFav={onToggleFav}
+          style={{ animationDelay: `${0.04 + i * 0.04}s` }}
+        />
+      ))}
+    </div>
+  );
+}
+
 /* ─────────────────────── View: Play ────────────────────────── */
 const FEATURED_INTERVAL = 5000; // ms between cycles
 
 function ViewPlay({ favs, onToggleFav }) {
-  const bannerList = useRef(shuffle(Array.from({ length: SERVERS.length }, (_, i) => BANNERS[i % BANNERS.length]))).current;
-  const logoList   = useRef(shuffle(Array.from({ length: SERVERS.length }, (_, i) => LOGOS[i % LOGOS.length]))).current;
-
   const trendingSorted = useMemo(() => [...SERVERS].sort((a, b) => b.players - a.players), []);
 
   const trendingWrapRef = useRef(null);
@@ -357,22 +296,7 @@ function ViewPlay({ favs, onToggleFav }) {
       <div className="slabel slabel-trending"><Flame size={11} fill="currentColor" />Trending</div>
 
       <div className="cgrid-wrap cgrid-wrap-fit" ref={trendingWrapRef}>
-        <div className="cgrid">
-          {trendingVisible.map((s, i) => {
-            const origIndex = SERVERS.indexOf(s);
-            return (
-              <GameCard
-                key={s.name}
-                server={s}
-                banner={bannerList[origIndex]}
-                logo={logoList[origIndex]}
-                isFav={favs.has(s.name)}
-                onToggleFav={onToggleFav}
-                style={{ animationDelay: `${0.04 + i * 0.04}s` }}
-              />
-            );
-          })}
-        </div>
+        <CardGrid servers={trendingVisible} favs={favs} onToggleFav={onToggleFav} />
       </div>
     </div>
   );
@@ -380,9 +304,6 @@ function ViewPlay({ favs, onToggleFav }) {
 
 /* ─────────────────────── View: Favourites ──────────────────── */
 function ViewFavs({ favs, onToggleFav }) {
-  const bannerList = useRef(shuffle(Array.from({ length: SERVERS.length }, (_, i) => BANNERS[i % BANNERS.length]))).current;
-  const logoList   = useRef(shuffle(Array.from({ length: SERVERS.length }, (_, i) => LOGOS[i % LOGOS.length]))).current;
-
   const favServers = SERVERS.filter(s => favs.has(s.name));
 
   return (
@@ -397,19 +318,7 @@ function ViewFavs({ favs, onToggleFav }) {
         </EmptyState>
       ) : (
         <div className="cgrid-wrap">
-          <div className="cgrid">
-            {favServers.map((s, i) => (
-              <GameCard
-                key={s.name}
-                server={s}
-                banner={bannerList[SERVERS.indexOf(s)]}
-                logo={logoList[SERVERS.indexOf(s)]}
-                isFav={true}
-                onToggleFav={onToggleFav}
-                style={{ animationDelay: `${0.04 + i * 0.04}s` }}
-              />
-            ))}
-          </div>
+          <CardGrid servers={favServers} favs={favs} onToggleFav={onToggleFav} />
         </div>
       )}
     </div>
@@ -418,9 +327,6 @@ function ViewFavs({ favs, onToggleFav }) {
 
 /* ─────────────────────── View: Masterlist ──────────────────── */
 function ViewMasterlist({ favs, onToggleFav }) {
-  const bannerList = useRef(shuffle(Array.from({ length: SERVERS.length }, (_, i) => BANNERS[i % BANNERS.length]))).current;
-  const logoList   = useRef(shuffle(Array.from({ length: SERVERS.length }, (_, i) => LOGOS[i % LOGOS.length]))).current;
-
   const [search, setSearch]         = useState('');
   const [activeTag, setActiveTag]   = useState(null);
 
@@ -462,22 +368,7 @@ function ViewMasterlist({ favs, onToggleFav }) {
         </EmptyState>
       ) : (
         <div className="cgrid-wrap">
-          <div className="cgrid">
-            {results.map((s, i) => {
-              const origIndex = SERVERS.indexOf(s);
-              return (
-                <GameCard
-                  key={s.name}
-                  server={s}
-                  banner={bannerList[origIndex]}
-                  logo={logoList[origIndex]}
-                  isFav={favs.has(s.name)}
-                  onToggleFav={onToggleFav}
-                  style={{ animationDelay: `${0.04 + i * 0.04}s` }}
-                />
-              );
-            })}
-          </div>
+          <CardGrid servers={results} favs={favs} onToggleFav={onToggleFav} />
         </div>
       )}
     </div>
@@ -509,14 +400,15 @@ function ViewSettings() {
           <div className="settings-label">Graphics</div>
           <div className="setting-row">
             <div><div className="setting-name">VSync</div><div className="setting-desc">Sync frame rate to your monitor's refresh rate</div></div>
-            <Toggle on={vsync} onChange={setVsync} />
+            <Checkbox label="Enabled" checked={vsync} onChange={setVsync} />
           </div>
           <div className="setting-row">
             <div><div className="setting-name">Quality Preset</div><div className="setting-desc">Overall rendering quality — shadows, textures, effects</div></div>
             <div className="setting-control">
-              <CustomSelect
+              <Select
                 value={quality}
                 onChange={setQuality}
+                aria-label="Quality preset"
                 options={[
                   { value: 'low',    label: 'Low'    },
                   { value: 'medium', label: 'Medium' },
@@ -587,14 +479,13 @@ export function MainMenu() {
       <aside className="sidebar">
         <nav className="sidebar-nav">
           {navItems.map(item => (
-            <button
+            <IconButton
               key={item.id}
               className={`nav-btn${activeView === item.id ? ' on' : ''}`}
+              icon={item.icon}
               title={item.title}
               onClick={() => setActiveView(item.id)}
-            >
-              {item.icon}
-            </button>
+            />
           ))}
         </nav>
       </aside>
@@ -606,13 +497,13 @@ export function MainMenu() {
         <div className="hud-right">
           <nav className="hud-nav-links">
             <a className="hud-nav-link" href="#" onClick={e => e.preventDefault()} title="Documentation">
-              Documentations <ExtIco />
+              Documentations <ExternalLink className="ext-ico" />
             </a>
             <a className="hud-nav-link" href="#" onClick={e => e.preventDefault()} title="Support">
-              Discord <ExtIco />
+              Discord <ExternalLink className="ext-ico" />
             </a>
             <a className="hud-nav-link" href="#" onClick={e => e.preventDefault()} title="Donate">
-              Donate <ExtIco />
+              Donate <ExternalLink className="ext-ico" />
             </a>
           </nav>
           <IconButton

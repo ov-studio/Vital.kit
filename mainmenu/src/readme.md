@@ -6,8 +6,8 @@ The shipped output is a single static HTML file (`build/index.html`). Godot's We
 
 The look is shared with the site rather than copied from it:
 
-- `ui/` components (Card, Button, TagPill, Filter, Search, IconButton, Divider, EmptyState) are synced from `vital-sandbox.com/cdn/ui` into `shared/ui/` (gitignored) by `scripts/sync-ui.mjs` before `dev`/`build`, then bundled.
-- `theme.css`, `global.css` and `ui/brand/index.css` are linked from `vital-sandbox.com/cdn` (the logo mask stays embedded in `app/index.css`; the CDN logo isn't CORS-enabled).
+- `ui/` components (Brand, Card, Button, Checkbox, Select, TagPill, Filter, Search, IconButton, Divider, EmptyState) are synced from `vital-sandbox.com/cdn/ui` into `shared/ui/` (gitignored) by `scripts/sync-ui.mjs` before `dev`/`build`, then bundled.
+- `theme.css` and `global.css` are linked from `vital-sandbox.com/cdn`. `Brand` is used logo-only; its mask is overridden in `app/index.css` with an embedded copy (the CDN logo isn't CORS-enabled and the build is asset-free).
 
 `app/index.css` only holds mainmenu-specific layout and overrides.
 
