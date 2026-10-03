@@ -1,6 +1,16 @@
-* { 
-  margin: 0; 
-  padding: 0; 
+/* Fallbacks for when vital-sandbox.com/cdn can't be reached. :where() has zero
+   specificity, so cdn/theme.css always wins whenever it does load. */
+:where(:root) {
+  --bg4: hsl(252, 20%, 4.5%);
+  --blue: hsl(220, 95%, 76%);
+  --brand-neon-core: hsl(220, 100%, 85%);
+  --b15: hsla(220, 95%, 76%, .15);
+  --b30: hsla(220, 95%, 76%, .3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
@@ -12,6 +22,57 @@ body {
   overflow: hidden;
 }
 
+
+/* ── Wallpaper ──
+   cdn/ui/wallpaper pattern, drifting one tile per loop so the loop is seamless.
+   --wallpaper-tile must match the mask-size of the chosen variant (36px for 3–18). */
+#wallpaper {
+  --wallpaper-tile: 36px;
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 1600ms ease;
+}
+
+#wallpaper.on { opacity: 1; }
+
+#wallpaper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 55% 50% at 50% 50%, var(--b15), transparent 70%);
+  animation: wallpaper-breathe 6s ease-in-out infinite;
+}
+
+#wallpaper .ui-wallpaper {
+  --wallpaper-color: var(--b30);
+  inset: calc(var(--wallpaper-tile) * -1) 0 0 calc(var(--wallpaper-tile) * -1);
+  width: calc(100% + var(--wallpaper-tile));
+  height: calc(100% + var(--wallpaper-tile));
+  opacity: .4;
+  transition: opacity 900ms ease;
+  animation: wallpaper-drift 5s linear infinite;
+}
+
+#wallpaper.lit .ui-wallpaper { opacity: 1; }
+
+@keyframes wallpaper-drift {
+  to { transform: translate3d(var(--wallpaper-tile), var(--wallpaper-tile), 0); }
+}
+
+@keyframes wallpaper-breathe {
+  0%, 100% { opacity: .55; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #wallpaper::before,
+  #wallpaper .ui-wallpaper { animation: none; }
+}
+
+
+/* ── Screen effects ── */
 #vignette {
   position: fixed;
   inset: 0;
@@ -32,77 +93,6 @@ body {
   transition: opacity 1200ms ease;
 }
 
-#scene {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#godot-seq {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-}
-
-#vital-logo {
-  height: 152px;
-}
-
-#vital-seq {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-}
-
-.v-stroke {
-  fill: none;
-  stroke: var(--b10);
-  stroke-linejoin: round;
-  stroke-linecap: round;
-  stroke-width: var(--sw-vital, 8);
-  stroke-dasharray: 3000;
-  stroke-dashoffset: 3000;
-  filter: drop-shadow(0 0 8px var(--b60));
-}
-
-.v-fill {
-  fill: var(--blue);
-  opacity: 0;
-  transition: opacity 200ms ease;
-}
-
-#godot-logo { 
-  height: 200px; 
-}
-
-.g-stroke {
-  fill: none;
-  stroke: var(--b10);
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: var(--sw-godot, 8);
-  stroke-dasharray: var(--len);
-  stroke-dashoffset: var(--len);
-  filter: drop-shadow(0 0 5px var(--b60));
-}
-
-/* The jaw path has matrix(4.162611…) so its stroke-width must be divided
-   by that scale factor to render the same visual thickness as the body. */
-.g-stroke-jaw {
-  stroke-width: var(--sw-godot-jaw, 1.922);
-}
-
-.g-fill { 
-  opacity: 0; 
-  transition: opacity 180ms ease; 
-}
-
 #flash {
   position: fixed;
   inset: 0;
@@ -110,16 +100,6 @@ body {
   opacity: 0;
   pointer-events: none;
   z-index: 999;
-}
-
-#flicker {
-  position: fixed;
-  inset: 0;
-  background: var(--blue);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 5;
-  mix-blend-mode: overlay;
 }
 
 .ripple {
@@ -149,4 +129,68 @@ body {
   pointer-events: none;
   z-index: 800;
   transition: opacity 800ms ease;
+}
+
+
+/* ── Scene ── */
+#scene {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#bloom {
+  position: absolute;
+  width: min(90vmin, 900px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--b30), transparent 65%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+/* ── Brand (neon look, rays and glitch states come from cdn/ui/brand) ── */
+#vital-brand {
+  --brand-logo-size: clamp(10rem, 26vmin, 18rem);
+  /* the cdn xxl glow radii are tuned for a ~150px logo, scale them up for ours */
+  --brand-neon-core-blur: 1.5px;
+  --brand-neon-mid-blur: 9px;
+  --brand-neon-outer-blur: 22px;
+  opacity: 0;
+}
+
+/* Cap the ray layer at the size the site's xxl brand uses so the GPU surface stays bounded. */
+#vital-brand .brand_rays {
+  width: 4864px;
+  height: 4864px;
+}
+
+/* Rays stay dark until ignition; once `.lit` is set the cdn rules (incl. the glitch dimming) apply untouched. */
+#vital-brand:not(.lit) .brand_rays {
+  opacity: 0;
+}
+
+#vital-logo {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.v-stroke {
+  fill: none;
+  stroke: var(--brand-neon-core);
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-width: var(--sw-vital, 12);
+  stroke-dasharray: 3000;
+  stroke-dashoffset: 3000;
+}
+
+.v-fill {
+  fill: var(--blue);
+  opacity: 0;
+  transition: opacity 200ms ease;
 }

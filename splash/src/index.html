@@ -2,21 +2,50 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <link rel="preconnect" href="https://vital-sandbox.com">
     <link rel="stylesheet" href="https://vital-sandbox.com/cdn/theme.css">
-    <link rel="stylesheet" href="https://vital-sandbox.com/cdn/global.css">
-    <link rel="stylesheet" href="/app/index.css">
+    <link rel="stylesheet" href="https://vital-sandbox.com/cdn/ui/wallpaper/index.css">
+    <link rel="stylesheet" href="https://vital-sandbox.com/cdn/ui/brand/index.css">
   </head>
   <body>
+    <div id="wallpaper" aria-hidden="true">
+      <div class="ui-wallpaper" data-variant="6"></div>
+    </div>
     <div id="vignette"></div>
     <div id="scanlines"></div>
     <div id="flash"></div>
-    <div id="flicker"></div>
     <div id="curtain"></div>
     <div id="blackcover"></div>
+
     <div id="scene">
-      <div id="vital-seq"></div>
-      <div id="godot-seq"></div>
+      <div id="bloom"></div>
+
+      <!-- Same markup the site hero renders for <Brand neon flicker rays/>;
+           look + glitch states come from cdn/ui/brand. -->
+      <div id="vital-brand" class="brand brand--xxl brand--logo-only brand--neon brand--rays brand--flicker">
+        <div class="brand_logo-wrapper">
+          <span class="brand_rays" aria-hidden="true"></span>
+
+          <!-- Geometry is identical to vital-sandbox.com/logo/logo.svg. It stays inline
+               because the draw-on animation needs the individual polygons (and /logo
+               isn't CORS-enabled, so it can't be fetched at runtime). -->
+          <svg id="vital-logo" class="brand_logo--neon" viewBox="0 0 1050.38 762.84" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <polygon id="v-a" points="699.95 178.62 549.11 744.84 1050.38 8.48 540.23 174.01 699.95 178.62"/>
+              <polygon id="v-b" points="1021.93 0 0 0 398.25 279.71 352.99 179.27 1021.93 0"/>
+              <polygon id="v-c" points="9.85 25.14 527.44 762.84 601.23 359.36 523.05 446.3 9.85 25.14"/>
+            </defs>
+            <use class="v-stroke" id="sA-out"  href="#v-a"/>
+            <use class="v-stroke" id="sB-out"  href="#v-b"/>
+            <use class="v-stroke" id="sC-out"  href="#v-c"/>
+            <use class="v-fill"   id="sA-fill" href="#v-a"/>
+            <use class="v-fill"   id="sB-fill" href="#v-b"/>
+            <use class="v-fill"   id="sC-fill" href="#v-c"/>
+          </svg>
+        </div>
+      </div>
     </div>
+
     <script type="module" src="/app/main.js"></script>
   </body>
 </html>

@@ -1,32 +1,40 @@
-const flickEl = () => document.getElementById('flicker');
-let _flickIv = null;
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const rand = (min, max) => min + Math.random() * (max - min);
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export function flicker(intensity, intervalMs) {
-  stop_flicker();
-  const el = flickEl();
-  _flickIv = setInterval(() => {
-    const r = Math.random();
-    if (r < 0.38) {
-      el.style.transition = 'opacity 12ms linear';
-      el.style.opacity = (Math.random() * intensity).toFixed(3);
-      setTimeout(() => { el.style.transition = 'opacity 30ms linear'; el.style.opacity = 0; }, 16);
-    }
-    else if (r < 0.55) {
-      el.style.opacity = (Math.random() * intensity).toFixed(3);
-      setTimeout(() => {
-        el.style.opacity = 0;
-        setTimeout(() => {
-          el.style.opacity = (Math.random() * intensity * 0.5).toFixed(3);
-          setTimeout(() => { el.style.opacity = 0; }, 22);
-        }, 28);
-      }, 14);
-    }
-  }, intervalMs);
+// Bumped by stop_flicker() so any glitch still in flight bails out instead of
+// re-applying the glitch state after we've asked for it to stop.
+let _epoch = 0;
+
+// Neon-sign stutter: toggles the brand's `is-glitch` state (styled by
+// cdn/ui/brand, same as the site hero) in short random bursts.
+export async function glitch(brand, bursts = 2) {
+  if (reduced) return;
+  const epoch = _epoch;
+  for (let i = 0; i < bursts; i++) {
+    brand.classList.add('is-glitch');
+    await wait(rand(40, 110));
+    if (epoch !== _epoch) return;
+    brand.classList.remove('is-glitch');
+    await wait(rand(50, 140));
+    if (epoch !== _epoch) return;
+  }
 }
 
-export function stop_flicker() {
-  if (_flickIv) { clearInterval(_flickIv); _flickIv = null; }
-  flickEl().style.opacity = 0;
+// Occasional stutter while the lit logo is on screen. Returns nothing; call stop_flicker() to end it.
+export function idle_flicker(brand) {
+  const epoch = _epoch;
+  (async function loop() {
+    await wait(rand(700, 1600));
+    if (epoch !== _epoch) return;
+    await glitch(brand, Math.random() < 0.5 ? 1 : 2);
+    if (epoch === _epoch) loop();
+  })();
+}
+
+export function stop_flicker(brand) {
+  _epoch++;
+  brand.classList.remove('is-glitch');
 }
 
 export function flash(delay, color = '#fff') {
@@ -57,4 +65,3 @@ export function ripple(cx, cy, color, delay, size = 320) {
     setTimeout(() => r.remove(), 1100);
   }, delay);
 }
-
