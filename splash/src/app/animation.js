@@ -32,7 +32,6 @@ export function run() {
 
   [['sA', 0], ['sB', STAGGER], ['sC', STAGGER * 2]].forEach(([id, delay]) => {
     const outline = $(`${id}-out`), fill = $(`${id}-fill`);
-    outline.style.opacity = 1;
     setTimeout(() => {
       outline.style.transition = `stroke-dashoffset ${DRAW_DUR}ms cubic-bezier(.35,0,.2,1)`;
       outline.style.strokeDashoffset = '0';

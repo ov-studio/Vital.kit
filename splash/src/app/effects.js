@@ -21,7 +21,7 @@ export async function glitch(brand, bursts = 2) {
   }
 }
 
-// Occasional stutter while the lit logo is on screen. Returns nothing; call stop_flicker() to end it.
+// Occasional stutter while the lit logo is on screen. Call stop_flicker() to end it.
 export function idle_flicker(brand) {
   const epoch = _epoch;
   (async function loop() {
