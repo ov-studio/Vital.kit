@@ -1,10 +1,10 @@
 # Overview
 
-The Vital.kit main menu UI, built with Vite + React.
+The Vital.kit main menu UI, built with Vite + React. React is bundled at build time; no CDN dependency.
 
-No CDN dependency - React, ReactDOM, and the JSX compiler are installed via npm and bundled at build time. The shipped output is a single static HTML file (`build/index.html`) with everything inlined, so it works offline, works via `file://`, and never breaks due to a CDN outage or version drift. This is the file Godot's WebView loads, per `manifest.json` (`"source": "build/index.html"`).
+The shipped output is a single static HTML file (`build/index.html`) with everything inlined. Godot's WebView loads it via `manifest.json` (`"source": "build/index.html"`).
 
-This module is currently a self-contained visual mockup: server listings, banners, logos, and the featured/hero server in `app/data.jsx` are hardcoded placeholder data rather than data received over `ipc`, and actions like Join, Exit, and the settings toggles are stubbed (`handleExit` in `app/mainmenu.jsx` is a no-op marked `TODO`). Unlike `console` and `splash`, it doesn't yet fetch the `js` kit bundle via a `/kit` dev endpoint - there's no `ipc` wiring to stub out for local development.
+Currently a visual mockup: server listings, banners and the featured server in `app/data.jsx` are hardcoded placeholders, and actions (Join, Exit, settings toggles) are stubbed (`handleExit` in `app/mainmenu.jsx` is a `TODO` no-op). There is no `ipc` wiring yet.
 
 ## Setup
 
@@ -18,7 +18,7 @@ npm install
 npm run dev
 ```
 
-Opens a local dev server (default `http://localhost:5173`) with hot reload, rendering against the placeholder data in `app/data.jsx` since there's no live `ipc` connection yet.
+Starts a dev server (default `http://localhost:5173`) with hot reload, rendering the placeholder data.
 
 ## Production
 
@@ -26,7 +26,7 @@ Opens a local dev server (default `http://localhost:5173`) with hot reload, rend
 npm run build
 ```
 
-Outputs `../build/index.html`, ready to drop into Godot's WebView.
+Outputs `../build/index.html`.
 
 ## Preview
 
@@ -34,4 +34,4 @@ Outputs `../build/index.html`, ready to drop into Godot's WebView.
 npm run preview
 ```
 
-Serves the production build locally so it can be checked before shipping.
+Serves the production build locally.
