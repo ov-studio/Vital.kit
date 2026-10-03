@@ -10,6 +10,8 @@ import { Filter }     from '../../../shared/ui/filter/index.jsx';
 import { Search }     from '../../../shared/ui/search/index.jsx';
 import { Divider }    from '../../../shared/ui/divider/index.jsx';
 import { Card }       from '../../../shared/ui/card/index.jsx';
+import { Button }     from '../../../shared/ui/button/index.jsx';
+import { EmptyState } from '../../../shared/ui/empty/index.jsx';
 
 /* ─────────────────────── tiny helpers ─────────────────────── */
 const pct  = (p, m) => Math.round(p / m * 100);
@@ -77,10 +79,7 @@ function DiscordSvg({ size = 11 }) {
   );
 }
 
-/* ─────────────────────── Reusable: IconButton ───────────────── */
-// Wraps any icon in a consistent square button. All pointer events are
-// handled by the button element itself — children have pointer-events:none
-// via CSS so every pixel of the hit area reliably fires onClick.
+/* ─────────────────────── Game card ─────────────────────────── */
 function GameCard({ server, banner, logo, isFav, onToggleFav, style, showTag }) {
   const p    = server.players;
   const m    = server.max;
@@ -136,15 +135,9 @@ function GameCard({ server, banner, logo, isFav, onToggleFav, style, showTag }) 
                 </svg>
               </a>
             )}
-            {server.status === 'full'
-              ? <button className="gjoin off" disabled>Full</button>
-              : (
-                <button className="gjoin">
-                  <Play size={9} fill="currentColor" />
-                  Play
-                </button>
-              )
-            }
+            <Button variant="action" className="gjoin" disabled={server.status === 'full'}>
+              {server.status === 'full' ? 'Full' : <><Play size={9} fill="currentColor" />Play</>}
+            </Button>
           </div>
         </>
       }
@@ -317,10 +310,10 @@ function ViewPlay({ favs, onToggleFav }) {
               <div className="hero-desc">{activeFeat.desc}</div>
             </div>
             <div className="hero-meta">
-              <button className="hero-join">
+              <Button className="hero-join">
                 <Play size={11} fill="currentColor" />
                 Join Server
-              </button>
+              </Button>
               <div className="hero-viewers">
                 <UsersRound size={12} fill="currentColor" />
                 <strong>{heroPlayers}</strong>&nbsp;/ {activeFeat.max} online
@@ -399,13 +392,9 @@ function ViewFavs({ favs, onToggleFav }) {
         <div className="view-title-row"><span className="view-title">Favourites</span></div>
       </div>
       {favServers.length === 0 ? (
-        <div className="empty-state">
-          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.4">
-            <path d="M24 6l5.6 11.4 12.4 1.8-9 8.8 2.1 12.4L24 34.6l-11.1 5.8 2.1-12.4-9-8.8 12.4-1.8z"/>
-          </svg>
-          <h3>No Favourites Yet</h3>
-          <p>Click the star icon on any game card to save it here.</p>
-        </div>
+        <EmptyState icon={<Star size={40} strokeWidth={1.4} />}>
+          No favourites yet. Click the star icon on any game card to save it here.
+        </EmptyState>
       ) : (
         <div className="cgrid-wrap">
           <div className="cgrid">
@@ -468,11 +457,9 @@ function ViewMasterlist({ favs, onToggleFav }) {
       <Divider />
 
       {results.length === 0 ? (
-        <div className="empty-state">
-          <SearchIcon size={40} strokeWidth={1.4} />
-          <h3>No Servers Found</h3>
-          <p>Try a different search term or clear the active filter.</p>
-        </div>
+        <EmptyState icon={<SearchIcon size={40} strokeWidth={1.4} />}>
+          No servers found. Try a different search term or clear the active filter.
+        </EmptyState>
       ) : (
         <div className="cgrid-wrap">
           <div className="cgrid">
@@ -555,7 +542,7 @@ function ViewSettings() {
               <div className="setting-name">Vital.sandbox</div>
               <div className="setting-desc">Launcher v2.4.1 — Build b3095-beta · Lua 5.4 · Godot/C++17</div>
             </div>
-            <span style={{ fontFamily: "'Geist Mono', monospace", fontSize: '.64rem', color: 'var(--dark)' }}>Open Source</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.64rem', color: 'var(--dark)' }}>Open Source</span>
           </div>
         </div>
       </div>
