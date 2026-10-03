@@ -73,11 +73,7 @@ body {
 
 /* ── Brand (neon look and glitch states come from cdn/ui/brand) ── */
 #vital-brand {
-  --brand-logo-size: clamp(10rem, 26vmin, 18rem);
-  /* the cdn xxl glow radii are tuned for a ~150px logo, scale them up for ours */
-  --brand-neon-core-blur: 1.5px;
-  --brand-neon-mid-blur: 9px;
-  --brand-neon-outer-blur: 22px;
+  --brand-logo-size: clamp(10rem, 26vmin, 17.5rem);
   opacity: 0;
 }
 
