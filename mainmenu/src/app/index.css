@@ -17,7 +17,8 @@ html, body, #root {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: var(--bg7);
+  background: var(--bg9);
+  background: linear-gradient(var(--b15), var(--b15)), var(--bg4);
   user-select: none;
 }
 
@@ -49,12 +50,12 @@ input[type="text"], input:not([type]) { cursor: text }
   left: 0;
   right: 0;
   z-index: 55;
-  height: var(--nav-h);
+  height: calc(var(--nav-h)*1.15);
   display: flex;
   align-items: center;
   justify-content: flex-start;
   padding: 0 32px 0 0;
-  background: var(--bg2);
+  background: var(--bg4);
   backdrop-filter: blur(24px) saturate(1.4);
 }
 .hud-top::after {
@@ -64,7 +65,7 @@ input[type="text"], input:not([type]) { cursor: text }
   right: 0;
   bottom: 0;
   height: 1px;
-  background: var(--w06);
+  background: var(--bg);
 }
 
 /* ── SIDEBAR ── */
@@ -73,15 +74,15 @@ input[type="text"], input:not([type]) { cursor: text }
   top: var(--nav-h);
   left: 0;
   bottom: 0;
-  width: 76px;
+  width: calc(var(--nav-h)*1.15);
   z-index: 50;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 24px 0 18px;
   gap: 4px;
-  background: var(--bg2);
-  border-right: 1px solid var(--w06);
+  background: var(--bg4);
+  border-right: 1px solid var(--bg);
   backdrop-filter: blur(20px);
 }
 .sidebar-nav { display: flex; flex-direction: column; gap: 12px; }
