@@ -50,7 +50,7 @@ input[type="text"], input:not([type]) { cursor: text }
   left: 0;
   right: 0;
   z-index: 55;
-  height: calc(var(--nav-h)*1.15);
+  height: calc(var(--nav-h)*1.2);
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -74,7 +74,7 @@ input[type="text"], input:not([type]) { cursor: text }
   top: var(--nav-h);
   left: 0;
   bottom: 0;
-  width: calc(var(--nav-h)*1.15);
+  width: calc(var(--nav-h)*1.2);
   z-index: 50;
   display: flex;
   flex-direction: column;
