@@ -18,44 +18,9 @@ html,
 body {
   width: 100%;
   height: 100%;
-  background: var(--bg4);
+  background: var(--bg);
   overflow: hidden;
 }
-
-
-/* ── Wallpaper ──
-   cdn/ui/wallpaper pattern, drifting one tile per loop so the loop is seamless.
-   --wallpaper-tile must match the mask-size of the chosen variant (36px for 3–18). */
-#wallpaper {
-  --wallpaper-tile: 36px;
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: opacity 1600ms ease;
-}
-
-#wallpaper.on { opacity: 1; }
-
-#wallpaper::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 55% 50% at 50% 50%, var(--b15), transparent 70%);
-  animation: wallpaper-breathe 6s ease-in-out infinite;
-}
-
-#wallpaper .ui-wallpaper {
-  --wallpaper-color: var(--b30);
-  inset: calc(var(--wallpaper-tile) * -1) 0 0 calc(var(--wallpaper-tile) * -1);
-  width: calc(100% + var(--wallpaper-tile));
-  height: calc(100% + var(--wallpaper-tile));
-  opacity: .4;
-  transition: opacity 900ms ease;
-  animation: wallpaper-drift 5s linear infinite;
-}
-
-#wallpaper.lit .ui-wallpaper { opacity: 1; }
 
 @keyframes wallpaper-drift {
   to { transform: translate3d(var(--wallpaper-tile), var(--wallpaper-tile), 0); }
@@ -140,17 +105,6 @@ body {
   justify-content: center;
 }
 
-#bloom {
-  position: absolute;
-  width: min(90vmin, 900px);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--b30), transparent 65%);
-  opacity: 0;
-  pointer-events: none;
-}
-
-
 /* ── Brand (neon look, rays and glitch states come from cdn/ui/brand) ── */
 #vital-brand {
   --brand-logo-size: clamp(10rem, 26vmin, 18rem);
@@ -158,17 +112,6 @@ body {
   --brand-neon-core-blur: 1.5px;
   --brand-neon-mid-blur: 9px;
   --brand-neon-outer-blur: 22px;
-  opacity: 0;
-}
-
-/* Cap the ray layer at the size the site's xxl brand uses so the GPU surface stays bounded. */
-#vital-brand .brand_rays {
-  width: 4864px;
-  height: 4864px;
-}
-
-/* Rays stay dark until ignition; once `.lit` is set the cdn rules (incl. the glitch dimming) apply untouched. */
-#vital-brand:not(.lit) .brand_rays {
   opacity: 0;
 }
 
