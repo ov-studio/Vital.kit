@@ -1,11 +1,9 @@
 /* Fallbacks for when vital-sandbox.com/cdn can't be reached. :where() has zero
    specificity, so cdn/theme.css always wins whenever it does load. */
 :where(:root) {
-  --bg4: hsl(252, 20%, 4.5%);
+  --bg: hsl(250, 25%, 2.5%);
   --blue: hsl(220, 95%, 76%);
   --brand-neon-core: hsl(220, 100%, 85%);
-  --b15: hsla(220, 95%, 76%, .15);
-  --b30: hsla(220, 95%, 76%, .3);
 }
 
 * {
@@ -22,32 +20,7 @@ body {
   overflow: hidden;
 }
 
-@keyframes wallpaper-drift {
-  to { transform: translate3d(var(--wallpaper-tile), var(--wallpaper-tile), 0); }
-}
-
-@keyframes wallpaper-breathe {
-  0%, 100% { opacity: .55; transform: scale(1); }
-  50%      { opacity: 1;   transform: scale(1.08); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #wallpaper::before,
-  #wallpaper .ui-wallpaper { animation: none; }
-}
-
-
 /* ── Screen effects ── */
-#vignette {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(ellipse at center, transparent 38%, rgba(0,0,0,.55) 70%, rgba(0,0,0,.92) 100%);
-  pointer-events: none;
-  z-index: 50;
-  opacity: 0;
-  transition: opacity 1200ms ease;
-}
-
 #scanlines {
   position: fixed;
   inset: 0;
@@ -105,7 +78,8 @@ body {
   justify-content: center;
 }
 
-/* ── Brand (neon look, rays and glitch states come from cdn/ui/brand) ── */
+
+/* ── Brand (neon look and glitch states come from cdn/ui/brand) ── */
 #vital-brand {
   --brand-logo-size: clamp(10rem, 26vmin, 18rem);
   /* the cdn xxl glow radii are tuned for a ~150px logo, scale them up for ours */

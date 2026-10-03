@@ -4,28 +4,18 @@
     <meta charset="utf-8">
     <link rel="preconnect" href="https://vital-sandbox.com">
     <link rel="stylesheet" href="https://vital-sandbox.com/cdn/theme.css">
-    <link rel="stylesheet" href="https://vital-sandbox.com/cdn/ui/wallpaper/index.css">
     <link rel="stylesheet" href="https://vital-sandbox.com/cdn/ui/brand/index.css">
   </head>
   <body>
-    <div id="wallpaper" aria-hidden="true">
-      <div class="ui-wallpaper" data-variant="18"></div>
-    </div>
-    <div id="vignette"></div>
     <div id="scanlines"></div>
     <div id="flash"></div>
     <div id="curtain"></div>
     <div id="blackcover"></div>
 
     <div id="scene">
-      <div id="bloom"></div>
-
-      <!-- Same markup the site hero renders for <Brand neon flicker rays/>;
-           look + glitch states come from cdn/ui/brand. -->
-      <div id="vital-brand" class="brand brand--xxl brand--logo-only brand--neon brand--rays brand--flicker">
+      <!-- Neon look + glitch states come from cdn/ui/brand (same as the site hero). -->
+      <div id="vital-brand" class="brand brand--xxl brand--flicker">
         <div class="brand_logo-wrapper">
-          <span class="brand_rays" aria-hidden="true"></span>
-
           <!-- Geometry is identical to vital-sandbox.com/logo/logo.svg. It stays inline
                because the draw-on animation needs the individual polygons (and /logo
                isn't CORS-enabled, so it can't be fetched at runtime). -->

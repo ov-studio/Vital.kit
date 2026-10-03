@@ -4,15 +4,14 @@ The Vital.kit splash screen, built with Vite (vanilla JS - no UI framework).
 
 No runtime dependencies at all - only Vite and the single-file plugin as dev dependencies. The shipped output is a single static HTML file (`build/index.html`) with the markup, logo geometry, script and splash-specific CSS inlined. This is the file Godot's WebView loads, per `manifest.json` (`"source": "build/index.html"`).
 
-The look is shared with the site rather than copied from it. The page links three stylesheets from `vital-sandbox.com/cdn` (published by Vital.site's `shared/sync.js`):
+The look is shared with the site rather than copied from it. The page links two stylesheets from `vital-sandbox.com/cdn` (published by Vital.site's `shared/sync.js`):
 
 - `theme.css` - the colour tokens
-- `ui/wallpaper/index.css` - the line-pattern wallpaper (variant 6, drifting one tile per loop)
-- `ui/brand/index.css` - the neon logo treatment, light rays and `is-glitch` flicker state, i.e. the same markup the site hero renders for `<Brand neon flicker rays />`
+- `ui/brand/index.css` - the neon logo treatment and `is-glitch` flicker state, as used by the site hero's `<Brand neon flicker />`
 
-So the splash picks up site restyles without a kit release. If the CDN is unreachable, `app/index.css` falls back to the plain brand colours (zero-specificity `:where(:root)` defaults, so the CDN always wins when present): the logo still draws and the splash still hides on time, just without the neon glow and wallpaper.
+So the splash picks up site restyles without a kit release. If the CDN is unreachable, `app/index.css` falls back to the plain brand colours (zero-specificity `:where(:root)` defaults, so the CDN always wins when present): the logo still draws and the splash still hides on time, just without the neon glow.
 
-The sequence (`app/animation.js`) is a single phase: the wallpaper fades in, the logo draws as animated SVG strokes, stutters like a warming neon tube, then ignites (flash, ripples, rays on, wallpaper brightens). After a short hold it fades through black to transparent and tells Godot it's safe to hide the splash. Timings and the stroke width are centralized as named constants in `app/config.js`; `app/effects.js` holds the glitch/flash/ripple helpers.
+The sequence (`app/animation.js`) is a single phase: the logo draws as animated SVG strokes, stutters like a warming neon tube, then ignites (flash, ripples, punch). After a short hold it fades through black to transparent and tells Godot it's safe to hide the splash. Timings and the stroke width are centralized as named constants in `app/config.js`; `app/effects.js` holds the glitch/flash/ripple helpers.
 
 The logo polygons in `index.html` are identical to `Vital.site/frontend/public/logo/logo.svg`. They are inlined (and defined once, drawn twice via `<use>`) because the draw-on animation needs the individual shapes and `/logo` is not served with CORS headers, so it can't be fetched at runtime.
 
