@@ -44,7 +44,7 @@
 }
 .hud .ui-btn { height: var(--ctl); border: none; border-radius: 4px; }
 .hud-links .ui-btn { 
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   color: var(--text-soft); 
   background: var(--rule); 
 }
