@@ -40,7 +40,7 @@ export function Featured({ visible }) {
           <div className="hero-meta">
             <Button className="hero-join">
               <Play size={11} fill="currentColor" />
-              Join Server
+              Play Now
             </Button>
             <span className="hero-viewers">
               <strong>{hero.players}</strong> / {active.max} online
