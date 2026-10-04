@@ -44,7 +44,7 @@ input[type="text"] { cursor: text }
   display: flex;
   align-items: center;
   gap: 6px;
-  padding-right: 32px;
+  padding-right: 14px; /* matches the content panel's right inset */
   background: var(--bg4);
   backdrop-filter: blur(24px) saturate(1.4);
 }
@@ -54,7 +54,6 @@ input[type="text"] { cursor: text }
 .hud-logo {
   width: var(--hud);
   align-self: stretch;
-  margin-right: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -66,7 +65,7 @@ input[type="text"] { cursor: text }
 }
 
 .hud-greet {
-  margin-right: auto;
+  margin: 0 auto 0 -6px; /* cancel the flex gap so the text starts on the panel's left edge */
   font-size: .9rem;
   letter-spacing: .01em;
   color: var(--text-mid);
