@@ -1,4 +1,4 @@
-import { Star, UsersRound, Globe, Play } from 'lucide-react';
+import { Star, Globe, Play } from 'lucide-react';
 import { Button }     from '@ui/button';
 import { Card }       from '@ui/card';
 import { IconButton } from '@ui/iconbutton';
@@ -28,7 +28,6 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
       footer={
         <>
           <span className="gc-stat">
-            <UsersRound size={11} fill="currentColor" />
             <strong>{server.players}</strong>/{server.max}
           </span>
           <div className="gc-links">
