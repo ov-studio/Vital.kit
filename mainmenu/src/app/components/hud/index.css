@@ -6,7 +6,7 @@
   height: var(--hud);
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
   padding-right: 14px; /* matches the content panel's right inset */
   background: var(--bg4);
   backdrop-filter: blur(24px) saturate(1.4);
@@ -37,13 +37,13 @@
 
 .hud-links {
   display: flex;
-  gap: 6px;
+  gap: 10px;
   margin-right: 8px;
   padding-right: 14px;
   border-right: 1px solid var(--w10);
 }
 .hud .ui-btn { height: var(--ctl); border: none; border-radius: 4px; }
-.hud-links .ui-btn { color: var(--text-soft); background: var(--rule); }
+.hud-links .ui-btn { font-weight: 600; color: var(--text-soft); background: var(--rule); }
 .hud .hud-links .ui-btn:hover { color: var(--dim); background: var(--rule12); }
 .hud .ui-btn svg { opacity: .55; }
 .hud .ui-btn:hover svg { opacity: 1; }
