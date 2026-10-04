@@ -137,7 +137,7 @@
   text-align: left;
   border: none;
   border-radius: 10px;
-  background: var(--rule);
+  background: var(--bg4);
   opacity: .75;
   transition: background .14s, opacity .14s;
 }
@@ -151,7 +151,6 @@
   margin-left: auto;
   border-radius: 2px;
   background: var(--blue);
-  box-shadow: 0 0 8px var(--blue);
 }
 .feat-thumb {
   width: 46px;
