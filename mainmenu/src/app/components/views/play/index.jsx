@@ -1,6 +1,6 @@
 import { useMemo, useRef } from 'react';
 import { Star, Flame } from 'lucide-react';
-import { SERVERS } from '../../data/index.jsx';
+import { SERVERS } from '../../../data/index.jsx';
 import { Featured } from '../../featured/index.jsx';
 import { CardGrid, useFitCount } from '../../cardgrid/index.jsx';
 

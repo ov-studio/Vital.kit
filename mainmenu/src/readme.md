@@ -15,7 +15,7 @@ Server listings, banners and the featured servers in `app/data.jsx` are hardcode
 
 ## Structure
 
-Mirrors the site's `ui/` convention: one folder per component, each with its own `index.jsx` and `index.css`.
+Mirrors the site's `ui/` convention: one folder per component under `app/components/`, each with its own `index.jsx` and `index.css`.
 
 ```
 app/
@@ -23,16 +23,17 @@ app/
   index.css           base only: tokens, fonts, page reset
   data/               placeholder servers + featured entries
   utils/              small helpers (hideBroken)
-  icons/              DiscordIcon
-  mainmenu/           shell: sidebar + hud + switching views, content panel
-  hud/                top bar
-  sidebar/            side rail navigation
-  featured/           hero banner + featured list
-  cardgrid/           CardGrid + useFitCount (fit-to-space maths)
-  gamecard/           single server card
-  rangeslider/        percent slider
-  settingrow/         label/description + control row
-  views/{play,masterlist,favs,settings}/
+  components/
+    mainmenu/         shell: sidebar + hud + switching views, content panel
+    hud/              top bar
+    sidebar/          side rail navigation
+    featured/         hero banner + featured list
+    cardgrid/         CardGrid + useFitCount (fit-to-space maths)
+    gamecard/         single server card
+    rangeslider/      percent slider
+    settingrow/       label/description + control row
+    icons/            DiscordIcon
+    views/{play,masterlist,favs,settings}/
 ```
 
 A component imports its `shared/ui` dependencies first and its own `./index.css` last, so local overrides always win the cascade.

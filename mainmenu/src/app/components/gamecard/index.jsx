@@ -4,7 +4,7 @@ import { Card }       from '@ui/card';
 import { IconButton } from '@ui/iconbutton';
 import { TagPill }    from '@ui/tagpill';
 import { DiscordIcon } from '../icons/index.jsx';
-import { hideBroken }  from '../utils/index.js';
+import { hideBroken }  from '../../utils/index.js';
 import './index.css';
 
 export function GameCard({ server, isFav, onToggleFav, showTag, style }) {

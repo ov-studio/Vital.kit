@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { Play, UsersRound } from 'lucide-react';
 import { Button }  from '@ui/button';
 import { TagPill } from '@ui/tagpill';
-import { FEATURED } from '../data/index.jsx';
-import { hideBroken } from '../utils/index.js';
+import { FEATURED } from '../../data/index.jsx';
+import { hideBroken } from '../../utils/index.js';
 import './index.css';
 
 const INTERVAL = 5000; // ms between featured servers

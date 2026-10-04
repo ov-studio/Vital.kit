@@ -5,7 +5,7 @@ import { EmptyState } from '@ui/empty';
 import { Filter }     from '@ui/filter';
 import { PageHead }   from '@ui/pagehead';
 import { Search }     from '@ui/search';
-import { SERVERS, GENRES } from '../../data/index.jsx';
+import { SERVERS, GENRES } from '../../../data/index.jsx';
 import { CardGrid }   from '../../cardgrid/index.jsx';
 import './index.css';
 
