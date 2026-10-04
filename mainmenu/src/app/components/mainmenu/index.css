@@ -25,8 +25,3 @@
   min-height: 0;
   animation: fadeUp .2s ease;
 }
-
-/* ui/pagehead: no entrance animation of its own (the view already fades in), tighter spacing */
-.center-panel .page-head { margin-bottom: 40px; flex-shrink: 0; opacity: 1; animation: none; }
-.center-panel .page-head .sec-head { margin-bottom: 0; }
-.center-panel .page-head h2 { font-size: clamp(1.7rem, 2.5vw, 2.2rem); }

@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Checkbox }  from '@ui/checkbox';
-import { PageHead }  from '@ui/pagehead';
 import { Panel }     from '@ui/panel';
 import { Section }   from '@ui/section';
 import { Select }    from '@ui/select';

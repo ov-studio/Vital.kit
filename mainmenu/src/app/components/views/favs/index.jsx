@@ -1,6 +1,5 @@
 import { Star } from 'lucide-react';
 import { EmptyState } from '@ui/empty';
-import { PageHead }   from '@ui/pagehead';
 import { SERVERS }    from '../../../data/index.jsx';
 import { CardGrid }   from '../../cardgrid/index.jsx';
 

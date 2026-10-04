@@ -3,7 +3,6 @@ import { Search as SearchIcon } from 'lucide-react';
 import { Divider }    from '@ui/divider';
 import { EmptyState } from '@ui/empty';
 import { Filter }     from '@ui/filter';
-import { PageHead }   from '@ui/pagehead';
 import { Search }     from '@ui/search';
 import { SERVERS, GENRES } from '../../../data/index.jsx';
 import { CardGrid }   from '../../cardgrid/index.jsx';
