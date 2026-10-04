@@ -2,12 +2,11 @@ import { Star, UsersRound, Globe, Play } from 'lucide-react';
 import { Button }     from '@ui/button';
 import { Card }       from '@ui/card';
 import { IconButton } from '@ui/iconbutton';
-import { TagPill }    from '@ui/tagpill';
 import { DiscordIcon } from '../icons/index.jsx';
 import { hideBroken }  from '../../utils/index.js';
 import './index.css';
 
-export function GameCard({ server, isFav, onToggleFav, showTag, style }) {
+export function GameCard({ server, isFav, onToggleFav, style }) {
   return (
     <Card
       className="gcard"
@@ -15,7 +14,6 @@ export function GameCard({ server, isFav, onToggleFav, showTag, style }) {
       cover={server.banner}
       coverAlt={server.name}
       onCoverError={hideBroken}
-      topLeft={showTag && <TagPill label={server.genre} />}
       topRight={
         <IconButton
           className={`gc-btn gc-fav${isFav ? ' on' : ''}`}

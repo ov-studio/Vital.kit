@@ -41,7 +41,7 @@ export function useFitCount(ref) {
 
 /* Grid of game cards. `fit` sizes it to its container (pair with useFitCount);
    otherwise it scrolls. */
-export function CardGrid({ servers, favs, onToggleFav, showTag, fit, gridRef }) {
+export function CardGrid({ servers, favs, onToggleFav, fit, gridRef }) {
   return (
     <div className={`cgrid-wrap${fit ? ' cgrid-wrap--fit' : ''}`} ref={gridRef}>
       <div className="cgrid" style={GRID_VARS}>
@@ -51,7 +51,6 @@ export function CardGrid({ servers, favs, onToggleFav, showTag, fit, gridRef }) 
             server={s}
             isFav={favs.has(s.name)}
             onToggleFav={onToggleFav}
-            showTag={showTag}
             style={{ animationDelay: `${0.04 + i * 0.04}s` }}
           />
         ))}

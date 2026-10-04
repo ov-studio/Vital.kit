@@ -41,7 +41,7 @@ export function ViewMasterlist({ favs, onToggleFav }) {
           No servers found. Try a different search term or clear the active filter.
         </EmptyState>
       ) : (
-        <CardGrid servers={results} favs={favs} onToggleFav={onToggleFav} showTag />
+        <CardGrid servers={results} favs={favs} onToggleFav={onToggleFav} />
       )}
     </div>
   );
