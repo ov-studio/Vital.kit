@@ -54,11 +54,8 @@ export function ViewSettings() {
 
         <Section>About</Section>
         <StatGrid minWidth="150px">
-          <Stat label="Launcher"  value="v2.4.1" />
-          <Stat label="Build"     value="b3095-beta" />
-          <Stat label="Scripting" value="Lua 5.4" />
-          <Stat label="Engine"    value="Godot / C++17" />
-          <Stat label="License"   value="Open Source" />
+          <Stat label="Vital.sandbox"  value="v2.4.1" />
+          <Stat label="Vital.kit"     value="b3095-beta" />
         </StatGrid>
       </div>
     </div>
