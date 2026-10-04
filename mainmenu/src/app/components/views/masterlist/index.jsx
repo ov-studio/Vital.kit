@@ -23,7 +23,7 @@ export function ViewMasterlist({ favs, onToggleFav }) {
 
   return (
     <div className="view">
-      <PageHead label="Masterlist" title="All Servers" />
+      <PageHead label="Masterlist" title="All Games" />
 
       <div className="mlist-filters">
         <Filter tags={GENRES} active={activeTag} onChange={setActiveTag} />
