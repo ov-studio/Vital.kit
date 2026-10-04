@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Play, UsersRound } from 'lucide-react';
+import { Play } from 'lucide-react';
 import { Button }  from '@ui/button';
 import { TagPill } from '@ui/tagpill';
 import { FEATURED } from '../../data/index.jsx';
@@ -43,8 +43,7 @@ export function Featured({ visible }) {
               Join Server
             </Button>
             <span className="hero-viewers">
-              <UsersRound size={12} fill="currentColor" />
-              <strong>{hero.players}</strong>/ {active.max} online
+              <strong>{hero.players}</strong> / {active.max} online
             </span>
           </div>
         </div>

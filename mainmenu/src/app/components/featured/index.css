@@ -82,16 +82,17 @@
   font-size: .82rem;
   line-height: 1.55;
   color: var(--dim);
+  white-space: pre-line; /* keeps \n line breaks from the data */
+  /* max 3 lines so the banner never grows past its fixed height; the rest ends in … */
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 .hero-meta { display: flex; align-items: center; gap: 16px; }
 .ui-btn.hero-join { padding: 10px 32px; }
-.hero-viewers { display: flex; align-items: center; gap: 6px; font-size: .78rem; color: var(--text-muted); }
+.hero-viewers { font-size: .78rem; color: var(--text-muted); }
 .hero-viewers strong { color: var(--white); font-weight: 700; }
-.hero-viewers svg { color: var(--blue); }
 
 /* cycle indicator: the active dot fills over one cycle */
 .hero-dots {

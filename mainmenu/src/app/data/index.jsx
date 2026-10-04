@@ -21,7 +21,7 @@ function shuffle(arr) {
 const SERVER_LIST = [
   { name:'City Wars RP',      desc:'Immersive city roleplay — gang wars, police, civilian life.',             genre:'roleplay', players:84,  max:128, status:'live', discord:true,  site:true  },
   { name:'Drift Racing',      desc:'High-speed mountain circuits. Weekly ranked tournaments.',                genre:'racing',   players:42,  max:64,  status:'live', discord:true,  site:false },
-  { name:'Shell Storm',       desc:'Tactical 8v8 warfare. Ranked seasons and custom loadouts.',              genre:'shooter',  players:128, max:128, status:'full', discord:true,  site:true  },
+  { name:'Shell Storm',       desc:'Tactical 8v8 warfare. Ranked seasons and custom loadouts.\nA\nB\nC\nD',              genre:'shooter',  players:128, max:128, status:'full', discord:true,  site:true  },
   { name:'Orbit Build',       desc:'Zero-gravity sandbox. Build stations, terraform planets.',               genre:'sandbox',  players:18,  max:64,  status:'none', discord:true,  site:false },
   { name:'NexCity RP',        desc:'Futuristic city sim — corporations, hacking, underground.',              genre:'roleplay', players:96,  max:128, status:'live', discord:true,  site:true  },
   { name:'Void Sector',       desc:'Open-world Lua sandbox. Build, explore, automate anything.',             genre:'sandbox',  players:201, max:256, status:'busy', discord:true,  site:true  },
