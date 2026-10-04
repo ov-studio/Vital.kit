@@ -12,7 +12,22 @@
 
 export async function install_dev_ipc_stub() {
   if (import.meta.env.DEV) {
-    new Function(await (await fetch('/kit')).text())();
+    // Only ever trust the /kit bundle when the dev server is being
+    // accessed locally. If it's exposed on the network (e.g. `vite
+    // --host`), refuse to eval whatever came back, since that response
+    // could now be tampered with via MITM/DNS spoofing.
+    if (!['localhost', '127.0.0.1', '[::1]'].includes(location.hostname)) {
+      console.error('[dev-ipc] refusing to load /kit bundle: not on localhost');
+      return;
+    }
+
+    const res = await fetch('/kit');
+    if (!res.ok || !(res.headers.get('content-type') || '').includes('javascript')) {
+      console.error('[dev-ipc] refusing to load /kit bundle: unexpected response');
+      return;
+    }
+
+    new Function(await res.text())();
 
     if (!window.ipc) {
       window.ipc = {
