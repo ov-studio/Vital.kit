@@ -5,4 +5,7 @@
 
 /* ui/panel + ui/stat do the surfaces */
 .view-body .ui-panel,
-.view-body .ui-stat { border-radius: 10px; overflow: hidden; }
+.view-body .ui-stat { border: none; border-radius: 6px; overflow: hidden; }
+
+/* space between a group and the next section heading (ui/panel defaults to 20px) */
+.view-body .ui-panel { margin-bottom: 40px; }
