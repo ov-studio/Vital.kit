@@ -385,8 +385,6 @@ export function MainMenu() {
 
   return (
     <>
-      <div className="vignette" />
-
       <nav className="sidebar">
         {NAV.map(item => (
           <IconButton

@@ -25,14 +25,6 @@ html, body {
 button, a, label, input { cursor: pointer }
 input[type="text"] { cursor: text }
 
-.vignette {
-  position: fixed;
-  inset: 0;
-  z-index: 5;
-  pointer-events: none;
-  background: radial-gradient(ellipse 85% 85% at 50% 50%, transparent 40%, var(--vignette) 100%);
-}
-
 
 /* ── Top bar ── */
 .hud {
