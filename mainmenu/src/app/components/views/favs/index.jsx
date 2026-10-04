@@ -9,7 +9,7 @@ export function ViewFavs({ favs, onToggleFav }) {
   return (
     <div className="view">
       {favServers.length === 0 ? (
-        <EmptyState icon={<Star size={40} strokeWidth={1.4} />}>
+        <EmptyState icon={<Star size={24} strokeWidth={2.5} />}>
           No favourites yet. Click the star icon on any game card to save it here.
         </EmptyState>
       ) : (
