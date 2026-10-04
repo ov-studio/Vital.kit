@@ -1,0 +1,8 @@
+.view-body { flex: 1; min-height: 0; overflow-y: auto; padding-right: 4px; }
+
+.view-body::-webkit-scrollbar { width: 2px; }
+.view-body::-webkit-scrollbar-thumb { background: var(--rule); }
+
+/* ui/panel + ui/stat do the surfaces */
+.view-body .ui-panel,
+.view-body .ui-stat { border-radius: 10px; overflow: hidden; }

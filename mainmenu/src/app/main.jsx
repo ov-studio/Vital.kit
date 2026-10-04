@@ -1,5 +1,5 @@
 import * as react          from 'react-dom/client';
-import * as app_mainmenu   from './mainmenu.jsx';
+import * as app_mainmenu   from './mainmenu/index.jsx';
 import * as shared_dev_ipc from '../../../shared/dev-ipc.js';
 import './index.css';
 

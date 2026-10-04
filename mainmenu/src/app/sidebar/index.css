@@ -1,0 +1,61 @@
+.sidebar {
+  position: fixed;
+  inset: var(--hud) auto 0 0;
+  width: var(--hud);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 0 18px;
+  background: var(--bg4);
+}
+
+.nav-btn {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  color: var(--dark);
+  transition: background .15s, color .15s;
+}
+.nav-btn:hover { background: var(--w06); color: var(--white); }
+.nav-btn.on { background: var(--selection-bg); color: var(--white); }
+.nav-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+/* active marker */
+.nav-btn::before {
+  content: '';
+  position: absolute;
+  left: -14px;
+  top: 50%;
+  width: 4px;
+  height: 0;
+  transform: translateY(-50%);
+  background: var(--selection-bg);
+  border-radius: 12px;
+  transition: height .15s;
+}
+.nav-btn.on::before { height: 14px; }
+
+/* tooltip (ui/iconbutton only sets aria-label) */
+.nav-btn::after {
+  content: attr(aria-label);
+  position: absolute;
+  left: calc(100% + 17px);
+  top: 50%;
+  z-index: 80;
+  padding: 6px 10px;
+  transform: translate(-4px, -50%);
+  font-size: .72rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--white);
+  background: var(--bg7);
+  border-radius: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .12s, transform .12s;
+}
+.nav-btn:hover::after,
+.nav-btn:focus-visible::after { opacity: 1; transform: translate(0, -50%); }

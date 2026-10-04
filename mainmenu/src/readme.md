@@ -13,6 +13,30 @@ The look is shared with the site rather than copied from it:
 
 Server listings, banners and the featured servers in `app/data.jsx` are hardcoded placeholders. Settings are sent to Godot as `settings_update` over `ipc.postMessage`; Join, Exit, Downloads and the HUD links are stubs with no handlers yet.
 
+## Structure
+
+Mirrors the site's `ui/` convention: one folder per component, each with its own `index.jsx` and `index.css`.
+
+```
+app/
+  main.jsx            entry (dev ipc stub, mounts MainMenu)
+  index.css           base only: tokens, fonts, page reset
+  data/               placeholder servers + featured entries
+  utils/              small helpers (hideBroken)
+  icons/              DiscordIcon
+  mainmenu/           shell: sidebar + hud + switching views, content panel
+  hud/                top bar
+  sidebar/            side rail navigation
+  featured/           hero banner + featured list
+  cardgrid/           CardGrid + useFitCount (fit-to-space maths)
+  gamecard/           single server card
+  rangeslider/        percent slider
+  settingrow/         label/description + control row
+  views/{play,masterlist,favs,settings}/
+```
+
+A component imports its `shared/ui` dependencies first and its own `./index.css` last, so local overrides always win the cascade.
+
 ## Setup
 
 ```

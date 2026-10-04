@@ -1,0 +1,9 @@
+.mlist-filters { display: flex; align-items: flex-end; gap: 2px; }
+.mlist-filters .ui-filter { flex: 1; min-width: 0; }
+
+@media (max-width: 720px) {
+  .mlist-filters { flex-direction: column; align-items: stretch; }
+  .mlist-filters .ui-search { order: 2; width: 100%; margin-top: 12px; }
+  .mlist-filters .ui-search input,
+  .mlist-filters .ui-search input:focus { width: 100%; }
+}

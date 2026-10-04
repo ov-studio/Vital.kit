@@ -1,0 +1,101 @@
+/* ui/card supplies the structure, this is the look */
+.gcard {
+  aspect-ratio: var(--card-ratio);
+  background: var(--bg3);
+  border: 2px solid var(--b10);
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: 0;
+  animation: fadeUp .3s ease forwards;
+  transition: border-color .2s;
+}
+.gcard:hover,
+.gcard:focus-within { border-color: var(--selection-bg); }
+
+.gcard .ui-card-cover { background: var(--bg3); }
+.gcard .ui-card-cover img {
+  border-radius: 0;
+  filter: brightness(.9) saturate(1.05);
+  transition: transform .4s cubic-bezier(.25,.46,.45,.94), filter .4s;
+}
+.gcard:hover .ui-card-cover img {
+  transform: scale(1.05);
+  filter: brightness(1.1) saturate(1.5);
+}
+.gcard .ui-card-scrim {
+  background: linear-gradient(to bottom,
+    transparent 34%,
+    color-mix(in srgb, var(--bg) 55%, transparent) 62%,
+    color-mix(in srgb, var(--bg) 96%, transparent) 100%);
+}
+
+.gcard .ui-card-top { padding: 10px; }
+.gcard .ui-card-body { padding: 12px 12px 13px; }
+.gcard .ui-card-body .ui-card-title {
+  margin: 0 0 3px;
+  font-size: 1.05rem;
+  line-height: 1.2;
+  color: var(--white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 6px var(--k45);
+}
+
+/* description and links only appear on hover / focus */
+.gcard .ui-card-desc {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  font-size: .72rem;
+  line-height: 1.5;
+  color: var(--text-soft);
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  transition: max-height .25s ease, opacity .2s ease;
+}
+.gcard:hover .ui-card-desc,
+.gcard:focus-within .ui-card-desc { max-height: 24px; opacity: 1; }
+
+.gcard .ui-card-footer { display: flex; align-items: center; gap: 6px; min-width: 0; margin-top: 8px; }
+.gc-stat { display: flex; align-items: center; gap: 5px; flex-shrink: 0; font-size: .72rem; font-weight: 500; color: var(--dim); }
+.gc-stat strong { color: var(--white); font-weight: 600; }
+
+.gc-links {
+  display: flex;
+  gap: 5px;
+  margin-left: auto;
+  flex-shrink: 0;
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-width .25s ease, opacity .2s ease;
+}
+.gcard:hover .gc-links,
+.gcard:focus-within .gc-links { max-width: 160px; opacity: 1; }
+.ui-btn.gjoin { gap: 5px; font-size: .72rem; font-weight: 700; }
+
+/* small round / square icon buttons: favourite + external links */
+.gc-btn {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  color: var(--dim);
+  background: var(--rule7);
+  transition: color .14s, background .14s, border-color .14s;
+}
+.gc-btn:hover { color: var(--white); }
+.gc-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
+.gc-fav { width: 28px; height: 28px; }
+.gc-fav svg { fill: none; }
+.gc-fav:not(.on):hover { color: var(--blue); }
+.gc-fav.on { color: var(--blue); }
+.gc-fav.on svg { fill: currentColor; }
+
+.gcard .tag-pill {
+  color: var(--blue);
+  background: var(--b10);
+  border-color: var(--b30);
+}

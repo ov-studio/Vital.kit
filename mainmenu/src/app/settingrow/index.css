@@ -1,0 +1,13 @@
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+}
+.setting-row + .setting-row { border-top: 1px solid var(--rule12); }
+.setting-name { margin-bottom: 3px; font-size: .86rem; font-weight: 600; color: var(--white); }
+.setting-desc { font-size: .72rem; line-height: 1.4; color: var(--text-muted); }
+
+/* fixed-width control column so every row's control shares the same left edge */
+.setting-control { display: flex; justify-content: flex-end; width: 220px; flex-shrink: 0; }

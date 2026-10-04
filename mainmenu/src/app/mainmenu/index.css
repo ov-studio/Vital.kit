@@ -1,0 +1,32 @@
+.center-panel {
+  position: fixed;
+  inset: var(--hud) 14px 14px var(--hud);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 30px 22px;
+  overflow: hidden;
+  /* the frame (top bar + rail) is --bg4; the content sits in a rounded inset panel */
+  border-radius: 20px;
+  background:
+    radial-gradient(ellipse 70% 50% at 20% 0%, var(--b20), transparent 70%),
+    linear-gradient(var(--b10), var(--b10)),
+    var(--bg);
+  box-shadow: inset 0 0 0 1px var(--b10), 0 0 40px var(--k45);
+}
+
+.view-slot { display: contents; }
+.view-slot[hidden] { display: none; }
+
+.view {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  animation: fadeUp .2s ease;
+}
+
+/* ui/pagehead: no entrance animation of its own (the view already fades in), tighter spacing */
+.center-panel .page-head { margin-bottom: 20px; flex-shrink: 0; opacity: 1; animation: none; }
+.center-panel .page-head .sec-head { margin-bottom: 0; }
+.center-panel .page-head h2 { font-size: clamp(1.7rem, 2.5vw, 2.2rem); }
