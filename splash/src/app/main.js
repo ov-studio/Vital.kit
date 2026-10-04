@@ -19,6 +19,12 @@ window.ipc.postMessage(JSON.stringify({
   action: 'ready'
 }));
 
+window.addEventListener('splash:prehide', () => {
+  window.ipc.postMessage(JSON.stringify({
+    action: 'prehide'
+  }));
+});
+
 window.addEventListener('splash:hide', () => {
   window.ipc.postMessage(JSON.stringify({
     action: 'hide'

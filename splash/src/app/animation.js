@@ -62,14 +62,15 @@ export function run() {
     }, 200);
   }, D(DRAW_DONE));
 
-  // ── Exit — three stages:
-  //   1. Curtain fades in to black; logo + scene fade out simultaneously.
-  //   2. Hold on solid black (BLACK_HOLD_DELAY).
-  //   3. Curtain fades to transparent, revealing Vital.sandbox behind.
+  // ── Exit:
+  //   0. Tell C++ to show mainmenu fullscreen under the splash (before fade).
+  //   1. Curtain fades in to black; logo + scene fade out.
+  //   2. Hold on solid black, then dissolve — mainmenu is already underneath.
   const EXIT_AT = DRAW_DONE + 200 + config.HOLD_VITAL;
 
   setTimeout(() => {
     effects.stop_flicker(brand);
+    window.dispatchEvent(new Event('splash:prehide'));
     setTimeout(() => {
       const curtain = $('curtain');
       const fadeDur = config.FADE_TO_BLACK;
