@@ -135,7 +135,7 @@ input[type="text"] { cursor: text }
 .nav-btn::after {
   content: attr(aria-label);
   position: absolute;
-  left: calc(100% + 16px);
+  left: calc(100% + 17px);
   top: 50%;
   z-index: 80;
   padding: 6px 10px;
@@ -145,7 +145,6 @@ input[type="text"] { cursor: text }
   white-space: nowrap;
   color: var(--white);
   background: var(--bg7);
-  border: 1px solid var(--b15);
   border-radius: 6px;
   opacity: 0;
   pointer-events: none;
@@ -473,12 +472,10 @@ input[type="text"] { cursor: text }
   flex-shrink: 0;
   border-radius: 6px;
   color: var(--dim);
-  background: color-mix(in srgb, var(--bg) 60%, transparent);
-  border: 1px solid var(--w12);
-  backdrop-filter: blur(8px);
+  background: var(--rule7);
   transition: color .14s, background .14s, border-color .14s;
 }
-.gc-btn:hover { color: var(--white); background: var(--w12); border-color: var(--w18); }
+.gc-btn:hover { color: var(--white); }
 .gc-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
 .gc-fav { width: 28px; height: 28px; border-radius: 50%; }
 .gc-fav svg { fill: none; }
