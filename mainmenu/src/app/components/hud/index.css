@@ -10,6 +10,15 @@
   padding-right: 14px; /* matches the content panel's right inset */
   background: var(--bg4);
   backdrop-filter: blur(24px) saturate(1.4);
+  cursor: grab;
+  user-select: none;
+}
+.hud:active { cursor: grabbing; }
+.hud [data-no-drag],
+.hud button,
+.hud a {
+  cursor: pointer;
+  user-select: auto;
 }
 
 /* Structure and sizing come from ui/brand. Only the mask is local: the CDN logo isn't
