@@ -23,8 +23,6 @@ export function ViewMasterlist({ favs, onToggleFav }) {
 
   return (
     <div className="view">
-      <PageHead title="Masterlist" />
-
       <div className="mlist-filters">
         <Filter tags={GENRES} active={activeTag} onChange={setActiveTag} />
         <Search

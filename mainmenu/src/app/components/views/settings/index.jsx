@@ -30,7 +30,6 @@ export function ViewSettings() {
 
   return (
     <div className="view">
-      <PageHead title="Settings" />
       <div className="view-body">
         <Section>Graphics</Section>
         <Panel>
