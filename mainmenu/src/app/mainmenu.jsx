@@ -1,30 +1,55 @@
 import { useState, useEffect, useLayoutEffect, useRef, useMemo } from 'react';
 import {
-  LayoutGrid, Star, Flame, Settings, Play, UsersRound, ExternalLink, Globe,
-  Download, X, LayoutList, Search as SearchIcon
+  LayoutGrid, LayoutList, Star, Flame, Settings, Play, UsersRound,
+  ExternalLink, Globe, Download, X, Search as SearchIcon
 } from 'lucide-react';
-import { SERVERS, FEATURED, BANNERS, shuffle } from './data.jsx';
-import { IconButton } from '../../../shared/ui/iconbutton/index.jsx';
-import { TagPill }    from '../../../shared/ui/tagpill/index.jsx';
-import { Filter }     from '../../../shared/ui/filter/index.jsx';
-import { Search }     from '../../../shared/ui/search/index.jsx';
-import { Divider }    from '../../../shared/ui/divider/index.jsx';
-import { Card }       from '../../../shared/ui/card/index.jsx';
-import { Button }     from '../../../shared/ui/button/index.jsx';
-import { EmptyState } from '../../../shared/ui/empty/index.jsx';
-import { Checkbox }   from '../../../shared/ui/checkbox/index.jsx';
-import { Select }     from '../../../shared/ui/select/index.jsx';
-import { Brand }      from '../../../shared/ui/brand/index.jsx';
+import { SERVERS, FEATURED, GENRES } from './data.jsx';
+import { Brand }          from '@ui/brand';
+import { Button }         from '@ui/button';
+import { Card }           from '@ui/card';
+import { Checkbox }       from '@ui/checkbox';
+import { Divider }        from '@ui/divider';
+import { EmptyState }     from '@ui/empty';
+import { Filter }         from '@ui/filter';
+import { IconButton }     from '@ui/iconbutton';
+import { PageHead }       from '@ui/pagehead';
+import { Panel }          from '@ui/panel';
+import { Search }         from '@ui/search';
+import { Section }        from '@ui/section';
+import { Select }         from '@ui/select';
+import { Stat, StatGrid } from '@ui/stat';
+import { TagPill }        from '@ui/tagpill';
 
-/* ─────────────────────── tiny helpers ─────────────────────── */
-/* One shuffled banner per server, shared by every view */
-const BANNER_LIST = shuffle(SERVERS.map((_, i) => BANNERS[i % BANNERS.length]));
+const NAV = [
+  { id: 'play',       icon: LayoutGrid, title: 'Browse'     },
+  { id: 'masterlist', icon: LayoutList, title: 'Masterlist' },
+  { id: 'favs',       icon: Star,       title: 'Favourites' },
+  { id: 'settings',   icon: Settings,   title: 'Settings'   },
+];
 
-/* Genre/tag list derived from the server data, used by the Masterlist filters */
-const ALL_GENRES = [...new Set(SERVERS.map(s => s.genre))];
+const HUD_LINKS = ['Documentation', 'Discord', 'Donate'];
+
+const QUALITY_OPTIONS = [
+  { value: 'low',    label: 'Low'    },
+  { value: 'medium', label: 'Medium' },
+  { value: 'high',   label: 'High'   },
+];
+
+/* Card grid geometry. The CSS reads it back through custom properties (see
+   GRID_VARS), so useFitCount and the stylesheet can never drift apart. */
+const CARD = { minWidth: 210, gap: 14, ratio: 3 / 4 };
+const GRID_VARS = {
+  '--card-min':   `${CARD.minWidth}px`,
+  '--card-gap':   `${CARD.gap}px`,
+  '--card-ratio': CARD.ratio,
+};
+
+const FEATURED_INTERVAL = 5000; // ms between featured servers
+
+const hideBroken = e => { e.target.style.opacity = '0'; };
 
 /* ───────────── fit-to-space hook (no scroller, most cards win) ───────────── */
-function useFitCount(ref, { minColWidth = 210, gap = 14, aspectRatio = 3 / 4 } = {}) {
+function useFitCount(ref) {
   const [count, setCount] = useState(null);
 
   useLayoutEffect(() => {
@@ -35,10 +60,10 @@ function useFitCount(ref, { minColWidth = 210, gap = 14, aspectRatio = 3 / 4 } =
       const w = el.clientWidth;
       const h = el.clientHeight;
       if (!w || !h) return;
-      const cols = Math.max(1, Math.floor((w + gap) / (minColWidth + gap)));
-      const colWidth  = (w - (cols - 1) * gap) / cols;
-      const rowHeight = colWidth / aspectRatio;
-      const rows = Math.max(1, Math.floor((h + gap) / (rowHeight + gap)));
+      const cols = Math.max(1, Math.floor((w + CARD.gap) / (CARD.minWidth + CARD.gap)));
+      const colWidth  = (w - (cols - 1) * CARD.gap) / cols;
+      const rowHeight = colWidth / CARD.ratio;
+      const rows = Math.max(1, Math.floor((h + CARD.gap) / (rowHeight + CARD.gap)));
       setCount(cols * rows);
     };
 
@@ -46,18 +71,9 @@ function useFitCount(ref, { minColWidth = 210, gap = 14, aspectRatio = 3 / 4 } =
     const ro = new ResizeObserver(compute);
     ro.observe(el);
     return () => ro.disconnect();
-  }, [ref, minColWidth, gap, aspectRatio]);
+  }, [ref]);
 
   return count;
-}
-
-/* ─────────────────────── Brand logo ────────────────────────── */
-function BrandLogo() {
-  return (
-    <div className="hud-logo">
-      <Brand size="xs" variant="logo-only" />
-    </div>
-  );
 }
 
 /* ────────────────────── Discord SVG ────────────────────────── */
@@ -70,53 +86,35 @@ function DiscordSvg({ size = 11 }) {
 }
 
 /* ─────────────────────── Game card ─────────────────────────── */
-function GameCard({ server, isFav, onToggleFav, style, showTag }) {
-  const p = server.players;
-  const m = server.max;
-
+function GameCard({ server, isFav, onToggleFav, showTag, style }) {
   return (
     <Card
       className="gcard"
       style={style}
-      cover={BANNER_LIST[SERVERS.indexOf(server)]}
+      cover={server.banner}
       coverAlt={server.name}
-      onCoverError={e => e.target.style.opacity = '0'}
-      coverClassName="gc-cover"
-      scrimClassName="gc-scrim"
-      topClassName="gc-top"
-      topLeftClassName="gc-top-left"
-      topLeft={showTag && <TagPill label={server.genre} className="gc-tag" />}
+      onCoverError={hideBroken}
+      topLeft={showTag && <TagPill label={server.genre} />}
       topRight={
         <IconButton
-          className={`gc-fav${isFav ? ' on' : ''}`}
-          icon={<Star size={13} strokeWidth={1.4} />}
+          className={`gc-btn gc-fav${isFav ? ' on' : ''}`}
+          icon={Star}
+          iconProps={{ size: 13, strokeWidth: 1.6 }}
           title="Favourite"
-          onClick={e => { e.stopPropagation(); onToggleFav(server.name); }}
+          onClick={() => onToggleFav(server.name)}
         />
       }
-      bodyClassName="gc-body"
       title={server.name}
-      titleClassName="gc-name"
       description={server.desc}
-      descriptionClassName="gc-desc"
-      footerClassName="gc-foot"
       footer={
         <>
-          <div className="gc-stat">
+          <span className="gc-stat">
             <UsersRound size={11} fill="currentColor" />
-            <strong>{p}</strong>/{m}
-          </div>
+            <strong>{server.players}</strong>/{server.max}
+          </span>
           <div className="gc-links">
-            {server.discord && (
-              <a className="glink" href="#" onClick={e => e.preventDefault()} title="Discord">
-                <DiscordSvg />
-              </a>
-            )}
-            {server.site && (
-              <a className="glink" href="#" onClick={e => e.preventDefault()} title="Site">
-                <Globe size={11} strokeWidth={1.3} />
-              </a>
-            )}
+            {server.discord && <IconButton className="gc-btn" icon={DiscordSvg} iconProps={{ size: 12 }} title="Discord" />}
+            {server.site && <IconButton className="gc-btn" icon={Globe} iconProps={{ size: 12, strokeWidth: 1.6 }} title="Site" />}
             <Button variant="action" className="gjoin" disabled={server.status === 'full'}>
               {server.status === 'full' ? 'Full' : <><Play size={9} fill="currentColor" />Play</>}
             </Button>
@@ -127,35 +125,16 @@ function GameCard({ server, isFav, onToggleFav, style, showTag }) {
   );
 }
 
-/* ─────────────────────── Settings slider ───────────────────── */
-function RangeSlider({ value, min = 1, max = 100, step = 1, onChange }) {
-  const fillPct = ((value - min) / (max - min)) * 100;
+function CardGrid({ servers, favs, onToggleFav, showTag }) {
   return (
-    <div className="rslider">
-      <input
-        type="range"
-        className="rslider-input"
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        style={{ '--fill': `${fillPct}%` }}
-        onChange={e => onChange?.(Number(e.target.value))}
-      />
-    </div>
-  );
-}
-
-/* ─────────────────────── Card grid ─────────────────────────── */
-function CardGrid({ servers, favs, onToggleFav }) {
-  return (
-    <div className="cgrid">
+    <div className="cgrid" style={GRID_VARS}>
       {servers.map((s, i) => (
         <GameCard
           key={s.name}
           server={s}
           isFav={favs.has(s.name)}
           onToggleFav={onToggleFav}
+          showTag={showTag}
           style={{ animationDelay: `${0.04 + i * 0.04}s` }}
         />
       ))}
@@ -164,139 +143,79 @@ function CardGrid({ servers, favs, onToggleFav }) {
 }
 
 /* ─────────────────────── View: Play ────────────────────────── */
-const FEATURED_INTERVAL = 5000; // ms between cycles
+function ViewPlay({ visible, favs, onToggleFav }) {
+  const trending = useMemo(() => [...SERVERS].sort((a, b) => b.players - a.players), []);
+  const gridRef = useRef(null);
+  const fitCount = useFitCount(gridRef);
 
-function ViewPlay({ favs, onToggleFav }) {
-  const trendingSorted = useMemo(() => [...SERVERS].sort((a, b) => b.players - a.players), []);
+  // Index and live player count change together, so the count never lags a switch.
+  const [hero, setHero] = useState({ idx: 0, players: FEATURED[0].players });
+  const active = FEATURED[hero.idx];
 
-  const trendingWrapRef = useRef(null);
-  const fitCount = useFitCount(trendingWrapRef);
-  const trendingVisible = fitCount == null ? trendingSorted : trendingSorted.slice(0, fitCount);
+  const go = idx => setHero({ idx, players: FEATURED[idx].players });
 
-  // Featured cycling state — capped at 3 items
-  const featuredItems = FEATURED.slice(0, 3);
-  const [featIdx, setFeatIdx] = useState(0);
-  const [prevIdx, setPrevIdx] = useState(null);
-  const [crossing, setCrossing] = useState(false);
-  const [heroPlayers, setHeroPlayers] = useState(featuredItems[0].players);
-
-  const crossTimer = useRef(null);
-
-  const goTo = (next) => {
-    if (next === featIdx) return;
-    // Cancel any in-flight transition so rapid clicks always respond
-    if (crossTimer.current) clearTimeout(crossTimer.current);
-    setPrevIdx(featIdx);
-    setFeatIdx(next);
-    setHeroPlayers(featuredItems[next].players);
-    setCrossing(true);
-    crossTimer.current = setTimeout(() => {
-      setCrossing(false);
-      setPrevIdx(null);
-    }, 500);
-  };
-
-  // Auto-cycle
+  // Both timers pause while the view is hidden, which also keeps the progress dot in sync.
+  // Any change of idx (auto-cycle or click) restarts them.
   useEffect(() => {
-    const timer = setInterval(() => {
-      goTo((featIdx + 1) % featuredItems.length);
-    }, FEATURED_INTERVAL);
-    return () => clearInterval(timer);
-  }, [featIdx, featuredItems.length]);
-
-  // Jitter player count for the active featured server
-  useEffect(() => {
-    const t = setInterval(() => {
-      const f = featuredItems[featIdx];
-      setHeroPlayers(v => Math.max(1, Math.min(f.max, v + Math.floor(Math.random() * 6) - 3)));
+    if (!visible) return;
+    const cycle = setTimeout(() => go((hero.idx + 1) % FEATURED.length), FEATURED_INTERVAL);
+    const jitter = setInterval(() => {
+      setHero(h => ({ ...h, players: Math.max(1, Math.min(active.max, h.players + Math.floor(Math.random() * 6) - 3)) }));
     }, 5000);
-    return () => clearInterval(t);
-  }, [featIdx]);
-
-  const activeFeat = featuredItems[featIdx];
+    return () => { clearTimeout(cycle); clearInterval(jitter); };
+  }, [visible, hero.idx]);
 
   return (
-    <div className="view active" id="view-play">
-      {/* HERO */}
-      <div className="slabel"><Star size={11} fill="currentColor"/>Featured</div>
+    <div className="view">
+      <div className="slabel"><Star size={11} fill="currentColor" />Featured</div>
       <div className="hero-row">
-        <div className="hero-banner">
-          {/* Outgoing image — stays at full opacity underneath while new one fades in */}
-          {prevIdx !== null && (
-            <img
-              key={`prev-${prevIdx}`}
-              className="hero-img hero-img--under"
-              src={featuredItems[prevIdx].img}
-              alt=""
-              aria-hidden="true"
-            />
-          )}
-          {/* Incoming / active image — fades in on top */}
-          <img
-            key={`active-${featIdx}`}
-            className={`hero-img hero-img--top${crossing ? ' hero-img--crossing' : ''}`}
-            src={activeFeat.img}
-            alt={activeFeat.name}
-            onError={e => e.target.style.opacity = '0'}
-          />
-          <div className="hero-content">
-            <div className="hero-badge">
-              <Star size={10} fill="currentColor" />
-              Featured
-            </div>
-            <div className="hero-mid">
-              <div className="hero-title">{activeFeat.name}</div>
-              <div className="hero-desc">{activeFeat.desc}</div>
-            </div>
+        <div className="hero">
+          {FEATURED.map((f, i) => (
+            <img key={f.name} className={`hero-img${i === hero.idx ? ' on' : ''}`} src={f.img} alt="" onError={hideBroken} />
+          ))}
+          <div className="hero-content" key={active.name}>
+            <TagPill label={active.genre} />
+            <div className="hero-title">{active.name}</div>
+            <p className="hero-desc">{active.desc}</p>
             <div className="hero-meta">
               <Button className="hero-join">
                 <Play size={11} fill="currentColor" />
                 Join Server
               </Button>
-              <div className="hero-viewers">
+              <span className="hero-viewers">
                 <UsersRound size={12} fill="currentColor" />
-                <strong>{heroPlayers}</strong>&nbsp;/ {activeFeat.max} online
-              </div>
+                <strong>{hero.players}</strong>/ {active.max} online
+              </span>
             </div>
           </div>
-          {/* Cycle indicator dots */}
-          <div className="hero-dots">
-            {featuredItems.map((_, i) => (
+          <div className="hero-dots" style={{ '--cycle': `${FEATURED_INTERVAL}ms` }}>
+            {FEATURED.map((f, i) => (
               <button
-                key={i}
-                className={`hero-dot${i === featIdx ? ' active' : ''}`}
-                onClick={() => goTo(i)}
-                aria-label={`Show ${featuredItems[i].name}`}
+                key={f.name}
+                className={`hero-dot${i === hero.idx ? ' on' : ''}`}
+                onClick={() => go(i)}
+                aria-label={`Show ${f.name}`}
               />
             ))}
           </div>
         </div>
 
-        {/* Right sidebar: all 3 featured, active one highlighted */}
         <div className="featured-list">
-          {featuredItems.map((f, i) => (
-            <button
-              className={`feat-item${i === featIdx ? ' feat-item--active' : ''}`}
-              key={f.name}
-              onClick={() => goTo(i)}
-            >
-              <div className="feat-thumb">
-                <img src={f.logo} alt={f.name} onError={e => e.target.style.opacity = '0'} />
-              </div>
-              <div className="feat-info">
-                <div className="feat-name">{f.name}</div>
-                <div className="feat-meta"><strong>{i === featIdx ? heroPlayers : f.players}</strong> / {f.max} players</div>
-              </div>
-              {i === featIdx && <div className="feat-active-bar" />}
+          {FEATURED.map((f, i) => (
+            <button key={f.name} className={`feat-item${i === hero.idx ? ' on' : ''}`} onClick={() => go(i)}>
+              <img className="feat-thumb" src={f.logo} alt="" onError={hideBroken} />
+              <span className="feat-info">
+                <span className="feat-name">{f.name}</span>
+                <span className="feat-meta"><strong>{i === hero.idx ? hero.players : f.players}</strong> / {f.max} players</span>
+              </span>
             </button>
           ))}
         </div>
       </div>
 
-      <div className="slabel slabel-trending"><Flame size={11} fill="currentColor" />Trending</div>
-
-      <div className="cgrid-wrap cgrid-wrap-fit" ref={trendingWrapRef}>
-        <CardGrid servers={trendingVisible} favs={favs} onToggleFav={onToggleFav} />
+      <div className="slabel"><Flame size={11} fill="currentColor" />Trending</div>
+      <div className="cgrid-wrap cgrid-wrap--fit" ref={gridRef}>
+        <CardGrid servers={fitCount == null ? trending : trending.slice(0, fitCount)} favs={favs} onToggleFav={onToggleFav} />
       </div>
     </div>
   );
@@ -307,11 +226,8 @@ function ViewFavs({ favs, onToggleFav }) {
   const favServers = SERVERS.filter(s => favs.has(s.name));
 
   return (
-    <div className="view active" id="view-favs">
-      <div className="view-head">
-        <div className="slabel">Your Library</div>
-        <div className="view-title-row"><span className="view-title">Favourites</span></div>
-      </div>
+    <div className="view">
+      <PageHead label="Your Library" title="Favourites" />
       {favServers.length === 0 ? (
         <EmptyState icon={<Star size={40} strokeWidth={1.4} />}>
           No favourites yet. Click the star icon on any game card to save it here.
@@ -327,8 +243,8 @@ function ViewFavs({ favs, onToggleFav }) {
 
 /* ─────────────────────── View: Masterlist ──────────────────── */
 function ViewMasterlist({ favs, onToggleFav }) {
-  const [search, setSearch]         = useState('');
-  const [activeTag, setActiveTag]   = useState(null);
+  const [search, setSearch]       = useState('');
+  const [activeTag, setActiveTag] = useState(null);
 
   const results = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -339,21 +255,12 @@ function ViewMasterlist({ favs, onToggleFav }) {
   }, [search, activeTag]);
 
   return (
-    <div className="view active" id="view-masterlist">
-      <div className="view-head">
-        <div className="slabel">Masterlist</div>
-        <div className="view-title-row"><span className="view-title">All Servers</span></div>
-      </div>
+    <div className="view">
+      <PageHead label="Masterlist" title="All Servers" />
 
       <div className="mlist-filters">
-        <Filter
-          className="mlist-filter-tags"
-          tags={ALL_GENRES}
-          active={activeTag}
-          onChange={setActiveTag}
-        />
+        <Filter tags={GENRES} active={activeTag} onChange={setActiveTag} />
         <Search
-          className="mlist-search"
           value={search}
           onChange={setSearch}
           placeholder="Search servers…"
@@ -368,7 +275,7 @@ function ViewMasterlist({ favs, onToggleFav }) {
         </EmptyState>
       ) : (
         <div className="cgrid-wrap">
-          <CardGrid servers={results} favs={favs} onToggleFav={onToggleFav} />
+          <CardGrid servers={results} favs={favs} onToggleFav={onToggleFav} showTag />
         </div>
       )}
     </div>
@@ -376,11 +283,40 @@ function ViewMasterlist({ favs, onToggleFav }) {
 }
 
 /* ─────────────────────── View: Settings ───────────────────── */
+function RangeSlider({ label, value, onChange, min = 1, max = 100 }) {
+  return (
+    <div className="rslider">
+      <input
+        type="range"
+        aria-label={label}
+        min={min}
+        max={max}
+        value={value}
+        style={{ '--fill': `${((value - min) / (max - min)) * 100}%` }}
+        onChange={e => onChange(Number(e.target.value))}
+      />
+      <span className="rslider-value">{value}%</span>
+    </div>
+  );
+}
+
+function SettingRow({ name, desc, children }) {
+  return (
+    <div className="setting-row">
+      <div>
+        <div className="setting-name">{name}</div>
+        <div className="setting-desc">{desc}</div>
+      </div>
+      <div className="setting-control">{children}</div>
+    </div>
+  );
+}
+
 function ViewSettings() {
-  const [vsync, setVsync]           = useState(true);
-  const [quality, setQuality]       = useState('medium');
+  const [vsync, setVsync]               = useState(true);
+  const [quality, setQuality]           = useState('medium');
   const [drawDistance, setDrawDistance] = useState(100);
-  const [volume, setVolume]         = useState(80);
+  const [volume, setVolume]             = useState(80);
 
   useEffect(() => {
     window.ipc?.postMessage(JSON.stringify({
@@ -390,53 +326,37 @@ function ViewSettings() {
   }, [vsync, quality, drawDistance, volume]);
 
   return (
-    <div className="view active" id="view-settings">
-      <div className="view-head">
-        <div className="slabel">Preferences</div>
-        <div className="view-title-row"><span className="view-title">Settings</span></div>
-      </div>
+    <div className="view">
+      <PageHead label="Preferences" title="Settings" />
       <div className="view-body">
-        <div className="settings-section">
-          <div className="settings-label">Graphics</div>
-          <div className="setting-row">
-            <div><div className="setting-name">VSync</div><div className="setting-desc">Sync frame rate to your monitor's refresh rate</div></div>
+        <Section>Graphics</Section>
+        <Panel>
+          <SettingRow name="VSync" desc="Sync frame rate to your monitor's refresh rate">
             <Checkbox label="Enabled" checked={vsync} onChange={setVsync} />
-          </div>
-          <div className="setting-row">
-            <div><div className="setting-name">Quality Preset</div><div className="setting-desc">Overall rendering quality — shadows, textures, effects</div></div>
-            <div className="setting-control">
-              <Select
-                value={quality}
-                onChange={setQuality}
-                aria-label="Quality preset"
-                options={[
-                  { value: 'low',    label: 'Low'    },
-                  { value: 'medium', label: 'Medium' },
-                  { value: 'high',   label: 'High'   },
-                ]}
-              />
-            </div>
-          </div>
-          <div className="setting-row">
-            <div><div className="setting-name">Draw Distance</div><div className="setting-desc">Multiplier applied on top of the server's draw distance</div></div>
-            <RangeSlider value={drawDistance} min={1} max={100} onChange={setDrawDistance} />
-          </div>
-          <div className="setting-row">
-            <div><div className="setting-name">Game Volume</div><div className="setting-desc">Overall in-game audio volume</div></div>
-            <RangeSlider value={volume} min={1} max={100} onChange={setVolume} />
-          </div>
-        </div>
+          </SettingRow>
+          <SettingRow name="Quality Preset" desc="Overall rendering quality — shadows, textures, effects">
+            <Select value={quality} onChange={setQuality} options={QUALITY_OPTIONS} aria-label="Quality preset" />
+          </SettingRow>
+          <SettingRow name="Draw Distance" desc="Multiplier applied on top of the server's draw distance">
+            <RangeSlider label="Draw distance" value={drawDistance} onChange={setDrawDistance} />
+          </SettingRow>
+        </Panel>
 
-        <div className="settings-section">
-          <div className="settings-label">About</div>
-          <div className="setting-row">
-            <div>
-              <div className="setting-name">Vital.sandbox</div>
-              <div className="setting-desc">Launcher v2.4.1 — Build b3095-beta · Lua 5.4 · Godot/C++17</div>
-            </div>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.64rem', color: 'var(--dark)' }}>Open Source</span>
-          </div>
-        </div>
+        <Section>Audio</Section>
+        <Panel>
+          <SettingRow name="Game Volume" desc="Overall in-game audio volume">
+            <RangeSlider label="Game volume" value={volume} onChange={setVolume} />
+          </SettingRow>
+        </Panel>
+
+        <Section>About</Section>
+        <StatGrid minWidth="150px">
+          <Stat label="Launcher" value="v2.4.1" />
+          <Stat label="Build"    value="b3095-beta" />
+          <Stat label="Scripting" value="Lua 5.4" />
+          <Stat label="Engine"   value="Godot / C++17" />
+          <Stat label="License"  value="Open Source" />
+        </StatGrid>
       </div>
     </div>
   );
@@ -455,84 +375,52 @@ export function MainMenu() {
     });
   };
 
-  const handleExit = () => {};
-
+  // Every view stays mounted (so filters, favourites and settings survive switching); only one is shown.
   const views = {
-    play:       <ViewPlay       favs={favs}    onToggleFav={toggleFav} />,
-    masterlist: <ViewMasterlist favs={favs}    onToggleFav={toggleFav} />,
-    favs:       <ViewFavs       favs={favs}    onToggleFav={toggleFav} />,
+    play:       <ViewPlay visible={activeView === 'play'} favs={favs} onToggleFav={toggleFav} />,
+    masterlist: <ViewMasterlist favs={favs} onToggleFav={toggleFav} />,
+    favs:       <ViewFavs favs={favs} onToggleFav={toggleFav} />,
     settings:   <ViewSettings />,
   };
-
-  const navItems = [
-    { id: 'play',       icon: <LayoutGrid size={19} className="nav-btn-ico" />, title: 'Browse' },
-    { id: 'masterlist', icon: <LayoutList size={19} className="nav-btn-ico" />, title: 'Masterlist' },
-    { id: 'favs',       icon: <Star       size={19} className="nav-btn-ico" />, title: 'Favourites' },
-    { id: 'settings',   icon: <Settings   size={19} className="nav-btn-ico" />, title: 'Settings' },
-  ];
 
   return (
     <>
       <div className="vignette" />
 
-      {/* SIDEBAR */}
-      <aside className="sidebar">
-        <nav className="sidebar-nav">
-          {navItems.map(item => (
-            <IconButton
-              key={item.id}
-              className={`nav-btn${activeView === item.id ? ' on' : ''}`}
-              icon={item.icon}
-              title={item.title}
-              onClick={() => setActiveView(item.id)}
-            />
+      <nav className="sidebar">
+        {NAV.map(item => (
+          <IconButton
+            key={item.id}
+            className={`nav-btn${activeView === item.id ? ' on' : ''}`}
+            icon={item.icon}
+            iconProps={{ size: 19, strokeWidth: 2 }}
+            title={item.title}
+            onClick={() => setActiveView(item.id)}
+          />
+        ))}
+      </nav>
+
+      <header className="hud">
+        <div className="hud-logo">
+          <Brand size="xs" variant="logo-only" />
+        </div>
+        <div className="hud-greet">Greetings, <strong>FallingStickman</strong></div>
+        <nav className="hud-links">
+          {HUD_LINKS.map(label => (
+            <Button key={label} variant="action" size="lg">
+              {label} <ExternalLink size={10} />
+            </Button>
           ))}
         </nav>
-      </aside>
-
-      {/* TOP HUD */}
-      <header className="hud-top">
-        <BrandLogo />
-        <div className="hud-greet">Greetings, <strong>FallingStickman</strong></div>
-        <div className="hud-right">
-          <nav className="hud-nav-links">
-            <a className="hud-nav-link" href="#" onClick={e => e.preventDefault()} title="Documentation">
-              Documentations <ExternalLink className="ext-ico" />
-            </a>
-            <a className="hud-nav-link" href="#" onClick={e => e.preventDefault()} title="Support">
-              Discord <ExternalLink className="ext-ico" />
-            </a>
-            <a className="hud-nav-link" href="#" onClick={e => e.preventDefault()} title="Donate">
-              Donate <ExternalLink className="ext-ico" />
-            </a>
-          </nav>
-          <IconButton
-            className="hud-icon-btn"
-            icon={Download}
-            iconProps={{ size: 15, strokeWidth: 2.2 }}
-            title="Downloads"
-          />
-          <IconButton
-            className="hud-icon-btn"
-            icon={X}
-            iconProps={{ size: 15, strokeWidth: 2.2 }}
-            title="Exit Game"
-            onClick={handleExit}
-          />
-        </div>
+        <IconButton icon={Download} iconProps={{ size: 15, strokeWidth: 2.2 }} title="Downloads" />
+        <IconButton className="hud-exit" icon={X} iconProps={{ size: 15, strokeWidth: 2.2 }} title="Exit Game" />
       </header>
 
-      {/* CENTER CONTENT */}
-      <div className="center-panel">
+      <main className="center-panel">
         {Object.entries(views).map(([id, el]) => (
-          <div
-            key={id}
-            style={{ display: activeView === id ? 'contents' : 'none' }}
-          >
-            {el}
-          </div>
+          <div key={id} className="view-slot" hidden={activeView !== id}>{el}</div>
         ))}
-      </div>
+      </main>
     </>
   );
 }

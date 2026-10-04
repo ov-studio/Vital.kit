@@ -9,7 +9,16 @@ export const LOGOS = [
   'https://static.vecteezy.com/system/resources/thumbnails/005/910/245/small/car-mascot-logo-esport-gaming-free-vector.jpg',
 ];
 
-export const SERVERS = [
+function shuffle(arr) {
+  const out = [...arr];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
+const SERVER_LIST = [
   { name:'City Wars RP',      desc:'Immersive city roleplay — gang wars, police, civilian life.',             genre:'roleplay', players:84,  max:128, status:'live', discord:true,  site:true  },
   { name:'Drift Racing',      desc:'High-speed mountain circuits. Weekly ranked tournaments.',                genre:'racing',   players:42,  max:64,  status:'live', discord:true,  site:false },
   { name:'Shell Storm',       desc:'Tactical 8v8 warfare. Ranked seasons and custom loadouts.',              genre:'shooter',  players:128, max:128, status:'full', discord:true,  site:true  },
@@ -26,17 +35,21 @@ export const SERVERS = [
   { name:'Construct Zero',    desc:'Physics sandbox with full Lua scripting. No limits, no rules.',          genre:'sandbox',  players:9,   max:32,  status:'none', discord:true,  site:false },
 ];
 
-// FEATURED: max 3 entries. Each needs img (hero banner) and logo (thumbnail).
-// The featured section cycles through these one at a time.
-export const FEATURED = [
-  { name:'City Wars RP',    desc:'Immersive city roleplay — gang wars, police, civilian life.',             img: BANNERS[1], logo: LOGOS[0], players:84,  max:128 },
-  { name:'Neon Streets RP', desc:'Rain-soaked cyberpunk city. Run heists, own territory, build empires.',  img: BANNERS[2], logo: LOGOS[1], players:112, max:200 },
-  { name:'Shell Storm',     desc:'Tactical 8v8 warfare. Ranked seasons and custom loadouts.',              img: BANNERS[0], logo: LOGOS[0], players:128, max:128 },
-];
+// One shuffled banner per server, so a server shows the same art in every view.
+const banners = shuffle(SERVER_LIST.map((_, i) => BANNERS[i % BANNERS.length]));
+export const SERVERS = SERVER_LIST.map((s, i) => ({ ...s, banner: banners[i] }));
 
-// HERO is now derived dynamically from FEATURED in ViewPlay — kept for backward compat.
-export const HERO = FEATURED[0];
+export const GENRES = [...new Set(SERVERS.map(s => s.genre))];
 
-export function shuffle(arr) {
-  return [...arr].sort(() => Math.random() - .5);
-}
+// FEATURED: max 3 entries, cycled one at a time. Only the hero art (img) and
+// thumbnail (logo) live here; everything else comes from the matching server.
+const FEATURED_ART = {
+  'City Wars RP':    { img: BANNERS[1], logo: LOGOS[0] },
+  'Neon Streets RP': { img: BANNERS[2], logo: LOGOS[1] },
+  'Shell Storm':     { img: BANNERS[0], logo: LOGOS[0] },
+};
+
+export const FEATURED = Object.entries(FEATURED_ART).map(([name, art]) => ({
+  ...SERVERS.find(s => s.name === name),
+  ...art,
+}));
