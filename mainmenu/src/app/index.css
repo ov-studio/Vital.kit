@@ -82,7 +82,6 @@ input[type="text"] { cursor: text }
   border-radius: 4px;
   color: var(--b90);
   background: var(--b20);
-  border: 1px solid var(--b05);
   transition: color .15s, background .15s;
 }
 .hud .ui-icon-btn:hover { color: var(--blue); background: var(--b30); }
@@ -109,7 +108,7 @@ input[type="text"] { cursor: text }
   position: relative;
   width: 50px;
   height: 50px;
-  border-radius: 14px;
+  border-radius: 10px;
   color: var(--dark);
   transition: background .15s, color .15s;
 }
@@ -166,7 +165,7 @@ input[type="text"] { cursor: text }
   padding: 24px 30px 22px;
   overflow: hidden;
   /* the frame (top bar + rail) is --bg4; the content sits in a rounded inset panel */
-  border-radius: 26px;
+  border-radius: 20px;
   background:
     radial-gradient(ellipse 70% 50% at 20% 0%, var(--b20), transparent 70%),
     linear-gradient(var(--b10), var(--b10)),
@@ -210,8 +209,8 @@ input[type="text"] { cursor: text }
   flex: 1;
   min-width: 0;
   overflow: hidden;
-  border-radius: 20px;
-  background: var(--bg3);
+  border-radius: 10px;
+  background: var(--bg4);
 }
 /* 2px gradient rim: blue on the left, fading right */
 .hero::before {
@@ -220,8 +219,8 @@ input[type="text"] { cursor: text }
   inset: 0;
   z-index: 10;
   padding: 2px;
-  border-radius: 20px;
-  background: linear-gradient(to right, var(--blue), var(--b40));
+  border-radius: 10px;
+  background: linear-gradient(to right, var(--blue), var(--bg4));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -336,7 +335,7 @@ input[type="text"] { cursor: text }
   padding: 10px 12px;
   text-align: left;
   border: none;
-  border-radius: 16px;
+  border-radius: 10px;
   background: var(--rule);
   opacity: .75;
   transition: background .14s, opacity .14s;
@@ -395,7 +394,7 @@ input[type="text"] { cursor: text }
   aspect-ratio: var(--card-ratio);
   background: var(--bg3);
   border: 2px solid var(--b10);
-  border-radius: 16px;
+  border-radius: 8px;
   cursor: pointer;
   opacity: 0;
   animation: fadeUp .3s ease forwards;
@@ -558,8 +557,11 @@ input[type="text"] { cursor: text }
 
 /* ── Rounded overhaul ── */
 .hud .ui-btn,
-.hud .ui-icon-btn { border-radius: 12px; }
+.hud .ui-icon-btn { 
+  border: none;
+  border-radius: 4px; 
+}
 .center-panel .ui-panel,
-.center-panel .ui-stat { border-radius: 16px; overflow: hidden; }
+.center-panel .ui-stat { border-radius: 10px; overflow: hidden; }
 .gc-btn, .gc-fav { border-radius: 50%; }
 .gcard .ui-card-cover img { border-radius: 0; }
