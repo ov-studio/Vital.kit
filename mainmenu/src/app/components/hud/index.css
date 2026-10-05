@@ -30,6 +30,9 @@
   align-items: center;
   justify-content: center;
 }
+/* The logo is purely decorative: default cursor, and (via data-no-drag) it doesn't start a window drag. */
+.hud .hud-logo,
+.hud .hud-logo * { cursor: default; }
 .hud-logo .brand_logo {
   --logo-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1050.38 762.84'%3E%3Cpolygon points='699.95 178.62 549.11 744.84 1050.38 8.48 540.23 174.01'/%3E%3Cpolygon points='1021.93 0 0 0 398.25 279.71 352.99 179.27'/%3E%3Cpolygon points='9.85 25.14 527.44 762.84 601.23 359.36 523.05 446.3'/%3E%3C/svg%3E");
   -webkit-mask-image: var(--logo-mask);
