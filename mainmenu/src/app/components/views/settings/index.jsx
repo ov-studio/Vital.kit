@@ -140,18 +140,18 @@ export function ViewSettings() {
 
         <Section>Graphics</Section>
         <Panel>
-          <SettingRow name="Quality Preset" desc="Overall rendering quality — shadows, textures, effects">
+          <SettingRow name="Quality Preset" desc="Anti-aliasing quality (MSAA) — Low off, Medium 2×, High 4×">
             <Select value={quality} onChange={setQuality} options={QUALITY_OPTIONS} aria-label="Quality preset" />
           </SettingRow>
-          <SettingRow name="Draw Distance" desc="Multiplier applied on top of the server's draw distance">
+          <SettingRow name="Draw Distance" desc="Client multiplier on the active camera far plane (100% = default)">
             <RangeSlider label="Draw distance" value={drawDistance} onChange={setDrawDistance} />
           </SettingRow>
         </Panel>
 
         <Section>Audio</Section>
         <Panel>
-          <SettingRow name="Game Volume" desc="Overall in-game audio volume">
-            <RangeSlider label="Game volume" value={volume} onChange={setVolume} />
+          <SettingRow name="Master Volume" desc="Master bus volume (0–100%)">
+            <RangeSlider label="Master volume" value={volume} onChange={setVolume} />
           </SettingRow>
         </Panel>
 
