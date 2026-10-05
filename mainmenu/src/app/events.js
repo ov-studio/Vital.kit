@@ -1,8 +1,9 @@
 /* Mainmenu ↔ C++ IPC bridge (same pattern as splash).
  * UI dispatches window events; this module posts IPC actions.
- * C++ owns client_settings.json and pushes { action: "settings" } on ready. */
+ * C++ owns client_settings.json and pushes { action: "settings", username } on ready. */
 
 let cached_settings = null;
+let cached_username = null;
 
 function post(payload) {
   window.ipc?.postMessage(JSON.stringify(payload));
@@ -11,9 +12,15 @@ function post(payload) {
 document.addEventListener('message', (e) => {
   try {
     const data = JSON.parse(e.detail);
-    if (data?.action === 'settings' && data.settings) {
-      cached_settings = data.settings;
-      window.dispatchEvent(new CustomEvent('mainmenu:settings_loaded', { detail: data.settings }));
+    if (data?.action === 'settings') {
+      if (data.settings) {
+        cached_settings = data.settings;
+        window.dispatchEvent(new CustomEvent('mainmenu:settings_loaded', { detail: data.settings }));
+      }
+      if (typeof data.username === 'string' && data.username) {
+        cached_username = data.username;
+        window.dispatchEvent(new CustomEvent('mainmenu:username', { detail: data.username }));
+      }
     }
   } catch { /* ignore */ }
 });
@@ -47,7 +54,11 @@ export function settings_update(settings) {
   window.dispatchEvent(new CustomEvent('mainmenu:settings', { detail: settings }));
 }
 
-/** Last settings pushed from C++ (null until ready). */
 export function get_settings() {
   return cached_settings;
+}
+
+/** OS username from C++ (Tool::get_username), null until ready. */
+export function get_username() {
+  return cached_username;
 }

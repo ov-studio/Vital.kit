@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { ExternalLink, Download, X } from 'lucide-react';
 import { Brand }      from '@ui/brand';
 import { Button }     from '@ui/button';
@@ -25,12 +26,24 @@ function on_exit() {
 
 /* Top bar: brand, greeting, external links, downloads and exit. */
 export function Hud() {
+  const [username, setUsername] = useState(() => events.get_username() || 'Player');
+
+  useEffect(() => {
+    function on_name(e) {
+      if (e.detail) setUsername(e.detail);
+    }
+    window.addEventListener('mainmenu:username', on_name);
+    const current = events.get_username();
+    if (current) setUsername(current);
+    return () => window.removeEventListener('mainmenu:username', on_name);
+  }, []);
+
   return (
     <header className="hud" onMouseDown={on_bar_mouse_down}>
       <div className="hud-logo" data-no-drag>
         <Brand size="xs" variant="logo-only" />
       </div>
-      <div className="hud-greet">Greetings, <strong>FallingStickman</strong></div>
+      <div className="hud-greet">Greetings, <strong>{username}</strong></div>
       <nav className="hud-links" data-no-drag>
         {LINKS.map(label => (
           <Button key={label} variant="action" size="lg">
