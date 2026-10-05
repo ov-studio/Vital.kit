@@ -139,6 +139,7 @@
   border: none;
   border-radius: 10px;
   background: var(--bg4);
+  border: 2px solid var(--bg4);
   opacity: .75;
   transition: background .14s, opacity .14s;
 }
