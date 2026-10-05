@@ -23,17 +23,11 @@ const WINDOW_MODE_OPTIONS = [
   { value: 'fullscreen', label: 'Fullscreen' },
 ];
 
-const QUALITY_OPTIONS = [
-  { value: 'low',    label: 'Low'    },
-  { value: 'medium', label: 'Medium' },
-  { value: 'high',   label: 'High'   },
-];
 
 const DEFAULTS = {
   resolution:         '1600x900',
   window_mode:        'borderless',
   vsync:              true,
-  quality:            'medium',
   draw_distance_mult: 1,
   volume:             0.8,
   max_width:          1920,
@@ -46,7 +40,6 @@ function from_engine(s) {
     resolution:         src.resolution ?? DEFAULTS.resolution,
     window_mode:        src.window_mode ?? DEFAULTS.window_mode,
     vsync:              src.vsync ?? DEFAULTS.vsync,
-    quality:            src.quality ?? DEFAULTS.quality,
     draw_distance_mult: src.draw_distance_mult ?? DEFAULTS.draw_distance_mult,
     volume:             src.volume ?? DEFAULTS.volume,
     max_width:          src.max_width ?? DEFAULTS.max_width,
@@ -74,7 +67,6 @@ export function ViewSettings() {
   const [resolution, setResolution]     = useState(() => clamp_resolution(initial.resolution, filter_resolutions(initial.max_width, initial.max_height)));
   const [windowMode, setWindowMode]     = useState(initial.window_mode);
   const [vsync, setVsync]               = useState(initial.vsync);
-  const [quality, setQuality]           = useState(initial.quality);
   const [drawDistance, setDrawDistance] = useState(Math.round((initial.draw_distance_mult ?? 1) * 100));
   const [volume, setVolume]             = useState(Math.round((initial.volume ?? 0.8) * 100));
   const skip_emit = useRef(true);
@@ -89,7 +81,6 @@ export function ViewSettings() {
       setResolution(clamp_resolution(s.resolution, opts));
       setWindowMode(s.window_mode);
       setVsync(s.vsync);
-      setQuality(s.quality);
       setDrawDistance(Math.round((s.draw_distance_mult ?? 1) * 100));
       setVolume(Math.round((s.volume ?? 0.8) * 100));
     }
@@ -106,11 +97,10 @@ export function ViewSettings() {
       resolution,
       window_mode:        windowMode,
       vsync,
-      quality,
       draw_distance_mult: drawDistance / 100,
       volume:             volume / 100,
     });
-  }, [resolution, windowMode, vsync, quality, drawDistance, volume]);
+  }, [resolution, windowMode, vsync, drawDistance, volume]);
 
   return (
     <div className="view">
@@ -140,9 +130,6 @@ export function ViewSettings() {
 
         <Section>Graphics</Section>
         <Panel>
-          <SettingRow name="Quality Preset" desc="Anti-aliasing quality (MSAA) — Low off, Medium 2×, High 4×">
-            <Select value={quality} onChange={setQuality} options={QUALITY_OPTIONS} aria-label="Quality preset" />
-          </SettingRow>
           <SettingRow name="Draw Distance" desc="Client multiplier on the active camera far plane (100% = default)">
             <RangeSlider label="Draw distance" value={drawDistance} onChange={setDrawDistance} />
           </SettingRow>
