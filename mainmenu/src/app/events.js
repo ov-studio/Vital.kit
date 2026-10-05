@@ -4,6 +4,7 @@
 
 let cached_settings = null;
 let cached_username = null;
+let cached_updates = [];
 
 function post(payload) {
   window.ipc?.postMessage(JSON.stringify(payload));
@@ -12,6 +13,11 @@ function post(payload) {
 document.addEventListener('message', (e) => {
   try {
     const data = JSON.parse(e.detail);
+    if (data?.action === 'update') {
+      // Host lists only outdated components: [{ name, current, latest, url }]
+      cached_updates = Array.isArray(data.updates) ? data.updates : [];
+      window.dispatchEvent(new CustomEvent('mainmenu:update', { detail: cached_updates }));
+    }
     if (data?.action === 'settings') {
       if (data.settings) {
         cached_settings = data.settings;
@@ -33,6 +39,12 @@ window.addEventListener('mainmenu:exit', () => {
   post({ action: 'exit' });
 });
 
+window.addEventListener('mainmenu:open_url', (e) => {
+  const url = String(e.detail ?? '');
+  if (!/^https?:\/\//i.test(url)) return; // only web links ever leave the app
+  post({ action: 'open_url', url });
+});
+
 window.addEventListener('mainmenu:settings', (e) => {
   post({ action: 'settings_update', settings: e.detail ?? {} });
 });
@@ -50,6 +62,11 @@ export function exit() {
   window.dispatchEvent(new Event('mainmenu:exit'));
 }
 
+/** Ask the host to open a URL in the user's default external browser. */
+export function open_url(url) {
+  window.dispatchEvent(new CustomEvent('mainmenu:open_url', { detail: url }));
+}
+
 export function settings_update(settings) {
   window.dispatchEvent(new CustomEvent('mainmenu:settings', { detail: settings }));
 }
@@ -61,4 +78,9 @@ export function get_settings() {
 /** OS username from C++ (Tool::get_username), null until ready. */
 export function get_username() {
   return cached_username;
+}
+
+/** Outdated Vital.sandbox / Vital.kit components from the host; empty when up to date or unknown. */
+export function get_updates() {
+  return cached_updates;
 }

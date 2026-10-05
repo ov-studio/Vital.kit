@@ -17,7 +17,16 @@ export async function install_dev_ipc_stub() {
     if (!window.ipc) {
       window.ipc = {
         postMessage(json) {
-          console.log('[ipc -> godot]', JSON.parse(json));
+          const msg = JSON.parse(json);
+          console.log('[ipc -> godot]', msg);
+          // Mirror the host: open_url launches the external browser.
+          if (msg.action === 'open_url') window.open(msg.url, '_blank', 'noopener');
+          // Dev only: open the page with ?update to simulate an outdated build.
+          if (msg.action === 'ready' && new URLSearchParams(location.search).has('update')) {
+            dispatch_dev_message({ action: 'update', updates: [
+              { name: 'Vital.sandbox', current: 'v1.0.0', latest: 'v1.1.0', url: 'https://github.com/ov-studio/Vital.sandbox/releases' }
+            ] });
+          }
         }
       };
     }
