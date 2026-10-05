@@ -1,5 +1,6 @@
 import * as react          from 'react-dom/client';
 import * as app_mainmenu   from './components/mainmenu/index.jsx';
+import * as events         from './events.js';
 import * as shared_dev_ipc from '../../../shared/dev-ipc.js';
 import './index.css';
 
@@ -9,6 +10,8 @@ await shared_dev_ipc.install_dev_ipc_stub();
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Tab') e.preventDefault();
 }, true);
+
+events.ready();
 
 const root = react.createRoot(document.getElementById('root'));
 root.render(<app_mainmenu.MainMenu />);
