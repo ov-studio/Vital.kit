@@ -19,7 +19,6 @@ const RESOLUTION_OPTIONS = [
 ];
 
 const WINDOW_MODE_OPTIONS = [
-  { value: 'windowed',   label: 'Windowed' },
   { value: 'borderless', label: 'Borderless' },
   { value: 'fullscreen', label: 'Fullscreen' },
 ];
@@ -106,7 +105,7 @@ export function ViewSettings() {
               aria-label="Resolution"
             />
           </SettingRow>
-          <SettingRow name="Window Mode" desc="Windowed, borderless, or exclusive fullscreen">
+          <SettingRow name="Window Mode" desc="Borderless window with custom title bar, or exclusive fullscreen">
             <Select
               value={windowMode}
               onChange={setWindowMode}
