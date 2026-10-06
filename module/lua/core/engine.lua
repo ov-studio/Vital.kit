@@ -12,80 +12,116 @@
 --[[ Core: Engine ]]--
 ----------------------
 
-local private = {}
+local private = {
+    type = type,
+    tostring = tostring,
+    tonumber = tonumber,
+    pairs = pairs,
+    getmetatable = getmetatable,
+    format = util.string.format,
+    rep = util.string.rep,
+    gsub = util.string.gsub,
+    sort = util.table.sort,
+    concat = util.table.concat,
+    max = util.math.max,
+    indents = {}
+}
 
-function private.inspect(input, show_hidden, depth_limit, level, buffer, visited)
-    local input_type = type(input)
-    show_hidden = (show_hidden and true) or false
-    depth_limit = util.math.max(1, tonumber(depth_limit) or 10)
-    level = util.math.max(0, tonumber(level) or 0)
-    buffer = buffer or util.table.pack()
-    visited = visited or {}
-    if input_type ~= "table" then
-        local input_types = {["nil"] = true, ["boolean"] = true, ["string"] = true, ["number"] = true}
-        util.table.insert(buffer, ((input_types[input_type] and (((input_type == "string") and util.string.format("%q", input)) or tostring(input))) or ("<"..tostring(input)..">")).."\n")
-    elseif level > depth_limit then
-        util.table.insert(buffer, "{...}\n")
-    elseif visited[input] then
-        util.table.insert(buffer, "{<circular>}\n")
-    else
-        visited[input] = true
-        util.table.insert(buffer, "{\n")
-        local indent = util.string.rep("\t", level + 1)
-        local scalar_keys, table_keys = {}, {}
-        for k, v in pairs(input) do
-            if type(v) == "table" then
-                util.table.insert(table_keys, k)
-            else
-                util.table.insert(scalar_keys, k)
-            end
-        end
-        util.table.sort(scalar_keys, function(a, b) return tostring(a) < tostring(b) end)
-        util.table.sort(table_keys, function(a, b) return tostring(a) < tostring(b) end)
-
-        local ordered_keys = {}
-        for _, k in ipairs(scalar_keys) do util.table.insert(ordered_keys, k) end
-        for _, k in ipairs(table_keys) do util.table.insert(ordered_keys, k) end
-        for _, k in ipairs(ordered_keys) do
-            local v = input[k]
-            util.table.insert(buffer, indent..tostring(k)..": ")
-            if k ~= "__index" then
-                private.inspect(v, show_hidden, depth_limit, level + 1, buffer, visited)
-            else
-                util.table.insert(buffer, "{<__index>}\n")
-            end
-        end
-        
-        if show_hidden then
-            local metadata = getmetatable(input)
-            if metadata and not visited[metadata] then
-                util.table.insert(buffer, indent.."<metatable>: ")
-                private.inspect(metadata, show_hidden, depth_limit, level + 1, buffer, visited)
-            end
-        end
-        util.table.insert(buffer, util.string.rep("\t", level).."}\n")
-        visited[input] = nil
+function private.indent(level)
+    local result = private.indents[level]
+    if not result then
+        result = private.rep("\t", level)
+        private.indents[level] = result
     end
-    return util.table.concat(buffer)
+    return result
 end
 
-function core.engine.inspect(...) 
-    return private.inspect(util.table.unpack(util.table.pack(...), 1, 3))
+function private.inspect(input, show_hidden, depth_limit, level, buffer, n, visited)
+    local input_type = private.type(input)
+    if input_type ~= "table" then
+        if input_type == "string" then
+            buffer[n + 1] = private.format("%q", input)
+        elseif (input_type == "nil") or (input_type == "boolean") or (input_type == "number") then
+            buffer[n + 1] = private.tostring(input)
+        else
+            buffer[n + 1] = "<"..private.tostring(input)..">"
+        end
+        buffer[n + 2] = "\n"
+        return n + 2
+    elseif level > depth_limit then
+        buffer[n + 1] = "{...}\n"
+        return n + 1
+    elseif visited[input] then
+        buffer[n + 1] = "{<circular>}\n"
+        return n + 1
+    end
+
+    visited[input] = true
+    buffer[n + 1] = "{\n"
+    n = n + 1
+    local indent = private.indent(level + 1)
+
+    local names, scalar_keys, table_keys, scalar_count, table_count = {}, {}, {}, 0, 0
+    for k, v in private.pairs(input) do
+        names[k] = private.tostring(k)
+        if private.type(v) == "table" then
+            table_count = table_count + 1
+            table_keys[table_count] = k
+        else
+            scalar_count = scalar_count + 1
+            scalar_keys[scalar_count] = k
+        end
+    end
+    if (scalar_count > 1) or (table_count > 1) then
+        local function compare(a, b) return names[a] < names[b] end
+        if scalar_count > 1 then private.sort(scalar_keys, compare) end
+        if table_count > 1 then private.sort(table_keys, compare) end
+    end
+
+    for pass = 1, 2 do
+        local keys, count = scalar_keys, scalar_count
+        if pass == 2 then keys, count = table_keys, table_count end
+        for i = 1, count do
+            local k = keys[i]
+            buffer[n + 1] = indent
+            buffer[n + 2] = names[k]
+            buffer[n + 3] = ": "
+            n = n + 3
+            if k ~= "__index" then
+                n = private.inspect(input[k], show_hidden, depth_limit, level + 1, buffer, n, visited)
+            else
+                buffer[n + 1] = "{<__index>}\n"
+                n = n + 1
+            end
+        end
+    end
+
+    if show_hidden then
+        local metadata = private.getmetatable(input)
+        if metadata and not visited[metadata] then
+            buffer[n + 1] = indent
+            buffer[n + 2] = "<metatable>: "
+            n = n + 2
+            n = private.inspect(metadata, show_hidden, depth_limit, level + 1, buffer, n, visited)
+        end
+    end
+    if level > 0 then
+        n = n + 1
+        buffer[n] = private.indent(level)
+    end
+    buffer[n + 1] = "}\n"
+    visited[input] = nil
+    return n + 1
+end
+
+function core.engine.inspect(input, show_hidden, depth_limit)
+    local buffer = {}
+    local n = private.inspect(input, (show_hidden and true) or false, private.max(1, private.tonumber(depth_limit) or 10), 0, buffer, 0, {})
+    return private.concat(buffer, "", 1, n)
 end
 
 function core.engine.iprint(input, ...)
     local separator = "> "
-    local output = core.engine.inspect(input, ...)
-    local result = "Inspect: "..tostring(input).."\n"..separator
-    local index = 1
-    while true do
-        local nl = util.string.find(output, "\n", index, true)
-        if not nl then
-            result = result..util.string.sub(output, index)
-            break
-        end
-        result = result..util.string.sub(output, index, nl - 1).."\n"..separator
-        index = nl + 1
-    end
+    local result = "Inspect: "..private.tostring(input).."\n"..separator..private.gsub(core.engine.inspect(input, ...), "\n", "\n"..separator)
     return core.engine.print("info", result)
 end

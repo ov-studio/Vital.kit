@@ -13,56 +13,70 @@
 ---------------------
 
 local private = {
+    type = type,
+    pairs = pairs,
     rawset = rawset,
     rawget = rawget,
-    unpack = util.table.unpack
+    unpack = util.table.unpack,
+    move = util.table.move
 }
 
-function util.table.len(input)
-  return private.rawget(input, "n") or #input
-end
-
-function util.table.unpack(input, start_at, end_at)
-  return private.unpack(input, start_at or 1, end_at or util.table.len(input))
-end
-
-function util.table.insert(input, value, index)
-    local n = util.table.len(input)
-    if index == nil then
-        input[n + 1] = value
-        private.rawset(input, "n", n + 1)
-    else
-        for i = n, index, -1 do
-            input[i + 1] = input[i]
-        end
-        input[index] = value
-        private.rawset(input, "n", n + 1)
-    end
-end
-
-function util.table.remove(input, index)
-    local n = util.table.len(input)
-    if n == 0 then return nil end
-    index = index or n
-    if (index < 1) or (index > n) then return nil end
-    local result = input[index]
-    for i = index, n - 1 do
-        input[i] = input[i + 1]
-    end
-    input[n] = nil
-    private.rawset(input, "n", n - 1)
-    return result
-end
-
-function util.table.clone(input, recursive)
-    if not input or (type(input) ~= "table") then return false end
+function private.clone(input, recursive)
+    if private.type(input) ~= "table" then return false end
     local result = {}
-    for i, j in pairs(input) do
-        if (type(j) == "table") and recursive then
-            result[i] = util.table.clone(j, recursive)
-        else
+    if recursive then
+        for i, j in private.pairs(input) do
+            if private.type(j) == "table" then
+                result[i] = private.clone(j, true)
+            else
+                result[i] = j
+            end
+        end
+    else
+        for i, j in private.pairs(input) do
             result[i] = j
         end
     end
     return result
+end
+
+function util.table.len(input)
+    return private.rawget(input, "n") or #input
+end
+
+function util.table.unpack(input, start_at, end_at)
+    return private.unpack(input, start_at or 1, end_at or private.rawget(input, "n") or #input)
+end
+
+function util.table.insert(input, value, index)
+    local n = private.rawget(input, "n")
+    local tracked = (n ~= nil)
+    if not tracked then n = #input end
+    if index == nil then
+        n = n + 1
+        input[n] = value
+    else
+        if index <= n then private.move(input, index, n, index + 1) end
+        input[index] = value
+        n = n + 1
+    end
+    if tracked then input.n = n else private.rawset(input, "n", n) end
+end
+
+function util.table.remove(input, index)
+    local n = private.rawget(input, "n")
+    local tracked = (n ~= nil)
+    if not tracked then n = #input end
+    if n == 0 then return nil end
+    index = index or n
+    if (index < 1) or (index > n) then return nil end
+    local result = input[index]
+    if index < n then private.move(input, index + 1, n, index) end
+    input[n] = nil
+    if tracked then input.n = n - 1 else private.rawset(input, "n", n - 1) end
+    return result
+end
+
+function util.table.clone(input, recursive)
+    return private.clone(input, recursive)
 end
