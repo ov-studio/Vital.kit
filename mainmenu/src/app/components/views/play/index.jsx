@@ -1,6 +1,7 @@
 import { useMemo, useRef } from 'react';
 import { Star, Flame } from 'lucide-react';
 import { SERVERS } from '../../../data/index.jsx';
+import { LocalServer } from '../../localserver/index.jsx';
 import { Featured } from '../../featured/index.jsx';
 import { CardGrid, useFitCount } from '../../cardgrid/index.jsx';
 
@@ -11,6 +12,7 @@ export function ViewPlay({ visible, favs, onToggleFav }) {
 
   return (
     <div className="view">
+      <LocalServer active={visible} />
       <div className="slabel"><Star size={11} fill="currentColor" />Featured</div>
       <Featured visible={visible} />
 

@@ -1,0 +1,45 @@
+.localserver {
+  --ls-live: hsl(145, 65%, 52%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+  margin-bottom: 28px;
+  padding: 10px 12px 10px 18px;
+  border-radius: 10px;
+  background: var(--rule);
+  box-shadow: inset 0 0 0 1px var(--b10);
+  animation: fadeUp .25s ease;
+}
+
+.ls-dot {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--ls-live);
+  box-shadow: 0 0 8px var(--ls-live);
+}
+
+.ls-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; margin-right: auto; }
+.ls-label {
+  font-size: .64rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.ls-name {
+  font-family: var(--font-display);
+  font-size: .98rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ls-meta { font-size: .74rem; white-space: nowrap; color: var(--text-muted); }
+
+.ui-btn.ls-join { padding: 7px 24px; font-size: .8rem; }

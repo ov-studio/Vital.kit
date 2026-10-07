@@ -45,6 +45,12 @@ window.addEventListener('mainmenu:open_url', (e) => {
   post({ action: 'open_url', url });
 });
 
+window.addEventListener('mainmenu:connect', (e) => {
+  const { ip, port, http_port } = e.detail ?? {};
+  if (typeof ip !== 'string' || !Number.isInteger(port)) return;
+  post({ action: 'connect', ip, port, http_port: Number.isInteger(http_port) ? http_port : -1 });
+});
+
 window.addEventListener('mainmenu:settings', (e) => {
   post({ action: 'settings_update', settings: e.detail ?? {} });
 });
@@ -65,6 +71,10 @@ export function exit() {
 /** Ask the host to open a URL in the user's default external browser. */
 export function open_url(url) {
   window.dispatchEvent(new CustomEvent('mainmenu:open_url', { detail: url }));
+}
+
+export function connect(ip, port, http_port) {
+  window.dispatchEvent(new CustomEvent('mainmenu:connect', { detail: { ip, port, http_port } }));
 }
 
 export function settings_update(settings) {
