@@ -6,6 +6,7 @@ let cached_settings = null;
 let cached_username = null;
 let cached_updates = [];
 let cached_localservers = [];
+let cached_bind = null;
 let cached_connection = { state: 'idle', ip: '', port: 0 };
 
 function post(payload) {
@@ -20,6 +21,7 @@ document.addEventListener('message', (e) => {
       cached_updates = Array.isArray(data.updates) ? data.updates : [];
       window.dispatchEvent(new CustomEvent('mainmenu:update', { detail: cached_updates }));
     }
+    if (data?.action === 'init' && typeof data.bind === 'string') cached_bind = data.bind;
     if (data?.action === 'fadeout') window.dispatchEvent(new Event('mainmenu:fadeout'));
     if (data?.action === 'localservers') {
       // Host-verified servers on this machine: [{ name, port, http_port, max_peers, ... }]
@@ -109,6 +111,11 @@ export function connect(ip, port, http_port) {
 /** Ask the host to list the servers running on this machine (answer arrives as `mainmenu:localservers`). */
 export function scan_local_servers() {
   window.dispatchEvent(new Event('mainmenu:scan_local_servers'));
+}
+
+/** Menu toggle key name from Vital.kit config/mainmenu.json (via host), null until ready. */
+export function get_bind() {
+  return cached_bind;
 }
 
 /** Esc pressed in the menu: host decides (it only fades out while connected to a game). */

@@ -11,9 +11,12 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Tab') e.preventDefault();
 }, true);
 
-// Esc: host fades the menu out (revealing the game) and brings it back on the next Esc.
+// Menu bind (Vital.kit config/mainmenu.json, fed by the host): host fades the menu out
+// (revealing the game) and brings it back on the next press.
 document.addEventListener('keydown', (e) => {
-  if (e.key !== 'Escape' || e.repeat || e.defaultPrevented) return;
+  const bind = events.get_bind();
+  if (!bind || e.repeat || e.defaultPrevented) return;
+  if (e.key !== (window.to_key ? window.to_key(bind) : bind)) return;
   events.escape();
 });
 
