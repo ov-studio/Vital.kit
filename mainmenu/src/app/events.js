@@ -20,6 +20,7 @@ document.addEventListener('message', (e) => {
       cached_updates = Array.isArray(data.updates) ? data.updates : [];
       window.dispatchEvent(new CustomEvent('mainmenu:update', { detail: cached_updates }));
     }
+    if (data?.action === 'fadeout') window.dispatchEvent(new Event('mainmenu:fadeout'));
     if (data?.action === 'localservers') {
       // Host-verified servers on this machine: [{ name, port, http_port, max_peers, ... }]
       cached_localservers = Array.isArray(data.servers) ? data.servers : [];
@@ -66,6 +67,15 @@ window.addEventListener('mainmenu:scan_local_servers', () => {
   post({ action: 'localservers' });
 });
 
+window.addEventListener('mainmenu:escape', () => {
+  post({ action: 'escape' });
+});
+
+// Fade finished: ask the host to actually hide the webview.
+window.addEventListener('mainmenu:hide', () => {
+  post({ action: 'hide' });
+});
+
 window.addEventListener('mainmenu:disconnect', () => {
   post({ action: 'disconnect' });
 });
@@ -99,6 +109,16 @@ export function connect(ip, port, http_port) {
 /** Ask the host to list the servers running on this machine (answer arrives as `mainmenu:localservers`). */
 export function scan_local_servers() {
   window.dispatchEvent(new Event('mainmenu:scan_local_servers'));
+}
+
+/** Esc pressed in the menu: host decides (it only fades out while connected to a game). */
+export function escape() {
+  window.dispatchEvent(new Event('mainmenu:escape'));
+}
+
+/** Fade-out done: host hides the webview. */
+export function hide() {
+  window.dispatchEvent(new Event('mainmenu:hide'));
 }
 
 export function disconnect() {

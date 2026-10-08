@@ -20,6 +20,10 @@ html, body {
 }
 #root { width: 100%; height: 100%; }
 
+/* Esc fade: the whole page (background included) fades so the game shows through. */
+html { transition: opacity .22s ease; }
+html.is-faded { opacity: 0; pointer-events: none; }
+
 /* Undo the site's cursor:none */
 * { cursor: auto }
 button, a, label, input { cursor: pointer }
