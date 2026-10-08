@@ -21,6 +21,15 @@ export async function install_dev_ipc_stub() {
           console.log('[ipc -> godot]', msg);
           // Mirror the host: open_url launches the external browser.
           if (msg.action === 'open_url') window.open(msg.url, '_blank', 'noopener');
+          // Dev only: the host fetches the masterlist; here a tiny sample stands in (?masterlist=empty|error to see those states).
+          if (msg.action === 'masterlist') {
+            const mode = new URLSearchParams(location.search).get('masterlist');
+            const rows = [
+              { id: 'a1', name: 'Dev Server One', ip: '127.0.0.1', port: 7777, httpPort: 7778, players: 12, maxPlayers: 32, description: 'Sample row for local UI work.', discord: 'https://discord.gg/', website: 'https://vital.site' },
+              { id: 'b2', name: 'Dev Server Two', ip: '127.0.0.1', port: 7888, httpPort: 7889, players: 64, maxPlayers: 64, description: null, discord: null, website: null },
+            ];
+            setTimeout(() => dispatch_dev_message({ action: 'masterlist', ok: mode !== 'error', servers: mode === 'empty' || mode === 'error' ? [] : rows }), 200);
+          }
           // Dev only: open the page with ?update to simulate an outdated build.
           if (msg.action === 'ready' && new URLSearchParams(location.search).has('update')) {
             dispatch_dev_message({ action: 'update', updates: [
