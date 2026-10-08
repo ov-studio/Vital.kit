@@ -38,6 +38,10 @@ app/
 
 A component imports its `shared/ui` dependencies first and its own `./index.css` last, so local overrides always win the cascade.
 
+## Local server
+
+The Browse view shows a "Local server" bar when a Vital.server is running on this machine, with a Connect button. Presence is detected by polling `http://127.0.0.1:7778/info` (the server's asset HTTP port; it answers with name, ports, players and max peers, and allows cross-origin reads). Connect posts `{ action: "connect", ip, port, http_port }` over IPC, which the host handles like the console `connect` command. The bar is hidden when nothing answers.
+
 ## Setup
 
 ```

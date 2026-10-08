@@ -5,6 +5,8 @@
 let cached_settings = null;
 let cached_username = null;
 let cached_updates = [];
+let cached_localservers = [];
+let cached_connection = { state: 'idle', ip: '', port: 0 };
 
 function post(payload) {
   window.ipc?.postMessage(JSON.stringify(payload));
@@ -17,6 +19,15 @@ document.addEventListener('message', (e) => {
       // Host lists only outdated components: [{ name, current, latest, url }]
       cached_updates = Array.isArray(data.updates) ? data.updates : [];
       window.dispatchEvent(new CustomEvent('mainmenu:update', { detail: cached_updates }));
+    }
+    if (data?.action === 'localservers') {
+      // Host-verified servers on this machine: [{ name, port, http_port, max_peers, ... }]
+      cached_localservers = Array.isArray(data.servers) ? data.servers : [];
+      window.dispatchEvent(new CustomEvent('mainmenu:localservers', { detail: cached_localservers }));
+    }
+    if (data?.action === 'connection') {
+      cached_connection = { state: data.state ?? 'idle', ip: data.ip ?? '', port: data.port ?? 0 };
+      window.dispatchEvent(new CustomEvent('mainmenu:connection', { detail: cached_connection }));
     }
     if (data?.action === 'settings') {
       if (data.settings) {
@@ -51,6 +62,14 @@ window.addEventListener('mainmenu:connect', (e) => {
   post({ action: 'connect', ip, port, http_port: Number.isInteger(http_port) ? http_port : -1 });
 });
 
+window.addEventListener('mainmenu:scan_local_servers', () => {
+  post({ action: 'localservers' });
+});
+
+window.addEventListener('mainmenu:disconnect', () => {
+  post({ action: 'disconnect' });
+});
+
 window.addEventListener('mainmenu:settings', (e) => {
   post({ action: 'settings_update', settings: e.detail ?? {} });
 });
@@ -75,6 +94,24 @@ export function open_url(url) {
 
 export function connect(ip, port, http_port) {
   window.dispatchEvent(new CustomEvent('mainmenu:connect', { detail: { ip, port, http_port } }));
+}
+
+/** Ask the host to list the servers running on this machine (answer arrives as `mainmenu:localservers`). */
+export function scan_local_servers() {
+  window.dispatchEvent(new Event('mainmenu:scan_local_servers'));
+}
+
+export function disconnect() {
+  window.dispatchEvent(new Event('mainmenu:disconnect'));
+}
+
+export function get_localservers() {
+  return cached_localservers;
+}
+
+/** { state: 'idle' | 'connecting' | 'connected', ip, port } */
+export function get_connection() {
+  return cached_connection;
 }
 
 export function settings_update(settings) {

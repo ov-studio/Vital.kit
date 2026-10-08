@@ -4,7 +4,7 @@
   align-items: center;
   gap: 14px;
   flex-shrink: 0;
-  margin-bottom: 28px;
+  margin-bottom: 10px;
   padding: 10px 12px 10px 18px;
   border-radius: 10px;
   background: var(--rule);
@@ -42,4 +42,7 @@
 
 .ls-meta { font-size: .74rem; white-space: nowrap; color: var(--text-muted); }
 
-.ui-btn.ls-join { padding: 7px 24px; font-size: .8rem; }
+.ui-btn.ls-join { display: inline-flex; align-items: center; gap: 7px; padding: 7px 18px; font-size: .8rem; }
+
+/* Rows stack tightly; the last one carries the gap to the content below. */
+.localserver:not(:has(+ .localserver)) { margin-bottom: 28px; }
