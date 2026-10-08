@@ -176,3 +176,21 @@
 }
 .feat-meta { font-size: .7rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .feat-meta strong { color: var(--dim); font-weight: 600; }
+
+/* No server art in the masterlist: a per-server tinted gradient stands in for banner and logo. */
+.hero-art {
+  filter: none;
+  background:
+    radial-gradient(90% 120% at 75% 0%, hsl(var(--hue) 60% 40% / .55), transparent 70%),
+    linear-gradient(135deg, hsl(var(--hue) 45% 20%), var(--bg4));
+}
+.feat-art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: hsl(var(--hue) 80% 80%);
+  background: linear-gradient(145deg, hsl(var(--hue) 45% 30%), hsl(var(--hue) 40% 16%));
+}

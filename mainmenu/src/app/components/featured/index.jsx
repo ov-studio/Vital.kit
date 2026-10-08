@@ -1,71 +1,71 @@
 import { useState, useEffect } from 'react';
 import { Play } from 'lucide-react';
-import { Button }  from '@ui/button';
+import { Button } from '@ui/button';
 import { TagPill } from '@ui/tagpill';
-import { FEATURED } from '../../data/index.jsx';
-import { hideBroken } from '../../utils/index.js';
+import { hue } from '../../data/index.jsx';
+import * as events from '../../events.js';
 import './index.css';
 
 const INTERVAL = 5000; // ms between featured servers
 
-/* Hero banner cycling through FEATURED, plus the clickable list beside it.
-   Timers pause while `visible` is false, which also keeps the progress dot in sync. */
-export function Featured({ visible }) {
-  // Index and live player count change together, so the count never lags a switch.
-  const [hero, setHero] = useState({ idx: 0, players: FEATURED[0].players });
-  const active = FEATURED[hero.idx];
+const art = name => ({ '--hue': hue(name) });
 
-  const go = idx => setHero({ idx, players: FEATURED[idx].players });
+/* Hero banner cycling through the busiest live servers (`servers`, max 3), plus the clickable list beside it.
+   Counts are the live masterlist numbers. Timers pause while `visible` is false, which also keeps the progress dot in sync. */
+export function Featured({ visible, servers }) {
+  const [idx, setIdx] = useState(0);
+  const current = servers.length ? Math.min(idx, servers.length - 1) : 0; // list can shrink between refreshes
+  const active = servers[current];
 
-  // Any change of idx (auto-cycle or click) restarts both timers.
+  // Any change of idx (auto-cycle or click) restarts the timer.
   useEffect(() => {
-    if (!visible) return;
-    const cycle = setTimeout(() => go((hero.idx + 1) % FEATURED.length), INTERVAL);
-    const jitter = setInterval(() => {
-      setHero(h => ({ ...h, players: Math.max(1, Math.min(active.max, h.players + Math.floor(Math.random() * 6) - 3)) }));
-    }, 5000);
-    return () => { clearTimeout(cycle); clearInterval(jitter); };
-  }, [visible, hero.idx]);
+    if (!visible || servers.length < 2) return;
+    const cycle = setTimeout(() => setIdx((current + 1) % servers.length), INTERVAL);
+    return () => clearTimeout(cycle);
+  }, [visible, current, servers.length]);
+
+  if (!active) return null;
 
   return (
     <div className="hero-row">
       <div className="hero">
-        {FEATURED.map((f, i) => (
-          <img key={f.name} className={`hero-img${i === hero.idx ? ' on' : ''}`} src={f.img} alt="" onError={hideBroken} />
+        {servers.map((f, i) => (
+          <div key={f.id} className={`hero-img hero-art${i === current ? ' on' : ''}`} style={art(f.name)} />
         ))}
-        <div className="hero-content" key={active.name}>
-          <TagPill label={active.genre} />
+        <div className="hero-content" key={active.id}>
+          {active.tags[0] && <TagPill label={active.tags[0]} />}
           <div className="hero-title">{active.name}</div>
-          <p className="hero-desc">{active.desc}</p>
+          {active.desc && <p className="hero-desc">{active.desc}</p>}
           <div className="hero-meta">
-            <Button className="hero-join">
-              <Play size={11} fill="currentColor" />
-              Play Now
+            <Button className="hero-join" disabled={active.full} onClick={() => events.connect(active.ip, active.port, active.http_port)}>
+              {active.full ? 'Full' : <><Play size={11} fill="currentColor" />Play Now</>}
             </Button>
             <span className="hero-viewers">
-              <strong>{hero.players}</strong> / {active.max} online
+              <strong>{active.players}</strong>{active.max ? ` / ${active.max}` : ''} online
             </span>
           </div>
         </div>
-        <div className="hero-dots" style={{ '--cycle': `${INTERVAL}ms` }}>
-          {FEATURED.map((f, i) => (
-            <button
-              key={f.name}
-              className={`hero-dot${i === hero.idx ? ' on' : ''}`}
-              onClick={() => go(i)}
-              aria-label={`Show ${f.name}`}
-            />
-          ))}
-        </div>
+        {servers.length > 1 && (
+          <div className="hero-dots" style={{ '--cycle': `${INTERVAL}ms` }}>
+            {servers.map((f, i) => (
+              <button
+                key={f.id}
+                className={`hero-dot${i === current ? ' on' : ''}`}
+                onClick={() => setIdx(i)}
+                aria-label={`Show ${f.name}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="featured-list">
-        {FEATURED.map((f, i) => (
-          <button key={f.name} className={`feat-item${i === hero.idx ? ' on' : ''}`} onClick={() => go(i)}>
-            <img className="feat-thumb" src={f.logo} alt="" onError={hideBroken} />
+        {servers.map((f, i) => (
+          <button key={f.id} className={`feat-item${i === current ? ' on' : ''}`} onClick={() => setIdx(i)}>
+            <span className="feat-thumb feat-art" style={art(f.name)}>{f.name.charAt(0).toUpperCase()}</span>
             <span className="feat-info">
               <span className="feat-name">{f.name}</span>
-              <span className="feat-meta"><strong>{i === hero.idx ? hero.players : f.players}</strong> / {f.max} players</span>
+              <span className="feat-meta"><strong>{f.players}</strong>{f.max ? ` / ${f.max}` : ''} players</span>
             </span>
           </button>
         ))}
