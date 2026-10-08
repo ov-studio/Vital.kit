@@ -25,8 +25,8 @@ export async function install_dev_ipc_stub() {
           if (msg.action === 'masterlist') {
             const mode = new URLSearchParams(location.search).get('masterlist');
             const rows = [
-              { id: 'a1', name: 'Dev Server One', ip: '127.0.0.1', port: 7777, httpPort: 7778, players: 12, maxPlayers: 32, description: 'Sample row for local UI work.', discord: 'https://discord.gg/', website: 'https://vital.site' },
-              { id: 'b2', name: 'Dev Server Two', ip: '127.0.0.1', port: 7888, httpPort: 7889, players: 64, maxPlayers: 64, description: null, discord: null, website: null },
+              { id: 'a1', name: 'Dev Server One', ip: '127.0.0.1', port: 7777, httpPort: 7778, players: 12, maxPlayers: 32, description: 'Sample row for local UI work.', tags: ['roleplay', 'racing'], discord: 'https://discord.gg/', website: 'https://vital.site' },
+              { id: 'b2', name: 'Dev Server Two', ip: '127.0.0.1', port: 7888, httpPort: 7889, players: 64, maxPlayers: 64, tags: ['sandbox', 'roleplay'], description: null, discord: null, website: null },
             ];
             setTimeout(() => dispatch_dev_message({ action: 'masterlist', ok: mode !== 'error', servers: mode === 'empty' || mode === 'error' ? [] : rows }), 200);
           }
