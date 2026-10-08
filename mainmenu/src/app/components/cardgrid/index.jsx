@@ -47,9 +47,9 @@ export function CardGrid({ servers, favs, onToggleFav, fit, gridRef }) {
       <div className="cgrid" style={GRID_VARS}>
         {servers.map((s, i) => (
           <GameCard
-            key={s.name}
+            key={s.id}
             server={s}
-            isFav={favs.has(s.name)}
+            isFav={favs.has(s.id)}
             onToggleFav={onToggleFav}
             style={{ animationDelay: `${0.04 + i * 0.04}s` }}
           />
