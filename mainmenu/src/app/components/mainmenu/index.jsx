@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useMasterlistPolling } from '../../data/index.jsx';
 import { Hud }       from '../hud/index.jsx';
 import { Sidebar }   from '../sidebar/index.jsx';
 import { ViewPlay }       from '../views/play/index.jsx';
@@ -11,10 +12,12 @@ export function MainMenu() {
   const [activeView, setActiveView] = useState('play');
   const [favs, setFavs]             = useState(new Set());
 
-  const toggleFav = name => {
+  useMasterlistPolling();
+
+  const toggleFav = id => {
     setFavs(prev => {
       const next = new Set(prev);
-      next.has(name) ? next.delete(name) : next.add(name);
+      next.has(id) ? next.delete(id) : next.add(id);
       return next;
     });
   };
