@@ -4,26 +4,30 @@ import { Divider }    from '@ui/divider';
 import { EmptyState } from '@ui/empty';
 import { Filter }     from '@ui/filter';
 import { Search }     from '@ui/search';
-import { SERVERS, GENRES } from '../../../data/index.jsx';
+import { useMasterlist, emptyText, filter_tags, matches_tag } from '../../../data/index.jsx';
 import { CardGrid }   from '../../cardgrid/index.jsx';
 import './index.css';
 
 export function ViewMasterlist({ favs, onToggleFav }) {
   const [search, setSearch]       = useState('');
-  const [activeTag, setActiveTag] = useState(null);
+  const [chosen, setChosen]       = useState(null);
+  const { status, servers } = useMasterlist();
+
+  const tags = useMemo(() => filter_tags(servers), [servers]);
+  const activeTag = tags.includes(chosen) ? chosen : null; // a chip can vanish between refreshes
 
   const results = useMemo(() => {
     const q = search.trim().toLowerCase();
-    return SERVERS
-      .filter(s => activeTag === null || s.genre === activeTag)
-      .filter(s => !q || s.name.toLowerCase().includes(q) || s.genre.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q))
+    return servers
+      .filter(s => matches_tag(s, activeTag))
+      .filter(s => !q || s.name.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q))
       .sort((a, b) => a.name.localeCompare(b.name));
-  }, [search, activeTag]);
+  }, [search, activeTag, servers]);
 
   return (
     <div className="view">
       <div className="mlist-filters">
-        <Filter tags={GENRES} active={activeTag} onChange={setActiveTag} />
+        <Filter tags={tags} active={activeTag} onChange={setChosen} />
         <Search
           value={search}
           onChange={setSearch}
@@ -35,7 +39,7 @@ export function ViewMasterlist({ favs, onToggleFav }) {
 
       {results.length === 0 ? (
         <EmptyState icon={<SearchIcon size={40} strokeWidth={1.4} />}>
-          No servers found. Try a different search term or clear the active filter.
+          {emptyText(status, search.trim() !== '' || activeTag !== null)}
         </EmptyState>
       ) : (
         <CardGrid servers={results} favs={favs} onToggleFav={onToggleFav} />
