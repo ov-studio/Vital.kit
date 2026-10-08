@@ -1,4 +1,6 @@
 {
     "interval": 900,
-    "debounce": 15
+    "debounce": 15,
+    "url": "https://vital.site/api/masterlist",
+    "refresh": 15
 }
