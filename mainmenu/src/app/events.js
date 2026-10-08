@@ -7,6 +7,8 @@ let cached_username = null;
 let cached_updates = [];
 let cached_localservers = [];
 let cached_bind = null;
+let cached_masterlist = { status: 'loading', servers: [] }; // status: loading | ok | error
+let cached_masterlist_refresh = 15;
 let cached_connection = { state: 'idle', ip: '', port: 0 };
 
 function post(payload) {
@@ -21,7 +23,18 @@ document.addEventListener('message', (e) => {
       cached_updates = Array.isArray(data.updates) ? data.updates : [];
       window.dispatchEvent(new CustomEvent('mainmenu:update', { detail: cached_updates }));
     }
-    if (data?.action === 'init' && typeof data.bind === 'string') cached_bind = data.bind;
+    if (data?.action === 'init') {
+      if (typeof data.bind === 'string') cached_bind = data.bind;
+      if (Number.isInteger(data.masterlist_refresh)) cached_masterlist_refresh = data.masterlist_refresh;
+      window.dispatchEvent(new Event('mainmenu:init'));
+    }
+    if (data?.action === 'masterlist') {
+      // On failure keep the last good list so a blip doesn't blank the menu; status drives the empty/error state.
+      cached_masterlist = data.ok && Array.isArray(data.servers)
+        ? { status: 'ok', servers: data.servers }
+        : { status: cached_masterlist.servers.length ? 'ok' : 'error', servers: cached_masterlist.servers };
+      window.dispatchEvent(new CustomEvent('mainmenu:masterlist', { detail: cached_masterlist }));
+    }
     if (data?.action === 'fadeout') window.dispatchEvent(new Event('mainmenu:fadeout'));
     if (data?.action === 'localservers') {
       // Host-verified servers on this machine: [{ name, port, http_port, max_peers, ... }]
@@ -78,6 +91,10 @@ window.addEventListener('mainmenu:hide', () => {
   post({ action: 'hide' });
 });
 
+window.addEventListener('mainmenu:fetch_masterlist', () => {
+  post({ action: 'masterlist' });
+});
+
 window.addEventListener('mainmenu:disconnect', () => {
   post({ action: 'disconnect' });
 });
@@ -126,6 +143,21 @@ export function escape() {
 /** Fade-out done: host hides the webview. */
 export function hide() {
   window.dispatchEvent(new Event('mainmenu:hide'));
+}
+
+/** Ask the host to fetch the live masterlist (answer arrives as `mainmenu:masterlist`). */
+export function fetch_masterlist() {
+  window.dispatchEvent(new Event('mainmenu:fetch_masterlist'));
+}
+
+/** { status: 'loading' | 'ok' | 'error', servers } raw masterlist rows from the host. */
+export function get_masterlist() {
+  return cached_masterlist;
+}
+
+/** Seconds between masterlist refreshes (Vital.kit config/masterlist.json `refresh`). */
+export function get_masterlist_refresh() {
+  return cached_masterlist_refresh;
 }
 
 export function disconnect() {
