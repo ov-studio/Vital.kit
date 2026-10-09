@@ -38,7 +38,7 @@ export function ViewMasterlist({ favs, onToggleFav }) {
       <Divider />
 
       {results.length === 0 ? (
-        <EmptyState icon={<SearchIcon size={40} strokeWidth={1.4} />}>
+        <EmptyState icon={<SearchIcon size={24} strokeWidth={2.5} />}>
           {emptyText(status, search.trim() !== '' || activeTag !== null)}
         </EmptyState>
       ) : (
