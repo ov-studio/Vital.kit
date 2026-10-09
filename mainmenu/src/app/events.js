@@ -7,6 +7,7 @@ let cached_username = null;
 let cached_updates = [];
 let cached_localservers = [];
 let cached_bind = null;
+let cached_versions = []; // [{ label, value }] from the host, display order
 let cached_masterlist = { status: 'loading', servers: [] }; // status: loading | ok | error
 let cached_masterlist_refresh = 15 * 1000; // ms
 let cached_connection = { state: 'idle', ip: '', port: 0 };
@@ -26,6 +27,7 @@ document.addEventListener('message', (e) => {
     if (data?.action === 'init') {
       if (typeof data.bind === 'string') cached_bind = data.bind;
       if (Number.isInteger(data.masterlist_refresh)) cached_masterlist_refresh = data.masterlist_refresh;
+      if (Array.isArray(data.versions)) cached_versions = data.versions.filter(v => v && typeof v.label === 'string' && typeof v.value === 'string');
       window.dispatchEvent(new Event('mainmenu:init'));
     }
     if (data?.action === 'masterlist') {
@@ -153,6 +155,11 @@ export function fetch_masterlist() {
 /** { status: 'loading' | 'ok' | 'error', servers } raw masterlist rows from the host. */
 export function get_masterlist() {
   return cached_masterlist;
+}
+
+/** [{ label, value }] component versions (Vital.sandbox, Vital.kit, Vital.wry, Vital.godot), fed by the host. */
+export function get_versions() {
+  return cached_versions;
 }
 
 /** Milliseconds between masterlist refreshes (Vital.kit config/masterlist.json `refresh`). */

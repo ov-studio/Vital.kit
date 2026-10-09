@@ -69,7 +69,14 @@ export function ViewSettings() {
   const [vsync, setVsync]               = useState(initial.vsync);
   const [drawDistance, setDrawDistance] = useState(Math.round((initial.draw_distance_mult ?? 1) * 100));
   const [volume, setVolume]             = useState(Math.round((initial.volume ?? 0.8) * 100));
+  const [versions, setVersions]       = useState(events.get_versions);
   const skip_emit = useRef(true);
+
+  useEffect(() => {
+    const on_init = () => setVersions(events.get_versions());
+    window.addEventListener('mainmenu:init', on_init);
+    return () => window.removeEventListener('mainmenu:init', on_init);
+  }, []);
 
   useEffect(() => {
     function on_loaded(e) {
@@ -144,8 +151,7 @@ export function ViewSettings() {
 
         <Section>About</Section>
         <StatGrid minWidth="150px">
-          <Stat label="Vital.sandbox"  value="v2.4.1" />
-          <Stat label="Vital.kit"     value="b3095-beta" />
+          {versions.map(v => <Stat key={v.label} label={v.label} value={v.value} />)}
         </StatGrid>
       </div>
     </div>

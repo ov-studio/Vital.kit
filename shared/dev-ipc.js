@@ -35,6 +35,10 @@ export async function install_dev_ipc_stub() {
             ];
             setTimeout(() => dispatch_dev_message({ action: 'masterlist', ok: mode !== 'error', servers: mode === 'empty' || mode === 'error' ? [] : rows }), 200);
           }
+          // Dev only: the host's init push (component versions for Settings > About).
+          if (msg.action === 'ready') dispatch_dev_message({ action: 'init', bind: 'Escape', masterlist_refresh: 15 * 1000, versions: [
+            { label: 'Vital.sandbox', value: 'v0.0.0-dev' }, { label: 'Vital.kit', value: 'v0.8.7' }, { label: 'Vital.wry', value: 'v0.0.8' }, { label: 'Vital.godot', value: '4.7.2-stable' }
+          ] });
           // Dev only: open the page with ?update to simulate an outdated build.
           if (msg.action === 'ready' && new URLSearchParams(location.search).has('update')) {
             dispatch_dev_message({ action: 'update', updates: [
