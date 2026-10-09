@@ -74,6 +74,7 @@ export function ViewSettings() {
 
   useEffect(() => {
     const on_init = () => setVersions(events.get_versions());
+    on_init(); // init may have arrived between the first render and this effect
     window.addEventListener('mainmenu:init', on_init);
     return () => window.removeEventListener('mainmenu:init', on_init);
   }, []);
