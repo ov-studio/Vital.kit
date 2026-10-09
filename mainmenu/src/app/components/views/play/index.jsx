@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { LayoutGrid, Star, Flame } from 'lucide-react';
+import { SearchIcon, Star, Flame } from 'lucide-react';
 import { EmptyState } from '@ui/empty';
 import { useMasterlist, emptyText } from '../../../data/index.jsx';
 import { LocalServer } from '../../localserver/index.jsx';
@@ -15,7 +15,7 @@ export function ViewPlay({ visible, favs, onToggleFav }) {
     <div className="view">
       <LocalServer active={visible} />
       {servers.length === 0 ? (
-        <EmptyState icon={<LayoutGrid size={24} strokeWidth={2.5} />}>{emptyText(status, false)}</EmptyState>
+        <EmptyState icon={<SearchIcon size={24} strokeWidth={2.5} />}>{emptyText(status, false)}</EmptyState>
       ) : (
         <>
           <div className="slabel"><Star size={11} fill="currentColor" />Featured</div>
