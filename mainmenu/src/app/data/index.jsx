@@ -14,7 +14,7 @@ export function normalize(row) {
   const name = text(row.name);
   if (!name || typeof row.ip !== 'string' || !Number.isInteger(row.port)) return null;
   const players = Number.isFinite(row.players) ? Math.max(0, row.players) : 0;
-  const max     = Number.isFinite(row.maxPlayers) ? Math.max(0, row.maxPlayers) : 0;
+  const max     = Number.isFinite(row.max_players) ? Math.max(0, row.max_players) : 0;
   return {
     id: row.id,
     name,
@@ -28,7 +28,7 @@ export function normalize(row) {
     banner: image(row.banner),
     ip: row.ip,
     port: row.port,
-    http_port: Number.isInteger(row.httpPort) ? row.httpPort : -1,
+    http_port: Number.isInteger(row.http_port) ? row.http_port : -1,
     version: text(row.version),
     tags: Array.isArray(row.tags) ? [...new Set(row.tags.filter(t => typeof t === 'string').map(t => t.trim().toLowerCase()).filter(Boolean))].slice(0, 6) : [],
   };
