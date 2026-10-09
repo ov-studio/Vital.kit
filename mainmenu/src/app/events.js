@@ -8,7 +8,7 @@ let cached_updates = [];
 let cached_localservers = [];
 let cached_bind = null;
 let cached_masterlist = { status: 'loading', servers: [] }; // status: loading | ok | error
-let cached_masterlist_refresh = 15;
+let cached_masterlist_refresh = 15 * 1000; // ms
 let cached_connection = { state: 'idle', ip: '', port: 0 };
 
 function post(payload) {
@@ -155,7 +155,7 @@ export function get_masterlist() {
   return cached_masterlist;
 }
 
-/** Seconds between masterlist refreshes (Vital.kit config/masterlist.json `refresh`). */
+/** Milliseconds between masterlist refreshes (Vital.kit config/masterlist.json `refresh`). */
 export function get_masterlist_refresh() {
   return cached_masterlist_refresh;
 }

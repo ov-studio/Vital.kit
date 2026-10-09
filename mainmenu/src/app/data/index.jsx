@@ -54,7 +54,7 @@ export function useMasterlistPolling() {
     let timer;
     const start = () => {
       clearInterval(timer);
-      timer = setInterval(() => { if (!faded()) events.fetch_masterlist(); }, events.get_masterlist_refresh() * 1000);
+      timer = setInterval(() => { if (!faded()) events.fetch_masterlist(); }, events.get_masterlist_refresh());
     };
     const refresh = () => { events.fetch_masterlist(); start(); };
     const on_visible = e => { if (e.detail?.visible) refresh(); };

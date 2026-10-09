@@ -1,6 +1,5 @@
 {
-    "interval": 900,
-    "debounce": 15,
-    "url": "https://api.vital-sandbox.com/masterlist",
-    "refresh": 15
+    "interval": 900000,
+    "debounce": 15000,
+    "refresh": 15000
 }
