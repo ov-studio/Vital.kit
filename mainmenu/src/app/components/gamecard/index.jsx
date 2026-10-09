@@ -3,16 +3,22 @@ import { Button }     from '@ui/button';
 import { Card }       from '@ui/card';
 import { IconButton } from '@ui/iconbutton';
 import { DiscordIcon } from '../icons/index.jsx';
-import { hue }         from '../../data/index.jsx';
+import { Pic }         from '../pic/index.jsx';
 import * as events     from '../../events.js';
+import { useState, useEffect } from 'react';
 import './index.css';
 
 export function GameCard({ server, isFav, onToggleFav, style }) {
+  const [bad, setBad] = useState(false);
+  useEffect(() => setBad(false), [server.banner]);
   return (
     <Card
       className="gcard"
       style={style}
-      coverPlaceholder={<div className="gc-art" style={{ '--hue': hue(server.name) }} />}
+      cover={bad ? undefined : server.banner ?? undefined}
+      onCoverError={() => setBad(true)}
+      coverPlaceholder={<div className="gc-art" />}
+      topLeft={<Pic src={server.logo} className="gc-logo">{server.name.charAt(0).toUpperCase()}</Pic>}
       topRight={
         <IconButton
           className={`gc-btn gc-fav${isFav ? ' on' : ''}`}

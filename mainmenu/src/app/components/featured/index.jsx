@@ -2,13 +2,11 @@ import { useState, useEffect } from 'react';
 import { Play } from 'lucide-react';
 import { Button } from '@ui/button';
 import { TagPill } from '@ui/tagpill';
-import { hue } from '../../data/index.jsx';
+import { Pic } from '../pic/index.jsx';
 import * as events from '../../events.js';
 import './index.css';
 
 const INTERVAL = 5000; // ms between featured servers
-
-const art = name => ({ '--hue': hue(name) });
 
 /* Hero banner cycling through the busiest live servers (`servers`, max 3), plus the clickable list beside it.
    Counts are the live masterlist numbers. Timers pause while `visible` is false, which also keeps the progress dot in sync. */
@@ -30,7 +28,7 @@ export function Featured({ visible, servers }) {
     <div className="hero-row">
       <div className="hero">
         {servers.map((f, i) => (
-          <div key={f.id} className={`hero-img hero-art${i === current ? ' on' : ''}`} style={art(f.name)} />
+          <Pic key={f.id} src={f.banner} className={`hero-img${i === current ? ' on' : ''}`} />
         ))}
         <div className="hero-content" key={active.id}>
           {active.tags[0] && <TagPill label={active.tags[0]} />}
@@ -62,7 +60,7 @@ export function Featured({ visible, servers }) {
       <div className="featured-list">
         {servers.map((f, i) => (
           <button key={f.id} className={`feat-item${i === current ? ' on' : ''}`} onClick={() => setIdx(i)}>
-            <span className="feat-thumb feat-art" style={art(f.name)}>{f.name.charAt(0).toUpperCase()}</span>
+            <Pic src={f.logo} className="feat-thumb">{f.name.charAt(0).toUpperCase()}</Pic>
             <span className="feat-info">
               <span className="feat-name">{f.name}</span>
               <span className="feat-meta"><strong>{f.players}</strong>{f.max ? ` / ${f.max}` : ''} players</span>
