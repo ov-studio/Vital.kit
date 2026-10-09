@@ -53,6 +53,9 @@ function filter_resolutions(maxW, maxH) {
   return list.length ? list : ALL_RESOLUTIONS.slice(0, 1);
 }
 
+/* Identity of the values the controls hold; used to tell engine-fed values (no write-back) from user edits. */
+const sync_key = (resolution, window_mode, vsync, draw_distance, volume) => `${resolution}|${window_mode}|${vsync}|${draw_distance}|${volume}`;
+
 function clamp_resolution(value, options) {
   if (options.some(o => o.value === value)) return value;
   return options[options.length - 1]?.value ?? DEFAULTS.resolution;
@@ -70,7 +73,10 @@ export function ViewSettings() {
   const [drawDistance, setDrawDistance] = useState(Math.round((initial.draw_distance_mult ?? 1) * 100));
   const [volume, setVolume]             = useState(Math.round((initial.volume ?? 0.8) * 100));
   const [versions, setVersions]       = useState(events.get_versions);
-  const skip_emit = useRef(true);
+  const synced = useRef(sync_key(
+    clamp_resolution(initial.resolution, filter_resolutions(initial.max_width, initial.max_height)),
+    initial.window_mode, initial.vsync, Math.round((initial.draw_distance_mult ?? 1) * 100), Math.round((initial.volume ?? 0.8) * 100)
+  ));
 
   useEffect(() => {
     const on_init = () => setVersions(events.get_versions());
@@ -83,24 +89,28 @@ export function ViewSettings() {
     function on_loaded(e) {
       const s = from_engine(e.detail);
       const opts = filter_resolutions(s.max_width, s.max_height);
-      skip_emit.current = true;
+      const res = clamp_resolution(s.resolution, opts);
+      const dist = Math.round((s.draw_distance_mult ?? 1) * 100);
+      const vol = Math.round((s.volume ?? 0.8) * 100);
+      synced.current = sync_key(res, s.window_mode, s.vsync, dist, vol); // engine-fed: don't write it back
       setMaxW(s.max_width);
       setMaxH(s.max_height);
-      setResolution(clamp_resolution(s.resolution, opts));
+      setResolution(res);
       setWindowMode(s.window_mode);
       setVsync(s.vsync);
-      setDrawDistance(Math.round((s.draw_distance_mult ?? 1) * 100));
-      setVolume(Math.round((s.volume ?? 0.8) * 100));
+      setDrawDistance(dist);
+      setVolume(vol);
     }
+    // The engine's settings may have landed between the first render and this effect (listener not attached yet).
+    if (events.get_settings()) on_loaded({ detail: events.get_settings() });
     window.addEventListener('mainmenu:settings_loaded', on_loaded);
     return () => window.removeEventListener('mainmenu:settings_loaded', on_loaded);
   }, []);
 
   useEffect(() => {
-    if (skip_emit.current) {
-      skip_emit.current = false;
-      return;
-    }
+    const key = sync_key(resolution, windowMode, vsync, drawDistance, volume);
+    if (key === synced.current) return; // still the values the engine gave us
+    synced.current = key;
     events.settings_update({
       resolution,
       window_mode:        windowMode,
