@@ -6,6 +6,7 @@ import * as events from '../events.js';
 
 const text = v => (typeof v === 'string' ? v.trim() : '');
 const link = v => (/^https?:\/\//i.test(text(v)) ? text(v) : null);
+const image = v => (/^https:\/\//i.test(text(v)) ? text(v) : null);
 
 /* Masterlist row -> what the cards render. Defensive: the API is remote, so every field is checked. */
 export function normalize(row) {
@@ -23,19 +24,14 @@ export function normalize(row) {
     full: max > 0 && players >= max,
     discord: link(row.discord),
     site: link(row.website),
+    logo: image(row.logo),
+    banner: image(row.banner),
     ip: row.ip,
     port: row.port,
     http_port: Number.isInteger(row.httpPort) ? row.httpPort : -1,
     version: text(row.version),
     tags: Array.isArray(row.tags) ? [...new Set(row.tags.filter(t => typeof t === 'string').map(t => t.trim().toLowerCase()).filter(Boolean))].slice(0, 6) : [],
   };
-}
-
-/* Stable accent per server (the API carries no art), so a server looks the same in every view. */
-export function hue(name) {
-  let h = 0;
-  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) % 360;
-  return h;
 }
 
 export function useMasterlist() {
