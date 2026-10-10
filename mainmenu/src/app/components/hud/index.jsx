@@ -9,7 +9,7 @@ import './index.css';
 const LINKS = [
   { label: 'Documentation', url: 'https://vital-sandbox.com/docs' },
   { label: 'Discord',       url: 'http://discord.vital-sandbox.com' },
-  { label: 'Donate',        url: 'https://vital-sandbox.com/donate' },
+  { label: 'Donate',        url: 'https://kofi.vital-sandbox.com' },
 ];
 
 function is_interactive(target) {
