@@ -29,6 +29,7 @@ const DEFAULTS = {
   window_mode:        'borderless',
   vsync:              true,
   draw_distance_mult: 1,
+  particle_distance_mult: 1,
   volume:             0.8,
   max_width:          1920,
   max_height:         1080,
@@ -41,6 +42,7 @@ function from_engine(s) {
     window_mode:        src.window_mode ?? DEFAULTS.window_mode,
     vsync:              src.vsync ?? DEFAULTS.vsync,
     draw_distance_mult: src.draw_distance_mult ?? DEFAULTS.draw_distance_mult,
+    particle_distance_mult: src.particle_distance_mult ?? DEFAULTS.particle_distance_mult,
     volume:             src.volume ?? DEFAULTS.volume,
     max_width:          src.max_width ?? DEFAULTS.max_width,
     max_height:         src.max_height ?? DEFAULTS.max_height,
@@ -54,7 +56,7 @@ function filter_resolutions(maxW, maxH) {
 }
 
 /* Identity of the values the controls hold; used to tell engine-fed values (no write-back) from user edits. */
-const sync_key = (resolution, window_mode, vsync, draw_distance, volume) => `${resolution}|${window_mode}|${vsync}|${draw_distance}|${volume}`;
+const sync_key = (resolution, window_mode, vsync, draw_distance, particle_distance, volume) => `${resolution}|${window_mode}|${vsync}|${draw_distance}|${particle_distance}|${volume}`;
 
 function clamp_resolution(value, options) {
   if (options.some(o => o.value === value)) return value;
@@ -71,11 +73,12 @@ export function ViewSettings() {
   const [windowMode, setWindowMode]     = useState(initial.window_mode);
   const [vsync, setVsync]               = useState(initial.vsync);
   const [drawDistance, setDrawDistance] = useState(Math.round((initial.draw_distance_mult ?? 1) * 100));
+  const [particleDistance, setParticleDistance] = useState(Math.round((initial.particle_distance_mult ?? 1) * 100));
   const [volume, setVolume]             = useState(Math.round((initial.volume ?? 0.8) * 100));
   const [versions, setVersions]       = useState(events.get_versions);
   const synced = useRef(sync_key(
     clamp_resolution(initial.resolution, filter_resolutions(initial.max_width, initial.max_height)),
-    initial.window_mode, initial.vsync, Math.round((initial.draw_distance_mult ?? 1) * 100), Math.round((initial.volume ?? 0.8) * 100)
+    initial.window_mode, initial.vsync, Math.round((initial.draw_distance_mult ?? 1) * 100), Math.round((initial.particle_distance_mult ?? 1) * 100), Math.round((initial.volume ?? 0.8) * 100)
   ));
 
   useEffect(() => {
@@ -91,14 +94,16 @@ export function ViewSettings() {
       const opts = filter_resolutions(s.max_width, s.max_height);
       const res = clamp_resolution(s.resolution, opts);
       const dist = Math.round((s.draw_distance_mult ?? 1) * 100);
+      const pdist = Math.round((s.particle_distance_mult ?? 1) * 100);
       const vol = Math.round((s.volume ?? 0.8) * 100);
-      synced.current = sync_key(res, s.window_mode, s.vsync, dist, vol); // engine-fed: don't write it back
+      synced.current = sync_key(res, s.window_mode, s.vsync, dist, pdist, vol); // engine-fed: don't write it back
       setMaxW(s.max_width);
       setMaxH(s.max_height);
       setResolution(res);
       setWindowMode(s.window_mode);
       setVsync(s.vsync);
       setDrawDistance(dist);
+      setParticleDistance(pdist);
       setVolume(vol);
     }
     // The engine's settings may have landed between the first render and this effect (listener not attached yet).
@@ -108,7 +113,7 @@ export function ViewSettings() {
   }, []);
 
   useEffect(() => {
-    const key = sync_key(resolution, windowMode, vsync, drawDistance, volume);
+    const key = sync_key(resolution, windowMode, vsync, drawDistance, particleDistance, volume);
     if (key === synced.current) return; // still the values the engine gave us
     synced.current = key;
     events.settings_update({
@@ -116,9 +121,10 @@ export function ViewSettings() {
       window_mode:        windowMode,
       vsync,
       draw_distance_mult: drawDistance / 100,
+      particle_distance_mult: particleDistance / 100,
       volume:             volume / 100,
     });
-  }, [resolution, windowMode, vsync, drawDistance, volume]);
+  }, [resolution, windowMode, vsync, drawDistance, particleDistance, volume]);
 
   return (
     <div className="view">
@@ -150,6 +156,9 @@ export function ViewSettings() {
         <Panel>
           <SettingRow name="Draw Distance" desc="Client multiplier on the active camera far plane (100% = default)">
             <RangeSlider label="Draw distance" value={drawDistance} onChange={setDrawDistance} />
+          </SettingRow>
+          <SettingRow name="Particle Distance" desc="GPU particles stop rendering past this share of the camera far plane (100% = no extra limit)">
+            <RangeSlider label="Particle distance" value={particleDistance} onChange={setParticleDistance} />
           </SettingRow>
         </Panel>
 
