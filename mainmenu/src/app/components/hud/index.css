@@ -8,7 +8,7 @@
   align-items: center;
   gap: 10px;
   padding-right: 14px; /* matches the content panel's right inset */
-  background: var(--bg4);
+  background: var(--bg5);
   backdrop-filter: blur(24px) saturate(1.4);
   cursor: grab;
   user-select: none;

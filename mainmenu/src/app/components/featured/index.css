@@ -12,7 +12,7 @@
   min-width: 0;
   overflow: hidden;
   border-radius: 10px;
-  background: var(--bg4);
+  background: var(--bg5);
 }
 /* 2px gradient rim: blue on the left, fading right */
 .hero::before {
@@ -22,7 +22,7 @@
   z-index: 10;
   padding: 2px;
   border-radius: 10px;
-  background: linear-gradient(to right, var(--blue), var(--bg4));
+  background: linear-gradient(to right, var(--blue), var(--bg5));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -138,8 +138,8 @@
   text-align: left;
   border: none;
   border-radius: 10px;
-  background: var(--bg4);
-  border: 2px solid var(--bg4);
+  background: var(--bg5);
+  border: 2px solid var(--bg5);
   opacity: .75;
   transition: background .14s, opacity .14s;
 }

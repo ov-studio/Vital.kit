@@ -6,7 +6,7 @@
   flex-direction: column;
   padding: 24px 30px 22px;
   overflow: hidden;
-  /* the frame (top bar + rail) is --bg4; the content sits in a rounded inset panel */
+  /* the frame (top bar + rail) is --bg5; the content sits in a rounded inset panel */
   border-radius: 20px;
   background:
     radial-gradient(ellipse 70% 50% at 20% 0%, var(--b30), transparent 70%),
