@@ -13,32 +13,11 @@
 ---------------------
 
 local private = {
-    type = type,
-    pairs = pairs,
     rawset = rawset,
     rawget = rawget,
     unpack = util.table.unpack,
     move = util.table.move
 }
-
-function private.clone(input, recursive)
-    if private.type(input) ~= "table" then return false end
-    local result = {}
-    if recursive then
-        for i, j in private.pairs(input) do
-            if private.type(j) == "table" then
-                result[i] = private.clone(j, true)
-            else
-                result[i] = j
-            end
-        end
-    else
-        for i, j in private.pairs(input) do
-            result[i] = j
-        end
-    end
-    return result
-end
 
 function util.table.len(input)
     return private.rawget(input, "n") or #input
@@ -75,8 +54,4 @@ function util.table.remove(input, index)
     input[n] = nil
     if tracked then input.n = n - 1 else private.rawset(input, "n", n - 1) end
     return result
-end
-
-function util.table.clone(input, recursive)
-    return private.clone(input, recursive)
 end
