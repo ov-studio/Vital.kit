@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Play } from 'lucide-react';
 import { Button } from '@ui/button';
-import { TagPill } from '@ui/tagpill';
+import { Badge } from '@ui/badge';
 import { Pic } from '../pic/index.jsx';
 import * as events from '../../events.js';
 import './index.css';
@@ -30,7 +30,7 @@ export function Featured({ visible, servers }) {
           <Pic key={f.id} src={f.banner} className={`hero-img${i === current ? ' on' : ''}`} />
         ))}
         <div className="hero-content" key={active.id}>
-          {active.tags[0] && <TagPill label={active.tags[0]} />}
+          {active.tags[0] && <Badge className="hero-badge">{String(active.tags[0]).toUpperCase()}</Badge>}
           <div className="hero-title">{active.name}</div>
           {active.desc && <p className="hero-desc">{active.desc}</p>}
           <div className="hero-meta">

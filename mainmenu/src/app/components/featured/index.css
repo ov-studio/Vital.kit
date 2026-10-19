@@ -62,11 +62,19 @@
   padding: 26px 30px;
   animation: fadeUp .35s ease;
 }
-.hero .tag-pill {
-  color: var(--blue);
-  background: var(--b10);
-  border-color: var(--b30);
+/* Match vault card author chip typography (ui/card .ui-card-author) */
+.hero-badge.ui-badge {
   margin-bottom: 12px;
+  font-family: var(--font-geist), sans-serif;
+  font-size: .6rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--blue);
+  background: var(--b15);
+  border: none;
+  border-radius: 4px;
+  padding: 0.2rem 0.55rem;
 }
 
 .hero-title {
