@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Play } from 'lucide-react';
+import { Play, Users } from 'lucide-react';
 import { Button } from '@ui/button';
 import { Badge } from '@ui/badge';
 import { Pic } from '../pic/index.jsx';
@@ -39,7 +39,9 @@ export function Featured({ visible, servers }) {
               disabled={active.full}
               onClick={() => events.connect(active.ip, active.port, active.http_port)}
             >
-              {active.full ? 'Full' : <><Play size={11} fill="currentColor" />Play Now</>}
+              {active.full
+                ? <><Users size={14} strokeWidth={2.2} />Server full</>
+                : <><Play size={11} fill="currentColor" />Play Now</>}
             </Button>
             <span className="hero-viewers">
               <strong>{active.players}</strong>{active.max ? ` / ${active.max}` : ''} online
