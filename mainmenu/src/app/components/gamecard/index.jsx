@@ -19,7 +19,6 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
       cover={bad ? undefined : server.banner ?? undefined}
       onCoverError={() => setBad(true)}
       coverPlaceholder={<div className="gc-art" />}
-      topLeft={<Pic src={server.logo} className="gc-logo">{server.name.charAt(0).toUpperCase()}</Pic>}
       topRight={
         <IconButton
           className={`gc-btn gc-fav${isFav ? ' on' : ''}`}
@@ -29,7 +28,12 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
           onClick={() => onToggleFav(server.id)}
         />
       }
-      title={server.name}
+      title={
+        <span className="gc-title-stack">
+          <Pic src={server.logo} className="gc-logo">{server.name.charAt(0).toUpperCase()}</Pic>
+          <span className="gc-title-text">{server.name}</span>
+        </span>
+      }
       description={server.desc || undefined}
       footer={
         <>
