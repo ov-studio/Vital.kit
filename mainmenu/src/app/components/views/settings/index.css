@@ -3,9 +3,14 @@
 .view-body::-webkit-scrollbar { width: 2px; }
 .view-body::-webkit-scrollbar-thumb { background: var(--rule); }
 
-/* ui/panel + ui/stat do the surfaces */
+/* ui/panel + ui/stat share the same surface as the setting rows above */
 .view-body .ui-panel,
-.view-body .ui-stat { border: none; border-radius: 6px; overflow: hidden; }
+.view-body .ui-stat {
+  border: none;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--bg7);
+}
 
 /* space between a group and the next section heading (ui/panel defaults to 20px) */
 .view-body .ui-panel { margin-bottom: 50px; }
