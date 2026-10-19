@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Play, Users } from 'lucide-react';
+import { Play, Ban } from 'lucide-react';
 import { Button } from '@ui/button';
 import { Badge } from '@ui/badge';
 import { Pic } from '../pic/index.jsx';
@@ -40,7 +40,7 @@ export function Featured({ visible, servers }) {
               onClick={() => events.connect(active.ip, active.port, active.http_port)}
             >
               {active.full
-                ? <><Users size={14} strokeWidth={2.2} />Server full</>
+                ? <><Ban size={13} strokeWidth={2.5} />Server full</>
                 : <><Play size={11} fill="currentColor" />Play Now</>}
             </Button>
             <span className="hero-viewers">
