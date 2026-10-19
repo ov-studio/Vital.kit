@@ -10,7 +10,11 @@
   padding-bottom: 0;
 }
 
-/* Featured → Trending uses the shared section gap token */
+/* Same token/fallback as CDN .ui-section-title — no local redefinition */
+.view-play .play-trending-label {
+  margin-top: var(--section-gap, 72px);
+}
+
 .view-play .hero-row {
-  margin-bottom: var(--section-gap);
+  margin-bottom: 0;
 }
