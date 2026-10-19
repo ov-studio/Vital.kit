@@ -144,16 +144,20 @@
   padding: 10px 12px;
   text-align: left;
   border-radius: 12px;
-  background: var(--w03);
-  border: 2px solid var(--b10);
-  opacity: .78;
-  transition: background .14s, opacity .14s, border-color .14s;
-}
-.feat-item:hover,
-.feat-item.on {
+  /* darker card so it doesn't dissolve into the panel */
+  background: var(--bg5);
+  border: 2px solid var(--b07);
   opacity: 1;
-  background: var(--b10);
-  border-color: var(--b20);
+  transition: background .14s, border-color .14s, box-shadow .14s;
+}
+.feat-item:hover {
+  background: var(--bg7);
+  border-color: var(--b15);
+}
+.feat-item.on {
+  background: linear-gradient(var(--b18), var(--b18)), var(--bg8);
+  border-color: var(--b40);
+  box-shadow: 0 0 0 1px var(--b15);
 }
 .feat-item:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
 .feat-item.on::after {
