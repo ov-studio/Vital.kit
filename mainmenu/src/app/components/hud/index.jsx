@@ -24,13 +24,10 @@ function on_bar_mouse_down(e) {
   events.drag();
 }
 
-function on_exit() {
-  events.exit();
-}
-
 /* Top bar: brand, greeting, external links, downloads and exit. */
 export function Hud() {
   const [username, setUsername] = useState(() => events.get_username() || 'Player');
+  const [updates, setUpdates]   = useState(() => events.get_updates());
 
   useEffect(() => {
     function on_name(e) {
@@ -42,7 +39,6 @@ export function Hud() {
     return () => window.removeEventListener('mainmenu:username', on_name);
   }, []);
 
-  const [updates, setUpdates] = useState(() => events.get_updates());
   useEffect(() => {
     function on_update(e) {
       setUpdates(Array.isArray(e.detail) ? e.detail : []);
@@ -80,7 +76,7 @@ export function Hud() {
         icon={X}
         iconProps={{ size: 15, strokeWidth: 2.2 }}
         title="Exit Game"
-        onClick={on_exit}
+        onClick={() => events.exit()}
       />
     </header>
   );

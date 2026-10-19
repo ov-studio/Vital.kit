@@ -8,7 +8,8 @@
   align-items: center;
   gap: 20px;
   padding: 24px 0 18px;
-  background: var(--bg5);
+  background: var(--mm-chrome);
+  border: none;
 }
 
 .nav-btn {

@@ -2,8 +2,8 @@
 .gcard {
   aspect-ratio: var(--card-ratio);
   background: var(--bg3);
-  border: 2px solid var(--b10);
-  border-radius: 8px;
+  border: 1px solid var(--b10);
+  border-radius: 12px;
   cursor: pointer;
   opacity: 0;
   animation: fadeUp .3s ease forwards;
@@ -104,7 +104,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  border-radius: 12px;
   object-fit: cover;
   font-family: var(--font-display);
   font-size: 1rem;

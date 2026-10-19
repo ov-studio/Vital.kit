@@ -8,14 +8,13 @@ import './index.css';
 
 const INTERVAL = 5000; // ms between featured servers
 
-/* Hero banner cycling through the busiest live servers (`servers`, max 3), plus the clickable list beside it.
-   Counts are the live masterlist numbers. Timers pause while `visible` is false, which also keeps the progress dot in sync. */
+/* Hero banner cycling through the busiest live servers (max 3) + side list.
+   Timers pause while `visible` is false so the progress dot stays in sync. */
 export function Featured({ visible, servers }) {
   const [idx, setIdx] = useState(0);
-  const current = servers.length ? Math.min(idx, servers.length - 1) : 0; // list can shrink between refreshes
+  const current = servers.length ? Math.min(idx, servers.length - 1) : 0;
   const active = servers[current];
 
-  // Any change of idx (auto-cycle or click) restarts the timer.
   useEffect(() => {
     if (!visible || servers.length < 2) return;
     const cycle = setTimeout(() => setIdx((current + 1) % servers.length), INTERVAL);
@@ -35,7 +34,11 @@ export function Featured({ visible, servers }) {
           <div className="hero-title">{active.name}</div>
           {active.desc && <p className="hero-desc">{active.desc}</p>}
           <div className="hero-meta">
-            <Button className="hero-join" disabled={active.full} onClick={() => events.connect(active.ip, active.port, active.http_port)}>
+            <Button
+              className="hero-join"
+              disabled={active.full}
+              onClick={() => events.connect(active.ip, active.port, active.http_port)}
+            >
               {active.full ? 'Full' : <><Play size={11} fill="currentColor" />Play Now</>}
             </Button>
             <span className="hero-viewers">
@@ -63,7 +66,9 @@ export function Featured({ visible, servers }) {
             <Pic src={f.logo} className="feat-thumb">{f.name.charAt(0).toUpperCase()}</Pic>
             <span className="feat-info">
               <span className="feat-name">{f.name}</span>
-              <span className="feat-meta"><strong>{f.players}</strong>{f.max ? ` / ${f.max}` : ''} players</span>
+              <span className="feat-meta">
+                <strong>{f.players}</strong>{f.max ? ` / ${f.max}` : ''} players
+              </span>
             </span>
           </button>
         ))}

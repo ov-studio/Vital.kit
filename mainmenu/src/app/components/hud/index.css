@@ -1,15 +1,15 @@
 .hud {
-  --ctl: 36px;
+  --ctl: 38px;
   position: fixed;
   inset: 0 0 auto 0;
-  z-index: 55;
   height: var(--hud);
+  z-index: 50;
   display: flex;
   align-items: center;
   gap: 10px;
-  padding-right: 14px; /* matches the content panel's right inset */
-  background: var(--bg5);
-  backdrop-filter: blur(24px) saturate(1.4);
+  padding-right: 14px;
+  background: var(--mm-chrome);
+  border: none;
   cursor: grab;
   user-select: none;
 }
@@ -21,8 +21,7 @@
   user-select: auto;
 }
 
-/* Structure and sizing come from ui/brand. Only the mask is local: the CDN logo isn't
-   CORS-enabled, and the singlefile build is asset-free, so the logo is embedded. */
+/* Structure from ui/brand; mask is local (CDN logo isn't CORS-enabled; build is asset-free). */
 .hud-logo {
   width: var(--hud);
   align-self: stretch;
@@ -30,7 +29,6 @@
   align-items: center;
   justify-content: center;
 }
-/* The logo is purely decorative: default cursor, and (via data-no-drag) it doesn't start a window drag. */
 .hud .hud-logo,
 .hud .hud-logo * { cursor: default; }
 .hud-logo .brand_logo {
@@ -40,38 +38,48 @@
 }
 
 .hud-greet {
-  margin: 0 auto 0 -6px; /* cancel the flex gap so the text starts on the panel's left edge */
+  margin: 0 auto 0 -6px;
   font-size: .9rem;
   letter-spacing: .01em;
   color: var(--text-mid);
 }
-.hud-greet strong { color: var(--blue); font-weight: 500; letter-spacing: .02em; }
+.hud-greet strong {
+  color: var(--blue);
+  font-weight: 500;
+  letter-spacing: .02em;
+}
 
 .hud-links {
   display: flex;
-  gap: 10px;
-  margin-right: 8px;
+  gap: 8px;
+  margin-right: 6px;
   padding-right: 14px;
-  border-right: 1px solid var(--w10);
+  border-right: 1px solid var(--w08);
 }
-.hud .ui-btn { height: var(--ctl); border: none; border-radius: 4px; }
-.hud-links .ui-btn { 
-  font-size: 0.88rem;
-  color: var(--text-soft); 
-  background: var(--rule); 
+.hud .ui-btn {
+  height: var(--ctl);
+  border: none;
+  border-radius: 6px;
 }
-.hud .hud-links .ui-btn:hover { color: var(--dim); background: var(--rule12); }
+.hud-links .ui-btn {
+  font-size: 0.86rem;
+  color: var(--text-soft);
+  background: var(--w04);
+}
+.hud .hud-links .ui-btn:hover {
+  color: var(--white);
+  background: var(--w08);
+}
 .hud .ui-btn svg { opacity: .55; }
 .hud .ui-btn:hover svg { opacity: 1; }
 
-/* Icon buttons share the look of ui/button's action variant */
 .hud .ui-icon-btn {
   width: var(--ctl);
   height: var(--ctl);
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   color: var(--b90);
-  background: var(--b20);
+  background: var(--b15);
   transition: color .15s, background .15s;
 }
 .hud .ui-icon-btn:hover { color: var(--blue); background: var(--b30); }

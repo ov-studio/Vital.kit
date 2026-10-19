@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Star, Globe, Play } from 'lucide-react';
 import { Button }     from '@ui/button';
 import { Card }       from '@ui/card';
@@ -5,12 +6,12 @@ import { IconButton } from '@ui/iconbutton';
 import { DiscordIcon } from '../icons/index.jsx';
 import { Pic }         from '../pic/index.jsx';
 import * as events     from '../../events.js';
-import { useState, useEffect } from 'react';
 import './index.css';
 
 export function GameCard({ server, isFav, onToggleFav, style }) {
   const [bad, setBad] = useState(false);
   useEffect(() => setBad(false), [server.banner]);
+
   return (
     <Card
       className="gcard"
@@ -36,9 +37,30 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
             <strong>{server.players}</strong>{server.max ? `/${server.max}` : ''}
           </span>
           <div className="gc-links">
-            {server.discord && <IconButton className="gc-btn" icon={DiscordIcon} iconProps={{ size: 12 }} title="Discord" onClick={() => events.open_url(server.discord)} />}
-            {server.site && <IconButton className="gc-btn" icon={Globe} iconProps={{ size: 12, strokeWidth: 1.6 }} title="Site" onClick={() => events.open_url(server.site)} />}
-            <Button variant="action" className="gjoin" disabled={server.full} onClick={() => events.connect(server.ip, server.port, server.http_port)}>
+            {server.discord && (
+              <IconButton
+                className="gc-btn"
+                icon={DiscordIcon}
+                iconProps={{ size: 12 }}
+                title="Discord"
+                onClick={() => events.open_url(server.discord)}
+              />
+            )}
+            {server.site && (
+              <IconButton
+                className="gc-btn"
+                icon={Globe}
+                iconProps={{ size: 12, strokeWidth: 1.6 }}
+                title="Site"
+                onClick={() => events.open_url(server.site)}
+              />
+            )}
+            <Button
+              variant="action"
+              className="gjoin"
+              disabled={server.full}
+              onClick={() => events.connect(server.ip, server.port, server.http_port)}
+            >
               {server.full ? 'Full' : <><Play size={9} fill="currentColor" />Play</>}
             </Button>
           </div>

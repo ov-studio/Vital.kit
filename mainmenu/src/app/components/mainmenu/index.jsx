@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMasterlistPolling } from '../../data/index.jsx';
-import { Hud }       from '../hud/index.jsx';
-import { Sidebar }   from '../sidebar/index.jsx';
+import { Hud }            from '../hud/index.jsx';
+import { Sidebar }        from '../sidebar/index.jsx';
 import { ViewPlay }       from '../views/play/index.jsx';
 import { ViewMasterlist } from '../views/masterlist/index.jsx';
 import { ViewFavs }       from '../views/favs/index.jsx';
@@ -22,7 +22,7 @@ export function MainMenu() {
     });
   };
 
-  // Every view stays mounted (so filters, favourites and settings survive switching); only one is shown.
+  // Every view stays mounted so filters, favourites and settings survive switching.
   const views = {
     play:       <ViewPlay visible={activeView === 'play'} favs={favs} onToggleFav={toggleFav} />,
     masterlist: <ViewMasterlist favs={favs} onToggleFav={toggleFav} />,

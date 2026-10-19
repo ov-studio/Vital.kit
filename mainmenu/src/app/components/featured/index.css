@@ -3,7 +3,7 @@
   gap: 14px;
   flex-shrink: 0;
   height: 250px;
-  margin-bottom: 56px;
+  margin-bottom: 40px;
 }
 
 .hero {
@@ -11,18 +11,19 @@
   flex: 1;
   min-width: 0;
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: 14px;
   background: var(--bg5);
+  box-shadow: 0 12px 40px var(--k45);
 }
-/* 2px gradient rim: blue on the left, fading right */
+/* 1px gradient rim: blue → fade */
 .hero::before {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 10;
-  padding: 2px;
-  border-radius: 10px;
-  background: linear-gradient(to right, var(--blue), var(--bg5));
+  padding: 1px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--b60), var(--b10) 40%, transparent 70%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -33,18 +34,18 @@
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: linear-gradient(100deg, var(--bg) 8%, var(--b05) 40%, transparent 82%);
+  background:
+    linear-gradient(100deg, var(--bg) 6%, var(--b07) 38%, transparent 78%),
+    linear-gradient(to top, var(--k45) 0%, transparent 45%);
 }
 
-/* All banners stay mounted; the incoming one fades in on top while the outgoing one waits
-   underneath for the fade to finish, so there is never a dip to the background. */
 .hero-img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(.5) saturate(1.1);
+  filter: brightness(.48) saturate(1.15);
   opacity: 0;
   transition: opacity .5s ease .5s;
 }
@@ -65,16 +66,18 @@
   color: var(--blue);
   background: var(--b10);
   border-color: var(--b30);
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .hero-title {
   margin-bottom: 8px;
   font-family: var(--font-display);
-  font-size: clamp(1.6rem, 2.6vw, 2.3rem);
+  font-size: clamp(1.55rem, 2.5vw, 2.2rem);
   font-weight: 700;
   text-transform: uppercase;
   line-height: .98;
+  color: var(--white);
+  text-shadow: 0 2px 18px var(--k45);
 }
 .hero-desc {
   max-width: 440px;
@@ -82,19 +85,17 @@
   font-size: .82rem;
   line-height: 1.55;
   color: var(--dim);
-  white-space: pre-line; /* keeps \n line breaks from the data */
-  /* max 3 lines so the banner never grows past its fixed height; the rest ends in … */
+  white-space: pre-line;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 .hero-meta { display: flex; align-items: center; gap: 16px; }
-.ui-btn.hero-join { padding: 10px 32px; }
+.ui-btn.hero-join { padding: 10px 28px; border-radius: 8px; }
 .hero-viewers { font-size: .78rem; color: var(--text-muted); }
 .hero-viewers strong { color: var(--white); font-weight: 700; }
 
-/* cycle indicator: the active dot fills over one cycle */
 .hero-dots {
   position: absolute;
   right: 18px;
@@ -126,7 +127,13 @@
 }
 @keyframes dotFill { from { transform: scaleX(0) } to { transform: scaleX(1) } }
 
-.featured-list { display: flex; flex-direction: column; gap: 8px; width: 300px; flex-shrink: 0; }
+.featured-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 300px;
+  flex-shrink: 0;
+}
 .feat-item {
   position: relative;
   flex: 1;
@@ -136,15 +143,18 @@
   gap: 10px;
   padding: 10px 12px;
   text-align: left;
-  border: none;
-  border-radius: 10px;
-  background: var(--bg5);
-  border: 2px solid var(--bg5);
-  opacity: .75;
-  transition: background .14s, opacity .14s;
+  border-radius: 12px;
+  background: var(--w03);
+  border: 1px solid var(--b07);
+  opacity: .78;
+  transition: background .14s, opacity .14s, border-color .14s;
 }
 .feat-item:hover,
-.feat-item.on { opacity: 1; background: var(--b20); }
+.feat-item.on {
+  opacity: 1;
+  background: var(--b10);
+  border-color: var(--b20);
+}
 .feat-item:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
 .feat-item.on::after {
   content: '';
@@ -153,19 +163,20 @@
   margin-left: auto;
   border-radius: 2px;
   background: var(--blue);
+  box-shadow: 0 0 8px var(--b50);
 }
 .feat-thumb {
   width: 46px;
   height: 46px;
   flex-shrink: 0;
-  border-radius: 9px;
+  border-radius: 10px;
   object-fit: cover;
   background: var(--bg3);
 }
 .feat-info { display: flex; flex-direction: column; flex: 1; min-width: 0; }
 .feat-name {
   margin-bottom: 2px;
-  color: var(--text, #fff);
+  color: var(--white);
   font-family: var(--font-display);
   font-size: .92rem;
   font-weight: 700;
@@ -174,10 +185,15 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.feat-meta { font-size: .7rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.feat-meta {
+  font-size: .7rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .feat-meta strong { color: var(--dim); font-weight: 600; }
 
-/* Fallbacks when a server has no banner / logo (or it failed to load): plain flat colours. */
 div.hero-img { filter: none; background: var(--bg3); }
 div.feat-thumb {
   display: flex;
