@@ -2,7 +2,7 @@
 .gcard {
   aspect-ratio: var(--card-ratio);
   background: var(--bg3);
-  border: 1px solid var(--b10);
+  border: 2px solid var(--b10);
   border-radius: 12px;
   cursor: pointer;
   opacity: 0;
@@ -111,5 +111,5 @@
   font-weight: 700;
   color: var(--dim);
   background: var(--bg5);
-  border: 1px solid var(--b10);
+  border: 2px solid var(--b10);
 }

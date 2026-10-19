@@ -21,7 +21,7 @@
   position: absolute;
   inset: 0;
   z-index: 10;
-  padding: 1px;
+  padding: 2px;
   border-radius: 14px;
   background: linear-gradient(135deg, var(--b60), var(--b10) 40%, transparent 70%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -145,7 +145,7 @@
   text-align: left;
   border-radius: 12px;
   background: var(--w03);
-  border: 1px solid var(--b07);
+  border: 2px solid var(--b10);
   opacity: .78;
   transition: background .14s, opacity .14s, border-color .14s;
 }

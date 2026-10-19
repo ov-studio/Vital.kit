@@ -3,6 +3,9 @@
 .view-body::-webkit-scrollbar { width: 2px; }
 .view-body::-webkit-scrollbar-thumb { background: var(--rule); }
 
+/* First section sits flush with other views (CDN Section defaults to 72px top gap) */
+.view-body > .ui-section-title:first-child { margin-top: 0; }
+
 /* ui/panel + ui/stat share the same surface as the setting rows above */
 .view-body .ui-panel,
 .view-body .ui-stat {
