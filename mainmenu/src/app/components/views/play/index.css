@@ -1,16 +1,16 @@
-/* Label sits on the divider (same rhythm as site Section title + Divider) */
+/* Align labels with site Section title + Divider rhythm */
 .view-play .slabel {
   margin-bottom: 0;
-  padding-bottom: 8px;
+  padding-bottom: 8px; /* matches .ui-section-title */
 }
 
+/* CDN .ui-divider already provides margin-bottom: 16px */
 .view-play .play-label-divider {
   margin-top: 0;
-  margin-bottom: 16px;
-  padding-bottom: 0; /* line sits right under the label */
+  padding-bottom: 0;
 }
 
-/* Space between Featured block and Trending label */
+/* Featured → Trending uses the shared section gap token */
 .view-play .hero-row {
-  margin-bottom: 32px;
+  margin-bottom: var(--section-gap);
 }

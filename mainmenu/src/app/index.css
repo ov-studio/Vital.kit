@@ -11,6 +11,8 @@
   --mm-panel:
     linear-gradient(var(--b15), var(--b15)),
     var(--bg7);
+  /* Same default as CDN ui/section fallback */
+  --section-gap: 72px;
 }
 
 @keyframes fadeUp {

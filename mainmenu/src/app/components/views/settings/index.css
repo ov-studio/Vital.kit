@@ -3,17 +3,15 @@
 .view-body::-webkit-scrollbar { width: 2px; }
 .view-body::-webkit-scrollbar-thumb { background: var(--rule); }
 
-/* First section sits flush with other views (CDN Section defaults to 72px top gap) */
+/* First section flush; later sections use var(--section-gap) from CDN Section */
 .view-body > .ui-section-title:first-child { margin-top: 0; }
 
-/* ui/panel + ui/stat share the same surface as the setting rows above */
+/* Flat panels matching setting rows; spacing comes from section titles */
 .view-body .ui-panel,
 .view-body .ui-stat {
   border: none;
   border-radius: 6px;
   overflow: hidden;
   background: var(--bg7);
+  margin-bottom: 0;
 }
-
-/* space between a group and the next section heading (ui/panel defaults to 20px) */
-.view-body .ui-panel { margin-bottom: 50px; }
