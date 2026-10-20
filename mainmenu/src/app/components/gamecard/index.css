@@ -117,7 +117,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 7px;
+  border-radius: 6px;
   object-fit: cover;
   font-family: var(--font-display);
   font-size: .85rem;
