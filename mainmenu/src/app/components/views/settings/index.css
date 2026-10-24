@@ -40,8 +40,8 @@
 .view-body .ui-checkbox input {
   -webkit-appearance: none;
   appearance: none;
-  width: 17px;
-  height: 17px;
+  width: 18px;
+  height: 18px;
   box-sizing: border-box;
   margin: 0;
   border: 2px solid var(--b10);
@@ -85,4 +85,19 @@
 .view-body .ui-checkbox:has(input:disabled) {
   opacity: 0.55;
   cursor: not-allowed;
+}
+
+/* Select trigger value — same weight/size/color as slider % readout */
+.view-body .ui-select-trigger,
+.view-body .ui-select-value {
+  font-size: 0.76rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--dim);
+}
+
+.view-body .ui-select-option {
+  font-size: 0.76rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }
