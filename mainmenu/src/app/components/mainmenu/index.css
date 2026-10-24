@@ -12,7 +12,7 @@
     radial-gradient(ellipse 90% 60% at 8% -15%, var(--b20), transparent 55%),
     radial-gradient(ellipse 50% 40% at 100% 100%, var(--b10), transparent 50%),
     var(--mm-panel);
-  border: 2px solid var(--b10);
+  border: none;
   box-shadow: none;
 }
 
