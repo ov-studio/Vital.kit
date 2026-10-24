@@ -84,5 +84,3 @@
 }
 .hud .ui-icon-btn:hover { color: var(--blue); background: var(--b30); }
 .hud .ui-icon-btn.hud-exit:hover { color: var(--red-light); background: var(--r45); }
-.hud .ui-icon-btn:focus-visible,
-.hud .ui-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }

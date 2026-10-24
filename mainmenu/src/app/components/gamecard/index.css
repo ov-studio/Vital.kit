@@ -99,7 +99,6 @@
   transition: color .14s, background .14s, border-color .14s;
 }
 .gc-btn:hover { color: var(--white); }
-.gc-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
 .gc-fav { width: 28px; height: 28px; }
 .gc-fav svg { fill: none; }
 .gc-fav:not(.on):hover { color: var(--blue); }

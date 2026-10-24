@@ -170,7 +170,6 @@
   border-color: var(--b40);
   box-shadow: 0 0 0 1px var(--b15);
 }
-.feat-item:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
 .feat-item.on::after {
   content: '';
   width: 3px;
