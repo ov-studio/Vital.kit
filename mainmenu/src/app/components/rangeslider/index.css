@@ -1,32 +1,77 @@
-.rslider { display: flex; align-items: center; gap: 12px; width: 100%; }
+.rslider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
 .rslider input {
   -webkit-appearance: none;
   appearance: none;
   flex: 1;
   min-width: 0;
-  height: 14px;
+  height: 18px;
   background: none;
   outline: none;
+  cursor: pointer;
 }
+
+/* Track: solid fill up to --fill, muted remainder */
 .rslider input::-webkit-slider-runnable-track {
-  height: 6px;
-  border-radius: 3px;
-  background: linear-gradient(to right, var(--blue) var(--fill), var(--w12) var(--fill));
+  height: 10px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to right,
+    var(--w55, rgba(255, 255, 255, 0.55)) var(--fill),
+    var(--w12, rgba(255, 255, 255, 0.12)) var(--fill)
+  );
 }
+
+.rslider input::-moz-range-track {
+  height: 10px;
+  border-radius: 2px;
+  background: var(--w12, rgba(255, 255, 255, 0.12));
+  border: none;
+}
+
+.rslider input::-moz-range-progress {
+  height: 10px;
+  border-radius: 2px;
+  background: var(--w55, rgba(255, 255, 255, 0.55));
+  border: none;
+}
+
+/* Thumb: short block flush with the bar (not a round knob) */
 .rslider input::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 14px;
+  width: 6px;
   height: 14px;
-  margin-top: -4px;
-  border-radius: 50%;
-  background: var(--white);
-  border: 2px solid var(--blue);
-  box-shadow: 0 0 0 0 var(--b20);
-  transition: box-shadow .15s;
+  margin-top: -2px;
+  border-radius: 1px;
+  background: var(--w80, rgba(255, 255, 255, 0.85));
+  border: none;
+  box-shadow: none;
+  transition: background .15s, box-shadow .15s;
 }
+
+.rslider input::-moz-range-thumb {
+  width: 6px;
+  height: 14px;
+  border-radius: 1px;
+  background: var(--w80, rgba(255, 255, 255, 0.85));
+  border: none;
+  box-shadow: none;
+}
+
 .rslider input:hover::-webkit-slider-thumb,
-.rslider input:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 5px var(--b20); }
+.rslider input:focus-visible::-webkit-slider-thumb,
+.rslider input:hover::-moz-range-thumb,
+.rslider input:focus-visible::-moz-range-thumb {
+  background: var(--white, #fff);
+  box-shadow: 0 0 0 3px var(--b20, rgba(126, 161, 233, 0.2));
+}
+
 .rslider-value {
   min-width: 3.4ch;
   text-align: right;
