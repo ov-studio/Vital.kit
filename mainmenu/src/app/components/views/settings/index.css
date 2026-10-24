@@ -87,7 +87,7 @@
   cursor: not-allowed;
 }
 
-/* Select trigger value — same weight/size/color as slider % readout */
+/* Select trigger + menu — same weight/size as slider % readout */
 .view-body .ui-select-trigger,
 .view-body .ui-select-value {
   font-size: 0.76rem;
@@ -100,4 +100,5 @@
   font-size: 0.76rem;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
+  color: var(--dim);
 }
