@@ -2,7 +2,6 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { Panel }     from '@ui/panel';
 import { Section }   from '@ui/section';
 import { Select }    from '@ui/select';
-import { Stat, StatGrid } from '@ui/stat';
 import { RangeSlider } from '@ui/rangeslider';
 import { SettingRow }  from '../../settingrow/index.jsx';
 import * as events     from '../../../events.js';
@@ -88,7 +87,6 @@ export function ViewSettings() {
   const [volume, setVolume]             = useState(pct(initial.volume, 0.8));
   const [mouseH, setMouseH]             = useState(pct(initial.mouse_sens_horizontal, 1));
   const [mouseV, setMouseV]             = useState(pct(initial.mouse_sens_vertical, 1));
-  const [versions, setVersions]         = useState(events.get_versions);
 
   const synced = useRef(sync_key(
     clamp_resolution(initial.resolution, filter_resolutions(initial.max_width, initial.max_height)),
@@ -100,13 +98,6 @@ export function ViewSettings() {
     pct(initial.mouse_sens_horizontal, 1),
     pct(initial.mouse_sens_vertical, 1),
   ));
-
-  useEffect(() => {
-    const on_init = () => setVersions(events.get_versions());
-    on_init();
-    window.addEventListener('mainmenu:init', on_init);
-    return () => window.removeEventListener('mainmenu:init', on_init);
-  }, []);
 
   useEffect(() => {
     function on_loaded(e) {
@@ -208,11 +199,6 @@ export function ViewSettings() {
             <RangeSlider label="Master volume" value={volume} onChange={setVolume} />
           </SettingRow>
         </Panel>
-
-        <Section>About</Section>
-        <StatGrid minWidth="150px">
-          {versions.map(v => <Stat key={v.label} label={v.label} value={v.value} />)}
-        </StatGrid>
       </div>
     </div>
   );

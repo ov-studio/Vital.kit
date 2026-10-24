@@ -20,7 +20,8 @@ document.addEventListener('message', (e) => {
   try {
     const data = JSON.parse(e.detail);
     if (data?.action === 'update') {
-      // Host lists only outdated components: [{ name, current, latest, url }]
+      // Host lists only outdated components: [{ name, current, latest, url, state, received, total, message }]
+      // state: idle | downloading | ready | installing | error
       cached_updates = Array.isArray(data.updates) ? data.updates : [];
       window.dispatchEvent(new CustomEvent('mainmenu:update', { detail: cached_updates }));
     }
@@ -66,6 +67,16 @@ window.addEventListener('mainmenu:drag', () => {
 
 window.addEventListener('mainmenu:exit', () => {
   post({ action: 'exit' });
+});
+
+// Update flow: host downloads into its updates folder, then restarts to install.
+window.addEventListener('mainmenu:update_download', (e) => {
+  const name = String(e.detail ?? '');
+  if (name) post({ action: 'update_download', name });
+});
+
+window.addEventListener('mainmenu:update_apply', () => {
+  post({ action: 'update_apply' });
 });
 
 window.addEventListener('mainmenu:open_url', (e) => {
@@ -191,6 +202,16 @@ export function get_settings() {
 /** OS username from C++ (Tool::get_username), null until ready. */
 export function get_username() {
   return cached_username;
+}
+
+/** Ask the host to download an outdated component (progress arrives through `mainmenu:update`). */
+export function update_download(name) {
+  window.dispatchEvent(new CustomEvent('mainmenu:update_download', { detail: name }));
+}
+
+/** Ask the host to install every downloaded update and restart the game. */
+export function update_apply() {
+  window.dispatchEvent(new Event('mainmenu:update_apply'));
 }
 
 /** Outdated Vital.sandbox / Vital.kit components from the host; empty when up to date or unknown. */

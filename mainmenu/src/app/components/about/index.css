@@ -1,0 +1,44 @@
+.about { position: relative; }
+.hud .about .ui-icon-btn.is-open { color: var(--blue); background: var(--b30); }
+
+/* Same menu look as the site's user dropdown */
+.about-panel {
+  position: absolute;
+  top: calc(100% + 14px);
+  right: 0;
+  z-index: 11;
+  min-width: 260px;
+  padding: 8px;
+  background: linear-gradient(var(--b15), var(--b15)), var(--bg7);
+  border-radius: 4px;
+  box-shadow: 0 12px 40px var(--k45);
+  transform-origin: top right;
+  opacity: 0;
+  animation: mm-menu-in .22s cubic-bezier(.22, 1, .36, 1) forwards;
+  cursor: default;
+}
+
+.about-meta {
+  padding: 8px 10px 12px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--b10);
+}
+.about-heading { font-size: .85rem; font-weight: 600; color: var(--blue); }
+.about-sub { margin-top: 4px; font-size: .7rem; font-weight: 600; color: var(--text-soft); }
+
+.about-list { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; }
+.about-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 9px 10px;
+  border-radius: 5px;
+  font-size: .8rem;
+  font-weight: 500;
+  color: var(--dim);
+  transition: color .25s;
+}
+.about-row:hover { color: var(--white); }
+.about-label { font-size: .68rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--b90); }
+.about-value { color: inherit; }

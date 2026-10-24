@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import { ExternalLink, Download, X } from 'lucide-react';
+import { ExternalLink, X } from 'lucide-react';
 import { Brand }      from '@ui/brand';
 import { Button }     from '@ui/button';
 import { IconButton } from '@ui/iconbutton';
+import { About }         from '../about/index.jsx';
+import { Notifications } from '../notifications/index.jsx';
 import * as events    from '../../events.js';
 import './index.css';
 
@@ -24,7 +26,7 @@ function on_bar_mouse_down(e) {
   events.drag();
 }
 
-/* Top bar: brand, greeting, external links, downloads and exit. */
+/* Top bar: brand, greeting, external links, notifications and exit. */
 export function Hud() {
   const [username, setUsername] = useState(() => events.get_username() || 'Player');
   const [updates, setUpdates]   = useState(() => events.get_updates());
@@ -61,15 +63,8 @@ export function Hud() {
           </Button>
         ))}
       </nav>
-      {updates.length > 0 && (
-        <IconButton
-          data-no-drag
-          icon={Download}
-          iconProps={{ size: 15, strokeWidth: 2.2 }}
-          title={`Update available: ${updates.map(u => `${u.name} ${u.latest}`).join(', ')}`}
-          onClick={() => events.open_url(updates[0].url)}
-        />
-      )}
+      <Notifications updates={updates} />
+      <About />
       <IconButton
         data-no-drag
         className="hud-exit"
