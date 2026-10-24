@@ -87,7 +87,7 @@
   cursor: not-allowed;
 }
 
-/* Select trigger + menu — same weight/size as slider % readout */
+/* Select trigger — same weight/size as slider % readout */
 .view-body .ui-select-trigger,
 .view-body .ui-select-value {
   font-size: 0.76rem;
@@ -96,9 +96,24 @@
   color: var(--dim);
 }
 
-.view-body .ui-select-option {
-  font-size: 0.76rem;
-  font-weight: 600;
+/* Menu is portaled to document.body — cannot nest under .view-body */
+.ui-select-option {
+  font-size: 0.76rem !important;
   font-variant-numeric: tabular-nums;
-  color: var(--dim);
+  color: var(--dim) !important;
+}
+
+.ui-select-option.is-selected {
+  font-weight: 600 !important;
+  color: var(--blue) !important;
+}
+
+.ui-select-option:hover,
+.ui-select-option:focus-visible {
+  color: var(--brand-neon-core, var(--white)) !important;
+}
+
+.ui-select-option.is-selected:hover,
+.ui-select-option.is-selected:focus-visible {
+  color: var(--blue) !important;
 }
