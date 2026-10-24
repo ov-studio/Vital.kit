@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { Checkbox }  from '@ui/checkbox';
 import { Panel }     from '@ui/panel';
 import { Section }   from '@ui/section';
 import { Select }    from '@ui/select';
@@ -21,6 +20,11 @@ const ALL_RESOLUTIONS = [
 const WINDOW_MODE_OPTIONS = [
   { value: 'borderless', label: 'Borderless' },
   { value: 'fullscreen', label: 'Fullscreen' },
+];
+
+const VSYNC_OPTIONS = [
+  { value: 'enabled',  label: 'Enabled'  },
+  { value: 'disabled', label: 'Disabled' },
 ];
 
 const DEFAULTS = {
@@ -169,7 +173,12 @@ export function ViewSettings() {
             />
           </SettingRow>
           <SettingRow name="VSync" desc="Sync frame rate to your monitor's refresh rate">
-            <Checkbox label="Enabled" checked={vsync} onChange={setVsync} />
+            <Select
+              value={vsync ? 'enabled' : 'disabled'}
+              onChange={(v) => setVsync(v === 'enabled')}
+              options={VSYNC_OPTIONS}
+              aria-label="VSync"
+            />
           </SettingRow>
         </Panel>
 
