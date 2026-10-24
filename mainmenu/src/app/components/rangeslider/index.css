@@ -16,60 +16,58 @@
   cursor: pointer;
 }
 
-/* Track: solid fill up to --fill, muted remainder */
 .rslider input::-webkit-slider-runnable-track {
   height: 10px;
   border-radius: 2px;
   background: linear-gradient(
     to right,
-    var(--w55, rgba(255, 255, 255, 0.55)) var(--fill),
-    var(--w12, rgba(255, 255, 255, 0.12)) var(--fill)
+    var(--blue) var(--fill),
+    var(--b10) var(--fill)
   );
 }
 
 .rslider input::-moz-range-track {
   height: 10px;
   border-radius: 2px;
-  background: var(--w12, rgba(255, 255, 255, 0.12));
+  background: var(--b10);
   border: none;
 }
 
 .rslider input::-moz-range-progress {
   height: 10px;
   border-radius: 2px;
-  background: var(--w55, rgba(255, 255, 255, 0.55));
+  background: var(--blue);
   border: none;
 }
 
-/* Thumb: short block flush with the bar (not a round knob) */
+/* Solid light thumb — one color, stands off the blue fill */
 .rslider input::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 6px;
-  height: 14px;
-  margin-top: -2px;
-  border-radius: 1px;
-  background: var(--w80, rgba(255, 255, 255, 0.85));
+  width: 8px;
+  height: 16px;
+  margin-top: -3px;
+  border-radius: 2px;
+  background: var(--white);
   border: none;
-  box-shadow: none;
-  transition: background .15s, box-shadow .15s;
+  box-shadow: 0 0 0 1px var(--b30);
+  transition: box-shadow .15s, background .15s;
 }
 
 .rslider input::-moz-range-thumb {
-  width: 6px;
-  height: 14px;
-  border-radius: 1px;
-  background: var(--w80, rgba(255, 255, 255, 0.85));
+  width: 8px;
+  height: 16px;
+  border-radius: 2px;
+  background: var(--white);
   border: none;
-  box-shadow: none;
+  box-shadow: 0 0 0 1px var(--b30);
 }
 
 .rslider input:hover::-webkit-slider-thumb,
 .rslider input:focus-visible::-webkit-slider-thumb,
 .rslider input:hover::-moz-range-thumb,
 .rslider input:focus-visible::-moz-range-thumb {
-  background: var(--white, #fff);
-  box-shadow: 0 0 0 3px var(--b20, rgba(126, 161, 233, 0.2));
+  box-shadow: 0 0 0 3px var(--b20);
 }
 
 .rslider-value {
