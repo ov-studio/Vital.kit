@@ -8,9 +8,10 @@
   /* Shared chrome surface (HUD + sidebar) — seamless, no seams */
   --mm-chrome: var(--bg6);
   /* Content panel: same recipe as site ui/stat vault tiles */
+  /* Deeper than the popovers/dropdowns (which keep the lighter b15/bg7 recipe), so they stand out */
   --mm-panel:
-    linear-gradient(var(--b15), var(--b15)),
-    var(--bg7);
+    linear-gradient(var(--b30), var(--b30)),
+    var(--bg5);
 }
 
 @keyframes fadeUp {
