@@ -4,7 +4,7 @@ import { Panel }     from '@ui/panel';
 import { Section }   from '@ui/section';
 import { Select }    from '@ui/select';
 import { Stat, StatGrid } from '@ui/stat';
-import { RangeSlider } from '../../rangeslider/index.jsx';
+import { RangeSlider } from '@ui/rangeslider';
 import { SettingRow }  from '../../settingrow/index.jsx';
 import * as events     from '../../../events.js';
 import './index.css';
