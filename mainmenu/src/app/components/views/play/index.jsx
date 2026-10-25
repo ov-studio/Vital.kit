@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 import { SearchIcon, Star, Flame } from 'lucide-react';
-import { Divider }    from '@ui/divider';
 import { EmptyState } from '@ui/empty';
 import { useMasterlist, emptyText } from '../../../data/index.jsx';
 import { LocalServer } from '../../localserver/index.jsx';
@@ -20,12 +19,10 @@ export function ViewPlay({ visible, favs, onToggleFav }) {
         <EmptyState icon={<SearchIcon size={24} strokeWidth={2.5} />}>{emptyText(status, false)}</EmptyState>
       ) : (
         <>
-          <div className="slabel"><Star size={11} fill="currentColor" />Featured</div>
-          <Divider className="play-label-divider" />
+          <div className="slabel mm-bar"><Star size={16} fill="currentColor" />Featured</div>
           <Featured visible={visible} servers={servers.slice(0, 3)} />
 
-          <div className="slabel play-trending-label"><Flame size={11} fill="currentColor" />Trending</div>
-          <Divider className="play-label-divider" />
+          <div className="slabel mm-bar play-trending-label"><Flame size={16} fill="currentColor" />Trending</div>
           <CardGrid
             fit
             gridRef={gridRef}

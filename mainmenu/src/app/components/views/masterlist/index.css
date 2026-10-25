@@ -1,4 +1,4 @@
-.mlist-filters { display: flex; align-items: flex-end; gap: 2px; }
+.mlist-filters { display: flex; }
 .mlist-filters .ui-filter { flex: 1; min-width: 0; }
 
 @media (max-width: 720px) {
