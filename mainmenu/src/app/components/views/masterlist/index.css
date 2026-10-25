@@ -7,3 +7,14 @@
   .mlist-filters .ui-search input,
   .mlist-filters .ui-search input:focus { width: 100%; }
 }
+
+/* Filter chips share the Search input's solid surface instead of being transparent */
+.mlist-filters .ui-filter .ui-filter-btn {
+  background: linear-gradient(var(--b10), var(--b10)), var(--bg6);
+}
+.mlist-filters .ui-filter .ui-filter-btn:hover {
+  background: linear-gradient(var(--b18), var(--b18)), var(--bg6);
+}
+.mlist-filters .ui-filter .ui-filter-btn.active {
+  background: linear-gradient(var(--b18), var(--b18)), var(--bg6);
+}
