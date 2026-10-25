@@ -4,7 +4,7 @@
 .view-body::-webkit-scrollbar-thumb { background: var(--rule); }
 
 .view-body > .ui-section-title { 
-  color: var(--white);
+  color: var(--brand-neon-core);
 }
 
 /* First section flush; later sections use var(--section-gap) from CDN Section */
