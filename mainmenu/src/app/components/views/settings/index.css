@@ -3,6 +3,10 @@
 .view-body::-webkit-scrollbar { width: 2px; }
 .view-body::-webkit-scrollbar-thumb { background: var(--rule); }
 
+.view-body > .ui-section-title { 
+  color: var(--white);
+}
+
 /* First section flush; later sections use var(--section-gap) from CDN Section */
 .view-body > .ui-section-title:first-child { margin-top: 0; }
 
