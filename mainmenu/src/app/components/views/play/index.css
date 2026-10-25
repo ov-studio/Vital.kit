@@ -4,15 +4,10 @@
   padding-bottom: 8px; /* matches .ui-section-title */
 }
 
-/* Headers sit in the shared .mm-bar box instead of a divider line */
-.view-play .slabel.mm-bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 16px;
-  padding: 0 16px;
-  font-size: .95rem;
-  line-height: 1;
+/* CDN .ui-divider already provides margin-bottom: 16px */
+.view-play .play-label-divider {
+  margin-top: 0;
+  padding-bottom: 0;
 }
 
 /* Same token/fallback as CDN .ui-section-title — no local redefinition */

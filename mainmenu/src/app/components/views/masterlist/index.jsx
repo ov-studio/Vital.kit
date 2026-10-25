@@ -26,7 +26,7 @@ export function ViewMasterlist({ favs, onToggleFav }) {
 
   return (
     <div className="view">
-      <div className="mlist-filters mm-bar">
+      <div className="mlist-filters">
         <Filter tags={tags} active={activeTag} onChange={setChosen} />
         <Search
           value={search}
