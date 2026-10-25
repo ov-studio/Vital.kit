@@ -11,7 +11,7 @@
   /* Deeper than the popovers/dropdowns (which keep the lighter b15/bg7 recipe), so they stand out */
   --mm-panel:
     linear-gradient(var(--b30), var(--b30)),
-    var(--bg5);
+    var(--bg9);
 }
 
 @keyframes fadeUp {
