@@ -21,7 +21,7 @@
   background: var(--b10);
   animation: fadeUp .25s ease;
 }
-.localserver.is-connected { box-shadow: inset 0 0 0 2px var(--b10); }
+.localserver.is-connected { box-shadow: inset 0 0 1px 2px var(--b50); }
 
 .ls-info { display: flex; flex-direction: column; gap: 0; min-width: 0; margin-right: auto; }
 /* Match featured / game-card title + description (screenshot) */
@@ -31,7 +31,7 @@
   font-size: 0.98rem;
   font-weight: 700;
   line-height: 1.15;
-  color: var(--dim);
+  color: var(--white);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -41,7 +41,7 @@
   font-size: .72rem;
   font-weight: 400;
   line-height: 1.4;
-  color: var(--text-muted);
+  color: var(--text-soft);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
