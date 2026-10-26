@@ -3,9 +3,9 @@ import * as shared from '../../../shared/config.js';
 export const SITE_URL = shared.SITE;
 export const NEWS_URL = shared.NEWS;
 export const LINKS = [
-  { label: 'Documentation', url: shared.DOCS    },
-  { label: 'Discord',       url: shared.DISCORD },
-  { label: 'Donate',        url: shared.DONATE  }
+  { label: 'Documentations', url: shared.DOCS    },
+  { label: 'Community',      url: shared.DISCORD },
+  { label: 'Donate',         url: shared.DONATE  }
 ];
 
 export const FADE_MS             = 220;       // menu fade before the host hides the webview
