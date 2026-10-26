@@ -19,7 +19,6 @@
   padding: 10px 14px 10px 10px;
   border: none;
   border-radius: 4px;
-  /* Same surface as site roadmap .rcard / ui-stat */
   background: linear-gradient(var(--b15), var(--b15)), var(--bg7);
   color: inherit;
   text-align: left;
@@ -38,7 +37,7 @@
   height: 56px;
   flex-shrink: 0;
   object-fit: cover;
-  border-radius: 6px;
+  border-radius: 2px;
   background: var(--bg12);
   color: var(--text-muted);
 }
@@ -66,7 +65,7 @@
   gap: 10px;
   padding: 16px;
   text-align: center;
-  border-radius: 10px;
+  border-radius: 4px;
   border: 2px dashed var(--b10);
   background: var(--bg12);
   font-family: var(--font-geist), sans-serif;
