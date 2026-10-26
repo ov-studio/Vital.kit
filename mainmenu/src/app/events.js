@@ -1,15 +1,15 @@
 import { NEWS_URL, MASTERLIST_REFRESH } from './config.js';
 
-let settings        = null;
-let username        = null;
-let bind            = null;                                   // menu toggle key (config/mainmenu.json)
-let versions        = [];                                     // [{ label, value }], display order
-let updates         = [];                                     // outdated components only
-let localservers    = [];
-let masterlist_ms   = MASTERLIST_REFRESH;                     // config/masterlist.json `refresh`
-let masterlist      = { status: 'loading', servers: [] };     // status: loading | ok | error
-let news            = { status: 'loading', posts: [] };       // status: loading | ok | error
-let connection      = { state: 'idle', ip: '', port: 0 };     // state: idle | connecting | connected
+let settings      = null;
+let username      = null;
+let bind          = null; 
+let versions      = [];
+let updates       = [];
+let localservers  = [];
+let masterlist_ms = MASTERLIST_REFRESH;
+let masterlist    = { status: 'loading', servers: [] };
+let news          = { status: 'loading', posts: [] };
+let connection    = { state: 'idle', ip: '', port: 0 };
 
 const emit = (name, detail) => window.dispatchEvent(new CustomEvent(name, { detail }));
 const post = (payload) => window.ipc?.postMessage(JSON.stringify(payload));
@@ -78,15 +78,15 @@ document.addEventListener('message', (e) => {
   catch { /* ignore malformed host messages */ }
 });
 
-export const ready  = () => post({ action: 'ready' });
-export const drag   = () => post({ action: 'drag' });
-export const exit   = () => post({ action: 'exit' });
-export const escape = () => post({ action: 'escape' });
-export const hide   = () => post({ action: 'hide' });
-export const fetch_masterlist = () => post({ action: 'masterlist' });
+export const ready              = () => post({ action: 'ready' });
+export const drag               = () => post({ action: 'drag' });
+export const exit               = () => post({ action: 'exit' });
+export const escape             = () => post({ action: 'escape' });
+export const hide               = () => post({ action: 'hide' });
+export const fetch_masterlist   = () => post({ action: 'masterlist' });
 export const scan_local_servers = () => post({ action: 'localservers' });
-export const disconnect = () => post({ action: 'disconnect' });
-export const settings_update = (values) => post({ action: 'settings_update', settings: values ?? {} });
+export const disconnect         = () => post({ action: 'disconnect' });
+export const settings_update    = (values) => post({ action: 'settings_update', settings: values ?? {} });
 
 export function open_url(url) {
   if (/^https?:\/\//i.test(String(url ?? ''))) post({ action: 'open_url', url });
@@ -116,12 +116,12 @@ export async function fetch_news() {
 }
 
 export const get_settings           = () => settings;
-export const get_username           = () => username;                 // OS username, null until ready
-export const get_bind               = () => bind;                     // menu toggle key, null until ready
-export const get_versions           = () => versions;                 // Sandbox, Kit, Wry, Godot
-export const get_updates            = () => updates;                  // empty when up to date or unknown
+export const get_username           = () => username;
+export const get_bind               = () => bind;
+export const get_versions           = () => versions;
+export const get_updates            = () => updates;
 export const get_localservers       = () => localservers;
-export const get_masterlist         = () => masterlist;               // { status, servers } raw rows
-export const get_masterlist_refresh = () => masterlist_ms;            // ms between masterlist refreshes
-export const get_news               = () => news;                     // { status, posts } raw rows
-export const get_connection         = () => connection;               // { state, ip, port }
+export const get_masterlist         = () => masterlist;
+export const get_masterlist_refresh = () => masterlist_ms;
+export const get_news               = () => news;
+export const get_connection         = () => connection;
