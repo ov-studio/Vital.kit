@@ -29,39 +29,25 @@ export const Console = () => {
   const scroll_idle_ref = react.useRef(null);
   const raf_ref = react.useRef(null);
 
-  const level_meta = react.useMemo(() => {
-    const map = { ...seed_meta };
-    logs.forEach(l => {
-      if (!map[l.type]) map[l.type] = {
-        label: l.label,
-        badge: l.badge,
-        color: l.color,
-        background: l.background,
-        priority: l.priority
-      };
-    });
-    return map;
-  }, [logs, seed_meta]);
+  // add_log only accepts types present in seed_meta, so seed_meta is the full set of levels.
+  const level_meta = seed_meta;
 
   const level_types = react.useMemo(() => {
-    const result = [...new Set([...Object.keys(seed_meta), ...logs.map(l => l.type)])].sort((a, b) => (level_meta[a]?.priority ?? 99) - (level_meta[b]?.priority ?? 99));
+    const result = Object.keys(seed_meta).sort((a, b) => (seed_meta[a]?.priority ?? 99) - (seed_meta[b]?.priority ?? 99));
     level_types_ref.current = result;
     return result;
-  }, [logs, level_meta, seed_meta]);
+  }, [seed_meta]);
 
   const deactivated_ref = react.useRef(new Set());
   const [filter_tick, force_update] = react.useReducer(x => x + 1, 0);
-  const active_filters = react.useMemo(() => {
-    const result = new Set();
-    level_types_ref.current.forEach(t => {
-      if (!deactivated_ref.current.has(t)) result.add(t);
-    });
-    return result;
-  }, [logs, seed_meta, filter_tick]);
+  const active_filters = react.useMemo(
+    () => new Set(level_types.filter(t => !deactivated_ref.current.has(t))),
+    [level_types, filter_tick]
+  );
 
   const log_counts = react.useMemo(() => {
     const counts = Object.fromEntries(level_types.map(t => [t, 0]));
-    logs.forEach(log => { if (counts[log.type] !== undefined) counts[log.type]++; });
+    logs.forEach(log => { counts[log.type]++; });
     return counts;
   }, [logs, level_types]);
 
@@ -263,8 +249,10 @@ export const Console = () => {
   }, [handle_key_down]);
 
   react.useEffect(() => {
+    const on_visible = (e) => { if (e.detail.visible) input_ref.current?.focus(); };
     ipc.postMessage(JSON.stringify({ action: 'ready' }));
-    window.addEventListener('webview:visible', (e) => { if (e.detail.visible) input_ref.current?.focus(); });
+    window.addEventListener('webview:visible', on_visible);
+    return () => window.removeEventListener('webview:visible', on_visible);
   }, []);
 
   const handle_send = react.useCallback(() => {
@@ -324,7 +312,6 @@ export const Console = () => {
               type={log.type}
               badge={meta.badge}
               color={meta.color}
-              background={meta.background}
               timestamp={log.timestamp}
               message={log.message}
               repeat_count={log.repeat_count}

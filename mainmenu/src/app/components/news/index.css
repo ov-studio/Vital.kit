@@ -6,8 +6,6 @@
   min-height: 0;
   overflow-y: auto;
 }
-.news::-webkit-scrollbar { width: 2px; }
-.news::-webkit-scrollbar-thumb { background: var(--rule); }
 
 .news-item {
   display: flex;
@@ -24,9 +22,7 @@
   font: inherit;
   transition: background .3s;
 }
-.news-item:hover {
-  background: linear-gradient(var(--b20), var(--b20)), var(--bg7);
-}
+.news-item:hover { background: linear-gradient(var(--b20), var(--b20)), var(--bg7); }
 
 .news-cover {
   display: flex;
@@ -43,32 +39,22 @@
 
 .news-info { display: flex; flex-direction: column; gap: 3px; min-width: 0; margin-right: auto; }
 .news-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   font-family: var(--font-display);
   font-size: 1.02rem;
   font-weight: 600;
   line-height: 1.2;
   color: var(--brand-neon-core);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 .news-meta { font-size: .68rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .news-go { flex-shrink: 0; color: var(--brand-neon-mid); opacity: 0; transition: opacity .15s ease; }
 .news-item:hover .news-go { opacity: 1; }
 
 .news--empty {
-  align-items: center;
-  justify-content: center;
   gap: 10px;
   padding: 16px;
-  text-align: center;
-  border-radius: 4px;
-  border: 2px dashed var(--b10);
-  background: var(--bg12);
-  font-family: var(--font-geist), sans-serif;
   font-size: .78rem;
-  font-weight: 500;
-  color: var(--text-muted);
 }
-.news--empty svg { opacity: .7; }

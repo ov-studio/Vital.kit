@@ -1,7 +1,5 @@
 .cgrid-wrap { flex: 1; padding-bottom: 4px; overflow-y: auto; }
 .cgrid-wrap--fit { overflow: hidden; }
-.cgrid-wrap::-webkit-scrollbar { width: 2px; }
-.cgrid-wrap::-webkit-scrollbar-thumb { background: var(--rule); }
 
 .cgrid {
   display: grid;
@@ -11,19 +9,10 @@
   align-content: start;
 }
 .cgrid-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   gap: 12px;
   height: 100%;
   min-height: 120px;
   padding: 0 24px;
-  text-align: center;
-  border-radius: 4px;
-  font-family: var(--font-geist), sans-serif;
   font-size: .82rem;
-  font-weight: 500;
-  color: var(--text-muted);
 }
-.cgrid-empty svg { flex-shrink: 0; opacity: .7; }
+.cgrid-empty svg { flex-shrink: 0; }

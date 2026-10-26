@@ -7,11 +7,6 @@
   --mm-panel: linear-gradient(var(--b30), var(--b30)), var(--bg12);
 }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: none; }
-}
-
 html, body {
   width: 100%;
   height: 100%;
@@ -45,4 +40,51 @@ input[type="text"] { cursor: text; }
   line-height: 1.2;
   letter-spacing: .08em;
   text-transform: uppercase;
+}
+
+/* Thin scrollbars shared by every scrolling list */
+.cgrid-wrap::-webkit-scrollbar,
+.ls-list::-webkit-scrollbar,
+.news::-webkit-scrollbar,
+.view-body::-webkit-scrollbar { width: 2px; }
+
+.cgrid-wrap::-webkit-scrollbar-thumb,
+.ls-list::-webkit-scrollbar-thumb,
+.news::-webkit-scrollbar-thumb,
+.view-body::-webkit-scrollbar-thumb { background: var(--rule); }
+
+/* Empty states shared by news, featured and the card grid (sizing/spacing stays per component) */
+.news--empty,
+.play-ghost-hero,
+.cgrid-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 4px;
+  font-family: var(--font-geist), sans-serif;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+.news--empty svg,
+.play-ghost-hero svg,
+.cgrid-empty svg { opacity: .7; }
+
+.news--empty,
+.play-ghost-hero {
+  border: 2px dashed var(--b10);
+  background: var(--bg12);
+}
+
+
+/* ── @keyframes ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes mm-menu-in {
+  from { opacity: 0; transform: translateY(-6px) scale(.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }

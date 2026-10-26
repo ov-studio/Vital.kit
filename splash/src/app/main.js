@@ -8,6 +8,8 @@ if (import.meta.env.DEV) {
   setTimeout(() => shared_dev_ipc.dispatch_dev_message({ action: 'init' }), 1);
 }
 
+const post = (action) => window.ipc.postMessage(JSON.stringify({ action }));
+
 document.documentElement.style.setProperty('--sw-vital', config.STROKE_WIDTH_VITAL);
 
 document.addEventListener('message', (e) => {
@@ -15,18 +17,8 @@ document.addEventListener('message', (e) => {
   if (data.action === 'init') animation.run();
 });
 
-window.ipc.postMessage(JSON.stringify({
-  action: 'ready'
-}));
+post('ready');
 
-window.addEventListener('splash:prehide', () => {
-  window.ipc.postMessage(JSON.stringify({
-    action: 'prehide'
-  }));
-});
+window.addEventListener('splash:prehide', () => post('prehide'));
 
-window.addEventListener('splash:hide', () => {
-  window.ipc.postMessage(JSON.stringify({
-    action: 'hide'
-  }));
-});
+window.addEventListener('splash:hide', () => post('hide'));

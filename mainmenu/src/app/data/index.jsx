@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import * as events from '../events.js';
 import * as config from '../config.js';
 import { useEventState, usePolling } from '../hooks.js';
@@ -33,7 +34,10 @@ export function normalize(row) {
 
 export function useMasterlist() {
   const state = useEventState('mainmenu:masterlist', events.get_masterlist);
-  const servers = state.servers.map(normalize).filter(Boolean).sort((a, b) => b.players - a.players);
+  const servers = useMemo(
+    () => state.servers.map(normalize).filter(Boolean).sort((a, b) => b.players - a.players),
+    [state.servers]
+  );
   return { status: state.status, servers };
 }
 

@@ -47,11 +47,7 @@ body,
   align-items: center;
   gap: 10px;
 }
-
-.header-top .slabel {
-  margin-bottom: 0;
-}
-
+.header-top .slabel { margin-bottom: 0; }
 .header-top .count {
   margin-left: auto;
   font-size: 0.9rem;
@@ -71,10 +67,10 @@ body,
 .filters {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 6px;
   flex: 1;
   overflow: hidden;
-  flex-wrap: wrap;
 }
 
 .filter {
@@ -104,8 +100,8 @@ body,
 }
 
 .filter-count {
-  opacity: 0.45; 
-  font-size: .6rem; 
+  opacity: 0.45;
+  font-size: .6rem;
   font-weight: 600;
 }
 
@@ -116,8 +112,7 @@ body,
   flex-shrink: 0;
 }
 
-.ui-icon-btn.action-btn,
-.action-btn {
+.ui-icon-btn.action-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -131,14 +126,12 @@ body,
   cursor: pointer;
   transition: background .15s, color .15s;
 }
-.ui-icon-btn.action-btn:hover,
-.action-btn:hover {
+.ui-icon-btn.action-btn:hover {
   background: var(--selection-bg);
   color: var(--selection-text);
 }
-.ui-icon-btn.action-btn svg,
-.action-btn svg,
-.action-btn * { pointer-events: none; }
+.ui-icon-btn.action-btn *,
+.ui-icon-btn.input-send-btn * { pointer-events: none; }
 
 .log-body {
   flex: 1;
@@ -186,7 +179,11 @@ body,
 .log-row:hover  { background: var(--b05); }
 .log-row.hidden { display: none; }
 
-.log-row-multiline { align-items: flex-start; padding-top: 7px; padding-bottom: 7px; }
+.log-row-multiline {
+  align-items: flex-start;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
 
 .log-ts {
   font-family: 'Geist Mono', 'Geist', monospace;
@@ -214,20 +211,15 @@ body,
 
 .log-msg {
   flex: 1;
+  min-width: 0;
   font-size: .8rem;
   font-weight: 400;
   letter-spacing: .01em;
   line-height: 1.45;
-  min-width: 0;
   overflow-wrap: break-word;
-  color: inherit;
   user-select: text;
   cursor: text;
 }
-
-.log-row-multiline .log-ts,
-.log-row-multiline .log-level,
-.log-row-multiline .log-msg { align-self: flex-start; }
 
 .badge {
   margin-left: 10px;
@@ -243,7 +235,6 @@ body,
   line-height: 1.4;
 }
 
-.log-line { display: block; }
 .log-line + .log-line { margin-top: 2px; }
 
 .log-quote {
@@ -255,14 +246,12 @@ body,
 .log-quote + .log-quote { margin-top: 0; }
 
 .code-pill {
-  display: inline;
   padding: 1px 6px;
   border-radius: 3px;
   font-family: 'Geist Mono', 'Geist', monospace;
   font-size: 0.9em;
   font-weight: 500;
   border: 1px solid transparent;
-  vertical-align: baseline;
 }
 
 .log-code-block {
@@ -283,7 +272,7 @@ body,
   display: flex;
   align-items: center;
   height: 48px;
-  padding: 12px 12px;
+  padding: 12px;
   gap: 8px;
   background: var(--bg);
   border-top: 1px solid var(--rule);
@@ -295,7 +284,6 @@ body,
   min-width: 0;
   width: auto;
 }
-
 .console-cmd .input-prompt {
   position: absolute;
   left: 12px;
@@ -306,7 +294,6 @@ body,
   pointer-events: none;
   z-index: 1;
 }
-
 .console-cmd input {
   width: 100%;
   flex: 1;
@@ -318,14 +305,9 @@ body,
   border-radius: 4px;
   transition: background .15s;
 }
+.console-cmd input:focus { background: var(--b20); }
 
-.console-cmd input:focus {
-  width: 100%;
-  background: var(--b20);
-}
-
-.ui-icon-btn.input-send-btn,
-.input-send-btn {
+.ui-icon-btn.input-send-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -341,15 +323,11 @@ body,
   cursor: default;
   transition: opacity .15s;
 }
-.ui-icon-btn.input-send-btn svg,
-.input-send-btn * { pointer-events: none; }
-.ui-icon-btn.input-send-btn.active,
-.input-send-btn.active {
+.ui-icon-btn.input-send-btn.active {
   opacity: 1;
   cursor: pointer;
 }
-.ui-icon-btn.input-send-btn.active:hover,
-.input-send-btn.active:hover { opacity: 0.9; }
+.ui-icon-btn.input-send-btn.active:hover { opacity: 0.9; }
 
 .resize-handle {
   position: absolute;
@@ -361,8 +339,6 @@ body,
   z-index: 5;
   background: transparent;
 }
-.resize-handle:hover { cursor: se-resize; }
-
 .resize-handle span {
   position: absolute;
   right: 0;
@@ -380,9 +356,6 @@ body,
   border-color: transparent transparent var(--blue) transparent;
   opacity: 1;
 }
-
-.resize-handle::before,
-.resize-handle::after { display: none; }
 
 
 /* ── @keyframes ── */

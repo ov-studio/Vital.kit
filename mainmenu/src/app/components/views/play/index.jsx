@@ -43,7 +43,7 @@ export function ViewPlay({ visible, favs, onToggleFav }) {
         <CardGrid
           fit
           gridRef={gridRef}
-          servers={none ? [] : fitCount == null ? servers : servers.slice(0, fitCount)}
+          servers={fitCount == null ? servers : servers.slice(0, fitCount)}
           favs={favs}
           onToggleFav={onToggleFav}
           empty={{ icon: TrendingUp, text: emptyText(status, false) }}

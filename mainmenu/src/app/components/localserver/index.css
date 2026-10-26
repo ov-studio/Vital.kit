@@ -6,8 +6,6 @@
   max-height: 140px;
   overflow-y: auto;
 }
-.ls-list::-webkit-scrollbar { width: 2px; }
-.ls-list::-webkit-scrollbar-thumb { background: var(--rule); }
 
 .localserver {
   position: relative;
@@ -38,7 +36,7 @@
   z-index: 2;
 }
 
-.ls-info { display: flex; flex-direction: column; gap: 0; min-width: 0; margin-right: auto; }
+.ls-info { display: flex; flex-direction: column; min-width: 0; margin-right: auto; }
 .ls-name {
   margin-bottom: 4px;
   font-family: var(--font-display);

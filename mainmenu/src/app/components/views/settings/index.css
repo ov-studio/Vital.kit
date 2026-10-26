@@ -1,16 +1,9 @@
 .view-body { flex: 1; min-height: 0; overflow-y: auto; padding-right: 4px; }
-.view-body::-webkit-scrollbar { width: 2px; }
-.view-body::-webkit-scrollbar-thumb { background: var(--rule); }
 
-.view-body > .ui-panel {
-  margin-bottom: var(--section-gap, 46px);
-}
-.view-body > .ui-panel:last-child {
-  margin-bottom: 0;
-}
+.view-body > .ui-panel { margin-bottom: var(--section-gap, 46px); }
+.view-body > .ui-panel:last-child { margin-bottom: 0; }
 
-.view-body .ui-panel,
-.view-body .ui-stat {
+.view-body .ui-panel {
   border: none;
   border-radius: 6px;
   overflow: hidden;
