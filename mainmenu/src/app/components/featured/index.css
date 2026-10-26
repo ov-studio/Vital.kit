@@ -126,7 +126,7 @@
   background: var(--w30);
   transition: width .25s, background .25s;
 }
-.hero-dot.on { width: 26px; background: var(--b30); }
+.hero-dot.on { width: 45px; background: var(--b30); }
 .hero-dot.on::after {
   content: '';
   position: absolute;
