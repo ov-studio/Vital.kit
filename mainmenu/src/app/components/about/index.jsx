@@ -3,7 +3,6 @@ import * as events from '../../events.js';
 import { useEventState, usePopover } from '../../hooks.js';
 import './index.css';
 
-/* Info button in the top bar: opens a panel with the component versions (Sandbox, Kit, Wry, Godot). */
 export function About() {
   const { open, toggle, root } = usePopover();
   const versions = useEventState('mainmenu:init', events.get_versions);

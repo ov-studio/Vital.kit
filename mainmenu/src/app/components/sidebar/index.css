@@ -23,7 +23,6 @@
 .nav-btn:hover { background: var(--w06); color: var(--white); }
 .nav-btn.on { background: var(--selection-bg); color: var(--white); }
 
-/* active marker */
 .nav-btn::before {
   content: '';
   position: absolute;
@@ -38,7 +37,6 @@
 }
 .nav-btn.on::before { height: 14px; }
 
-/* tooltip (ui/iconbutton only sets aria-label) */
 .nav-btn::after {
   content: attr(aria-label);
   position: absolute;

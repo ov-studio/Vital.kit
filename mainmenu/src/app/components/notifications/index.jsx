@@ -57,7 +57,6 @@ function UpdateItem({ u }) {
   );
 }
 
-/* Bell button with a NEW badge while updates exist; opens a panel to download and install them. */
 export function Notifications({ updates }) {
   const { open, toggle, root } = usePopover();
   const has = updates.length > 0;

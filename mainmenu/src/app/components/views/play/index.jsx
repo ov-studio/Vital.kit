@@ -9,10 +9,8 @@ import { CardGrid, useFitCount } from '../../cardgrid/index.jsx';
 import { FEATURED_COUNT } from '../../../config.js';
 import './index.css';
 
-/* Play view: Featured + News on top, Local servers in the middle, Trending filling the rest.
-   Every block keeps its container when empty and shows a placeholder instead. */
 export function ViewPlay({ visible, favs, onToggleFav }) {
-  const { status, servers } = useMasterlist(); // already sorted by players, busiest first
+  const { status, servers } = useMasterlist();
   const gridRef = useRef(null);
   const fitCount = useFitCount(gridRef);
   const none = servers.length === 0;

@@ -1,6 +1,5 @@
 import './index.css';
 
-/* Name + description on the left, the control on the right. Lives inside a ui/panel. */
 export function SettingRow({ name, desc, children }) {
   return (
     <div className="setting-row">

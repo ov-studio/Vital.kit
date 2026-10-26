@@ -59,8 +59,6 @@ body {
   transition: opacity 800ms ease;
 }
 
-
-/* ── Scene ── */
 #scene {
   position: fixed;
   inset: 0;
@@ -69,8 +67,6 @@ body {
   justify-content: center;
 }
 
-
-/* ── Brand (neon look and glitch states come from cdn/ui/brand) ── */
 #vital-brand {
   --brand-logo-size: clamp(10rem, 26vmin, 17.5rem);
   opacity: 0;

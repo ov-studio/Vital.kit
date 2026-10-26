@@ -7,7 +7,6 @@
   padding: 24px 28px 22px;
   overflow: hidden;
   border-radius: 12px;
-  /* Site vault/stat recipe: soft blue wash over a lifted surface */
   background:
     radial-gradient(ellipse 90% 60% at 8% -15%, var(--b20), transparent 55%),
     radial-gradient(ellipse 50% 40% at 100% 100%, var(--b10), transparent 50%),
@@ -27,5 +26,4 @@
   animation: fadeUp .2s ease;
 }
 
-/* empty states fill the rest of the view so content sits centered */
 .view > .state-empty { flex: 1; }

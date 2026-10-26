@@ -21,7 +21,6 @@
   user-select: auto;
 }
 
-/* Structure from ui/brand; mask is local (CDN logo isn't CORS-enabled; build is asset-free). */
 .hud-logo {
   width: var(--hud);
   align-self: stretch;

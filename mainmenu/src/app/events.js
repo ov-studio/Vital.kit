@@ -75,7 +75,7 @@ document.addEventListener('message', (e) => {
     const data = JSON.parse(e.detail);
     incoming[data?.action]?.(data);
   } 
-  catch { /* ignore malformed host messages */ }
+  catch { }
 });
 
 export const ready              = () => post({ action: 'ready' });

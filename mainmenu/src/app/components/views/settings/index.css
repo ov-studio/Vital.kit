@@ -1,9 +1,7 @@
 .view-body { flex: 1; min-height: 0; overflow-y: auto; padding-right: 4px; }
-
 .view-body::-webkit-scrollbar { width: 2px; }
 .view-body::-webkit-scrollbar-thumb { background: var(--rule); }
 
-/* Space between setting groups (badge + panel blocks) */
 .view-body > .ui-panel {
   margin-bottom: var(--section-gap, 46px);
 }
@@ -11,7 +9,6 @@
   margin-bottom: 0;
 }
 
-/* Flat panels matching setting rows */
 .view-body .ui-panel,
 .view-body .ui-stat {
   border: none;

@@ -8,16 +8,13 @@ import * as events     from '../../../events.js';
 import * as config     from '../../../config.js';
 import './index.css';
 
-/* Keys the host persists (max_width / max_height are read-only monitor limits). */
 const SAVED = ['resolution', 'window_mode', 'vsync', 'draw_distance_mult', 'particle_distance_mult', 'volume', 'mouse_sens_horizontal', 'mouse_sens_vertical'];
 
-/* Resolutions capped to the monitor; never empty. */
 function filter_resolutions(max_w, max_h) {
   const list = config.RESOLUTIONS.filter(o => o.w <= max_w && o.h <= max_h);
   return list.length ? list : config.RESOLUTIONS.slice(0, 1);
 }
 
-/* Host settings (or the cached/default ones) -> UI values, with the resolution clamped to what the monitor allows. */
 function from_engine(settings) {
   const src = settings ?? events.get_settings() ?? {};
   const values = Object.fromEntries(Object.entries(config.SETTING_DEFAULTS).map(([key, fallback]) => [key, src[key] ?? fallback]));
@@ -30,7 +27,6 @@ export function ViewSettings() {
   const [values, setValues] = useState(from_engine);
   const res_options = useMemo(() => filter_resolutions(values.max_width, values.max_height), [values.max_width, values.max_height]);
 
-  // Engine-fed values replace the state without writing back; only user edits go through `set`.
   useEffect(() => {
     const on_loaded = (e) => setValues(from_engine(e.detail));
     window.addEventListener('mainmenu:settings_loaded', on_loaded);
@@ -43,7 +39,6 @@ export function ViewSettings() {
     events.settings_update(Object.fromEntries(SAVED.map(key => [key, next[key]])));
   };
 
-  // Multipliers are stored as 0..1 and edited as percent.
   const percent = (key) => ({
     value:    Math.round(values[key] * 100),
     onChange: (v) => set({ [key]: v / 100 }),

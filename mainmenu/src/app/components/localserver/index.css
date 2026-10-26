@@ -1,10 +1,9 @@
-/* Local servers: rows live inside the play view's section container, so each row is a flat, subtle tile. */
 .ls-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
   min-height: 0;
-  max-height: 140px; /* ~3 rows, then it scrolls */
+  max-height: 140px;
   overflow-y: auto;
 }
 .ls-list::-webkit-scrollbar { width: 2px; }
@@ -21,7 +20,6 @@
   background: linear-gradient(var(--b15), var(--b15)), var(--bg7);
   animation: fadeUp .25s ease;
 }
-/* Connected: same gradient rim technique as featured hero */
 .localserver.is-connected::before {
   content: '';
   position: absolute;
@@ -40,9 +38,7 @@
   z-index: 2;
 }
 
-
 .ls-info { display: flex; flex-direction: column; gap: 0; min-width: 0; margin-right: auto; }
-/* Match featured / game-card title + description (screenshot) */
 .ls-name {
   margin-bottom: 4px;
   font-family: var(--font-display);

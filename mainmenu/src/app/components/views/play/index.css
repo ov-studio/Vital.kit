@@ -1,4 +1,3 @@
-/* The view fades with opacity only (no translate): keeps the panel steady while it fades in. */
 .view-play {
   gap: 14px;
   animation: playFade .2s ease;
@@ -9,9 +8,6 @@
 }
 
 .view-play .hero-row { margin-bottom: 0; }
-
-/* Each block sits in a see-through container: a faint dark tint with a soft blue rim,
-   so the panel underneath still reads through. */
 .view-play .play-section {
   display: flex;
   flex-direction: column;
@@ -30,8 +26,6 @@
   background: linear-gradient(var(--b20), var(--b20)), var(--bg12);
   border: 3px dashed var(--b10);
 }
-
-/* Top row: Featured takes the space, News sits beside it at the same height. */
 .view-play .play-top {
   display: grid;
   grid-template-columns: minmax(0, 1fr) clamp(280px, 30%, 380px);
@@ -39,8 +33,6 @@
   flex-shrink: 0;
 }
 .view-play .play-section--news { overflow: hidden; }
-
-/* Featured placeholder: same footprint as the hero so the layout never jumps. */
 .view-play .play-ghost-hero {
   display: flex;
   flex-direction: column;

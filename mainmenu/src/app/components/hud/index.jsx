@@ -13,7 +13,6 @@ function is_interactive(target) {
   return Boolean(target.closest('button, a, input, textarea, select, [data-no-drag]'));
 }
 
-/* Empty areas of the top bar start a borderless window drag. */
 function on_bar_mouse_down(e) {
   if (e.button !== 0) return;
   if (is_interactive(e.target)) return;
@@ -21,7 +20,6 @@ function on_bar_mouse_down(e) {
   events.drag();
 }
 
-/* Top bar: brand, greeting, external links, notifications and exit. */
 export function Hud() {
   const username = useEventState('mainmenu:username', events.get_username) || 'Player';
   const updates  = useEventState('mainmenu:update', events.get_updates);

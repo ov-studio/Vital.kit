@@ -8,7 +8,6 @@
   .mlist-filters .ui-search input:focus { width: 100%; }
 }
 
-/* Filter chips share the Search input's solid surface instead of being transparent */
 .mlist-filters .ui-filter .ui-filter-btn {
   background: linear-gradient(var(--b10), var(--b10)), var(--bg6);
 

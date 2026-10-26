@@ -6,8 +6,6 @@ import { LOCAL_HOST as HOST, LOCAL_SCAN_INTERVAL } from '../../config.js';
 import { useEventState, usePolling } from '../../hooks.js';
 import './index.css';
 
-/* Asks the host for the servers on this machine while `active`, and follows the live connection state.
-   The host finds every running server (any port) and verifies each, so nothing is hard-coded here. */
 function useLocalServers(active) {
   const servers    = useEventState('mainmenu:localservers', events.get_localservers);
   const connection = useEventState('mainmenu:connection', events.get_connection);
@@ -43,10 +41,10 @@ function ServerRow({ info, connection }) {
   );
 }
 
-/* Play-view section: only mounts when a local server is present. */
 export function LocalServers({ active }) {
   const { servers, connection } = useLocalServers(active);
   if (!servers.length) return null;
+  
   return (
     <section className="play-section play-section--local">
       <Badge className="play-badge">Local Servers</Badge>

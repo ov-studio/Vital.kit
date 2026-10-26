@@ -7,13 +7,10 @@ import './index.css';
 
 await shared_dev_ipc.install_dev_ipc_stub();
 
-// Globally disable Tab-driven focus traversal (mirrors console behaviour).
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Tab') e.preventDefault();
 }, true);
 
-// Menu bind (Vital.kit config/mainmenu.json, fed by the host): host fades the menu out
-// (revealing the game) and brings it back on the next press.
 document.addEventListener('keydown', (e) => {
   const bind = events.get_bind();
   if (!bind || e.repeat || e.defaultPrevented) return;
@@ -30,7 +27,6 @@ window.addEventListener('mainmenu:fadeout', () => {
   fade_timer = setTimeout(events.hide, config.FADE_MS);
 });
 
-// Host showed the webview again: drop the class so it fades back in.
 window.addEventListener('webview:visible', (e) => {
   if (!e.detail?.visible) return;
   clearTimeout(fade_timer);

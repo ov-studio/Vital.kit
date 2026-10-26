@@ -19,7 +19,6 @@
   pointer-events: none;
 }
 
-/* Same menu look as the site's user dropdown */
 .notif-panel {
   position: absolute;
   top: calc(100% + 14px);
@@ -66,7 +65,6 @@
 
 .notif-item-actions { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 10px; }
 
-/* Undo the top bar's fixed-height button styling inside the panel */
 .hud .notif-panel .ui-btn { height: auto; }
 .hud .notif-panel .ui-btn--action { gap: 6px; font-size: .78rem; padding: 6px 10px; border-radius: 4px; color: var(--b90); background: var(--b20); }
 .hud .notif-panel .ui-btn--action:hover:not(:disabled) { color: var(--blue); background: var(--b30); }

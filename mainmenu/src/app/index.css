@@ -27,16 +27,13 @@ html, body {
   height: 100%;
 }
 
-/* Esc fade: whole page so the game shows through */
 html { transition: opacity .22s ease; }
 html.is-faded { opacity: 0; pointer-events: none; }
 
-/* Undo the site's cursor:none for an interactive desktop menu */
 * { cursor: auto; }
 button, a, label, input { cursor: pointer; }
 input[type="text"] { cursor: text; }
 
-/* Section label badges — single override on CDN @ui/badge */
 .play-badge {
   align-self: flex-start;
   flex-shrink: 0;

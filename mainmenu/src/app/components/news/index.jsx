@@ -11,10 +11,8 @@ function newsEmptyText(status) {
   return 'No news yet. Check back soon.';
 }
 
-/* Compact news feed: newest posts first, each opens on the site in the default browser. */
 export function News({ active }) {
   const { status, posts } = useNews(active);
-
   if (!posts.length) {
     return (
       <div className="news news--empty">

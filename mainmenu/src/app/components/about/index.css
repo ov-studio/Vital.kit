@@ -1,7 +1,6 @@
 .about { position: relative; }
 .hud .about .ui-icon-btn.is-open { color: var(--blue); background: var(--b30); }
 
-/* Same menu look as the site's user dropdown */
 .about-panel {
   position: absolute;
   top: calc(100% + 14px);

@@ -14,7 +14,6 @@
   border-radius: 6px;
   background: var(--bg5);
 }
-/* 1px gradient rim: blue → fade */
 .hero::before {
   content: '';
   position: absolute;
@@ -61,7 +60,6 @@
   padding: 26px 30px;
   animation: fadeUp .35s ease;
 }
-/* Match vault card author chip typography (ui/card .ui-card-author) */
 .hero-badge.ui-badge {
   margin-bottom: 12px;
   font-family: var(--font-geist), sans-serif;
@@ -92,10 +90,7 @@
   overflow: hidden;
 }
 .hero-meta { display: flex; align-items: center; gap: 16px; }
-/* Keep CDN primary clip-path; no radius (fights the polygon edge) */
-.ui-btn.hero-join {
-  border-radius: 0;
-}
+.ui-btn.hero-join { border-radius: 0; }
 .hero-viewers { font-size: .78rem; color: var(--text-muted); }
 .hero-viewers strong { color: var(--white); font-weight: 700; }
 
@@ -147,7 +142,6 @@
   padding: 10px 12px;
   text-align: left;
   border-radius: 6px;
-  /* darker card so it doesn't dissolve into the panel */
   background: var(--rule12);
   border: none;
   opacity: 1;

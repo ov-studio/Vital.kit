@@ -7,8 +7,6 @@ import * as events from '../../events.js';
 import { FEATURED_INTERVAL } from '../../config.js';
 import './index.css';
 
-/* Hero banner cycling through the busiest live servers (max 3) + side list.
-   Timers pause while `visible` is false so the progress dot stays in sync. */
 export function Featured({ visible, servers }) {
   const [idx, setIdx] = useState(0);
   const current = servers.length ? Math.min(idx, servers.length - 1) : 0;

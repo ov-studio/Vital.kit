@@ -3,15 +3,12 @@ import { GameCard } from '../gamecard/index.jsx';
 import { CARD } from '../../config.js';
 import './index.css';
 
-/* Card grid geometry. The CSS reads it back through custom properties (see
-   GRID_VARS), so useFitCount and the stylesheet can never drift apart. */
 const GRID_VARS = {
   '--card-min':   `${CARD.minWidth}px`,
   '--card-gap':   `${CARD.gap}px`,
   '--card-ratio': CARD.ratio,
 };
 
-/* Fit-to-space: how many cards fit the element without a scroller (most cards win). */
 export function useFitCount(ref) {
   const [count, setCount] = useState(null);
 
@@ -39,9 +36,6 @@ export function useFitCount(ref) {
   return count;
 }
 
-/* Grid of game cards. `fit` sizes it to its container (pair with useFitCount);
-   otherwise it scrolls. With no servers and an `empty` ({ icon, text }) it shows a single
-   placeholder row instead of cards; the wrapper (and its ref) stays mounted so fit-to-space keeps working. */
 export function CardGrid({ servers, favs, onToggleFav, fit, gridRef, empty = null }) {
   if (!servers.length && empty) {
     const Icon = empty.icon;

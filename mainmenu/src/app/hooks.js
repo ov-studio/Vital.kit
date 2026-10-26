@@ -1,11 +1,7 @@
-/* Small shared hooks. Keeps the polling / event-sync / popover plumbing out of the components. */
-
 import { useState, useEffect, useRef, useCallback } from 'react';
 
 const is_faded = () => document.documentElement.classList.contains('is-faded');
 
-/* Mirrors a value cached in events.js: re-read through `get` whenever `event` fires
-   (the event's own detail wins when it carries one). */
 export function useEventState(event, get) {
   const [value, setValue] = useState(get);
   useEffect(() => {
@@ -17,8 +13,6 @@ export function useEventState(event, get) {
   return value;
 }
 
-/* Runs `fn` now, every `ms`, and whenever the host shows the webview again.
-   Interval ticks are skipped while the menu is faded out; nothing runs while `active` is false. */
 export function usePolling(fn, ms, active = true) {
   useEffect(() => {
     if (!active) return;
@@ -33,8 +27,6 @@ export function usePolling(fn, ms, active = true) {
   }, [fn, ms, active]);
 }
 
-/* Open/close state for a dropdown panel: closes on outside click and Escape.
-   Attach `root` to the element wrapping both the button and the panel. */
 export function usePopover() {
   const [open, setOpen] = useState(false);
   const root = useRef(null);
@@ -51,6 +43,5 @@ export function usePopover() {
       document.removeEventListener('keydown', on_key);
     };
   }, [open]);
-
   return { open, toggle, root };
 }

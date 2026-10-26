@@ -9,7 +9,6 @@ export const NAV = [
   { id: 'settings',   icon: Settings,   title: 'Settings'   },
 ];
 
-/* Side rail: one icon button per view. */
 export function Sidebar({ active, onChange }) {
   return (
     <nav className="sidebar">

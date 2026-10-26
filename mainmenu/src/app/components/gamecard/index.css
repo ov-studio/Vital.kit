@@ -1,4 +1,3 @@
-/* ui/card supplies the structure, this is the look */
 .gcard {
   aspect-ratio: var(--card-ratio);
   background: var(--bg3);
@@ -55,7 +54,6 @@
   text-overflow: ellipsis;
 }
 
-/* description and links only appear on hover / focus */
 .gcard .ui-card-desc {
   max-height: 0;
   opacity: 0;
@@ -89,7 +87,6 @@
 .gcard:focus-within .gc-links { max-width: 160px; opacity: 1; }
 .ui-btn.gjoin { gap: 5px; font-size: .72rem; font-weight: 700; }
 
-/* small round / square icon buttons: favourite + external links */
 .gc-btn {
   width: 24px;
   height: 24px;
@@ -106,10 +103,8 @@
 .gc-fav.on { color: var(--blue); }
 .gc-fav.on svg { fill: currentColor; }
 
-/* No banner (or it failed to load): a plain flat colour. */
 .gc-art { width: 100%; height: 100%; background: var(--selection-bg); }
 
-/* server logo beside the title in the body */
 .gc-logo {
   width: 28px;
   height: 28px;
