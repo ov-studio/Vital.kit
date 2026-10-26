@@ -1,12 +1,7 @@
 /* --card-min / --card-gap / --card-ratio are set from index.jsx (CARD) so the
    fit-to-space maths there matches this layout. */
 .cgrid-wrap { flex: 1; padding-bottom: 4px; overflow-y: auto; }
-.cgrid-wrap--fit {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden; /* sized to fit exactly: no scrollbar, no clipped rows */
-}
-
+.cgrid-wrap--fit { overflow: hidden; } /* sized to fit exactly: no scrollbar, no clipped rows */
 .cgrid-wrap::-webkit-scrollbar { width: 2px; }
 .cgrid-wrap::-webkit-scrollbar-thumb { background: var(--rule); }
 
@@ -18,7 +13,7 @@
   align-content: start;
 }
 
-/* Placeholder — play view overrides to match Featured ghost; defaults for other views */
+/* Placeholder shown while there is nothing to list (same look as the Featured one) */
 .cgrid-empty {
   display: flex;
   flex-direction: column;
@@ -27,10 +22,9 @@
   gap: 12px;
   height: 100%;
   min-height: 120px;
-  padding: 24px;
-  box-sizing: border-box;
+  padding: 0 24px;
   text-align: center;
-  border-radius: 12px;
+  border-radius: 4px;
   border: 2px dashed var(--b10);
   background: var(--bg12);
   font-family: var(--font-geist), sans-serif;
