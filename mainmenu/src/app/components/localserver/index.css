@@ -23,29 +23,20 @@
 }
 .localserver.is-connected { box-shadow: inset 0 0 0 2px var(--b10); }
 
-.ls-dot {
-  width: 8px;
-  height: 8px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: var(--ls-live);
-  box-shadow: 0 0 8px var(--ls-live);
-}
-
 .ls-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; margin-right: auto; }
 .ls-label {
   font-size: .64rem;
   font-weight: 700;
   letter-spacing: .06em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--dim);
 }
 .ls-name {
   font-family: var(--font-display);
   font-size: .98rem;
   font-weight: 700;
   line-height: 1.2;
-  color: var(--white);
+  color: var(--brand-neon-core);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

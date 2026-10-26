@@ -43,7 +43,6 @@ function ServerRow({ info, connection }) {
 
   return (
     <div className={`localserver${connected ? ' is-connected' : ''}`}>
-      <span className="ls-dot" aria-hidden />
       <div className="ls-info">
         <span className="ls-label">Local server</span>
         <span className="ls-name">{info.name}</span>
