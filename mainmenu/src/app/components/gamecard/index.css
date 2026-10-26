@@ -108,7 +108,7 @@
 .gc-fav.on svg { fill: currentColor; }
 
 /* No banner (or it failed to load): a plain flat colour. */
-.gc-art { width: 100%; height: 100%; background: var(--bg3); }
+.gc-art { width: 100%; height: 100%; background: var(--selection-bg); }
 
 /* server logo beside the title in the body */
 .gc-logo {
