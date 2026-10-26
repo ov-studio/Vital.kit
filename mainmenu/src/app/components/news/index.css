@@ -55,8 +55,8 @@
   overflow: hidden;
 }
 .news-meta { font-size: .68rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.news-go { flex-shrink: 0; color: var(--text-muted); opacity: 0; transition: opacity .15s ease; }
-.news-item:hover .news-go { opacity: 1; color: var(--blue); }
+.news-go { flex-shrink: 0; color: var(--brand-neon-mid); opacity: 0; transition: opacity .15s ease; }
+.news-item:hover .news-go { opacity: 1; }
 
 /* Placeholder */
 .news--empty {
