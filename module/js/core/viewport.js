@@ -12,13 +12,13 @@
 // Core: Viewport //
 /////////////////////
 
-// Fullscreen webviews (flagged by Vital.wry via window.__vital_fullscreen) are
+// Fullscreen webviews (flagged by Vital.sandbox via window.vsdk_fullscreen) are
 // UI overlays that fill the whole window and never scroll at document level.
 // Without this, the native 15px page scrollbar eats the right edge whenever
 // content overflows by a pixel. Inner scroll containers are unaffected.
 (() => {
     const apply = () => {
-        if (window.__vital_fullscreen !== true) return;
+        if (window.vsdk_fullscreen !== true) return;
         if (document.getElementById('vital-kit-viewport')) return;
         const style = document.createElement('style');
         style.id = 'vital-kit-viewport';
