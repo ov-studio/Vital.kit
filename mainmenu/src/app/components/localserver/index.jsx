@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Play, Unplug } from 'lucide-react';
+import { Play, Unplug, ServerOff } from 'lucide-react';
 import { Button } from '@ui/button';
 import * as events from '../../events.js';
 import './index.css';
@@ -63,9 +63,20 @@ function ServerRow({ info, connection }) {
   );
 }
 
-/* One row per server running on this machine, each with Connect (or Disconnect while joined). Renders nothing when none run. */
-export function LocalServer({ active }) {
+/* Container listing every server running on this machine, each row with Connect (or Disconnect while joined).
+   Shows a placeholder row when none run, so the section never collapses. */
+export function LocalServers({ active, className = '' }) {
   const { servers, connection } = useLocalServers(active);
-  if (!servers.length) return null;
-  return servers.map((info) => <ServerRow key={info.port} info={info} connection={connection} />);
+  return (
+    <div className={`ls-list${className ? ` ${className}` : ''}`}>
+      {servers.length
+        ? servers.map((info) => <ServerRow key={info.port} info={info} connection={connection} />)
+        : (
+          <div className="ls-empty">
+            <ServerOff size={16} strokeWidth={2} />
+            <span>No local server running. Start a Vital.server on this machine and it will show up here.</span>
+          </div>
+        )}
+    </div>
+  );
 }

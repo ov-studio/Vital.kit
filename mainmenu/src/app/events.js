@@ -11,6 +11,9 @@ let cached_versions = []; // [{ label, value }] from the host, display order
 let cached_masterlist = { status: 'loading', servers: [] }; // status: loading | ok | error
 let cached_masterlist_refresh = 15 * 1000; // ms
 let cached_connection = { state: 'idle', ip: '', port: 0 };
+let cached_news = { status: 'loading', posts: [] }; // status: loading | ok | error
+
+const NEWS_URL = 'https://api.vital-sandbox.com/news';
 
 function post(payload) {
   window.ipc?.postMessage(JSON.stringify(payload));
@@ -38,6 +41,10 @@ document.addEventListener('message', (e) => {
         : { status: cached_masterlist.servers.length ? 'ok' : 'error', servers: cached_masterlist.servers };
       window.dispatchEvent(new CustomEvent('mainmenu:masterlist', { detail: cached_masterlist }));
     }
+    if (data?.action === 'news') {
+      // Optional host-side fetch: { action: 'news', ok, posts: [...] } (same rows as GET /news -> posts)
+      set_news(data.ok && Array.isArray(data.posts) ? data.posts : null);
+    }
     if (data?.action === 'fadeout') window.dispatchEvent(new Event('mainmenu:fadeout'));
     if (data?.action === 'localservers') {
       // Host-verified servers on this machine: [{ name, port, http_port, max_peers, ... }]
@@ -59,6 +66,26 @@ document.addEventListener('message', (e) => {
       }
     }
   } catch { /* ignore */ }
+});
+
+/* Keeps the last good list on failure so a blip never blanks the widget. */
+function set_news(posts) {
+  cached_news = posts
+    ? { status: 'ok', posts }
+    : { status: cached_news.posts.length ? 'ok' : 'error', posts: cached_news.posts };
+  window.dispatchEvent(new CustomEvent('mainmenu:news', { detail: cached_news }));
+}
+
+window.addEventListener('mainmenu:fetch_news', async () => {
+  post({ action: 'news' }); // host may answer (see above); otherwise fall back to a direct request
+  try {
+    const res = await fetch(NEWS_URL, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    set_news(Array.isArray(json?.posts) ? json.posts : null);
+  } catch {
+    if (cached_news.status !== 'ok') set_news(null);
+  }
 });
 
 window.addEventListener('mainmenu:drag', () => {
@@ -161,6 +188,16 @@ export function hide() {
 /** Ask the host to fetch the live masterlist (answer arrives as `mainmenu:masterlist`). */
 export function fetch_masterlist() {
   window.dispatchEvent(new Event('mainmenu:fetch_masterlist'));
+}
+
+/** Ask for the latest news posts (answer arrives as `mainmenu:news`). */
+export function fetch_news() {
+  window.dispatchEvent(new Event('mainmenu:fetch_news'));
+}
+
+/** { status: 'loading' | 'ok' | 'error', posts } raw news rows from api.vital-sandbox.com/news. */
+export function get_news() {
+  return cached_news;
 }
 
 /** { status: 'loading' | 'ok' | 'error', servers } raw masterlist rows from the host. */

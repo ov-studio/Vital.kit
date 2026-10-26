@@ -87,3 +87,51 @@ export function filter_tags(servers) {
 export function matches_tag(server, tag) {
   return tag === null || server.tags.includes(tag);
 }
+
+/* ---- News ---------------------------------------------------------------- */
+
+const NEWS_REFRESH = 5 * 60 * 1000; // ms
+const SITE_URL = 'https://vital-sandbox.com';
+
+/* News row -> what the widget renders. Defensive like normalize(): the API is remote. */
+export function normalize_post(row) {
+  if (!row || typeof row !== 'object') return null;
+  const slug = text(row.slug);
+  const title = text(row.title);
+  if (!slug || !title) return null;
+  const time = Date.parse(row.date);
+  return {
+    slug,
+    title,
+    desc: text(row.description),
+    author: text(row.author),
+    cover: image(row.cover),
+    time: Number.isNaN(time) ? 0 : time,
+    date: Number.isNaN(time) ? '' : new Date(time).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }),
+    tags: Array.isArray(row.tags) ? row.tags.filter(t => typeof t === 'string' && t.trim()).slice(0, 3) : [],
+    url: `${SITE_URL}/news/${slug.split('/').map(encodeURIComponent).join('/')}`,
+  };
+}
+
+/* Latest posts (newest first). Fetches while `active`: now, every few minutes, and when the menu is shown again. */
+export function useNews(active) {
+  const [state, setState] = useState(events.get_news);
+  useEffect(() => {
+    const on = e => setState(e.detail);
+    window.addEventListener('mainmenu:news', on);
+    return () => window.removeEventListener('mainmenu:news', on);
+  }, []);
+
+  useEffect(() => {
+    if (!active) return;
+    const faded = () => document.documentElement.classList.contains('is-faded');
+    const on_visible = e => { if (e.detail?.visible) events.fetch_news(); };
+    events.fetch_news();
+    const timer = setInterval(() => { if (!faded()) events.fetch_news(); }, NEWS_REFRESH);
+    window.addEventListener('webview:visible', on_visible);
+    return () => { clearInterval(timer); window.removeEventListener('webview:visible', on_visible); };
+  }, [active]);
+
+  const posts = state.posts.map(normalize_post).filter(Boolean).sort((a, b) => b.time - a.time);
+  return { status: state.status, posts };
+}

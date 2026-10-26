@@ -41,7 +41,19 @@ export function useFitCount(ref) {
 
 /* Grid of game cards. `fit` sizes it to its container (pair with useFitCount);
    otherwise it scrolls. */
-export function CardGrid({ servers, favs, onToggleFav, fit, gridRef }) {
+export function CardGrid({ servers, favs, onToggleFav, fit, gridRef, ghosts = 0, note = null }) {
+  // No servers: show `ghosts` dashed placeholder cards (same geometry) with an optional centred note.
+  if (!servers.length && ghosts > 0) {
+    return (
+      <div className={`cgrid-wrap cgrid-wrap--ghost${fit ? ' cgrid-wrap--fit' : ''}`} ref={gridRef}>
+        <div className="cgrid" style={GRID_VARS}>
+          {Array.from({ length: ghosts }, (_, i) => <div key={i} className="cgrid-ghost" style={{ animationDelay: `${i * 0.04}s` }} />)}
+        </div>
+        {note && <div className="cgrid-note">{note}</div>}
+      </div>
+    );
+  }
+
   return (
     <div className={`cgrid-wrap${fit ? ' cgrid-wrap--fit' : ''}`} ref={gridRef}>
       <div className="cgrid" style={GRID_VARS}>

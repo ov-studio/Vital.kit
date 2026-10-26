@@ -1,13 +1,7 @@
-/* Wallpaper (ui/wallpaper) is absolutely positioned and fills the whole content panel
-   (.center-panel is the nearest positioned ancestor), so everything else in the view is
-   lifted above it. The view fades with opacity only: the shared fadeUp translate would
-   make .view the containing block mid-animation and the pattern would jump. */
+/* The view fades with opacity only (no translate): keeps the panel steady while it fades in. */
 .view-play {
+  gap: 14px;
   animation: playFade .2s ease;
-}
-.view-play > :not(.ui-wallpaper) {
-  position: relative;
-  z-index: 1;
 }
 @keyframes playFade {
   from { opacity: 0; }
@@ -31,26 +25,51 @@
   border-radius: 4px;
 }
 
-.view-play .hero-row {
-  margin-bottom: 0;
-}
+.view-play .hero-row { margin-bottom: 0; }
 
-/* Each block sits in a solid dark container (same surface as the Settings panels) so the
-   wallpaper only shows in the gaps and margins around them. Trending grows to the bottom
-   of the panel; its grid still measures how many cards fit. */
+/* Each block sits in a see-through container: a faint dark tint with a soft blue rim,
+   so the panel underneath still reads through. */
 .view-play .play-section {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  min-width: 0;
   padding: 14px 14px 16px;
   border-radius: 10px;
-  background: var(--bg6);
+  background: hsla(250, 21%, 6.5%, .5);
+  box-shadow: inset 0 0 0 1px var(--b10);
 }
 .view-play .play-section--grow {
   flex: 1;
   flex-shrink: 1;
   min-height: 0;
 }
-.view-play .play-section + .play-section {
-  margin-top: 20px;
+
+/* Top row: Featured takes the space, News sits beside it at the same height. */
+.view-play .play-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(280px, 30%, 380px);
+  gap: 14px;
+  flex-shrink: 0;
 }
+.view-play .play-section--news { overflow: hidden; }
+
+/* Featured placeholder: same footprint as the hero so the layout never jumps. */
+.view-play .play-ghost-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 250px;
+  padding: 0 24px;
+  text-align: center;
+  border-radius: 12px;
+  border: 2px dashed var(--b10);
+  background: linear-gradient(var(--b10), transparent 70%);
+  font-family: var(--font-geist), sans-serif;
+  font-size: .82rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+.view-play .play-ghost-hero svg { opacity: .7; }

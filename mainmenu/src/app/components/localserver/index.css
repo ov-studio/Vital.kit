@@ -1,16 +1,28 @@
+/* Local servers: rows live inside the play view's section container, so each row is a flat, subtle tile. */
+.ls-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  max-height: 140px; /* ~3 rows, then it scrolls */
+  overflow-y: auto;
+}
+.ls-list::-webkit-scrollbar { width: 2px; }
+.ls-list::-webkit-scrollbar-thumb { background: var(--rule); }
+
 .localserver {
   --ls-live: hsl(145, 65%, 52%);
   display: flex;
   align-items: center;
   gap: 14px;
   flex-shrink: 0;
-  margin-bottom: 10px;
-  padding: 10px 12px 10px 18px;
-  border-radius: 12px;
-  background: var(--rule);
+  padding: 8px 10px 8px 16px;
+  border-radius: 10px;
+  background: var(--b10);
   box-shadow: inset 0 0 0 1px var(--b10);
   animation: fadeUp .25s ease;
 }
+.localserver.is-connected { box-shadow: inset 0 0 0 1px var(--ls-live); }
 
 .ls-dot {
   width: 8px;
@@ -44,5 +56,17 @@
 
 .ui-btn.ls-join { display: inline-flex; align-items: center; gap: 7px; padding: 7px 18px; font-size: .8rem; }
 
-/* Rows stack tightly; the last one carries the gap to the content below. */
-.localserver:not(:has(+ .localserver)) { margin-bottom: 28px; }
+/* Placeholder row */
+.ls-empty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 2px dashed var(--b10);
+  font-family: var(--font-geist), sans-serif;
+  font-size: .78rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+.ls-empty svg { flex-shrink: 0; opacity: .7; }
