@@ -29,7 +29,7 @@
   z-index: 1;
   padding: 2px;
   border-radius: 4px;
-  background: linear-gradient(135deg, var(--blue), var(--b50) 40%, transparent 70%);
+  background: linear-gradient(135deg, var(--b50), var(--b50) 40%, transparent 70%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
