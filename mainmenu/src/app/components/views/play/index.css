@@ -1,6 +1,6 @@
 /* The view fades with opacity only (no translate): keeps the panel steady while it fades in. */
 .view-play {
-  gap: 18px;
+  gap: 14px;
   animation: playFade .2s ease;
 }
 @keyframes playFade {
@@ -8,11 +8,12 @@
   to   { opacity: 1; }
 }
 
-/* Section labels: shared ui/badge kept compact */
+/* Section labels: shared ui/badge (solid blue, dark text) kept compact (about 20px tall),
+   with a matching solid blue border. */
 .view-play .play-badge {
   align-self: flex-start;
   flex-shrink: 0;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   padding: 3px 9px;
   font-family: var(--font-geist), sans-serif;
   font-size: .6rem;
@@ -26,51 +27,71 @@
 
 .view-play .hero-row { margin-bottom: 0; }
 
-/* Elevated section — lighter than deep --mm-panel so nested cards read clearly */
+/* Each block sits in a see-through container: a faint dark tint with a soft blue rim,
+   so the panel underneath still reads through. */
 .view-play .play-section {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   min-width: 0;
-  padding: 16px 16px 18px;
-  border-radius: 12px;
-  background:
-    linear-gradient(var(--b15), var(--b15)),
-    var(--bg7);
-  border: 1px solid var(--b20);
-  box-shadow:
-    0 1px 0 var(--b10),
-    0 8px 28px var(--k22);
+  padding: 14px 14px 16px;
+  border-radius: 10px;
+  background: var(--bg4);
+  box-shadow: inset 0 0 0 1px var(--b10);
 }
 .view-play .play-section--grow {
   flex: 1;
   flex-shrink: 1;
   min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
+/* Top row: Featured takes the space, News sits beside it at the same height. */
 .view-play .play-top {
   display: grid;
   grid-template-columns: minmax(0, 1fr) clamp(280px, 30%, 380px);
-  gap: 16px;
+  gap: 14px;
   flex-shrink: 0;
 }
 .view-play .play-section--news { overflow: hidden; }
 
-.view-play .play-ghost-hero {
+/* Shared empty placeholder (Featured hero + Trending grid) */
+.view-play .play-ghost,
+.view-play .play-ghost-hero,
+.view-play .cgrid-empty {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  height: 250px;
-  padding: 0 24px;
+  width: 100%;
+  min-height: 120px;
+  padding: 24px;
+  box-sizing: border-box;
   text-align: center;
   border-radius: 12px;
-  border: 2px dashed var(--b20);
-  background: linear-gradient(var(--b10), var(--b10)), var(--bg5);
+  border: 2px dashed var(--b10);
+  background: var(--bg12);
   font-family: var(--font-geist), sans-serif;
   font-size: .82rem;
   font-weight: 500;
   color: var(--text-muted);
 }
-.view-play .play-ghost-hero svg { opacity: .7; }
+.view-play .play-ghost-hero {
+  height: 250px;
+  min-height: 250px;
+  padding: 0 24px;
+}
+.view-play .play-section--grow .cgrid-wrap--fit,
+.view-play .play-section--grow .cgrid-empty {
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+}
+.view-play .play-ghost svg,
+.view-play .play-ghost-hero svg,
+.view-play .cgrid-empty svg {
+  flex-shrink: 0;
+  opacity: .7;
+}
