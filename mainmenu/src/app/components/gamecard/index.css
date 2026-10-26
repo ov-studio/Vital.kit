@@ -35,9 +35,8 @@
   margin: 0 0 3px;
   font-size: 1.05rem;
   line-height: 1.2;
-  color: var(--white);
+  color: var(--brand-neon-core);
   font-weight: 600;
-  text-transform: uppercase;
   text-shadow: 0 1px 6px var(--k45);
 }
 .gc-title-stack {
