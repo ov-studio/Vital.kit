@@ -1,6 +1,7 @@
 import * as react          from 'react-dom/client';
 import * as app_mainmenu   from './components/mainmenu/index.jsx';
 import * as events         from './events.js';
+import * as config         from './config.js';
 import * as shared_dev_ipc from '../../../shared/dev-ipc.js';
 import './index.css';
 
@@ -20,14 +21,13 @@ document.addEventListener('keydown', (e) => {
   events.escape();
 });
 
-const FADE_MS = 220;
 const page = document.documentElement;
 let fade_timer;
 
 window.addEventListener('mainmenu:fadeout', () => {
   page.classList.add('is-faded');
   clearTimeout(fade_timer);
-  fade_timer = setTimeout(events.hide, FADE_MS);
+  fade_timer = setTimeout(events.hide, config.FADE_MS);
 });
 
 // Host showed the webview again: drop the class so it fades back in.

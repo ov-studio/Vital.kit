@@ -1,10 +1,10 @@
 import { useState, useLayoutEffect } from 'react';
 import { GameCard } from '../gamecard/index.jsx';
+import { CARD } from '../../config.js';
 import './index.css';
 
 /* Card grid geometry. The CSS reads it back through custom properties (see
    GRID_VARS), so useFitCount and the stylesheet can never drift apart. */
-const CARD = { minWidth: 210, gap: 14, ratio: 3 / 4 };
 const GRID_VARS = {
   '--card-min':   `${CARD.minWidth}px`,
   '--card-gap':   `${CARD.gap}px`,

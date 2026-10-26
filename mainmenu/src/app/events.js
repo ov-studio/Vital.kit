@@ -1,82 +1,138 @@
-/* Mainmenu ↔ C++ IPC bridge (same pattern as splash).
- * UI dispatches window events; this module posts IPC actions.
- * C++ owns client_settings.json and pushes { action: "settings", username } on ready. */
+/* Mainmenu ↔ host (C++) IPC bridge.
+ *   Outgoing: exported functions post `{ action, ... }` through window.ipc.
+ *   Incoming: the host dispatches a "message" event; each action is cached here and
+ *             re-broadcast as a `mainmenu:*` window event the UI hooks listen to.
+ * C++ owns client_settings.json and pushes { action: "settings", ... } on ready. */
 
-let cached_settings = null;
-let cached_username = null;
-let cached_updates = [];
-let cached_localservers = [];
-let cached_bind = null;
-let cached_versions = []; // [{ label, value }] from the host, display order
-let cached_masterlist = { status: 'loading', servers: [] }; // status: loading | ok | error
-let cached_masterlist_refresh = 15 * 1000; // ms
-let cached_connection = { state: 'idle', ip: '', port: 0 };
-let cached_news = { status: 'loading', posts: [] }; // status: loading | ok | error
+import { NEWS_URL, MASTERLIST_REFRESH } from './config.js';
 
-const NEWS_URL = 'https://api.vital-sandbox.com/news';
+/* ---- Cache (last known host state) --------------------------------------- */
 
-function post(payload) {
-  window.ipc?.postMessage(JSON.stringify(payload));
+let settings        = null;
+let username        = null;
+let bind            = null;                                   // menu toggle key (config/mainmenu.json)
+let versions        = [];                                     // [{ label, value }], display order
+let updates         = [];                                     // outdated components only
+let localservers    = [];
+let masterlist_ms   = MASTERLIST_REFRESH;                     // config/masterlist.json `refresh`
+let masterlist      = { status: 'loading', servers: [] };     // status: loading | ok | error
+let news            = { status: 'loading', posts: [] };       // status: loading | ok | error
+let connection      = { state: 'idle', ip: '', port: 0 };     // state: idle | connecting | connected
+
+const emit = (name, detail) => window.dispatchEvent(new CustomEvent(name, { detail }));
+const post = (payload) => window.ipc?.postMessage(JSON.stringify(payload));
+
+/* On failure keep the last good rows so a blip never blanks the list; status drives the empty/error state. */
+const merge = (prev, key, rows) => rows
+  ? { status: 'ok', [key]: rows }
+  : { status: prev[key].length ? 'ok' : 'error', [key]: prev[key] };
+
+function set_news(posts) {
+  news = merge(news, 'posts', posts);
+  emit('mainmenu:news', news);
 }
+
+/* ---- Incoming ------------------------------------------------------------ */
+
+const incoming = {
+  init(d) {
+    if (typeof d.bind === 'string') bind = d.bind;
+    if (Number.isInteger(d.masterlist_refresh)) masterlist_ms = d.masterlist_refresh;
+    if (Array.isArray(d.versions)) versions = d.versions.filter(v => v && typeof v.label === 'string' && typeof v.value === 'string');
+    emit('mainmenu:init');
+  },
+
+  /* [{ name, current, latest, url, state, received, total, message }]; state: idle | downloading | ready | installing | error */
+  update(d) {
+    updates = Array.isArray(d.updates) ? d.updates : [];
+    emit('mainmenu:update', updates);
+  },
+
+  masterlist(d) {
+    masterlist = merge(masterlist, 'servers', d.ok && Array.isArray(d.servers) ? d.servers : null);
+    emit('mainmenu:masterlist', masterlist);
+  },
+
+  /* Optional host-side fetch; same rows as GET /news -> posts. */
+  news(d) {
+    set_news(d.ok && Array.isArray(d.posts) ? d.posts : null);
+  },
+
+  /* Host-verified servers on this machine: [{ name, port, http_port, max_peers, ... }] */
+  localservers(d) {
+    localservers = Array.isArray(d.servers) ? d.servers : [];
+    emit('mainmenu:localservers', localservers);
+  },
+
+  connection(d) {
+    connection = { state: d.state ?? 'idle', ip: d.ip ?? '', port: d.port ?? 0 };
+    emit('mainmenu:connection', connection);
+  },
+
+  settings(d) {
+    if (d.settings) {
+      settings = d.settings;
+      emit('mainmenu:settings_loaded', settings);
+    }
+    if (typeof d.username === 'string' && d.username) {
+      username = d.username;
+      emit('mainmenu:username', username);
+    }
+  },
+
+  fadeout() {
+    emit('mainmenu:fadeout');
+  },
+};
 
 document.addEventListener('message', (e) => {
   try {
     const data = JSON.parse(e.detail);
-    if (data?.action === 'update') {
-      // Host lists only outdated components: [{ name, current, latest, url, state, received, total, message }]
-      // state: idle | downloading | ready | installing | error
-      cached_updates = Array.isArray(data.updates) ? data.updates : [];
-      window.dispatchEvent(new CustomEvent('mainmenu:update', { detail: cached_updates }));
-    }
-    if (data?.action === 'init') {
-      if (typeof data.bind === 'string') cached_bind = data.bind;
-      if (Number.isInteger(data.masterlist_refresh)) cached_masterlist_refresh = data.masterlist_refresh;
-      if (Array.isArray(data.versions)) cached_versions = data.versions.filter(v => v && typeof v.label === 'string' && typeof v.value === 'string');
-      window.dispatchEvent(new Event('mainmenu:init'));
-    }
-    if (data?.action === 'masterlist') {
-      // On failure keep the last good list so a blip doesn't blank the menu; status drives the empty/error state.
-      cached_masterlist = data.ok && Array.isArray(data.servers)
-        ? { status: 'ok', servers: data.servers }
-        : { status: cached_masterlist.servers.length ? 'ok' : 'error', servers: cached_masterlist.servers };
-      window.dispatchEvent(new CustomEvent('mainmenu:masterlist', { detail: cached_masterlist }));
-    }
-    if (data?.action === 'news') {
-      // Optional host-side fetch: { action: 'news', ok, posts: [...] } (same rows as GET /news -> posts)
-      set_news(data.ok && Array.isArray(data.posts) ? data.posts : null);
-    }
-    if (data?.action === 'fadeout') window.dispatchEvent(new Event('mainmenu:fadeout'));
-    if (data?.action === 'localservers') {
-      // Host-verified servers on this machine: [{ name, port, http_port, max_peers, ... }]
-      cached_localservers = Array.isArray(data.servers) ? data.servers : [];
-      window.dispatchEvent(new CustomEvent('mainmenu:localservers', { detail: cached_localservers }));
-    }
-    if (data?.action === 'connection') {
-      cached_connection = { state: data.state ?? 'idle', ip: data.ip ?? '', port: data.port ?? 0 };
-      window.dispatchEvent(new CustomEvent('mainmenu:connection', { detail: cached_connection }));
-    }
-    if (data?.action === 'settings') {
-      if (data.settings) {
-        cached_settings = data.settings;
-        window.dispatchEvent(new CustomEvent('mainmenu:settings_loaded', { detail: data.settings }));
-      }
-      if (typeof data.username === 'string' && data.username) {
-        cached_username = data.username;
-        window.dispatchEvent(new CustomEvent('mainmenu:username', { detail: data.username }));
-      }
-    }
-  } catch { /* ignore */ }
+    incoming[data?.action]?.(data);
+  } catch { /* ignore malformed host messages */ }
 });
 
-/* Keeps the last good list on failure so a blip never blanks the widget. */
-function set_news(posts) {
-  cached_news = posts
-    ? { status: 'ok', posts }
-    : { status: cached_news.posts.length ? 'ok' : 'error', posts: cached_news.posts };
-  window.dispatchEvent(new CustomEvent('mainmenu:news', { detail: cached_news }));
+/* ---- Outgoing ------------------------------------------------------------ */
+
+/** Call once on boot so C++ marks the UI ready. */
+export const ready  = () => post({ action: 'ready' });
+export const drag   = () => post({ action: 'drag' });
+export const exit   = () => post({ action: 'exit' });
+
+/** Esc / menu bind pressed: the host decides (it only fades out while connected to a game). */
+export const escape = () => post({ action: 'escape' });
+
+/** Fade-out finished: the host hides the webview. */
+export const hide   = () => post({ action: 'hide' });
+
+/** Ask the host for the live masterlist (answer arrives as `mainmenu:masterlist`). */
+export const fetch_masterlist = () => post({ action: 'masterlist' });
+
+/** Ask the host to list servers running on this machine (answer arrives as `mainmenu:localservers`). */
+export const scan_local_servers = () => post({ action: 'localservers' });
+
+export const disconnect = () => post({ action: 'disconnect' });
+
+export const settings_update = (values) => post({ action: 'settings_update', settings: values ?? {} });
+
+/** Open a URL in the user's default browser. Only web links ever leave the app. */
+export function open_url(url) {
+  if (/^https?:\/\//i.test(String(url ?? ''))) post({ action: 'open_url', url });
 }
 
-window.addEventListener('mainmenu:fetch_news', async () => {
+export function connect(ip, port, http_port) {
+  if (typeof ip !== 'string' || !Number.isInteger(port)) return;
+  post({ action: 'connect', ip, port, http_port: Number.isInteger(http_port) ? http_port : -1 });
+}
+
+/* Update flow: the host downloads into its updates folder, then restarts to install. */
+export function update_download(name) {
+  if (name) post({ action: 'update_download', name: String(name) });
+}
+export const update_apply = () => post({ action: 'update_apply' });
+
+/** Ask for the latest news posts (answer arrives as `mainmenu:news`). */
+export async function fetch_news() {
   post({ action: 'news' }); // host may answer (see above); otherwise fall back to a direct request
   try {
     const res = await fetch(NEWS_URL, { cache: 'no-store' });
@@ -84,174 +140,19 @@ window.addEventListener('mainmenu:fetch_news', async () => {
     const json = await res.json();
     set_news(Array.isArray(json?.posts) ? json.posts : null);
   } catch {
-    if (cached_news.status !== 'ok') set_news(null);
+    if (news.status !== 'ok') set_news(null);
   }
-});
-
-window.addEventListener('mainmenu:drag', () => {
-  post({ action: 'drag' });
-});
-
-window.addEventListener('mainmenu:exit', () => {
-  post({ action: 'exit' });
-});
-
-// Update flow: host downloads into its updates folder, then restarts to install.
-window.addEventListener('mainmenu:update_download', (e) => {
-  const name = String(e.detail ?? '');
-  if (name) post({ action: 'update_download', name });
-});
-
-window.addEventListener('mainmenu:update_apply', () => {
-  post({ action: 'update_apply' });
-});
-
-window.addEventListener('mainmenu:open_url', (e) => {
-  const url = String(e.detail ?? '');
-  if (!/^https?:\/\//i.test(url)) return; // only web links ever leave the app
-  post({ action: 'open_url', url });
-});
-
-window.addEventListener('mainmenu:connect', (e) => {
-  const { ip, port, http_port } = e.detail ?? {};
-  if (typeof ip !== 'string' || !Number.isInteger(port)) return;
-  post({ action: 'connect', ip, port, http_port: Number.isInteger(http_port) ? http_port : -1 });
-});
-
-window.addEventListener('mainmenu:scan_local_servers', () => {
-  post({ action: 'localservers' });
-});
-
-window.addEventListener('mainmenu:escape', () => {
-  post({ action: 'escape' });
-});
-
-// Fade finished: ask the host to actually hide the webview.
-window.addEventListener('mainmenu:hide', () => {
-  post({ action: 'hide' });
-});
-
-window.addEventListener('mainmenu:fetch_masterlist', () => {
-  post({ action: 'masterlist' });
-});
-
-window.addEventListener('mainmenu:disconnect', () => {
-  post({ action: 'disconnect' });
-});
-
-window.addEventListener('mainmenu:settings', (e) => {
-  post({ action: 'settings_update', settings: e.detail ?? {} });
-});
-
-/** Call once on boot so C++ marks the UI ready. */
-export function ready() {
-  post({ action: 'ready' });
 }
 
-export function drag() {
-  window.dispatchEvent(new Event('mainmenu:drag'));
-}
+/* ---- Getters (cached host state) ----------------------------------------- */
 
-export function exit() {
-  window.dispatchEvent(new Event('mainmenu:exit'));
-}
-
-/** Ask the host to open a URL in the user's default external browser. */
-export function open_url(url) {
-  window.dispatchEvent(new CustomEvent('mainmenu:open_url', { detail: url }));
-}
-
-export function connect(ip, port, http_port) {
-  window.dispatchEvent(new CustomEvent('mainmenu:connect', { detail: { ip, port, http_port } }));
-}
-
-/** Ask the host to list the servers running on this machine (answer arrives as `mainmenu:localservers`). */
-export function scan_local_servers() {
-  window.dispatchEvent(new Event('mainmenu:scan_local_servers'));
-}
-
-/** Menu toggle key name from Vital.kit config/mainmenu.json (via host), null until ready. */
-export function get_bind() {
-  return cached_bind;
-}
-
-/** Esc pressed in the menu: host decides (it only fades out while connected to a game). */
-export function escape() {
-  window.dispatchEvent(new Event('mainmenu:escape'));
-}
-
-/** Fade-out done: host hides the webview. */
-export function hide() {
-  window.dispatchEvent(new Event('mainmenu:hide'));
-}
-
-/** Ask the host to fetch the live masterlist (answer arrives as `mainmenu:masterlist`). */
-export function fetch_masterlist() {
-  window.dispatchEvent(new Event('mainmenu:fetch_masterlist'));
-}
-
-/** Ask for the latest news posts (answer arrives as `mainmenu:news`). */
-export function fetch_news() {
-  window.dispatchEvent(new Event('mainmenu:fetch_news'));
-}
-
-/** { status: 'loading' | 'ok' | 'error', posts } raw news rows from api.vital-sandbox.com/news. */
-export function get_news() {
-  return cached_news;
-}
-
-/** { status: 'loading' | 'ok' | 'error', servers } raw masterlist rows from the host. */
-export function get_masterlist() {
-  return cached_masterlist;
-}
-
-/** [{ label, value }] component versions (Vital.sandbox, Vital.kit, Vital.wry, Vital.godot), fed by the host. */
-export function get_versions() {
-  return cached_versions;
-}
-
-/** Milliseconds between masterlist refreshes (Vital.kit config/masterlist.json `refresh`). */
-export function get_masterlist_refresh() {
-  return cached_masterlist_refresh;
-}
-
-export function disconnect() {
-  window.dispatchEvent(new Event('mainmenu:disconnect'));
-}
-
-export function get_localservers() {
-  return cached_localservers;
-}
-
-/** { state: 'idle' | 'connecting' | 'connected', ip, port } */
-export function get_connection() {
-  return cached_connection;
-}
-
-export function settings_update(settings) {
-  window.dispatchEvent(new CustomEvent('mainmenu:settings', { detail: settings }));
-}
-
-export function get_settings() {
-  return cached_settings;
-}
-
-/** OS username from C++ (Tool::get_username), null until ready. */
-export function get_username() {
-  return cached_username;
-}
-
-/** Ask the host to download an outdated component (progress arrives through `mainmenu:update`). */
-export function update_download(name) {
-  window.dispatchEvent(new CustomEvent('mainmenu:update_download', { detail: name }));
-}
-
-/** Ask the host to install every downloaded update and restart the game. */
-export function update_apply() {
-  window.dispatchEvent(new Event('mainmenu:update_apply'));
-}
-
-/** Outdated Vital.sandbox / Vital.kit components from the host; empty when up to date or unknown. */
-export function get_updates() {
-  return cached_updates;
-}
+export const get_settings           = () => settings;
+export const get_username           = () => username;                 // OS username, null until ready
+export const get_bind               = () => bind;                     // menu toggle key, null until ready
+export const get_versions           = () => versions;                 // Sandbox, Kit, Wry, Godot
+export const get_updates            = () => updates;                  // empty when up to date or unknown
+export const get_localservers       = () => localservers;
+export const get_masterlist         = () => masterlist;               // { status, servers } raw rows
+export const get_masterlist_refresh = () => masterlist_ms;            // ms between masterlist refreshes
+export const get_news               = () => news;                     // { status, posts } raw rows
+export const get_connection         = () => connection;               // { state, ip, port }

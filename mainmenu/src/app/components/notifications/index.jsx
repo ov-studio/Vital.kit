@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
 import { Bell, Download, RotateCw, ExternalLink, TriangleAlert } from 'lucide-react';
 import { Button } from '@ui/button';
 import * as events from '../../events.js';
+import { usePopover } from '../../hooks.js';
 import './index.css';
 
 const mb = (n) => (n / 1048576).toFixed(1);
@@ -59,21 +59,8 @@ function UpdateItem({ u }) {
 
 /* Bell button with a NEW badge while updates exist; opens a panel to download and install them. */
 export function Notifications({ updates }) {
-  const [open, setOpen] = useState(false);
-  const root = useRef(null);
+  const { open, toggle, root } = usePopover();
   const has = updates.length > 0;
-
-  useEffect(() => {
-    if (!open) return;
-    const on_down = (e) => { if (root.current && !root.current.contains(e.target)) setOpen(false); };
-    const on_key = (e) => { if (e.key === 'Escape') setOpen(false); };
-    document.addEventListener('mousedown', on_down);
-    document.addEventListener('keydown', on_key);
-    return () => {
-      document.removeEventListener('mousedown', on_down);
-      document.removeEventListener('keydown', on_key);
-    };
-  }, [open]);
 
   return (
     <div className="notif" ref={root} data-no-drag>
@@ -81,7 +68,7 @@ export function Notifications({ updates }) {
         type="button"
         className={`ui-icon-btn notif-btn${open ? ' is-open' : ''}`}
         aria-label={has ? 'Notifications: updates available' : 'Notifications'}
-        onClick={() => setOpen((v) => !v)}
+        onClick={toggle}
       >
         <Bell size={15} strokeWidth={2.2} />
         {has && <span className="notif-badge">NEW</span>}

@@ -1,37 +1,17 @@
-import { useState, useEffect } from 'react';
 import { Play, Unplug } from 'lucide-react';
 import { Badge } from '@ui/badge';
 import { Button } from '@ui/button';
 import * as events from '../../events.js';
+import { LOCAL_HOST as HOST, LOCAL_SCAN_INTERVAL } from '../../config.js';
+import { useEventState, usePolling } from '../../hooks.js';
 import './index.css';
-
-const HOST = '127.0.0.1';
-const POLL_MS = 3000;
 
 /* Asks the host for the servers on this machine while `active`, and follows the live connection state.
    The host finds every running server (any port) and verifies each, so nothing is hard-coded here. */
 function useLocalServers(active) {
-  const [servers, setServers] = useState(events.get_localservers);
-  const [connection, setConnection] = useState(events.get_connection);
-
-  useEffect(() => {
-    const on_servers = (e) => setServers(e.detail);
-    const on_connection = (e) => setConnection(e.detail);
-    window.addEventListener('mainmenu:localservers', on_servers);
-    window.addEventListener('mainmenu:connection', on_connection);
-    return () => {
-      window.removeEventListener('mainmenu:localservers', on_servers);
-      window.removeEventListener('mainmenu:connection', on_connection);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!active) return;
-    events.scan_local_servers();
-    const timer = setInterval(events.scan_local_servers, POLL_MS);
-    return () => clearInterval(timer);
-  }, [active]);
-
+  const servers    = useEventState('mainmenu:localservers', events.get_localservers);
+  const connection = useEventState('mainmenu:connection', events.get_connection);
+  usePolling(events.scan_local_servers, LOCAL_SCAN_INTERVAL, active);
   return { servers, connection };
 }
 

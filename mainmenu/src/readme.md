@@ -11,7 +11,13 @@ The look is shared with the site rather than copied from it:
 
 `app/index.css` only holds mainmenu-specific layout and overrides.
 
-Server listings, banners and the featured servers in `app/data.jsx` are hardcoded placeholders. Settings are sent to Godot as `settings_update` over `ipc.postMessage`; Join, Exit, Downloads and the HUD links are stubs with no handlers yet.
+## Configuration
+
+- `shared/config.js` (repo root) is the single source for the domain and every URL (site, api, cdn, docs, discord, donate, news). Change `DOMAIN` there and the app, `scripts/sync-ui.mjs` and the `{{site}}` / `{{cdn}}` tokens in each `index.html` all follow.
+- `app/config.js` holds every mainmenu tunable: top-bar links, timings, list sizes, card geometry and settings defaults/options.
+- Menu bind and masterlist refresh come from `config/mainmenu.json` / `config/masterlist.json` through the host.
+
+Server listings, news and local servers are live data: the host (or the news API) supplies them and `app/data/` normalises the rows. Settings are sent to Godot as `settings_update` over `ipc.postMessage`.
 
 ## Structure
 
@@ -19,18 +25,24 @@ Mirrors the site's `ui/` convention: one folder per component under `app/compone
 
 ```
 app/
-  main.jsx            entry (dev ipc stub, mounts MainMenu)
+  main.jsx            entry (dev ipc stub, key binds, fade, mounts MainMenu)
+  config.js           all tunables (see Configuration)
+  events.js           host IPC bridge: incoming cache + outgoing actions
+  hooks.js            useEventState, usePolling, usePopover
+  data/               row normalising + masterlist / news hooks
   index.css           base only: tokens, fonts, page reset
-  data/               placeholder servers + featured entries
-  utils/              small helpers (hideBroken)
   components/
-    mainmenu/         shell: sidebar + hud + switching views, content panel
-    hud/              top bar
+    mainmenu/         shell: sidebar + hud + switching views
+    hud/              top bar (about, notifications, links, exit)
     sidebar/          side rail navigation
     featured/         hero banner + featured list
     cardgrid/         CardGrid + useFitCount (fit-to-space maths)
     gamecard/         single server card
-    rangeslider/      percent slider
+    localserver/      servers running on this machine
+    news/             news feed
+    about/            component versions panel
+    notifications/    update panel
+    pic/              remote image with colour fallback
     settingrow/       label/description + control row
     icons/            DiscordIcon
     views/{play,masterlist,favs,settings}/

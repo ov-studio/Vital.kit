@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
 import * as events from '../events.js';
+import * as config from '../config.js';
+import { useEventState, usePolling } from '../hooks.js';
 
 /* Live server data. The host fetches the Vital.site masterlist (GET /masterlist) and hands the rows over;
    everything the menu lists (Featured, Trending, Masterlist, Favourites) is derived from them here. */
@@ -35,39 +36,16 @@ export function normalize(row) {
 }
 
 export function useMasterlist() {
-  const [state, setState] = useState(events.get_masterlist);
-  useEffect(() => {
-    const on = e => setState(e.detail);
-    window.addEventListener('mainmenu:masterlist', on);
-    return () => window.removeEventListener('mainmenu:masterlist', on);
-  }, []);
-
+  const state = useEventState('mainmenu:masterlist', events.get_masterlist);
   const servers = state.servers.map(normalize).filter(Boolean).sort((a, b) => b.players - a.players);
   return { status: state.status, servers };
 }
 
-/* Keeps the list live: fetch now, on every refresh interval, and whenever the menu is shown again.
+/* Keeps the list live: fetch now, on every refresh interval (the host may change it), and whenever the menu is shown again.
    Mount once (the list is cached in events.js and shared). */
 export function useMasterlistPolling() {
-  useEffect(() => {
-    const faded = () => document.documentElement.classList.contains('is-faded');
-    let timer;
-    const start = () => {
-      clearInterval(timer);
-      timer = setInterval(() => { if (!faded()) events.fetch_masterlist(); }, events.get_masterlist_refresh());
-    };
-    const refresh = () => { events.fetch_masterlist(); start(); };
-    const on_visible = e => { if (e.detail?.visible) refresh(); };
-
-    refresh();
-    window.addEventListener('mainmenu:init', start); // host may set a different interval
-    window.addEventListener('webview:visible', on_visible);
-    return () => {
-      clearInterval(timer);
-      window.removeEventListener('mainmenu:init', start);
-      window.removeEventListener('webview:visible', on_visible);
-    };
-  }, []);
+  const refresh = useEventState('mainmenu:init', events.get_masterlist_refresh);
+  usePolling(events.fetch_masterlist, refresh);
 }
 
 /* What an empty list means: still loading, API down, or genuinely nobody online. */
@@ -90,9 +68,6 @@ export function matches_tag(server, tag) {
 
 /* ---- News ---------------------------------------------------------------- */
 
-const NEWS_REFRESH = 5 * 60 * 1000; // ms
-const SITE_URL = 'https://vital-sandbox.com';
-
 /* News row -> what the widget renders. Defensive like normalize(): the API is remote. */
 export function normalize_post(row) {
   if (!row || typeof row !== 'object') return null;
@@ -109,28 +84,14 @@ export function normalize_post(row) {
     time: Number.isNaN(time) ? 0 : time,
     date: Number.isNaN(time) ? '' : new Date(time).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }),
     tags: Array.isArray(row.tags) ? row.tags.filter(t => typeof t === 'string' && t.trim()).slice(0, 3) : [],
-    url: `${SITE_URL}/news/${slug.split('/').map(encodeURIComponent).join('/')}`,
+    url: `${config.SITE_URL}/news/${slug.split('/').map(encodeURIComponent).join('/')}`,
   };
 }
 
 /* Latest posts (newest first). Fetches while `active`: now, every few minutes, and when the menu is shown again. */
 export function useNews(active) {
-  const [state, setState] = useState(events.get_news);
-  useEffect(() => {
-    const on = e => setState(e.detail);
-    window.addEventListener('mainmenu:news', on);
-    return () => window.removeEventListener('mainmenu:news', on);
-  }, []);
-
-  useEffect(() => {
-    if (!active) return;
-    const faded = () => document.documentElement.classList.contains('is-faded');
-    const on_visible = e => { if (e.detail?.visible) events.fetch_news(); };
-    events.fetch_news();
-    const timer = setInterval(() => { if (!faded()) events.fetch_news(); }, NEWS_REFRESH);
-    window.addEventListener('webview:visible', on_visible);
-    return () => { clearInterval(timer); window.removeEventListener('webview:visible', on_visible); };
-  }, [active]);
+  const state = useEventState('mainmenu:news', events.get_news);
+  usePolling(events.fetch_news, config.NEWS_REFRESH, active);
 
   const posts = state.posts.map(normalize_post).filter(Boolean).sort((a, b) => b.time - a.time);
   return { status: state.status, posts };

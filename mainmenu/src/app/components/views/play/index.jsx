@@ -6,6 +6,7 @@ import { LocalServers } from '../../localserver/index.jsx';
 import { News } from '../../news/index.jsx';
 import { Featured } from '../../featured/index.jsx';
 import { CardGrid, useFitCount } from '../../cardgrid/index.jsx';
+import { FEATURED_COUNT } from '../../../config.js';
 import './index.css';
 
 /* Play view: Featured + News on top, Local servers in the middle, Trending filling the rest.
@@ -27,7 +28,7 @@ export function ViewPlay({ visible, favs, onToggleFav }) {
               <span>{status === 'ok' ? 'Featured servers will appear here once someone is online.' : emptyText(status, false)}</span>
             </div>
           ) : (
-            <Featured visible={visible} servers={servers.slice(0, 3)} />
+            <Featured visible={visible} servers={servers.slice(0, FEATURED_COUNT)} />
           )}
         </section>
 

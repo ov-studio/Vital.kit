@@ -2,9 +2,8 @@ import { Newspaper, ArrowUpRight } from 'lucide-react';
 import { Pic } from '../pic/index.jsx';
 import { useNews } from '../../data/index.jsx';
 import * as events from '../../events.js';
+import { NEWS_MAX_POSTS } from '../../config.js';
 import './index.css';
-
-const MAX_POSTS = 6; // the list scrolls; no need to render the whole archive
 
 function newsEmptyText(status) {
   if (status === 'loading') return 'Loading news…';
@@ -27,7 +26,7 @@ export function News({ active }) {
 
   return (
     <div className="news">
-      {posts.slice(0, MAX_POSTS).map((p) => (
+      {posts.slice(0, NEWS_MAX_POSTS).map((p) => (
         <button key={p.slug} className="news-item" onClick={() => events.open_url(p.url)}>
           <Pic src={p.cover} className="news-cover"><Newspaper size={16} /></Pic>
           <span className="news-info">

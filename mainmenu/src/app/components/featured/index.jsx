@@ -4,9 +4,8 @@ import { Button } from '@ui/button';
 import { Badge } from '@ui/badge';
 import { Pic } from '../pic/index.jsx';
 import * as events from '../../events.js';
+import { FEATURED_INTERVAL } from '../../config.js';
 import './index.css';
-
-const INTERVAL = 5000; // ms between featured servers
 
 /* Hero banner cycling through the busiest live servers (max 3) + side list.
    Timers pause while `visible` is false so the progress dot stays in sync. */
@@ -17,7 +16,7 @@ export function Featured({ visible, servers }) {
 
   useEffect(() => {
     if (!visible || servers.length < 2) return;
-    const cycle = setTimeout(() => setIdx((current + 1) % servers.length), INTERVAL);
+    const cycle = setTimeout(() => setIdx((current + 1) % servers.length), FEATURED_INTERVAL);
     return () => clearTimeout(cycle);
   }, [visible, current, servers.length]);
 
@@ -49,7 +48,7 @@ export function Featured({ visible, servers }) {
           </div>
         </div>
         {servers.length > 1 && (
-          <div className="hero-dots" style={{ '--cycle': `${INTERVAL}ms` }}>
+          <div className="hero-dots" style={{ '--cycle': `${FEATURED_INTERVAL}ms` }}>
             {servers.map((f, i) => (
               <button
                 key={f.id}
