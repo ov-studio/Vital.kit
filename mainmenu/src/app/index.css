@@ -10,11 +10,15 @@
 html, body {
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow: hidden !important;
+  scrollbar-width: none;
   background: transparent;
   user-select: none;
   -webkit-user-drag: none;
 }
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar { display: none; width: 0; height: 0; }
 
 #root {
   position: relative;
