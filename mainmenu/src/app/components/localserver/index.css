@@ -16,13 +16,12 @@
   align-items: center;
   gap: 14px;
   flex-shrink: 0;
-  padding: 8px 10px 8px 16px;
+  padding: 12px;
   border-radius: 4px;
   background: var(--b10);
-  box-shadow: inset 0 0 0 1px var(--b10);
   animation: fadeUp .25s ease;
 }
-.localserver.is-connected { box-shadow: inset 0 0 0 1px var(--ls-live); }
+.localserver.is-connected { box-shadow: inset 0 0 0 2px var(--b10); }
 
 .ls-dot {
   width: 8px;
