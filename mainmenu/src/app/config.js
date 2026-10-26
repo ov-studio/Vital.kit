@@ -1,36 +1,22 @@
-/* Mainmenu config: every tunable value in one place (mirrors splash/src/app/config.js).
-   Domains/URLs come from shared/config.js; nothing else in the app hardcodes them. */
-
 import * as shared from '../../../shared/config.js';
-
-/* ---- Endpoints ----------------------------------------------------------- */
 
 export const SITE_URL = shared.SITE;
 export const NEWS_URL = shared.NEWS;
-
-/* Top-bar links (opened in the user's default browser). */
 export const LINKS = [
   { label: 'Documentation', url: shared.DOCS    },
   { label: 'Discord',       url: shared.DISCORD },
   { label: 'Donate',        url: shared.DONATE  },
 ];
 
-/* ---- Timings (ms) -------------------------------------------------------- */
-
-export const FADE_MS                 = 220;       // menu fade before the host hides the webview
-export const NEWS_REFRESH            = 5 * 60e3;  // news poll
-export const MASTERLIST_REFRESH      = 15e3;      // masterlist poll until the host sends its own (config/masterlist.json)
-export const LOCAL_SCAN_INTERVAL     = 3e3;       // local server scan while the Play view is visible
-export const FEATURED_INTERVAL       = 5e3;       // featured hero rotation
-
-/* ---- Lists / layout ------------------------------------------------------ */
-
-export const LOCAL_HOST     = '127.0.0.1';
-export const NEWS_MAX_POSTS = 6;     // the list scrolls; no need to render the whole archive
-export const FEATURED_COUNT = 3;
-export const CARD = { minWidth: 210, gap: 14, ratio: 3 / 4 };
-
-/* ---- Settings ------------------------------------------------------------ */
+export const FADE_MS             = 220;       // menu fade before the host hides the webview
+export const NEWS_REFRESH        = 5 * 60e3;  // news poll
+export const MASTERLIST_REFRESH  = 15e3;      // masterlist poll until the host sends its own (config/masterlist.json)
+export const LOCAL_SCAN_INTERVAL = 3e3;       // local server scan while the Play view is visible
+export const FEATURED_INTERVAL   = 5e3;       // featured hero rotation
+export const LOCAL_HOST          = '127.0.0.1';
+export const NEWS_MAX_POSTS      = 6;     // the list scrolls; no need to render the whole archive
+export const FEATURED_COUNT      = 3;
+export const CARD                = { minWidth: 210, gap: 14, ratio: 3 / 4 };
 
 export const RESOLUTIONS = [
   [1280, 720], 
@@ -51,7 +37,6 @@ export const VSYNC_MODES = [
   { value: 'disabled', label: 'Disabled' },
 ];
 
-/* Used until the host sends the saved settings (and for any key it omits). */
 export const SETTING_DEFAULTS = {
   resolution:             '1600x900',
   window_mode:            'borderless',
