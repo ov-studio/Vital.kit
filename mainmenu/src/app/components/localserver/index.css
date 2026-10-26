@@ -40,10 +40,6 @@
   z-index: 2;
 }
 
-.play-section--local {
-  background: var(--bg7) !important;
-  border: 3px solid var(--bg7) !important;
-}
 
 .ls-info { display: flex; flex-direction: column; gap: 0; min-width: 0; margin-right: auto; }
 /* Match featured / game-card title + description (screenshot) */
