@@ -64,6 +64,7 @@
   padding: 12px 16px;
   border-radius: 10px;
   border: 2px dashed var(--b10);
+  background: var(--bg12);
   font-family: var(--font-geist), sans-serif;
   font-size: .78rem;
   font-weight: 500;
