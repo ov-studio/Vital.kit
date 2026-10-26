@@ -83,7 +83,7 @@
   font-weight: 700;
   text-transform: uppercase;
   line-height: .98;
-  color: var(--white);
+  color: var(--brand-neon-core);
   text-shadow: 0 2px 18px var(--k45);
 }
 .hero-desc {
@@ -170,7 +170,6 @@
   margin-left: auto;
   border-radius: 2px;
   background: var(--blue);
-  box-shadow: 0 0 8px var(--b50);
 }
 .feat-thumb {
   width: 46px;
