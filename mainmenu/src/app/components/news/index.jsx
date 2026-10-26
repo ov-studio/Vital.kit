@@ -28,7 +28,7 @@ export function News({ active }) {
   return (
     <div className="news">
       {posts.slice(0, MAX_POSTS).map((p) => (
-        <button key={p.slug} className="news-item" onClick={() => events.open_url(p.url)} title={p.desc || p.title}>
+        <button key={p.slug} className="news-item" onClick={() => events.open_url(p.url)}>
           <Pic src={p.cover} className="news-cover"><Newspaper size={16} /></Pic>
           <span className="news-info">
             <span className="news-title">{p.title}</span>

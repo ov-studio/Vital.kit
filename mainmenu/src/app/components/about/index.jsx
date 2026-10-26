@@ -34,7 +34,6 @@ export function About() {
         type="button"
         className={`ui-icon-btn${open ? ' is-open' : ''}`}
         aria-label="About"
-        title="About"
         onClick={() => setOpen((v) => !v)}
       >
         <Info size={15} strokeWidth={2.2} />

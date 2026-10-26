@@ -81,7 +81,6 @@ export function Notifications({ updates }) {
         type="button"
         className={`ui-icon-btn notif-btn${open ? ' is-open' : ''}`}
         aria-label={has ? 'Notifications: updates available' : 'Notifications'}
-        title="Notifications"
         onClick={() => setOpen((v) => !v)}
       >
         <Bell size={15} strokeWidth={2.2} />

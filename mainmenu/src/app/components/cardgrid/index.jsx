@@ -40,16 +40,17 @@ export function useFitCount(ref) {
 }
 
 /* Grid of game cards. `fit` sizes it to its container (pair with useFitCount);
-   otherwise it scrolls. */
-export function CardGrid({ servers, favs, onToggleFav, fit, gridRef, ghosts = 0, note = null }) {
-  // No servers: show `ghosts` dashed placeholder cards (same geometry) with an optional centred note.
-  if (!servers.length && ghosts > 0) {
+   otherwise it scrolls. With no servers and an `empty` ({ icon, text }) it shows a single
+   placeholder row instead of cards; the wrapper (and its ref) stays mounted so fit-to-space keeps working. */
+export function CardGrid({ servers, favs, onToggleFav, fit, gridRef, empty = null }) {
+  if (!servers.length && empty) {
+    const Icon = empty.icon;
     return (
-      <div className={`cgrid-wrap cgrid-wrap--ghost${fit ? ' cgrid-wrap--fit' : ''}`} ref={gridRef}>
-        <div className="cgrid" style={GRID_VARS}>
-          {Array.from({ length: ghosts }, (_, i) => <div key={i} className="cgrid-ghost" style={{ animationDelay: `${i * 0.04}s` }} />)}
+      <div className={`cgrid-wrap${fit ? ' cgrid-wrap--fit' : ''}`} ref={gridRef}>
+        <div className="cgrid-empty">
+          {Icon && <Icon size={22} strokeWidth={2} />}
+          <span>{empty.text}</span>
         </div>
-        {note && <div className="cgrid-note">{note}</div>}
       </div>
     );
   }

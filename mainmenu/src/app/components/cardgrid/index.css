@@ -13,27 +13,23 @@
   align-content: start;
 }
 
-/* Placeholder cards shown while there is nothing to list */
-.cgrid-wrap--ghost { position: relative; }
-.cgrid-ghost {
-  aspect-ratio: var(--card-ratio);
+/* Placeholder shown while there is nothing to list (same look as the Featured one) */
+.cgrid-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 100%;
+  min-height: 120px;
+  padding: 0 24px;
+  text-align: center;
   border-radius: 12px;
   border: 2px dashed var(--b10);
   background: linear-gradient(var(--b10), transparent 70%);
-  opacity: .55;
-  animation: fadeUp .25s ease both;
-}
-.cgrid-note {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 24px;
-  text-align: center;
   font-family: var(--font-geist), sans-serif;
   font-size: .82rem;
   font-weight: 500;
   color: var(--text-muted);
-  pointer-events: none;
 }
+.cgrid-empty svg { flex-shrink: 0; opacity: .7; }

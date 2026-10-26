@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { Star } from 'lucide-react';
+import { Star, TrendingUp } from 'lucide-react';
 import { Badge } from '@ui/badge';
 import { useMasterlist, emptyText } from '../../../data/index.jsx';
 import { LocalServers } from '../../localserver/index.jsx';
@@ -50,8 +50,7 @@ export function ViewPlay({ visible, favs, onToggleFav }) {
           servers={none ? [] : fitCount == null ? servers : servers.slice(0, fitCount)}
           favs={favs}
           onToggleFav={onToggleFav}
-          ghosts={fitCount ?? 4}
-          note={emptyText(status, false)}
+          empty={{ icon: TrendingUp, text: emptyText(status, false) }}
         />
       </section>
     </div>
