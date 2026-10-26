@@ -21,7 +21,6 @@
   line-height: 1.2;
   letter-spacing: .08em;
   text-transform: uppercase;
-  border: 1px solid var(--blue);
 }
 
 .view-play .hero-row { margin-bottom: 0; }

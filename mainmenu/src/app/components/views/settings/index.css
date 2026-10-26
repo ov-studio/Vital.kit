@@ -16,7 +16,6 @@
   line-height: 1.2;
   letter-spacing: .08em;
   text-transform: uppercase;
-  border: 1px solid var(--blue);
 }
 
 /* Space between setting groups (badge + panel blocks) */
