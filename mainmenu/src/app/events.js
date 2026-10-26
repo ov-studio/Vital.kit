@@ -80,6 +80,7 @@ document.addEventListener('message', (e) => {
 
 export const ready              = () => post({ action: 'ready' });
 export const drag               = () => post({ action: 'drag' });
+export const minimize           = () => post({ action: 'minimize' });
 export const exit               = () => post({ action: 'exit' });
 export const escape             = () => post({ action: 'escape' });
 export const hide               = () => post({ action: 'hide' });

@@ -1,4 +1,4 @@
-import { ExternalLink, X } from 'lucide-react';
+import { ExternalLink, Minus, X } from 'lucide-react';
 import { Brand }      from '@ui/brand';
 import { Button }     from '@ui/button';
 import { IconButton } from '@ui/iconbutton';
@@ -39,6 +39,14 @@ export function Hud() {
       </nav>
       <Notifications updates={updates} />
       <About />
+      <IconButton
+        data-no-drag
+        className="hud-minimize"
+        icon={Minus}
+        iconProps={{ size: 15, strokeWidth: 2.2 }}
+        title="Minimize"
+        onClick={() => events.minimize()}
+      />
       <IconButton
         data-no-drag
         className="hud-exit"
