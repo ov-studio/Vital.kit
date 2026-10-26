@@ -47,10 +47,13 @@
   font-size: 1.02rem;
   font-weight: 600;
   line-height: 1.2;
-  color: var(--brand-neon-core);
+  color: var(--dim);
+  transition: color .15s ease;
 }
+.news-item:hover .news-title { color: var(--white) !important; }
+
 .news-meta { font-size: .68rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.news-go { flex-shrink: 0; color: var(--brand-neon-mid); opacity: 0; transition: opacity .15s ease; }
+.news-go { flex-shrink: 0; color: var(--dim); opacity: 0; transition: opacity .15s ease; }
 .news-item:hover .news-go { opacity: 1; }
 
 .news--empty {
