@@ -2,6 +2,7 @@
     "sources": [
         "enum/key.js",
         "core/input.js",
+        "core/viewport.js",
         "util/color.js"
     ]
 }
