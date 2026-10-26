@@ -6,7 +6,7 @@
   flex-direction: column;
   padding: 24px 28px 22px;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 12px;
   /* Site vault/stat recipe: soft blue wash over a lifted surface */
   background:
     radial-gradient(ellipse 90% 60% at 8% -15%, var(--b20), transparent 55%),
