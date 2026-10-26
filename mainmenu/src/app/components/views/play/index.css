@@ -41,6 +41,8 @@
   flex: 1;
   flex-shrink: 1;
   min-height: 0;
+  background: linear-gradient(var(--b20), var(--b20)), var(--bg12);
+  border: 3px dashed var(--b10);
 }
 
 /* Top row: Featured takes the space, News sits beside it at the same height. */
