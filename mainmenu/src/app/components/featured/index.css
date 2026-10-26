@@ -10,7 +10,7 @@
   flex: 1;
   min-width: 0;
   overflow: hidden;
-  border-radius: 6px;
+  border-radius: 4px;
   background: var(--bg5);
 }
 .hero::before {
@@ -19,7 +19,7 @@
   inset: 0;
   z-index: 10;
   padding: 2px;
-  border-radius: 6px;
+  border-radius: 4px;
   background: linear-gradient(135deg, var(--blue), var(--b50) 40%, var(--rule12) 70%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
