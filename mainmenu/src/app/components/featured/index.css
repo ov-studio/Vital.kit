@@ -70,8 +70,6 @@
   font-weight: 600;
   letter-spacing: .08em;
   text-transform: uppercase;
-  background: var(--brand-neon-core);
-  padding: 0.2rem 0.55rem;
 }
 
 .hero-title {
