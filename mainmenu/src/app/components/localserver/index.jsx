@@ -44,8 +44,8 @@ function ServerRow({ info, connection }) {
   return (
     <div className={`localserver${connected ? ' is-connected' : ''}`}>
       <div className="ls-info">
-        <span className="ls-label">{info.description}</span>
         <span className="ls-name">{info.name}</span>
+        {info.description ? <span className="ls-desc">{info.description}</span> : null}
       </div>
       <span className="ls-meta">{[players, `${HOST}:${info.port}`].filter(Boolean).join('  ·  ')}</span>
       {here ? (
