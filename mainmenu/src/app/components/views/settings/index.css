@@ -20,7 +20,7 @@
 
 /* Space between setting groups (badge + panel blocks) */
 .view-body > .ui-panel {
-  margin-bottom: var(--section-gap, 40px);
+  margin-bottom: var(--section-gap, 46px);
 }
 .view-body > .ui-panel:last-child {
   margin-bottom: 0;
