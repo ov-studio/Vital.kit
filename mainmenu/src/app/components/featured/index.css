@@ -186,8 +186,9 @@
   color: var(--white);
   font-family: var(--font-display);
   font-size: .92rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.2;
+  text-transform: uppercase;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
