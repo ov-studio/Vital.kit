@@ -66,7 +66,7 @@ export function Featured({ visible, servers }) {
             <span className="feat-info">
               <span className="feat-name">{f.name}</span>
               <span className="feat-meta">
-                <strong>{f.players}</strong>{f.max ? ` / ${f.max}` : ''} players
+                <strong>{f.players}</strong>{f.max ? ` / ${f.max}` : ''} online
               </span>
             </span>
           </button>

@@ -17,7 +17,7 @@ function ServerRow({ info, connection }) {
   const here      = connection.state !== 'idle' && connection.port === info.port;
   const connected = here && connection.state === 'connected';
   const busy      = here && connection.state === 'connecting';
-  const players   = Number.isInteger(info.players) ? `${info.players}${info.max_peers ? ` / ${info.max_peers}` : ''} players` : null;
+  const players   = Number.isInteger(info.players) ? `${info.players}${info.max_peers ? ` / ${info.max_peers}` : ''} online` : null;
 
   return (
     <div className={`localserver${connected ? ' is-connected' : ''}`}>
