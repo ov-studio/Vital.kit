@@ -15,7 +15,7 @@
   line-height: 1.4;
   color: var(--bg);
   background: var(--blue);
-  border-radius: 8px;
+  border-radius: 4px;
   pointer-events: none;
 }
 
@@ -50,7 +50,7 @@
 
 .notif-list { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; }
 
-.notif-item { padding: 10px; border-radius: 5px; }
+.notif-item { padding: 10px; border-radius: 4px; }
 .notif-item + .notif-item { border-top: 1px solid var(--b10); }
 .notif-item-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
 .notif-item-name { font-size: .85rem; font-weight: 600; color: var(--white); }
