@@ -145,7 +145,7 @@ export function ViewSettings() {
   return (
     <div className="view">
       <div className="view-body">
-        <Badge className="settings-badge">Display</Badge>
+        <Badge className="play-badge">Display</Badge>
         <Panel>
           <SettingRow name="Resolution" desc="Game window size — capped to your monitor, applied and saved">
             <Select
@@ -173,7 +173,7 @@ export function ViewSettings() {
           </SettingRow>
         </Panel>
 
-        <Badge className="settings-badge">Graphics</Badge>
+        <Badge className="play-badge">Graphics</Badge>
         <Panel>
           <SettingRow name="Draw Distance" desc="Client multiplier on the active camera far plane (100% = default)">
             <RangeSlider label="Draw distance" value={drawDistance} onChange={setDrawDistance} />
@@ -183,7 +183,7 @@ export function ViewSettings() {
           </SettingRow>
         </Panel>
 
-        <Badge className="settings-badge">Controls</Badge>
+        <Badge className="play-badge">Controls</Badge>
         <Panel>
           <SettingRow name="Horizontal Mouse Sensitivity" desc="Look left/right speed (100% = default)">
             <RangeSlider label="Horizontal mouse sensitivity" value={mouseH} onChange={setMouseH} min={1} max={200} />
@@ -193,7 +193,7 @@ export function ViewSettings() {
           </SettingRow>
         </Panel>
 
-        <Badge className="settings-badge">Audio</Badge>
+        <Badge className="play-badge">Audio</Badge>
         <Panel>
           <SettingRow name="Master Volume" desc="Master bus volume (0–100%)">
             <RangeSlider label="Master volume" value={volume} onChange={setVolume} />

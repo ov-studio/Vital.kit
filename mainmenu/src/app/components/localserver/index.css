@@ -18,7 +18,6 @@
   flex-shrink: 0;
   padding: 12px;
   border-radius: 4px;
-  background: var(--b10);
   background: linear-gradient(var(--b15), var(--b15)), var(--bg7);
   animation: fadeUp .25s ease;
 }

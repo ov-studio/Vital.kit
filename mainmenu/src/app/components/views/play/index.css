@@ -8,21 +8,6 @@
   to   { opacity: 1; }
 }
 
-/* Section labels: shared ui/badge (solid blue, dark text) kept compact (about 20px tall),
-   with a matching solid blue border. */
-.view-play .play-badge {
-  align-self: flex-start;
-  flex-shrink: 0;
-  margin-bottom: 10px;
-  padding: 3px 9px;
-  font-family: var(--font-geist), sans-serif;
-  font-size: .6rem;
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-}
-
 .view-play .hero-row { margin-bottom: 0; }
 
 /* Each block sits in a see-through container: a faint dark tint with a soft blue rim,
@@ -36,7 +21,6 @@
   border-radius: 6px;
   background: var(--bg7);
   box-shadow: inset 0 0 0 1px var(--b10);
-  background: var(--bg7);
   border: 3px solid var(--bg7);
 }
 .view-play .play-section--grow {
