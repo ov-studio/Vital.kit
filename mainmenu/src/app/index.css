@@ -42,7 +42,6 @@ input[type="text"] { cursor: text; }
   text-transform: uppercase;
 }
 
-/* Thin scrollbars shared by every scrolling list */
 .cgrid-wrap::-webkit-scrollbar,
 .ls-list::-webkit-scrollbar,
 .news::-webkit-scrollbar,
@@ -53,7 +52,6 @@ input[type="text"] { cursor: text; }
 .news::-webkit-scrollbar-thumb,
 .view-body::-webkit-scrollbar-thumb { background: var(--rule); }
 
-/* Empty states shared by news, featured and the card grid (sizing/spacing stays per component) */
 .news--empty,
 .play-ghost-hero,
 .cgrid-empty {

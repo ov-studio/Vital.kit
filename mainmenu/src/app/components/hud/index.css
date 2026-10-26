@@ -84,7 +84,6 @@
 .hud .ui-icon-btn.is-open { color: var(--blue); background: var(--b30); }
 .hud .ui-icon-btn.hud-exit:hover { color: var(--red-light); background: var(--r45); }
 
-/* Popovers shared by About and Notifications (panel-specific sizing lives in each component) */
 .about,
 .notif { position: relative; }
 
