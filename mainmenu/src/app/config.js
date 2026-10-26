@@ -5,7 +5,7 @@ export const NEWS_URL = shared.NEWS;
 export const LINKS = [
   { label: 'Documentation', url: shared.DOCS    },
   { label: 'Discord',       url: shared.DISCORD },
-  { label: 'Donate',        url: shared.DONATE  },
+  { label: 'Donate',        url: shared.DONATE  }
 ];
 
 export const FADE_MS             = 220;       // menu fade before the host hides the webview
@@ -29,12 +29,12 @@ export const RESOLUTIONS = [
 
 export const WINDOW_MODES = [
   { value: 'borderless', label: 'Borderless' },
-  { value: 'fullscreen', label: 'Fullscreen' },
+  { value: 'fullscreen', label: 'Fullscreen' }
 ];
 
 export const VSYNC_MODES = [
   { value: 'enabled',  label: 'Enabled'  },
-  { value: 'disabled', label: 'Disabled' },
+  { value: 'disabled', label: 'Disabled' }
 ];
 
 export const SETTING_DEFAULTS = {
@@ -47,5 +47,5 @@ export const SETTING_DEFAULTS = {
   mouse_sens_horizontal:  1,
   mouse_sens_vertical:    1,
   max_width:              1920,
-  max_height:             1080,
+  max_height:             1080
 };
