@@ -155,7 +155,7 @@
   text-align: left;
   border-radius: 6px;
   /* darker card so it doesn't dissolve into the panel */
-  background: var(--rule7);
+  background: var(--rule);
   border: none;
   opacity: 1;
   transition: background .14s, border-color .14s, box-shadow .14s;
