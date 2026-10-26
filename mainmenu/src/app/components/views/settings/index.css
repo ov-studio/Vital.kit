@@ -3,19 +3,40 @@
 .view-body::-webkit-scrollbar { width: 2px; }
 .view-body::-webkit-scrollbar-thumb { background: var(--rule); }
 
-.view-body > .ui-section-title { 
-  color: var(--brand-neon-core);
+/* Same pill as play view FEATURED / NEWS badges */
+.view-body .settings-badge {
+  align-self: flex-start;
+  display: inline-flex;
+  flex-shrink: 0;
+  margin: 0 0 10px;
+  padding: 3px 9px;
+  font-family: var(--font-geist), sans-serif;
+  font-size: .6rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  border: 1px solid var(--blue);
 }
 
-/* First section flush; later sections use var(--section-gap) from CDN Section */
-.view-body > .ui-section-title:first-child { margin-top: 0; }
+/* Space between setting groups (badge + panel blocks) */
+.view-body > .ui-panel {
+  margin-bottom: var(--section-gap, 28px);
+}
+.view-body > .ui-panel:last-child {
+  margin-bottom: 0;
+}
 
-/* Flat panels matching setting rows; spacing comes from section titles */
+/* First badge flush to top */
+.view-body > .settings-badge:first-child {
+  margin-top: 0;
+}
+
+/* Flat panels matching setting rows */
 .view-body .ui-panel,
 .view-body .ui-stat {
   border: none;
   border-radius: 6px;
   overflow: hidden;
   background: var(--bg7);
-  margin-bottom: 0;
 }
