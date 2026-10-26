@@ -12,6 +12,7 @@
 
 .localserver {
   --ls-live: hsl(145, 65%, 52%);
+  position: relative;
   display: flex;
   align-items: center;
   gap: 14px;
@@ -21,7 +22,24 @@
   background: var(--b10);
   animation: fadeUp .25s ease;
 }
-.localserver.is-connected { box-shadow: inset 0 0 1px 2px var(--b50); }
+/* Connected: same gradient rim technique as featured hero */
+.localserver.is-connected::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 2px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, var(--blue), var(--b50) 40%, transparent 70%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.localserver.is-connected > * {
+  position: relative;
+  z-index: 2;
+}
 
 .ls-info { display: flex; flex-direction: column; gap: 0; min-width: 0; margin-right: auto; }
 /* Match featured / game-card title + description (screenshot) */
