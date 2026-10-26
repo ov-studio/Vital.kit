@@ -2,7 +2,7 @@
 .gcard {
   aspect-ratio: var(--card-ratio);
   background: var(--bg3);
-  border: 2px solid var(--b10);
+  border: 2px solid var(--rule12);
   border-radius: 6px;
   cursor: pointer;
   opacity: 0;
@@ -10,7 +10,7 @@
   transition: border-color .2s;
 }
 .gcard:hover,
-.gcard:focus-within { border-color: var(--selection-bg); }
+.gcard:focus-within { border-color: var(--blue); }
 
 .gcard .ui-card-cover { background: var(--bg3); }
 .gcard .ui-card-cover img {
