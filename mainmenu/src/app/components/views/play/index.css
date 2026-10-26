@@ -35,7 +35,7 @@
   min-width: 0;
   padding: 14px 14px 16px;
   border-radius: 6px;
-  background: var(--bg4);
+  background: var(--bg7);
   box-shadow: inset 0 0 0 1px var(--b10);
 }
 .view-play .play-section--grow {
