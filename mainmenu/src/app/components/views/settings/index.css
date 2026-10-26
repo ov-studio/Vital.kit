@@ -19,9 +19,3 @@
   background: var(--bg7);
   margin-bottom: 0;
 }
-
-/* Layout only — checkbox/select chrome from @ui */
-.setting-control:has(.ui-checkbox) {
-  justify-content: flex-start;
-  align-items: center;
-}

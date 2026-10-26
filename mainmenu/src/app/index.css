@@ -4,6 +4,7 @@
 :root {
   --font-geist: 'Geist';
   --font-rajdhani: 'Rajdhani';
+  --font-display: var(--font-rajdhani);
   --hud: calc(var(--nav-h) * 1.2); /* top bar height == side rail width */
   /* Shared chrome surface (HUD + sidebar) — seamless, no seams */
   --mm-chrome: var(--bg6);
