@@ -52,7 +52,7 @@
   white-space: nowrap;
   color: var(--white);
   background: var(--bg7);
-  border-radius: 6px;
+  border-radius: 4px;
   opacity: 0;
   pointer-events: none;
   transition: opacity .12s, transform .12s;
