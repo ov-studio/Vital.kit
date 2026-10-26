@@ -2,12 +2,8 @@ const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const rand = (min, max) => min + Math.random() * (max - min);
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// Bumped by stop_flicker() so any glitch still in flight bails out instead of
-// re-applying the glitch state after we've asked for it to stop.
 let _epoch = 0;
 
-// Neon-sign stutter: toggles the brand's `is-glitch` state (styled by
-// cdn/ui/brand, same as the site hero) in short random bursts.
 export async function glitch(brand, bursts = 2) {
   if (reduced) return;
   const epoch = _epoch;
@@ -21,7 +17,6 @@ export async function glitch(brand, bursts = 2) {
   }
 }
 
-// Occasional stutter while the lit logo is on screen. Call stop_flicker() to end it.
 export function idle_flicker(brand) {
   const epoch = _epoch;
   (async function loop() {

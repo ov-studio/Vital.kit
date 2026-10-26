@@ -1,16 +1,21 @@
 /* ui/card supplies the structure, this is the look */
 .gcard {
   aspect-ratio: var(--card-ratio);
-  background: var(--bg3);
-  border: 2px solid var(--b10);
+  background: linear-gradient(var(--b10), var(--b10)), var(--bg5);
+  border: 2px solid var(--b20);
   border-radius: 12px;
   cursor: pointer;
   opacity: 0;
   animation: fadeUp .3s ease forwards;
-  transition: border-color .2s;
+  transition: border-color .2s, box-shadow .2s, background .2s;
+  box-shadow: 0 4px 18px var(--k22);
 }
 .gcard:hover,
-.gcard:focus-within { border-color: var(--selection-bg); }
+.gcard:focus-within {
+  border-color: var(--selection-bg);
+  background: linear-gradient(var(--b15), var(--b15)), var(--bg6);
+  box-shadow: 0 8px 28px var(--k45);
+}
 
 .gcard .ui-card-cover { background: var(--bg3); }
 .gcard .ui-card-cover img {

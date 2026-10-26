@@ -155,20 +155,20 @@
   padding: 10px 12px;
   text-align: left;
   border-radius: 12px;
-  /* darker card so it doesn't dissolve into the panel */
-  background: var(--bg5);
-  border: 2px solid var(--b07);
+  /* Idle below section surface; selected lifts clear of it */
+  background: linear-gradient(var(--b07), var(--b07)), var(--bg4);
+  border: 2px solid var(--b10);
   opacity: 1;
   transition: background .14s, border-color .14s, box-shadow .14s;
 }
 .feat-item:hover {
-  background: var(--bg7);
-  border-color: var(--b15);
+  background: linear-gradient(var(--b10), var(--b10)), var(--bg5);
+  border-color: var(--b20);
 }
 .feat-item.on {
-  background: linear-gradient(var(--b18), var(--b18)), var(--bg8);
+  background: linear-gradient(var(--b20), var(--b20)), var(--bg7);
   border-color: var(--b40);
-  box-shadow: 0 0 0 1px var(--b15);
+  box-shadow: 0 4px 16px var(--k22);
 }
 .feat-item.on::after {
   content: '';

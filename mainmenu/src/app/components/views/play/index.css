@@ -1,6 +1,6 @@
 /* The view fades with opacity only (no translate): keeps the panel steady while it fades in. */
 .view-play {
-  gap: 14px;
+  gap: 18px;
   animation: playFade .2s ease;
 }
 @keyframes playFade {
@@ -8,12 +8,11 @@
   to   { opacity: 1; }
 }
 
-/* Section labels: shared ui/badge (solid blue, dark text) kept compact (about 20px tall),
-   with a matching solid blue border. */
+/* Section labels: shared ui/badge kept compact */
 .view-play .play-badge {
   align-self: flex-start;
   flex-shrink: 0;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   padding: 3px 9px;
   font-family: var(--font-geist), sans-serif;
   font-size: .6rem;
@@ -27,17 +26,21 @@
 
 .view-play .hero-row { margin-bottom: 0; }
 
-/* Each block sits in a see-through container: a faint dark tint with a soft blue rim,
-   so the panel underneath still reads through. */
+/* Elevated section — lighter than deep --mm-panel so nested cards read clearly */
 .view-play .play-section {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   min-width: 0;
-  padding: 14px 14px 16px;
-  border-radius: 10px;
-  background: var(--bg4);
-  box-shadow: inset 0 0 0 1px var(--b10);
+  padding: 16px 16px 18px;
+  border-radius: 12px;
+  background:
+    linear-gradient(var(--b15), var(--b15)),
+    var(--bg7);
+  border: 1px solid var(--b20);
+  box-shadow:
+    0 1px 0 var(--b10),
+    0 8px 28px var(--k22);
 }
 .view-play .play-section--grow {
   flex: 1;
@@ -45,16 +48,14 @@
   min-height: 0;
 }
 
-/* Top row: Featured takes the space, News sits beside it at the same height. */
 .view-play .play-top {
   display: grid;
   grid-template-columns: minmax(0, 1fr) clamp(280px, 30%, 380px);
-  gap: 14px;
+  gap: 16px;
   flex-shrink: 0;
 }
 .view-play .play-section--news { overflow: hidden; }
 
-/* Featured placeholder: same footprint as the hero so the layout never jumps. */
 .view-play .play-ghost-hero {
   display: flex;
   flex-direction: column;
@@ -65,8 +66,8 @@
   padding: 0 24px;
   text-align: center;
   border-radius: 12px;
-  border: 2px dashed var(--b10);
-  background: var(--bg12);
+  border: 2px dashed var(--b20);
+  background: linear-gradient(var(--b10), var(--b10)), var(--bg5);
   font-family: var(--font-geist), sans-serif;
   font-size: .82rem;
   font-weight: 500;
