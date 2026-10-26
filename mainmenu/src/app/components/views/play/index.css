@@ -1,20 +1,56 @@
-/* Align labels with site Section title + Divider rhythm */
-.view-play .slabel {
-  margin-bottom: 0;
-  padding-bottom: 8px; /* matches .ui-section-title */
+/* Wallpaper (ui/wallpaper) is absolutely positioned and fills the whole content panel
+   (.center-panel is the nearest positioned ancestor), so everything else in the view is
+   lifted above it. The view fades with opacity only: the shared fadeUp translate would
+   make .view the containing block mid-animation and the pattern would jump. */
+.view-play {
+  animation: playFade .2s ease;
+}
+.view-play > :not(.ui-wallpaper) {
+  position: relative;
+  z-index: 1;
+}
+@keyframes playFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
-/* CDN .ui-divider already provides margin-bottom: 16px */
-.view-play .play-label-divider {
-  margin-top: 0;
-  padding-bottom: 0;
-}
-
-/* Same token/fallback as CDN .ui-section-title — no local redefinition */
-.view-play .play-trending-label {
-  margin-top: var(--section-gap, 72px);
+/* Section labels: shared ui/badge (solid blue, dark text) kept compact (about 20px tall),
+   with a matching solid blue border. */
+.view-play .play-badge {
+  align-self: flex-start;
+  flex-shrink: 0;
+  margin-bottom: 10px;
+  padding: 3px 9px;
+  font-family: var(--font-geist), sans-serif;
+  font-size: .6rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  border: 1px solid var(--blue);
+  border-radius: 4px;
 }
 
 .view-play .hero-row {
   margin-bottom: 0;
+}
+
+/* Each block sits in a solid dark container (same surface as the Settings panels) so the
+   wallpaper only shows in the gaps and margins around them. Trending grows to the bottom
+   of the panel; its grid still measures how many cards fit. */
+.view-play .play-section {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  padding: 14px 14px 16px;
+  border-radius: 10px;
+  background: var(--bg6);
+}
+.view-play .play-section--grow {
+  flex: 1;
+  flex-shrink: 1;
+  min-height: 0;
+}
+.view-play .play-section + .play-section {
+  margin-top: 20px;
 }

@@ -1,7 +1,8 @@
 import { useRef } from 'react';
-import { SearchIcon, Star, Flame } from 'lucide-react';
-import { Divider }    from '@ui/divider';
+import { SearchIcon } from 'lucide-react';
+import { Badge }      from '@ui/badge';
 import { EmptyState } from '@ui/empty';
+import { Wallpaper }  from '@ui/wallpaper';
 import { useMasterlist, emptyText } from '../../../data/index.jsx';
 import { LocalServer } from '../../localserver/index.jsx';
 import { Featured } from '../../featured/index.jsx';
@@ -15,24 +16,27 @@ export function ViewPlay({ visible, favs, onToggleFav }) {
 
   return (
     <div className="view view-play">
+      <Wallpaper variant={2} opacity={0.45} vignette={false} />
       <LocalServer active={visible} />
       {servers.length === 0 ? (
         <EmptyState icon={<SearchIcon size={24} strokeWidth={2.5} />}>{emptyText(status, false)}</EmptyState>
       ) : (
         <>
-          <div className="slabel"><Star size={11} fill="currentColor" />Featured</div>
-          <Divider className="play-label-divider" />
-          <Featured visible={visible} servers={servers.slice(0, 3)} />
+          <section className="play-section">
+            <Badge className="play-badge">Featured</Badge>
+            <Featured visible={visible} servers={servers.slice(0, 3)} />
+          </section>
 
-          <div className="slabel play-trending-label"><Flame size={11} fill="currentColor" />Trending</div>
-          <Divider className="play-label-divider" />
-          <CardGrid
-            fit
-            gridRef={gridRef}
-            servers={fitCount == null ? servers : servers.slice(0, fitCount)}
-            favs={favs}
-            onToggleFav={onToggleFav}
-          />
+          <section className="play-section play-section--grow">
+            <Badge className="play-badge">Trending</Badge>
+            <CardGrid
+              fit
+              gridRef={gridRef}
+              servers={fitCount == null ? servers : servers.slice(0, fitCount)}
+              favs={favs}
+              onToggleFav={onToggleFav}
+            />
+          </section>
         </>
       )}
     </div>
