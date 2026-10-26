@@ -75,7 +75,6 @@
   font-family: var(--font-display);
   font-size: clamp(1.55rem, 2.5vw, 2.2rem);
   font-weight: 700;
-  text-transform: uppercase;
   line-height: .98;
   color: var(--brand-neon-core);
   text-shadow: 0 2px 18px var(--k45);
@@ -181,7 +180,6 @@
   font-size: .92rem;
   font-weight: 600;
   line-height: 1.2;
-  text-transform: uppercase;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
