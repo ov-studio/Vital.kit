@@ -161,7 +161,7 @@
   transition: background .14s, border-color .14s, box-shadow .14s;
 }
 .feat-item.on {
-  background: linear-gradient(var(--b18), var(--b18)), var(--bg8);
+  background: linear-gradient(var(--b18), var(--b18)), var(--bg7);
 }
 .feat-item.on::after {
   content: '';
