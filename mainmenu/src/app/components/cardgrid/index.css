@@ -25,8 +25,6 @@
   padding: 0 24px;
   text-align: center;
   border-radius: 4px;
-  border: 2px dashed var(--b10);
-  background: var(--bg12);
   font-family: var(--font-geist), sans-serif;
   font-size: .82rem;
   font-weight: 500;
