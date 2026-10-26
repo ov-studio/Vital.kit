@@ -69,7 +69,7 @@ export function LocalServers({ active }) {
   if (!servers.length) return null;
   return (
     <section className="play-section play-section--local">
-      <Badge className="play-badge">Local servers</Badge>
+      <Badge className="play-badge">Local Servers</Badge>
       <div className="ls-list">
         {servers.map((info) => (
           <ServerRow key={info.port} info={info} connection={connection} />
