@@ -114,7 +114,7 @@ div.hero-img { filter: none; background: var(--bg3); }
   background: var(--w30);
   transition: width .25s, background .25s;
 }
-.hero-dot.on { width: 45px; background: var(--b30); }
+.hero-dot.on { width: 45px; background: var(--bg6); }
 .hero-dot.on::after {
   content: '';
   position: absolute;
