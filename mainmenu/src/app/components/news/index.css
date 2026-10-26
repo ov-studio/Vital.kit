@@ -16,13 +16,13 @@
   padding: 10px 14px 10px 10px;
   border: none;
   border-radius: 4px;
-  background: linear-gradient(var(--b07), var(--b07)), var(--bg8);
+  background: linear-gradient(var(--b10), var(--b10)), var(--bg8);
   color: inherit;
   text-align: left;
   font: inherit;
   transition: background .3s;
 }
-.news-item:hover { background: linear-gradient(var(--b20), var(--b20)), var(--bg7); }
+.news-item:hover {  background: linear-gradient(var(--b10), var(--b10)), var(--bg12) !important; }
 
 .news-cover {
   display: flex;
