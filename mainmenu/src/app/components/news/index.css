@@ -17,19 +17,17 @@
   flex-shrink: 0;
   min-height: 76px;
   padding: 10px 14px 10px 10px;
-  border: 2px solid var(--b15);
-  border-radius: 10px;
-  background: linear-gradient(var(--b10), var(--b10)), var(--bg5);
-  box-shadow: 0 4px 16px var(--k22);
+  border: none;
+  border-radius: 4px;
+  /* Same surface as site roadmap .rcard / ui-stat */
+  background: linear-gradient(var(--b15), var(--b15)), var(--bg7);
   color: inherit;
   text-align: left;
   font: inherit;
-  transition: background .15s ease, border-color .15s ease, box-shadow .15s ease;
+  transition: background .3s;
 }
 .news-item:hover {
-  background: linear-gradient(var(--b15), var(--b15)), var(--bg6);
-  border-color: var(--b20);
-  box-shadow: 0 6px 20px var(--k45);
+  background: linear-gradient(var(--b20), var(--b20)), var(--bg7);
 }
 
 .news-cover {
