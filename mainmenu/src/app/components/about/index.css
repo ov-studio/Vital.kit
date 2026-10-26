@@ -33,7 +33,7 @@
   justify-content: space-between;
   gap: 16px;
   padding: 9px 10px;
-  border-radius: 5px;
+  border-radius: 4px;
   font-size: .8rem;
   font-weight: 500;
   color: var(--dim);
