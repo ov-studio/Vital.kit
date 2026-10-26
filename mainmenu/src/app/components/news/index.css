@@ -22,7 +22,7 @@
   font: inherit;
   transition: background .3s;
 }
-.news-item:hover {  background: linear-gradient(var(--b10), var(--b10)), var(--bg12) !important; }
+.news-item:hover {  background: linear-gradient(var(--b10), var(--b10)), var(--bg12); }
 
 .news-cover {
   display: flex;
