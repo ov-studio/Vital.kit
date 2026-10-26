@@ -22,7 +22,6 @@
   letter-spacing: .08em;
   text-transform: uppercase;
   border: 1px solid var(--blue);
-  border-radius: 4px;
 }
 
 .view-play .hero-row { margin-bottom: 0; }
@@ -35,7 +34,7 @@
   flex-shrink: 0;
   min-width: 0;
   padding: 14px 14px 16px;
-  border-radius: 10px;
+  border-radius: 6px;
   background: var(--bg4);
   box-shadow: inset 0 0 0 1px var(--b10);
 }
@@ -43,8 +42,6 @@
   flex: 1;
   flex-shrink: 1;
   min-height: 0;
-  display: flex;
-  flex-direction: column;
 }
 
 /* Top row: Featured takes the space, News sits beside it at the same height. */
@@ -56,21 +53,17 @@
 }
 .view-play .play-section--news { overflow: hidden; }
 
-/* Shared empty placeholder (Featured hero + Trending grid) */
-.view-play .play-ghost,
-.view-play .play-ghost-hero,
-.view-play .cgrid-empty {
+/* Featured placeholder: same footprint as the hero so the layout never jumps. */
+.view-play .play-ghost-hero {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  width: 100%;
-  min-height: 120px;
-  padding: 24px;
-  box-sizing: border-box;
+  height: 250px;
+  padding: 0 24px;
   text-align: center;
-  border-radius: 12px;
+  border-radius: 4px;
   border: 2px dashed var(--b10);
   background: var(--bg12);
   font-family: var(--font-geist), sans-serif;
@@ -78,20 +71,4 @@
   font-weight: 500;
   color: var(--text-muted);
 }
-.view-play .play-ghost-hero {
-  height: 250px;
-  min-height: 250px;
-  padding: 0 24px;
-}
-.view-play .play-section--grow .cgrid-wrap--fit,
-.view-play .play-section--grow .cgrid-empty {
-  flex: 1;
-  min-height: 0;
-  height: 100%;
-}
-.view-play .play-ghost svg,
-.view-play .play-ghost-hero svg,
-.view-play .cgrid-empty svg {
-  flex-shrink: 0;
-  opacity: .7;
-}
+.view-play .play-ghost-hero svg { opacity: .7; }
