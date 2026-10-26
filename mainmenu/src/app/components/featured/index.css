@@ -35,7 +35,7 @@
   inset: 0;
   z-index: 2;
   background:
-    linear-gradient(100deg, var(--bg) 6%, var(--b07) 38%, transparent 78%),
+    linear-gradient(100deg, var(--bg4) 5%, var(--b07) 38%, transparent 78%),
     linear-gradient(to top, var(--k45) 0%, transparent 45%);
 }
 
@@ -67,7 +67,6 @@
   margin-bottom: 12px;
   font-family: var(--font-geist), sans-serif;
   font-size: .6rem;
-  font-weight: 600;
   letter-spacing: .08em;
   text-transform: uppercase;
 }

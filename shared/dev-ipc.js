@@ -26,12 +26,12 @@ export async function install_dev_ipc_stub() {
             const mode = new URLSearchParams(location.search).get('masterlist');
             const rows = [
               { id: 'a1', name: 'Dev Server One', ip: '127.0.0.1', port: 7777, http_port: 7778, players: 12, max_players: 32, description: 'Sample row for local UI work.', tags: ['roleplay', 'racing'], discord: 'https://discord.gg/', website: 'https://vital.site',
-                logo: 'https://placehold.co/128x128/2b3a67/ffffff?text=D1', banner: 'https://placehold.co/1200x600/2b3a67/ffffff?text=Dev+Server+One' },
-              { id: 'b2', name: 'Dev Server Two', ip: '127.0.0.1', port: 7888, http_port: 7889, players: 64, max_players: 64, tags: ['sandbox', 'roleplay'], description: null, discord: null, website: null }, // no logo / banner: plain colour fallback
+                logo: 'https://placehold.co/128x128/2b3a67/ffffff?text=D1', banner: 'https://wallpapercave.com/wp/wp7402137.jpg' },
+              { id: 'b2', name: 'Dev Server Two', ip: '127.0.0.1', port: 7888, http_port: 7889, players: 64, max_players: 64, tags: ['sandbox', 'roleplay'], description: null, discord: null, website: null, banner: 'https://kawaiihoshi.com/wp-content/uploads/2023/03/peach-goma-seaside-cafe-desktop-wallpaper-kawaii-hoshi-1536x1047.jpg'}, // no logo / banner: plain colour fallback
               { id: 'c3', name: 'Dev Server Three', ip: '127.0.0.1', port: 7999, http_port: 7998, players: 3, max_players: 16, tags: ['survival'], description: 'Banner only, logo falls back.', discord: null, website: null,
-                banner: 'https://placehold.co/1200x600/5a2b2b/ffffff?text=Dev+Server+Three' },
+                banner: 'https://img.magnific.com/premium-photo/cute-chibi-animal-with-autumn-pumpkins-glitter-background_1228018-9770.jpg?semt=ais_hybrid&w=740&q=80' },
               { id: 'd4', name: 'Dev Server Four', ip: '127.0.0.1', port: 7555, http_port: 7556, players: 1, max_players: 8, tags: ['pvp'], description: 'Images fail to load: falls back to plain colour.', discord: null, website: null,
-                logo: 'https://invalid.invalid/logo.png', banner: 'https://invalid.invalid/banner.png' },
+                logo: 'https://invalid.invalid/logo.png', banner: 'https://img.magnific.com/free-photo/cute-cartoon-mushroom-illustration_23-2151700603.jpg?semt=ais_hybrid&w=740&q=80' },
             ];
             setTimeout(() => dispatch_dev_message({ action: 'masterlist', ok: mode !== 'error', servers: mode === 'empty' || mode === 'error' ? [] : rows }), 200);
           }
