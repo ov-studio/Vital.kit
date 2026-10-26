@@ -37,10 +37,7 @@ export function ViewPlay({ visible, favs, onToggleFav }) {
         </section>
       </div>
 
-      <section className="play-section play-section--local">
-        <Badge className="play-badge">Local servers</Badge>
-        <LocalServers active={visible} />
-      </section>
+      <LocalServers active={visible} />
 
       <section className="play-section play-section--grow">
         <Badge className="play-badge">Trending</Badge>

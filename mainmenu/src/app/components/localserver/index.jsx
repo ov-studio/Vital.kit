@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Play, Unplug, ServerOff } from 'lucide-react';
+import { Play, Unplug } from 'lucide-react';
+import { Badge } from '@ui/badge';
 import { Button } from '@ui/button';
 import * as events from '../../events.js';
 import './index.css';
@@ -63,20 +64,18 @@ function ServerRow({ info, connection }) {
   );
 }
 
-/* Container listing every server running on this machine, each row with Connect (or Disconnect while joined).
-   Shows a placeholder row when none run, so the section never collapses. */
-export function LocalServers({ active, className = '' }) {
+/* Play-view section: only mounts when a local server is present. */
+export function LocalServers({ active }) {
   const { servers, connection } = useLocalServers(active);
+  if (!servers.length) return null;
   return (
-    <div className={`ls-list${className ? ` ${className}` : ''}`}>
-      {servers.length
-        ? servers.map((info) => <ServerRow key={info.port} info={info} connection={connection} />)
-        : (
-          <div className="ls-empty">
-            <ServerOff size={16} strokeWidth={2} />
-            <span>No local server running. Start a Vital.server on this machine and it will show up here.</span>
-          </div>
-        )}
-    </div>
+    <section className="play-section play-section--local">
+      <Badge className="play-badge">Local servers</Badge>
+      <div className="ls-list">
+        {servers.map((info) => (
+          <ServerRow key={info.port} info={info} connection={connection} />
+        ))}
+      </div>
+    </section>
   );
 }
