@@ -140,12 +140,12 @@ div.hero-img { filter: none; background: var(--bg3); }
   gap: 10px;
   padding: 10px 12px;
   text-align: left;
-  border-radius: 6px;
-  background: var(--rule12);
+  border-radius: 4px;
+  background: linear-gradient(var(--b10), var(--b10)), var(--bg8);
   border: none;
   transition: background .14s;
 }
-.feat-item.on { background: linear-gradient(var(--b18), var(--b18)), var(--bg7); }
+.feat-item.on { background: linear-gradient(var(--b30), var(--b30)), var(--bg8); }
 .feat-item.on::after {
   content: '';
   width: 3px;
