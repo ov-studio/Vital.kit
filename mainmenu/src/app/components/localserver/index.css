@@ -57,3 +57,17 @@
 .ui-btn.ls-join { display: inline-flex; align-items: center; gap: 7px; padding: 7px 18px; font-size: .8rem; }
 
 /* Placeholder row */
+.ls-empty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 4px;
+  border: 2px dashed var(--b10);
+  background: var(--bg12);
+  font-family: var(--font-geist), sans-serif;
+  font-size: .78rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+.ls-empty svg { flex-shrink: 0; opacity: .7; }
