@@ -153,21 +153,21 @@
   gap: 10px;
   padding: 10px 12px;
   text-align: left;
-  border-radius: 12px;
-  /* Idle below section surface; selected lifts clear of it */
-  background: linear-gradient(var(--b07), var(--b07)), var(--bg4);
-  border: 2px solid var(--b10);
+  border-radius: 6px;
+  /* darker card so it doesn't dissolve into the panel */
+  background: var(--bg5);
+  border: 2px solid var(--b07);
   opacity: 1;
   transition: background .14s, border-color .14s, box-shadow .14s;
 }
 .feat-item:hover {
-  background: linear-gradient(var(--b10), var(--b10)), var(--bg5);
-  border-color: var(--b20);
+  background: var(--bg7);
+  border-color: var(--b15);
 }
 .feat-item.on {
-  background: linear-gradient(var(--b20), var(--b20)), var(--bg7);
+  background: linear-gradient(var(--b18), var(--b18)), var(--bg8);
   border-color: var(--b40);
-  box-shadow: 0 4px 16px var(--k22);
+  box-shadow: 0 0 0 1px var(--b15);
 }
 .feat-item.on::after {
   content: '';
@@ -182,7 +182,7 @@
   width: 46px;
   height: 46px;
   flex-shrink: 0;
-  border-radius: 10px;
+  border-radius: 4px;
   object-fit: cover;
   background: var(--bg3);
 }
