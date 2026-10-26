@@ -15,7 +15,8 @@
   align-items: center;
   gap: 12px;
   flex-shrink: 0;
-  padding: 8px 12px 8px 8px;
+  min-height: 76px;
+  padding: 10px 14px 10px 10px;
   border: none;
   border-radius: 10px;
   background: var(--b10);
@@ -30,8 +31,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
-  height: 44px;
+  width: 92px;
+  height: 56px;
   flex-shrink: 0;
   object-fit: cover;
   border-radius: 6px;
@@ -42,7 +43,7 @@
 .news-info { display: flex; flex-direction: column; gap: 3px; min-width: 0; margin-right: auto; }
 .news-title {
   font-family: var(--font-display);
-  font-size: .95rem;
+  font-size: 1.02rem;
   font-weight: 700;
   line-height: 1.2;
   color: var(--white);

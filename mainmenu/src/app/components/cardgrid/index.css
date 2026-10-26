@@ -20,13 +20,13 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  height: 100%;
-  min-height: 120px;
+  height: 250px;
+  max-width: 100%;
   padding: 0 24px;
   text-align: center;
   border-radius: 12px;
   border: 2px dashed var(--b10);
-  background: linear-gradient(var(--b10), transparent 70%);
+  background: radial-gradient(120% 100% at 50% 0%, var(--b10), transparent 75%);
   font-family: var(--font-geist), sans-serif;
   font-size: .82rem;
   font-weight: 500;
