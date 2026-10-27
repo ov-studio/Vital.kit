@@ -16,13 +16,13 @@
   padding: 10px 14px 10px 10px;
   border: none;
   border-radius: 4px;
-  background: linear-gradient(var(--b10), var(--b10)), var(--bg5);
+  background: linear-gradient(var(--b10), var(--b10)), var(--bg6);
   color: inherit;
   text-align: left;
   font: inherit;
   transition: background .3s;
 }
-.news-item:hover {  background: linear-gradient(var(--b10), var(--b10)), var(--bg8); }
+.news-item:hover {  background: linear-gradient(var(--b10), var(--b10)), var(--bg10); }
 
 .news-item--open,
 .news-item--open:hover {
