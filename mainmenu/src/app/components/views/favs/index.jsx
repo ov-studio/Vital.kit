@@ -9,13 +9,15 @@ export function ViewFavs({ favs, onToggleFav }) {
 
   return (
     <div className="view">
-      {favServers.length === 0 ? (
-        <Empty icon={Star} className="app-empty--fill">
-          No favourites yet. Click the star icon on any game card to save it here. Favourites that are offline won't show until they're back.
-        </Empty>
-      ) : (
-        <CardGrid servers={favServers} favs={favs} onToggleFav={onToggleFav} />
-      )}
+      <section className="app-section">
+        {favServers.length === 0 ? (
+          <Empty icon={Star} className="app-empty--fill">
+            No favourites yet. Click the star icon on any game card to save it here. Favourites that are offline won't show until they're back.
+          </Empty>
+        ) : (
+          <CardGrid servers={favServers} favs={favs} onToggleFav={onToggleFav} />
+        )}
+      </section>
     </div>
   );
 }
