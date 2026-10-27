@@ -106,7 +106,7 @@
   right: 0;
   z-index: 11;
   padding: 8px;
-  background: linear-gradient(var(--b15), var(--b15)), var(--bg7);
+  background: linear-gradient(var(--b18), var(--b18)), var(--bg8);
   border-radius: 4px;
   box-shadow: 0 12px 40px var(--k45);
   transform-origin: top right;
