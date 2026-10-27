@@ -31,7 +31,7 @@
 .gcard .ui-card-top { padding: 10px; }
 .gcard .ui-card-body { padding: 12px 12px 13px; }
 .gcard .ui-card-body .ui-card-title {
-  margin: 0 0 3px;
+  margin: 0 0 2px;
   font-size: 1.05rem;
   line-height: 1.2;
   color: var(--brand-neon-core);
@@ -64,12 +64,13 @@
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
-  transition: max-height .25s ease, opacity .2s ease;
+  padding: 0;
+  transition: max-height .25s ease, opacity .2s ease, padding .25s ease;
 }
 .gcard:hover .ui-card-desc,
-.gcard:focus-within .ui-card-desc { max-height: 24px; opacity: 1; }
+.gcard:focus-within .ui-card-desc { max-height: 36px; opacity: 1; padding: 4px 0 8px; }
 
-.gcard .ui-card-footer { display: flex; align-items: center; gap: 6px; min-width: 0; margin-top: 8px; }
+.gcard .ui-card-footer { display: flex; align-items: center; gap: 6px; min-width: 0; margin-top: 0; height: 20px; }
 .gc-stat { flex-shrink: 0; font-size: .72rem; font-weight: 500; color: var(--dim); }
 .gc-stat strong { color: var(--white); font-weight: 600; }
 
