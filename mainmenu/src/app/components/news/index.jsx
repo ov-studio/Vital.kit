@@ -29,7 +29,7 @@ export function News({ active }) {
             <span className="news-title">{p.title}</span>
             <span className="news-meta">{[p.tags[0] && `#${p.tags[0]}`, p.date].filter(Boolean).join('  ·  ')}</span>
           </span>
-          <ArrowUpRight className="news-go" size={16} strokeWidth={2.2}/>
+          <ArrowUpRight className="news-go" size={14} strokeWidth={2.2}/>
         </button>
       ))}
       {Array.from({ length: Math.max(0, NEWS_SLOTS - posts.length) }, (_, i) => (
