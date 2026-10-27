@@ -78,23 +78,21 @@
   border-radius: 4px;
   color: var(--b90);
   background: var(--b15);
-  transition: color .15s, background .15s, box-shadow .15s;
+  transition: color .15s, background .15s;
 }
 .hud .ui-icon-btn:hover,
 .hud .ui-icon-btn.is-open {
   color: var(--white);
   background: color-mix(in srgb, var(--blue) 42%, transparent);
-  box-shadow: 0 0 10px color-mix(in srgb, var(--blue) 30%, transparent);
 }
 .hud .ui-icon-btn.hud-exit {
   color: var(--red-light, var(--red, #e5484d));
   background: color-mix(in srgb, var(--red, #e5484d) 20%, transparent);
-  transition: color .15s, background .15s, transform .15s, box-shadow .15s;
+  transition: color .15s, background .15s, transform .15s;
 }
 .hud .ui-icon-btn.hud-exit:hover {
   color: var(--white);
   background: color-mix(in srgb, var(--red, #e5484d) 50%, transparent);
-  box-shadow: 0 0 10px color-mix(in srgb, var(--red, #e5484d) 30%, transparent);
 }
 .hud .ui-icon-btn.hud-exit:active { transform: scale(.94); }
 
