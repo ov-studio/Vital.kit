@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Star, Globe, Play } from 'lucide-react';
+import { Star, Globe, Play, Ban } from 'lucide-react';
 import { Button }     from '@ui/button';
 import { Card }       from '@ui/card';
 import { IconButton } from '@ui/iconbutton';
@@ -65,7 +65,7 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
               disabled={server.full}
               onClick={() => events.connect(server.ip, server.port, server.http_port)}
             >
-              {server.full ? 'Full' : <><Play size={9} fill="currentColor" />Play</>}
+              {server.full ? <><Ban size={10} strokeWidth={2.5} />Full</> : <><Play size={9} fill="currentColor" />Play</>}
             </Button>
           </div>
         </>
