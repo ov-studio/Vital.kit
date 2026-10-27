@@ -41,11 +41,11 @@ export const SETTING_DEFAULTS = {
   resolution:             '1600x900',
   window_mode:            'borderless',
   vsync:                  true,
-  draw_distance_mult:     1,
-  particle_distance_mult: 1,
-  volume:                 0.8,
-  mouse_sens_horizontal:  1,
-  mouse_sens_vertical:    1,
+  draw_distance:               1,
+  particle_distance:           1,
+  volume:                      1,
+  mouse_horizontal_senstivity: 1,
+  mouse_vertical_senstivity:   1,
   max_width:              1920,
   max_height:             1080
 };

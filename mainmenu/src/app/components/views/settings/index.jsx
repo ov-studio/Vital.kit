@@ -8,7 +8,7 @@ import * as events     from '../../../events.js';
 import * as config     from '../../../config.js';
 import './index.css';
 
-const SAVED = ['resolution', 'window_mode', 'vsync', 'draw_distance_mult', 'particle_distance_mult', 'volume', 'mouse_sens_horizontal', 'mouse_sens_vertical'];
+const SAVED = ['resolution', 'window_mode', 'vsync', 'draw_distance', 'particle_distance', 'volume', 'mouse_horizontal_senstivity', 'mouse_vertical_senstivity'];
 
 function filter_resolutions(max_w, max_h) {
   const list = config.RESOLUTIONS.filter(o => o.w <= max_w && o.h <= max_h);
@@ -63,20 +63,20 @@ export function ViewSettings() {
         <Badge className="play-badge">Graphics</Badge>
         <Panel>
           <SettingRow name="Draw Distance" desc="Client multiplier on the active camera far plane (100% = default)">
-            <RangeSlider label="Draw distance" {...percent('draw_distance_mult')} />
+            <RangeSlider label="Draw distance" {...percent('draw_distance')} />
           </SettingRow>
           <SettingRow name="Particle Distance" desc="GPU particles stop rendering past this share of the camera far plane (100% = no extra limit)">
-            <RangeSlider label="Particle distance" {...percent('particle_distance_mult')} />
+            <RangeSlider label="Particle distance" {...percent('particle_distance')} />
           </SettingRow>
         </Panel>
 
         <Badge className="play-badge">Controls</Badge>
         <Panel>
           <SettingRow name="Horizontal Mouse Sensitivity" desc="Look left/right speed (100% = default)">
-            <RangeSlider label="Horizontal mouse sensitivity" {...percent('mouse_sens_horizontal')} min={1} max={200} />
+            <RangeSlider label="Horizontal mouse sensitivity" {...percent('mouse_horizontal_senstivity')} min={1} max={200} />
           </SettingRow>
           <SettingRow name="Vertical Mouse Sensitivity" desc="Look up/down speed (100% = default)">
-            <RangeSlider label="Vertical mouse sensitivity" {...percent('mouse_sens_vertical')} min={1} max={200} />
+            <RangeSlider label="Vertical mouse sensitivity" {...percent('mouse_vertical_senstivity')} min={1} max={200} />
           </SettingRow>
         </Panel>
 
