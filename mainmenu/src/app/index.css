@@ -56,7 +56,6 @@ input[type="text"] { cursor: text; }
 .news::-webkit-scrollbar-thumb,
 .view-body::-webkit-scrollbar-thumb { background: var(--rule); }
 
-/* Empty state shared by news, featured, trending, masterlist and favourites (see components/empty) */
 .app-empty {
   display: flex;
   flex-direction: column;
