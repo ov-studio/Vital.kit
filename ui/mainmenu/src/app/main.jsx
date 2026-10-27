@@ -2,8 +2,8 @@ import * as react          from 'react-dom/client';
 import * as app_mainmenu   from './components/mainmenu/index.jsx';
 import * as events         from './events.js';
 import * as config         from './config.js';
-import * as shared_dev_ipc from '../../../shared/dev-ipc.js';
-import '../../../shared/no-drag.js';
+import * as shared_dev_ipc from '../../../../shared/dev-ipc.js';
+import '../../../../shared/no-drag.js';
 import './index.css';
 
 await shared_dev_ipc.install_dev_ipc_stub();

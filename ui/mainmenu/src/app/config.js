@@ -1,4 +1,4 @@
-import * as shared from '../../../shared/config.js';
+import * as shared from '../../../../shared/config.js';
 
 export const SITE_URL = shared.SITE;
 export const NEWS_URL = shared.NEWS;

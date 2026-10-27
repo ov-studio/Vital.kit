@@ -1,7 +1,7 @@
 import * as animation      from './animation.js';
 import * as config         from './config.js';
-import * as shared_dev_ipc from '../../../shared/dev-ipc.js';
-import '../../../shared/no-drag.js';
+import * as shared_dev_ipc from '../../../../shared/dev-ipc.js';
+import '../../../../shared/no-drag.js';
 import './index.css';
 
 if (import.meta.env.DEV) {

@@ -1,6 +1,6 @@
 import * as vite              from 'vite';
 import * as vite_singlefile   from 'vite-plugin-singlefile';
-import * as shared_kit_plugin from '../../shared/kit-plugin.js';
+import * as shared_kit_plugin from '../../../shared/kit-plugin.js';
 
 export default vite.defineConfig({
   plugins: [
