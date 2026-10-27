@@ -146,6 +146,12 @@ div.hero-img { filter: none; background: var(--bg3); }
   transition: background .14s;
 }
 .feat-item.on { background: linear-gradient(var(--b30), var(--b30)), var(--bg8); }
+.feat-item > .feat-thumb,
+.feat-item > .feat-info { opacity: .5; transition: opacity .14s; }
+.feat-item.on > .feat-thumb,
+.feat-item.on > .feat-info,
+.feat-item:hover > .feat-thumb,
+.feat-item:hover > .feat-info { opacity: 1; }
 .feat-item.on::after {
   content: '';
   width: 3px;
