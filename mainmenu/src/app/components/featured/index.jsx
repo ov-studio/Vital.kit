@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Play, Ban } from 'lucide-react';
+import { Play, Ban, Star } from 'lucide-react';
 import { Button } from '@ui/button';
 import { Badge } from '@ui/badge';
 import { Pic } from '../pic/index.jsx';
 import * as events from '../../events.js';
-import { FEATURED_INTERVAL } from '../../config.js';
+import { FEATURED_COUNT, FEATURED_INTERVAL } from '../../config.js';
 import './index.css';
 
 export function Featured({ visible, servers }) {
@@ -70,6 +70,12 @@ export function Featured({ visible, servers }) {
               </span>
             </span>
           </button>
+        ))}
+        {Array.from({ length: Math.max(0, FEATURED_COUNT - servers.length) }, (_, i) => (
+          <div key={`open-${i}`} className="feat-item feat-item--open">
+            <Star size={16} strokeWidth={2} />
+            <span>Open featured slot</span>
+          </div>
         ))}
       </div>
     </div>

@@ -154,6 +154,17 @@ div.hero-img { filter: none; background: var(--bg3); }
   border-radius: 2px;
   background: var(--blue);
 }
+.feat-item--open {
+  justify-content: center;
+  gap: 8px;
+  border: 2px dashed var(--b10);
+  background: var(--bg12);
+  font-family: var(--font-geist), sans-serif;
+  font-size: .78rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+.feat-item--open svg { flex-shrink: 0; opacity: .7; }
 .feat-thumb {
   width: 46px;
   height: 46px;
