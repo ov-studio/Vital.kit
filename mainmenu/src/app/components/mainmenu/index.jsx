@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import * as events        from '../../events.js';
+import { useState, useEffect } from 'react';
 import { useMasterlistPolling } from '../../data/index.jsx';
 import { Hud }            from '../hud/index.jsx';
 import { Sidebar }        from '../sidebar/index.jsx';
@@ -8,21 +9,27 @@ import { ViewFavs }       from '../views/favs/index.jsx';
 import { ViewSettings }   from '../views/settings/index.jsx';
 import './index.css';
 
+const favs_from = (settings) => new Set(Array.isArray(settings?.favorites) ? settings.favorites.filter(id => typeof id === 'string' || typeof id === 'number') : []);
+
 export function MainMenu() {
   const [activeView, setActiveView] = useState('play');
-  const [favs, setFavs]             = useState(new Set());
+  const [favs, setFavs]             = useState(() => favs_from(events.get_settings()));
 
   useMasterlistPolling();
 
+  useEffect(() => {
+    const on_loaded = (e) => setFavs(favs_from(e.detail));
+    window.addEventListener('mainmenu:settings_loaded', on_loaded);
+    return () => window.removeEventListener('mainmenu:settings_loaded', on_loaded);
+  }, []);
+
   const toggleFav = id => {
-    setFavs(prev => {
-      const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
-      return next;
-    });
+    const next = new Set(favs);
+    next.has(id) ? next.delete(id) : next.add(id);
+    setFavs(next);
+    events.settings_update({ favorites: [...next] });
   };
 
-  // Every view stays mounted so filters, favourites and settings survive switching.
   const views = {
     play:       <ViewPlay visible={activeView === 'play'} favs={favs} onToggleFav={toggleFav} />,
     masterlist: <ViewMasterlist favs={favs} onToggleFav={toggleFav} />,
