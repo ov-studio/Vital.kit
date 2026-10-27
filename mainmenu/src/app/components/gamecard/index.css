@@ -98,10 +98,10 @@
 }
 .gc-btn:hover { color: var(--white); }
 .gc-fav { width: 28px; height: 28px; }
-.gc-fav svg { fill: none; }
+.gc-fav svg { fill: currentColor; }
+.gc-fav:not(.on) { color: var(--text-muted); }
 .gc-fav:not(.on):hover { color: var(--blue); }
 .gc-fav.on { color: var(--blue); }
-.gc-fav.on svg { fill: currentColor; }
 
 .gc-art { width: 100%; height: 100%; background: var(--selection-bg); }
 
