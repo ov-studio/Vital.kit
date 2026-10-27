@@ -34,7 +34,7 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
           <span className="gc-title-text">{server.name}</span>
         </span>
       }
-      description={server.desc || undefined}
+      description={server.desc ? <span className="gc-desc-text">{server.desc}</span> : undefined}
       footer={
         <>
           <span className="gc-stat">

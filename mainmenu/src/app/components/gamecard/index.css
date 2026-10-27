@@ -61,14 +61,37 @@
   font-size: .72rem;
   line-height: 1.5;
   color: var(--text-soft);
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
+  display: block;
+  white-space: nowrap;
   padding: 0;
   transition: max-height .25s ease, opacity .2s ease, padding .25s ease;
 }
 .gcard:hover .ui-card-desc,
 .gcard:focus-within .ui-card-desc { max-height: 36px; opacity: 1; padding: 4px 0 8px; }
+
+.gc-desc-text {
+  display: inline-block;
+  position: relative;
+  min-width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: top;
+}
+.gcard:hover .gc-desc-text,
+.gcard:focus-within .gc-desc-text {
+  max-width: none;
+  overflow: visible;
+  animation: gc-marquee 7s ease-in-out 0s infinite alternate;
+}
+@keyframes gc-marquee {
+  0%, 20%  { left: 0;    transform: translateX(0); }
+  80%, 100% { left: 100%; transform: translateX(-100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gcard:hover .gc-desc-text,
+  .gcard:focus-within .gc-desc-text { animation: none; max-width: 100%; overflow: hidden; }
+}
 
 .gcard .ui-card-footer { display: flex; align-items: center; gap: 6px; min-width: 0; margin-top: 0; height: 20px; }
 .gc-stat { flex-shrink: 0; font-size: .72rem; font-weight: 500; color: var(--dim); }
@@ -87,6 +110,21 @@
 .gcard:hover .gc-links,
 .gcard:focus-within .gc-links { max-width: 160px; opacity: 1; }
 .ui-btn.gjoin { gap: 5px; font-size: .72rem; font-weight: 700; }
+.gcard .ui-btn.gjoin {
+  opacity: 1;
+  color: var(--blue);
+  background: color-mix(in srgb, var(--blue) 30%, var(--bg));
+}
+.gcard .ui-btn.gjoin:hover:not(:disabled) {
+  color: var(--white);
+  background: color-mix(in srgb, var(--blue) 48%, var(--bg));
+}
+.gcard .ui-btn.gjoin:disabled {
+  opacity: 1;
+  cursor: not-allowed;
+  color: var(--red-light, var(--red, #e5484d));
+  background: color-mix(in srgb, var(--red, #e5484d) 30%, var(--bg));
+}
 
 .gc-btn {
   width: 24px;
