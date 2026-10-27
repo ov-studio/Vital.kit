@@ -1,4 +1,4 @@
-import { Play, Unplug } from 'lucide-react';
+import { Play, Server, Unplug } from 'lucide-react';
 import { Badge } from '@ui/badge';
 import { Button } from '@ui/button';
 import * as events from '../../events.js';
@@ -21,6 +21,7 @@ function ServerRow({ info, connection }) {
 
   return (
     <div className={`localserver${connected ? ' is-connected' : ''}`}>
+      <div className="ls-thumb"><Server size={20} strokeWidth={2} /></div>
       <div className="ls-info">
         <span className="ls-name">{info.name}</span>
         {info.description ? <span className="ls-desc">{info.description}</span> : null}

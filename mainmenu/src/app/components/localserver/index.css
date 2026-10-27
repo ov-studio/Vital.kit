@@ -13,9 +13,9 @@
   align-items: center;
   gap: 14px;
   flex-shrink: 0;
-  padding: 12px;
+  padding: 10px 12px;
   border-radius: 4px;
-  background: linear-gradient(var(--b15), var(--b15)), var(--bg7);
+  background: var(--w04);
   animation: fadeUp .25s ease;
 }
 .localserver.is-connected::before {
@@ -35,6 +35,20 @@
   position: relative;
   z-index: 2;
 }
+
+.ls-thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background: var(--bg3);
+  color: var(--dim);
+  transition: color .2s ease, background .2s ease;
+}
+.localserver.is-connected .ls-thumb { color: var(--blue); background: var(--b15); }
 
 .ls-info { display: flex; flex-direction: column; min-width: 0; margin-right: auto; }
 .ls-name {
