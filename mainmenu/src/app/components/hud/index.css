@@ -108,7 +108,8 @@
   padding: 8px;
   background: linear-gradient(var(--b18), var(--b18)), var(--bg8);
   border-radius: 4px;
-  box-shadow: 0 12px 40px var(--k45);
+  box-shadow: 0 0px 8px var(--k45);
+  background: linear-gradient(var(--b18), var(--b18)), var(--bg12);
   transform-origin: top right;
   opacity: 0;
   animation: mm-menu-in .22s cubic-bezier(.22, 1, .36, 1) forwards;
