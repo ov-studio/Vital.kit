@@ -14,7 +14,7 @@ npm run build     # outputs ../build/index.html
 
 ## Configuration
 
-- `shared/config.js` - domain and site links
+- `../../shared/config.js` - domain and site links
 - `app/config.js` - menu options, timings and settings defaults
 
 ## Local server

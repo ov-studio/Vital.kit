@@ -11,3 +11,7 @@ npm install
 npm run dev       # develop with sample logs (runs without Godot)
 npm run build     # outputs ../build/index.html
 ```
+
+## Configuration
+
+- `app/config.jsx` - default position, log limit and log delay

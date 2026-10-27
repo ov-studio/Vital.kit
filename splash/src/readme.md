@@ -12,4 +12,6 @@ npm run dev       # develop with hot reload (runs without Godot)
 npm run build     # outputs ../build/index.html
 ```
 
-Animation timings and logo settings live in `app/config.js`.
+## Configuration
+
+- `app/config.js` - animation timings and logo stroke settings
