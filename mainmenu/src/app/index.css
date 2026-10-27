@@ -56,28 +56,24 @@ input[type="text"] { cursor: text; }
 .news::-webkit-scrollbar-thumb,
 .view-body::-webkit-scrollbar-thumb { background: var(--rule); }
 
-.news--empty,
-.play-ghost-hero,
-.cgrid-empty {
+/* Empty state shared by news, featured, trending, masterlist and favourites (see components/empty) */
+.app-empty {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 12px;
+  padding: 0 24px;
   text-align: center;
   border-radius: 4px;
   font-family: var(--font-geist), sans-serif;
+  font-size: .82rem;
   font-weight: 500;
   color: var(--text-muted);
 }
-.news--empty svg,
-.play-ghost-hero svg,
-.cgrid-empty svg { opacity: .7; }
-
-.news--empty,
-.play-ghost-hero {
-  border: 2px dashed var(--b10);
-  background: var(--bg12);
-}
+.app-empty svg { flex-shrink: 0; opacity: .7; }
+.app-empty--fill  { flex: 1; height: 100%; min-height: 120px; }
+.app-empty--boxed { border: 2px dashed var(--b10); background: var(--bg12); }
 
 
 /* ── @keyframes ── */

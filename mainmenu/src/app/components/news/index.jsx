@@ -1,4 +1,5 @@
 import { Newspaper, ArrowUpRight } from 'lucide-react';
+import { Empty } from '../empty/index.jsx';
 import { Pic } from '../pic/index.jsx';
 import { useNews } from '../../data/index.jsx';
 import * as events from '../../events.js';
@@ -15,10 +16,7 @@ export function News({ active }) {
   const { status, posts } = useNews(active);
   if (!posts.length) {
     return (
-      <div className="news news--empty">
-        <Newspaper size={18} strokeWidth={2} />
-        <span>{newsEmptyText(status)}</span>
-      </div>
+      <Empty icon={Newspaper} className="news app-empty--boxed">{newsEmptyText(status)}</Empty>
     );
   }
 

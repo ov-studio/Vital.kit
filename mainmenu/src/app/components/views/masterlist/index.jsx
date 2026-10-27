@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { Search as SearchIcon } from 'lucide-react';
 import { Divider }    from '@ui/divider';
-import { EmptyState } from '@ui/empty';
+import { Empty }      from '../../empty/index.jsx';
 import { Filter }     from '@ui/filter';
 import { Search }     from '@ui/search';
 import { useMasterlist, emptyText, filter_tags, matches_tag } from '../../../data/index.jsx';
@@ -38,9 +38,9 @@ export function ViewMasterlist({ favs, onToggleFav }) {
       <Divider />
 
       {results.length === 0 ? (
-        <EmptyState icon={<SearchIcon size={24} strokeWidth={2.5} />}>
+        <Empty icon={SearchIcon} className="app-empty--fill">
           {emptyText(status, search.trim() !== '' || activeTag !== null)}
-        </EmptyState>
+        </Empty>
       ) : (
         <CardGrid servers={results} favs={favs} onToggleFav={onToggleFav} />
       )}

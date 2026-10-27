@@ -1,3 +1,4 @@
+import { Empty } from '../empty/index.jsx';
 import { useState, useLayoutEffect } from 'react';
 import { GameCard } from '../gamecard/index.jsx';
 import { CARD } from '../../config.js';
@@ -41,10 +42,7 @@ export function CardGrid({ servers, favs, onToggleFav, fit, gridRef, empty = nul
     const Icon = empty.icon;
     return (
       <div className={`cgrid-wrap${fit ? ' cgrid-wrap--fit' : ''}`} ref={gridRef}>
-        <div className="cgrid-empty">
-          {Icon && <Icon size={22} strokeWidth={2} />}
-          <span>{empty.text}</span>
-        </div>
+        <Empty icon={Icon} className="app-empty--fill">{empty.text}</Empty>
       </div>
     );
   }

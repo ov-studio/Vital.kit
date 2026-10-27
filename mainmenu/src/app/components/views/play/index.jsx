@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { Star, TrendingUp } from 'lucide-react';
 import { Badge } from '@ui/badge';
+import { Empty } from '../../empty/index.jsx';
 import { useMasterlist, emptyText } from '../../../data/index.jsx';
 import { LocalServers } from '../../localserver/index.jsx';
 import { News } from '../../news/index.jsx';
@@ -21,10 +22,9 @@ export function ViewPlay({ visible, favs, onToggleFav }) {
         <section className="play-section play-section--featured">
           <Badge className="play-badge">Featured</Badge>
           {none ? (
-            <div className="play-ghost-hero">
-              <Star size={22} strokeWidth={2} />
-              <span>{status === 'ok' ? 'Featured servers will appear here once someone is online.' : emptyText(status, false)}</span>
-            </div>
+            <Empty icon={Star} className="play-ghost-hero app-empty--boxed">
+              {status === 'ok' ? 'Featured servers will appear here once someone is online.' : emptyText(status, false)}
+            </Empty>
           ) : (
             <Featured visible={visible} servers={servers.slice(0, FEATURED_COUNT)} />
           )}

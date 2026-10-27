@@ -8,11 +8,3 @@
   gap: var(--card-gap);
   align-content: start;
 }
-.cgrid-empty {
-  gap: 12px;
-  height: 100%;
-  min-height: 120px;
-  padding: 0 24px;
-  font-size: .82rem;
-}
-.cgrid-empty svg { flex-shrink: 0; }

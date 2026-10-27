@@ -24,4 +24,4 @@
   animation: fadeUp .2s ease;
 }
 
-.view > .state-empty { flex: 1; }
+.view > .app-empty--fill { flex: 1; }

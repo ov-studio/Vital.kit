@@ -28,12 +28,7 @@
   flex-shrink: 0;
 }
 .view-play .play-section--news { overflow: hidden; }
-.view-play .play-ghost-hero {
-  gap: 12px;
-  height: 250px;
-  padding: 0 24px;
-  font-size: .82rem;
-}
+.view-play .play-ghost-hero { height: 250px; }
 
 
 /* ── @keyframes ── */
