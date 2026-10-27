@@ -1,5 +1,5 @@
-import * as events        from '../../events.js';
 import { useState, useEffect } from 'react';
+import * as events        from '../../events.js';
 import { useMasterlistPolling } from '../../data/index.jsx';
 import { Hud }            from '../hud/index.jsx';
 import { Sidebar }        from '../sidebar/index.jsx';
