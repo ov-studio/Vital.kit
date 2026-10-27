@@ -52,7 +52,7 @@ export function ViewSettings() {
           <SettingRow name="Resolution" desc="Sets the size of the game window, up to your monitor's resolution.">
             <Select value={values.resolution} onChange={(v) => set({ resolution: v })} options={res_options} aria-label="Resolution" />
           </SettingRow>
-          <SettingRow name="Window Mode" desc="Borderless window with custom title bar, or exclusive fullscreen">
+          <SettingRow name="Window Mode" desc="Choose between a borderless window and exclusive fullscreen.">
             <Select value={values.window_mode} onChange={(v) => set({ window_mode: v })} options={config.WINDOW_MODES} aria-label="Window mode" />
           </SettingRow>
           <SettingRow name="VSync" desc="Matches the frame rate to your display's refresh rate to prevent screen tearing.">
