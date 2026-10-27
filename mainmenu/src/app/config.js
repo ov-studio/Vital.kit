@@ -14,7 +14,7 @@ export const MASTERLIST_REFRESH  = 15e3;      // masterlist poll until the host 
 export const LOCAL_SCAN_INTERVAL = 3e3;       // local server scan while the Play view is visible
 export const FEATURED_INTERVAL   = 5e3;       // featured hero rotation
 export const LOCAL_HOST          = '127.0.0.1';
-export const NEWS_MAX_POSTS      = 6;     // the list scrolls; no need to render the whole archive
+export const NEWS_SLOTS          = 3;     // fixed number of news rows; missing ones show as open slots
 export const FEATURED_COUNT      = 3;
 export const CARD                = { minWidth: 210, gap: 14, ratio: 3 / 4 };
 
