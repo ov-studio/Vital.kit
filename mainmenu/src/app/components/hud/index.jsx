@@ -41,7 +41,6 @@ export function Hud() {
       <About />
       <IconButton
         data-no-drag
-        className="hud-minimize"
         icon={Minus}
         iconProps={{ size: 15, strokeWidth: 2.2 }}
         title="Minimize"

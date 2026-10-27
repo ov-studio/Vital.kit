@@ -30,8 +30,6 @@ export const Console = () => {
   const raf_ref = react.useRef(null);
 
   // add_log only accepts types present in seed_meta, so seed_meta is the full set of levels.
-  const level_meta = seed_meta;
-
   const level_types = react.useMemo(() => {
     const result = Object.keys(seed_meta ?? {}).sort((a, b) => (seed_meta[a]?.priority ?? 99) - (seed_meta[b]?.priority ?? 99));
     level_types_ref.current = result;
@@ -283,11 +281,11 @@ export const Console = () => {
               <app_components.FilterButton
                 key={type}
                 type={type}
-                label={level_meta[type]?.label ?? type}
+                label={seed_meta[type]?.label ?? type}
                 count={log_counts[type]}
                 is_active={active_filters.has(type)}
                 on_click={() => toggle_filter(type)}
-                color={level_meta[type]?.color ?? [220, 220, 220]}
+                color={seed_meta[type]?.color ?? [220, 220, 220]}
               />
             ))}
           </div>
@@ -305,7 +303,7 @@ export const Console = () => {
             <span>Messages from the runtime will appear here</span>
           </div>
         ) : logs.map(log => {
-          const meta = level_meta[log.type] ?? {};
+          const meta = seed_meta[log.type] ?? {};
           return (
             <app_components.LogRow
               key={log.id}
