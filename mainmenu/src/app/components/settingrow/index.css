@@ -7,5 +7,5 @@
 }
 .setting-row + .setting-row { border-top: 1px solid var(--rule12); }
 .setting-name { margin-bottom: 3px; font-size: .86rem; font-weight: 600; color: var(--brand-neon-core); }
-.setting-desc { font-size: .72rem; line-height: 1.4; color: var(--text-muted); }
+.setting-desc { font-size: .8rem; line-height: 1.4; color: var(--text-muted); }
 .setting-control { display: flex; justify-content: flex-end; width: 220px; flex-shrink: 0; }
