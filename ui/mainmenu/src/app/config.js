@@ -37,7 +37,10 @@ export const VSYNC_MODES = [
   { value: 'disabled', label: 'Disabled' }
 ];
 
+export const NICKNAME_MAX = 24;
+
 export const SETTING_DEFAULTS = {
+  nickname:               '',
   resolution:             '1600x900',
   window_mode:            'borderless',
   vsync:                  true,

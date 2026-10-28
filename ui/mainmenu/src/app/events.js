@@ -2,6 +2,7 @@ import { NEWS_URL, MASTERLIST_REFRESH } from './config.js';
 
 let settings      = null;
 let username      = null;
+let nickname      = '';
 let bind          = null;
 let versions      = [];
 let updates       = [];
@@ -57,12 +58,11 @@ const incoming = {
   settings(d) {
     if (d.settings) {
       settings = d.settings;
+      nickname = typeof settings.nickname === 'string' ? settings.nickname.trim() : '';
       emit('mainmenu:settings_loaded', settings);
     }
-    if (typeof d.username === 'string' && d.username) {
-      username = d.username;
-      emit('mainmenu:username', username);
-    }
+    if (typeof d.username === 'string' && d.username) username = d.username;
+    emit('mainmenu:username');
   },
 
   fadeout() {
@@ -87,7 +87,13 @@ export const hide               = () => post({ action: 'hide' });
 export const fetch_masterlist   = () => post({ action: 'masterlist' });
 export const scan_local_servers = () => post({ action: 'localservers' });
 export const disconnect         = () => post({ action: 'disconnect' });
-export const settings_update    = (values) => post({ action: 'settings_update', settings: values ?? {} });
+export function settings_update(values) {
+  post({ action: 'settings_update', settings: values ?? {} });
+  if (typeof values?.nickname === 'string') {
+    nickname = values.nickname.trim();
+    emit('mainmenu:username');
+  }
+}
 
 export function open_url(url) {
   if (/^https?:\/\//i.test(String(url ?? ''))) post({ action: 'open_url', url });
@@ -117,7 +123,8 @@ export async function fetch_news() {
 }
 
 export const get_settings           = () => settings;
-export const get_username           = () => username;
+export const get_os_username        = () => username;
+export const get_username           = () => nickname || username;
 export const get_bind               = () => bind;
 export const get_versions           = () => versions;
 export const get_updates            = () => updates;

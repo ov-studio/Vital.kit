@@ -1,14 +1,26 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Badge }       from '@ui/badge';
+import { EditBox }     from '@ui/editbox';
 import { Panel }       from '@ui/panel';
 import { Select }      from '@ui/select';
 import { RangeSlider } from '@ui/rangeslider';
 import { SettingRow }  from '../../settingrow/index.jsx';
 import * as events     from '../../../events.js';
 import * as config     from '../../../config.js';
+import { useEventState } from '../../../hooks.js';
 import './index.css';
 
-const SAVED = ['resolution', 'window_mode', 'vsync', 'draw_distance', 'particle_distance', 'volume', 'mouse_horizontal_senstivity', 'mouse_vertical_senstivity'];
+const SAVED = [
+  'nickname', 
+  'resolution', 
+  'window_mode', 
+  'vsync', 
+  'draw_distance', 
+  'particle_distance', 
+  'volume', 
+  'mouse_horizontal_senstivity', 
+  'mouse_vertical_senstivity'
+];
 
 function filter_resolutions(max_w, max_h) {
   const list = config.RESOLUTIONS.filter(o => o.w <= max_w && o.h <= max_h);
@@ -25,6 +37,7 @@ function from_engine(settings) {
 
 export function ViewSettings() {
   const [values, setValues] = useState(from_engine);
+  const os_name = useEventState('mainmenu:username', events.get_os_username) || 'Player';
   const res_options = useMemo(() => filter_resolutions(values.max_width, values.max_height), [values.max_width, values.max_height]);
 
   useEffect(() => {
@@ -47,6 +60,20 @@ export function ViewSettings() {
   return (
     <div className="view">
       <div className="view-body">
+        <Badge className="play-badge">Profile</Badge>
+        <Panel>
+          <SettingRow name="Nickname" desc="The name shown in the menu. Leave empty to use your system username.">
+            <EditBox
+              value={values.nickname}
+              onChange={(v) => setValues((prev) => ({ ...prev, nickname: v }))}
+              onCommit={(v) => set({ nickname: v.trim() })}
+              placeholder={os_name}
+              maxLength={config.NICKNAME_MAX}
+              aria-label="Nickname"
+            />
+          </SettingRow>
+        </Panel>
+
         <Badge className="play-badge">Display</Badge>
         <Panel>
           <SettingRow name="Resolution" desc="Sets the size of the game window, up to your monitor's resolution.">
