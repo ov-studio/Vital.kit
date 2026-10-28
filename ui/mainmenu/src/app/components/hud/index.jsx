@@ -33,7 +33,7 @@ export function Hud() {
       <nav className="hud-links" data-no-drag>
         {config.LINKS.map(({ label, url }) => (
           <Button key={label} variant="action" size="lg" onClick={() => events.open_url(url)}>
-            {label} <ExternalLink size={10} />
+            {label} <ExternalLink size={11} />
           </Button>
         ))}
       </nav>
