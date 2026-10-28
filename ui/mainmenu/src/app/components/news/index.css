@@ -24,6 +24,9 @@
 }
 .news-item:hover {  background: linear-gradient(var(--b10), var(--b10)), var(--bg10); }
 
+button.news-item,
+button.news-item * { cursor: pointer; }
+
 .news-item--open,
 .news-item--open:hover {
   justify-content: center;
