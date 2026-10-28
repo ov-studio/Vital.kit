@@ -38,28 +38,25 @@ export function useFitCount(ref) {
 }
 
 export function CardGrid({ servers, favs, onToggleFav, fit, gridRef, empty = null }) {
-  if (!servers.length && empty) {
-    const Icon = empty.icon;
-    return (
-      <div className={`cgrid-wrap${fit ? ' cgrid-wrap--fit' : ''}`} ref={gridRef}>
-        <Empty icon={Icon} className="app-empty--fill">{empty.text}</Empty>
-      </div>
-    );
-  }
+  const showEmpty = !servers.length && empty;
 
   return (
     <div className={`cgrid-wrap${fit ? ' cgrid-wrap--fit' : ''}`} ref={gridRef}>
-      <div className="cgrid" style={GRID_VARS}>
-        {servers.map((s, i) => (
-          <GameCard
-            key={s.id}
-            server={s}
-            isFav={favs.has(s.id)}
-            onToggleFav={onToggleFav}
-            style={{ animationDelay: `${0.04 + i * 0.04}s` }}
-          />
-        ))}
-      </div>
+      {showEmpty ? (
+        <Empty icon={empty.icon} className="app-empty--fill">{empty.text}</Empty>
+      ) : (
+        <div className="cgrid" style={GRID_VARS}>
+          {servers.map((s, i) => (
+            <GameCard
+              key={s.id}
+              server={s}
+              isFav={favs.has(s.id)}
+              onToggleFav={onToggleFav}
+              style={{ animationDelay: `${0.04 + i * 0.04}s` }}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -45,7 +45,7 @@ function ServerRow({ info, connection }) {
 export function LocalServers({ active }) {
   const { servers, connection } = useLocalServers(active);
   if (!servers.length) return null;
-  
+
   return (
     <section className="play-section play-section--local">
       <Badge className="play-badge">Local Servers</Badge>

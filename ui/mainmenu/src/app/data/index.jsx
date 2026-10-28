@@ -7,7 +7,7 @@ const text = v => (typeof v === 'string' ? v.trim() : '');
 const link = v => (/^https?:\/\//i.test(text(v)) ? text(v) : null);
 const image = v => (/^https:\/\//i.test(text(v)) ? text(v) : null);
 
-export function normalize(row) {
+function normalize(row) {
   if (!row || typeof row !== 'object' || typeof row.id !== 'string') return null;
   const name = text(row.name);
   if (!name || typeof row.ip !== 'string' || !Number.isInteger(row.port)) return null;
@@ -62,7 +62,7 @@ export function matches_tag(server, tag) {
   return tag === null || server.tags.includes(tag);
 }
 
-export function normalize_post(row) {
+function normalize_post(row) {
   if (!row || typeof row !== 'object') return null;
   const slug = text(row.slug);
   const title = text(row.title);

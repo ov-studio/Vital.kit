@@ -2,7 +2,7 @@ import { LayoutGrid, LayoutList, Star, Settings } from 'lucide-react';
 import { IconButton } from '@ui/iconbutton';
 import './index.css';
 
-export const NAV = [
+const NAV = [
   { id: 'play',       icon: LayoutGrid, title: 'Browse'     },
   { id: 'masterlist', icon: LayoutList, title: 'Masterlist' },
   { id: 'favs',       icon: Star,       title: 'Favourites' },

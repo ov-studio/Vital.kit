@@ -2,7 +2,7 @@ import { NEWS_URL, MASTERLIST_REFRESH } from './config.js';
 
 let settings      = null;
 let username      = null;
-let bind          = null; 
+let bind          = null;
 let versions      = [];
 let updates       = [];
 let localservers  = [];
@@ -74,8 +74,8 @@ document.addEventListener('message', (e) => {
   try {
     const data = JSON.parse(e.detail);
     incoming[data?.action]?.(data);
-  } 
-  catch { }
+  }
+  catch {}
 });
 
 export const ready              = () => post({ action: 'ready' });
