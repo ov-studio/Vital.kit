@@ -3,7 +3,6 @@ import { Star, Globe, Play, Ban, MessageCircle } from 'lucide-react';
 import { Button }     from '@ui/button';
 import { Card }       from '@ui/card';
 import { IconButton } from '@ui/iconbutton';
-import { Label }       from '../icons/index.jsx';
 import { Pic }         from '../pic/index.jsx';
 import * as events     from '../../events.js';
 import './index.css';
@@ -45,7 +44,7 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
               <IconButton
                 className="gc-btn"
                 icon={MessageCircle}
-                iconProps={{ size: 12, strokeWidth: 1.8 }}
+                iconProps={{ size: 12, strokeWidth: 1.6 }}
                 title="Discord"
                 onClick={() => events.open_url(server.discord)}
               />
@@ -65,9 +64,7 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
               disabled={server.full}
               onClick={() => events.connect(server.ip, server.port, server.http_port)}
             >
-              {server.full
-                ? <Label icon={Ban} size={11} strokeWidth={2.4}>Full</Label>
-                : <Label icon={Play} size={10} strokeWidth={2.4} fill="currentColor">Play</Label>}
+              {server.full ? <><Ban size={10} strokeWidth={2.5} />Full</> : <><Play size={9} fill="currentColor" />Play</>}
             </Button>
           </div>
         </>
