@@ -166,6 +166,8 @@ div.hero-img { filter: none; background: var(--bg3); }
   border-radius: 2px;
   background: var(--blue);
 }
+button.feat-item,
+button.feat-item * { cursor: pointer; }
 .feat-item--open {
   justify-content: center;
   gap: 8px;

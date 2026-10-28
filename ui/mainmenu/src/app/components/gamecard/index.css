@@ -8,6 +8,7 @@
   animation: fadeUp .3s ease forwards;
   transition: border-color .2s;
 }
+.gcard * { cursor: pointer; }
 .gcard:hover,
 .gcard:focus-within { border-color: var(--blue); }
 
