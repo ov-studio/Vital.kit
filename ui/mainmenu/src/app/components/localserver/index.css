@@ -75,19 +75,4 @@
 
 .ls-meta { font-size: .74rem; white-space: nowrap; color: var(--text-muted); }
 
-.ui-btn.ls-join {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  line-height: 1;
-  padding: 7px 18px;
-  font-size: .8rem;
-  font-weight: 700;
-}
-.ui-btn.ls-join svg {
-  display: block;
-  flex-shrink: 0;
-  width: 13px;
-  height: 13px;
-}
+.ui-btn.ls-join { display: inline-flex; align-items: center; gap: 7px; padding: 7px 18px; font-size: .8rem; }

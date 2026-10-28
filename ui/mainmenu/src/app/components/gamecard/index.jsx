@@ -65,9 +65,7 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
               disabled={server.full}
               onClick={() => events.connect(server.ip, server.port, server.http_port)}
             >
-              {server.full
-                ? <><Ban size={11} strokeWidth={2.25} aria-hidden />Full</>
-                : <><Play size={11} strokeWidth={2} fill="currentColor" aria-hidden />Play</>}
+              {server.full ? <><Ban size={10} strokeWidth={2.5} />Full</> : <><Play size={9} fill="currentColor" />Play</>}
             </Button>
           </div>
         </>
