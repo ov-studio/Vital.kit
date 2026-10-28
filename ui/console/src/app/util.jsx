@@ -1,4 +1,4 @@
-export const make_key = (type, msg) => `${type}:${msg}`;
+const trim_newlines = (s) => s.replace(/^\n+|\n+$/g, '');
 
 export const color_style = (color, { bg_alpha = 0.1, border_alpha = 0.3 } = {}) => {
   if (!color) return {};
@@ -25,7 +25,7 @@ export const parse_lines = (message) => {
     const text = match ? match[1] : raw_line;
     groups.push({ is_quote, text });
     if (((text.match(/`/g) || []).length) % 2 === 1) open_code = true;
-  })
+  });
   return groups;
 };
 
@@ -35,14 +35,14 @@ export const parse_segments = (text) => {
   let last = 0, match;
   while ((match = regex.exec(text)) !== null) {
     if (match.index > last) {
-      const t = text.slice(last, match.index).replace(/^\n+/, '').replace(/\n+$/, '');
+      const t = trim_newlines(text.slice(last, match.index));
       if (t) segments.push({ is_code: false, text: t });
     }
     segments.push({ is_code: true, text: match[1] });
     last = match.index + match[0].length;
   }
   if (last < text.length) {
-    const t = text.slice(last).replace(/^\n+/, '').replace(/\n+$/, '');
+    const t = trim_newlines(text.slice(last));
     if (t) segments.push({ is_code: false, text: t });
   }
   return segments;

@@ -32,14 +32,12 @@ export function stop_flicker(brand) {
   brand.classList.remove('is-glitch');
 }
 
-export function flash(delay, color = '#fff') {
+export function flash(color = '#fff') {
   const f = document.getElementById('flash');
-  setTimeout(() => {
-    f.style.background = color;
-    f.style.transition = 'opacity 40ms ease';
-    f.style.opacity = 1;
-    setTimeout(() => { f.style.transition = 'opacity 600ms ease'; f.style.opacity = 0; }, 45);
-  }, delay);
+  f.style.background = color;
+  f.style.transition = 'opacity 40ms ease';
+  f.style.opacity = 1;
+  setTimeout(() => { f.style.transition = 'opacity 600ms ease'; f.style.opacity = 0; }, 45);
 }
 
 export function ripple(cx, cy, color, delay, size = 320) {

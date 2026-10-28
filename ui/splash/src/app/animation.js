@@ -4,6 +4,7 @@ import * as effects  from './effects.js';
 const D = (t) => config.START_DELAY + t;
 const S = (ms) => Math.round(ms * config.STROKE_SPEED);
 const $ = (id) => document.getElementById(id);
+const EASE_FADE = 'cubic-bezier(.4,0,.6,1)';
 
 let _hasRun = false;
 
@@ -42,13 +43,13 @@ export function run() {
   const DRAW_DONE = STAGGER * 2 + DRAW_DUR + 60;
 
   // Neon tube warming up mid-draw
-  setTimeout(() => effects.glitch(brand, 2), D(S(400)));
+  setTimeout(() => effects.glitch(brand), D(S(400)));
 
   // ── Resolve: final stutter, then ignite (flash, ripples, punch) ──
   setTimeout(async () => {
-    await effects.glitch(brand, 2);
+    await effects.glitch(brand);
 
-    effects.flash(0, '#fff');
+    effects.flash();
     effects.ripple(CX, CY, '#fff', 50, 360);
     effects.ripple(CX, CY, 'var(--blue)', 120, 480);
     effects.ripple(CX, CY, '#fff', 220, 600);
@@ -74,17 +75,17 @@ export function run() {
     setTimeout(() => {
       const curtain = $('curtain');
       const fadeDur = config.FADE_TO_BLACK;
-      curtain.style.transition = `opacity ${fadeDur}ms cubic-bezier(.4,0,.6,1)`;
+      curtain.style.transition = `opacity ${fadeDur}ms ${EASE_FADE}`;
       curtain.style.opacity = 1;
       [$('scene'), $('scanlines')].forEach((el) => {
-        el.style.transition = `opacity ${fadeDur}ms cubic-bezier(.4,0,.6,1)`;
+        el.style.transition = `opacity ${fadeDur}ms ${EASE_FADE}`;
         el.style.opacity = 0;
       });
 
       setTimeout(() => {
         document.documentElement.style.background = 'transparent';
         document.body.style.background = 'transparent';
-        curtain.style.transition = `opacity ${config.FADE_TO_TRANSPARENT}ms cubic-bezier(.4,0,.6,1)`;
+        curtain.style.transition = `opacity ${config.FADE_TO_TRANSPARENT}ms ${EASE_FADE}`;
         void curtain.offsetHeight;
         curtain.style.opacity = 0;
       }, fadeDur + config.BLACK_HOLD_DELAY);

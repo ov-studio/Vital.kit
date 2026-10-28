@@ -5,6 +5,8 @@ import * as app_util             from './util';
 import * as app_components       from './components';
 import * as shared_ui_iconbutton from '../../../../shared/ui/iconbutton/index.jsx';
 
+const post = (action, extra) => ipc.postMessage(JSON.stringify({ action, ...extra }));
+
 export const Console = () => {
   const [logs, set_logs] = react.useState([]);
   const [seed_meta, set_seed_meta] = react.useState({});
@@ -23,24 +25,21 @@ export const Console = () => {
   const group_map_ref = react.useRef(new Map());
   const drag_offset_ref = react.useRef({ x: 0, y: 0 });
   const seed_meta_ref = react.useRef(seed_meta);
-  const level_types_ref = react.useRef([]);
   const pinned_ref = react.useRef(true);
   const last_scroll_top_ref = react.useRef(0);
   const scroll_idle_ref = react.useRef(null);
   const raf_ref = react.useRef(null);
 
   // add_log only accepts types present in seed_meta, so seed_meta is the full set of levels.
-  const level_types = react.useMemo(() => {
-    const result = Object.keys(seed_meta ?? {}).sort((a, b) => (seed_meta[a]?.priority ?? 99) - (seed_meta[b]?.priority ?? 99));
-    level_types_ref.current = result;
-    return result;
-  }, [seed_meta]);
+  const level_types = react.useMemo(
+    () => Object.keys(seed_meta).sort((a, b) => (seed_meta[a]?.priority ?? 99) - (seed_meta[b]?.priority ?? 99)),
+    [seed_meta]
+  );
 
-  const deactivated_ref = react.useRef(new Set());
-  const [filter_tick, force_update] = react.useReducer(x => x + 1, 0);
+  const [deactivated, set_deactivated] = react.useState(() => new Set());
   const active_filters = react.useMemo(
-    () => new Set(level_types.filter(t => !deactivated_ref.current.has(t))),
-    [level_types, filter_tick]
+    () => new Set(level_types.filter(t => !deactivated.has(t))),
+    [level_types, deactivated]
   );
 
   const log_counts = react.useMemo(() => {
@@ -81,7 +80,7 @@ export const Console = () => {
 
     const ts = entry.timestamp || new Date().toTimeString().slice(0, 8);
     const now = Date.now();
-    const key = app_util.make_key(entry.mode, entry.message);
+    const key = `${entry.mode}:${entry.message}`;
     for (const [k, e] of group_map_ref.current)
       if (now >= e.expires_at) group_map_ref.current.delete(k);
 
@@ -120,12 +119,15 @@ export const Console = () => {
   const clear_logs = react.useCallback(() => {
     set_logs([]);
     group_map_ref.current.clear();
-    ipc.postMessage(JSON.stringify({ action: 'clear' }));
+    post('clear');
   }, []);
 
   const handle_message = react.useCallback((e) => {
     const data = JSON.parse(e.detail);
-    if (data.action === 'init') { if (data.types && typeof data.types === 'object') set_seed_meta(data.types); if (data.bind) set_bind_key(data.bind); }
+    if (data.action === 'init') {
+      if (data.types && typeof data.types === 'object') { seed_meta_ref.current = data.types; set_seed_meta(data.types); }
+      if (data.bind) set_bind_key(data.bind);
+    }
     else if (data.action === 'print') add_log(data, seed_meta_ref.current);
     else if (data.action === 'clear') clear_logs();
   }, [add_log, clear_logs]);
@@ -137,21 +139,25 @@ export const Console = () => {
     set_command_history(prev => prev[prev.length - 1] !== message ? [...prev, message] : prev);
     set_history_index(-1);
     set_temp_input('');
-    ipc.postMessage(JSON.stringify({ action: 'input', message }));
+    post('input', { message });
   }, []);
+
+  const handle_send = react.useCallback(() => {
+    if (!command_input.trim()) return;
+    handle_command(command_input);
+    set_command_input('');
+    input_ref.current?.focus();
+  }, [command_input, handle_command]);
 
   const handle_key_down = react.useCallback((e) => {
     if (bind_key && e.key === to_key(bind_key)) {
       e.preventDefault();
-      ipc.postMessage(JSON.stringify({ action: 'toggle' }));
+      post('toggle');
       return;
     }
     if (document.activeElement !== input_ref.current) return;
 
-    if (e.key === 'Enter' && command_input.trim()) {
-      handle_command(command_input);
-      set_command_input('');
-    }
+    if (e.key === 'Enter') handle_send();
     else if (e.key === 'ArrowUp') {
       e.preventDefault();
       if (!command_history.length) return;
@@ -167,20 +173,14 @@ export const Console = () => {
       if (idx >= command_history.length) { set_history_index(-1); set_command_input(temp_input); }
       else { set_history_index(idx); set_command_input(command_history[idx]); }
     }
-  }, [command_input, command_history, history_index, temp_input, handle_command, bind_key]);
+  }, [command_input, command_history, history_index, temp_input, handle_send, bind_key]);
 
-  const toggle_filter = react.useCallback((type) => {
-    if (type === 'all') {
-      const all_active = level_types_ref.current.every(t => !deactivated_ref.current.has(t));
-      if (all_active) level_types_ref.current.forEach(t => deactivated_ref.current.add(t));
-      else deactivated_ref.current.clear();
-    }
-    else {
-      if (deactivated_ref.current.has(type)) deactivated_ref.current.delete(type);
-      else deactivated_ref.current.add(type);
-    }
-    force_update();
-  }, []);
+  const toggle_filter = react.useCallback((type) => set_deactivated(prev => {
+    if (type === 'all') return level_types.every(t => !prev.has(t)) ? new Set(level_types) : new Set();
+    const next = new Set(prev);
+    if (!next.delete(type)) next.add(type);
+    return next;
+  }), [level_types]);
 
   const handle_mouse_down = react.useCallback((e) => {
     if (e.target.closest('.action-btn, .filter, .input-send-btn, .console-cmd')) return;
@@ -191,14 +191,6 @@ export const Console = () => {
     drag_offset_ref.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
   }, []);
 
-  const handle_mouse_move = react.useCallback((e) => {
-    if (!is_dragging) return;
-
-    set_position({ x: e.clientX - drag_offset_ref.current.x, y: e.clientY - drag_offset_ref.current.y });
-  }, [is_dragging]);
-
-  const handle_mouse_up = react.useCallback(() => set_is_dragging(false), []);
-
   const handle_resize_start = react.useCallback((e) => {
     e.preventDefault(); e.stopPropagation();
     const { clientX: sx, clientY: sy } = e;
@@ -208,8 +200,6 @@ export const Console = () => {
     document.addEventListener('mousemove', on_move);
     document.addEventListener('mouseup', on_end);
   }, []);
-
-  react.useEffect(() => { seed_meta_ref.current = seed_meta; }, [seed_meta]);
 
   react.useEffect(() => {
     const tick = () => {
@@ -224,10 +214,12 @@ export const Console = () => {
   react.useEffect(() => {
     if (!is_dragging) return;
 
-    document.addEventListener('mousemove', handle_mouse_move);
-    document.addEventListener('mouseup', handle_mouse_up);
-    return () => { document.removeEventListener('mousemove', handle_mouse_move); document.removeEventListener('mouseup', handle_mouse_up); };
-  }, [is_dragging, handle_mouse_move, handle_mouse_up]);
+    const on_move = (e) => set_position({ x: e.clientX - drag_offset_ref.current.x, y: e.clientY - drag_offset_ref.current.y });
+    const on_up   = () => set_is_dragging(false);
+    document.addEventListener('mousemove', on_move);
+    document.addEventListener('mouseup', on_up);
+    return () => { document.removeEventListener('mousemove', on_move); document.removeEventListener('mouseup', on_up); };
+  }, [is_dragging]);
 
   react.useEffect(() => {
     document.addEventListener('message', handle_message);
@@ -248,17 +240,10 @@ export const Console = () => {
 
   react.useEffect(() => {
     const on_visible = (e) => { if (e.detail.visible) input_ref.current?.focus(); };
-    ipc.postMessage(JSON.stringify({ action: 'ready' }));
+    post('ready');
     window.addEventListener('webview:visible', on_visible);
     return () => window.removeEventListener('webview:visible', on_visible);
   }, []);
-
-  const handle_send = react.useCallback(() => {
-    if (!command_input.trim()) return;
-    handle_command(command_input);
-    set_command_input('');
-    input_ref.current?.focus();
-  }, [command_input, handle_command]);
 
   return (
     <div ref={console_ref} className="console" style={{ left: `${position.x}px`, top: `${position.y}px`, width: size.width, height: size.height }}>
@@ -269,12 +254,12 @@ export const Console = () => {
         </div>
         <div className="header-bottom">
           <div className="filters">
-            <app_components.FilterButton 
-              type="all" 
-              label="All" 
-              count={total_count} 
-              is_active={active_filters.size === level_types.length} 
-              on_click={() => toggle_filter('all')} 
+            <app_components.FilterButton
+              type="all"
+              label="All"
+              count={total_count}
+              is_active={active_filters.size === level_types.length}
+              on_click={() => toggle_filter('all')}
               color={[100, 220, 190]}
             />
             {level_types.map(type => (
