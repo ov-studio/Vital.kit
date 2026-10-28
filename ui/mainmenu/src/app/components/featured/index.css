@@ -90,10 +90,26 @@ div.hero-img { filter: none; background: var(--bg3); }
   white-space: pre-line;
 }
 .hero-meta { display: flex; align-items: center; gap: 16px; }
-.ui-btn.hero-join { border-radius: 0; }
+.ui-btn.hero-join {
+  border-radius: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.ui-btn.hero-join svg {
+  display: block;
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+}
 .hero .ui-btn.hero-join:disabled {
   opacity: 1;
   cursor: not-allowed;
+  pointer-events: auto;
   color: var(--red-light, var(--red, #e5484d));
   background: color-mix(in srgb, var(--red, #e5484d) 30%, var(--bg));
 }

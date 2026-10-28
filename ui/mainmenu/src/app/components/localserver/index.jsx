@@ -29,12 +29,12 @@ function ServerRow({ info, connection }) {
       <span className="ls-meta">{[players, `${HOST}:${info.port}`].filter(Boolean).join('  ·  ')}</span>
       {here ? (
         <Button variant="action" danger className="ls-join" disabled={busy} onClick={events.disconnect}>
-          <Unplug size={12} />
+          <Unplug size={13} strokeWidth={2.25} aria-hidden />
           {busy ? 'Connecting…' : 'Disconnect'}
         </Button>
       ) : (
         <Button variant="action" className="ls-join" onClick={() => events.connect(HOST, info.port, info.http_port)}>
-          <Play size={11} fill="currentColor" />
+          <Play size={13} strokeWidth={2} fill="currentColor" aria-hidden />
           Connect
         </Button>
       )}

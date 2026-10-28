@@ -37,8 +37,8 @@ export function Featured({ visible, servers }) {
               onClick={() => events.connect(active.ip, active.port, active.http_port)}
             >
               {active.full
-                ? <><Ban size={13} strokeWidth={2.5} />Server full</>
-                : <><Play size={11} fill="currentColor" />Play Now</>}
+                ? <><Ban size={14} strokeWidth={2.25} aria-hidden />Server full</>
+                : <><Play size={13} strokeWidth={2} fill="currentColor" aria-hidden />Play Now</>}
             </Button>
             <span className="hero-viewers">
               <strong>{active.players}</strong>{active.max ? ` / ${active.max}` : ''} online

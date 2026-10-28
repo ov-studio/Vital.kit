@@ -109,7 +109,22 @@
 }
 .gcard:hover .gc-links,
 .gcard:focus-within .gc-links { max-width: 160px; opacity: 1; }
-.ui-btn.gjoin { gap: 5px; font-size: .72rem; font-weight: 700; }
+.ui-btn.gjoin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: .72rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 4px 9px;
+}
+.ui-btn.gjoin svg {
+  display: block;
+  flex-shrink: 0;
+  width: 11px;
+  height: 11px;
+}
 .gcard .ui-btn.gjoin {
   opacity: 1;
   color: var(--blue);
@@ -122,6 +137,7 @@
 .gcard .ui-btn.gjoin:disabled {
   opacity: 1;
   cursor: not-allowed;
+  pointer-events: auto;
   color: var(--red-light, var(--red, #e5484d));
   background: color-mix(in srgb, var(--red, #e5484d) 30%, var(--bg));
 }
