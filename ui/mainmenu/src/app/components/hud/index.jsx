@@ -3,6 +3,7 @@ import { Brand }      from '@ui/brand';
 import { Button }     from '@ui/button';
 import { IconButton } from '@ui/iconbutton';
 import { About }         from '../about/index.jsx';
+import { Label }         from '../icons/index.jsx';
 import { Notifications } from '../notifications/index.jsx';
 import * as events    from '../../events.js';
 import * as config    from '../../config.js';
@@ -33,7 +34,7 @@ export function Hud() {
       <nav className="hud-links" data-no-drag>
         {config.LINKS.map(({ label, url }) => (
           <Button key={label} variant="action" size="lg" onClick={() => events.open_url(url)}>
-            {label} <ExternalLink size={10} />
+            <Label after={ExternalLink} size={11}>{label}</Label>
           </Button>
         ))}
       </nav>

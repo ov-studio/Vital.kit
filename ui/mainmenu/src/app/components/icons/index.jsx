@@ -1,7 +1,16 @@
-export function DiscordIcon({ size = 11 }) {
+// Lucide-only icon helpers for the main menu.
+//
+// <Label> renders an icon + text pair that is optically centred on the same
+// horizontal axis. SVGs are forced to display:block (no baseline gap) and the
+// text is trimmed to cap height, so uppercase / mixed-case labels both centre
+// on the icon. Tweak --btn-ic-nudge in index.css if a font needs a 1px nudge.
+export function Label({ icon: Icon, after: After, size = 12, strokeWidth = 2.2, fill, children }) {
+  const props = { size, strokeWidth, fill, className: 'btn-ic', 'aria-hidden': true };
   return (
-    <svg width={size} height={size} viewBox="0 0 12 12" fill="currentColor">
-      <path d="M10.2 1.9A9.4 9.4 0 007.7 1.2a6.6 6.6 0 00-.3.6 8.7 8.7 0 00-2.8 0 6.2 6.2 0 00-.3-.6A9.4 9.4 0 001.8 1.9C.6 3.9.2 5.7.3 7.4a9.7 9.7 0 002.9 1.5 7 7 0 00.6-1 6.2 6.2 0 01-1-.5l.2-.2a7 7 0 006 0l.2.2a6.2 6.2 0 01-.9.4 7 7 0 00.6 1 9.7 9.7 0 002.9-1.5c.1-2.1-.4-3.9-1.6-5.4zM4.1 6.2c-.6 0-1-.5-1-1.2s.4-1.2 1-1.2 1 .5 1 1.2-.4 1.2-1 1.2zm3.8 0c-.6 0-1-.5-1-1.2s.4-1.2 1-1.2 1 .5 1 1.2-.4 1.2-1 1.2z"/>
-    </svg>
+    <>
+      {Icon && <Icon {...props} />}
+      <span className="btn-txt">{children}</span>
+      {After && <After {...props} />}
+    </>
   );
 }

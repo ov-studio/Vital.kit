@@ -1,5 +1,6 @@
 import { Bell, Download, RotateCw, ExternalLink, TriangleAlert } from 'lucide-react';
 import { Button } from '@ui/button';
+import { Label } from '../icons/index.jsx';
 import * as events from '../../events.js';
 import { usePopover } from '../../hooks.js';
 import './index.css';
@@ -32,24 +33,24 @@ function UpdateItem({ u }) {
       {state === 'installing' && <div className="notif-item-meta">{u.message || 'Installing…'}</div>}
       {state === 'ready' && <div className="notif-item-meta is-ok">{u.message || 'Ready to install'}</div>}
       {state === 'error' && (
-        <div className="notif-item-meta is-err"><TriangleAlert size={11} /> {u.message || 'Update failed'}</div>
+        <div className="notif-item-meta is-err"><Label icon={TriangleAlert} size={12}>{u.message || 'Update failed'}</Label></div>
       )}
 
       <div className="notif-item-actions">
         {(state === 'idle' || state === 'error') && (
           <Button variant="action" onClick={() => events.update_download(u.name)}>
-            <Download size={11} /> {state === 'error' ? 'Retry' : 'Download'}
+            <Label icon={Download} size={12}>{state === 'error' ? 'Retry' : 'Download'}</Label>
           </Button>
         )}
         {state === 'ready' && (
           <Button variant="action" onClick={() => events.update_apply()}>
-            <RotateCw size={11} /> Restart &amp; Install
+            <Label icon={RotateCw} size={12}>Restart &amp; Install</Label>
           </Button>
         )}
         {busy && <Button variant="action" disabled>{state === 'installing' ? 'Installing…' : 'Downloading…'}</Button>}
         {u.url && (
           <Button variant="secondary" onClick={() => events.open_url(u.url)}>
-            Release notes <ExternalLink size={10} />
+            <Label after={ExternalLink} size={11}>Release notes</Label>
           </Button>
         )}
       </div>

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Star, Globe, Play, Ban } from 'lucide-react';
+import { Star, Globe, Play, Ban, MessageCircle } from 'lucide-react';
 import { Button }     from '@ui/button';
 import { Card }       from '@ui/card';
 import { IconButton } from '@ui/iconbutton';
-import { DiscordIcon } from '../icons/index.jsx';
+import { Label }       from '../icons/index.jsx';
 import { Pic }         from '../pic/index.jsx';
 import * as events     from '../../events.js';
 import './index.css';
@@ -44,8 +44,8 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
             {server.discord && (
               <IconButton
                 className="gc-btn"
-                icon={DiscordIcon}
-                iconProps={{ size: 12 }}
+                icon={MessageCircle}
+                iconProps={{ size: 12, strokeWidth: 1.8 }}
                 title="Discord"
                 onClick={() => events.open_url(server.discord)}
               />
@@ -65,7 +65,9 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
               disabled={server.full}
               onClick={() => events.connect(server.ip, server.port, server.http_port)}
             >
-              {server.full ? <><Ban size={10} strokeWidth={2.5} />Full</> : <><Play size={9} fill="currentColor" />Play</>}
+              {server.full
+                ? <Label icon={Ban} size={11} strokeWidth={2.4}>Full</Label>
+                : <Label icon={Play} size={10} strokeWidth={2.4} fill="currentColor">Play</Label>}
             </Button>
           </div>
         </>

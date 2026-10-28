@@ -105,3 +105,29 @@ input[type="text"] { cursor: text; }
   from { opacity: 0; transform: translateY(-6px) scale(.96); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
+
+:where(#root) .ui-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+#root .btn-ic {
+  display: block;
+  flex: none;
+  transform: translateY(var(--btn-ic-nudge, 0px));
+}
+#root .btn-txt {
+  display: block;
+  line-height: 1;
+  padding-block: .12em;
+}
+@supports (text-box: trim-both cap alphabetic) {
+  #root .btn-txt {
+    padding-block: 0;
+    text-box: trim-both cap alphabetic;
+  }
+}
+#root .btn-ic.lucide-play { margin-left: -1px; }
+
+:where(#root) .hud-links .ui-btn,
+:where(#root) .ui-btn.hero-join { gap: 7px; }
