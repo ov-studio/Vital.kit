@@ -1,6 +1,5 @@
 import { Play, Server, Unplug } from 'lucide-react';
 import { Badge } from '@ui/badge';
-import { Label } from '../icons/index.jsx';
 import { Button } from '@ui/button';
 import * as events from '../../events.js';
 import { LOCAL_HOST as HOST, LOCAL_SCAN_INTERVAL } from '../../config.js';
@@ -30,11 +29,13 @@ function ServerRow({ info, connection }) {
       <span className="ls-meta">{[players, `${HOST}:${info.port}`].filter(Boolean).join('  ·  ')}</span>
       {here ? (
         <Button variant="action" danger className="ls-join" disabled={busy} onClick={events.disconnect}>
-          <Label icon={Unplug} size={13}>{busy ? 'Connecting…' : 'Disconnect'}</Label>
+          <Unplug size={12} />
+          {busy ? 'Connecting…' : 'Disconnect'}
         </Button>
       ) : (
         <Button variant="action" className="ls-join" onClick={() => events.connect(HOST, info.port, info.http_port)}>
-          <Label icon={Play} size={12} strokeWidth={2.4} fill="currentColor">Connect</Label>
+          <Play size={11} fill="currentColor" />
+          Connect
         </Button>
       )}
     </div>

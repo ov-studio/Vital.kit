@@ -3,7 +3,6 @@ import { Play, Ban, Star } from 'lucide-react';
 import { Button } from '@ui/button';
 import { Badge } from '@ui/badge';
 import { Pic } from '../pic/index.jsx';
-import { Label } from '../icons/index.jsx';
 import * as events from '../../events.js';
 import { FEATURED_COUNT, FEATURED_INTERVAL } from '../../config.js';
 import './index.css';
@@ -38,8 +37,8 @@ export function Featured({ visible, servers }) {
               onClick={() => events.connect(active.ip, active.port, active.http_port)}
             >
               {active.full
-                ? <Label icon={Ban} size={14} strokeWidth={2.4}>Server full</Label>
-                : <Label icon={Play} size={12} strokeWidth={2.4} fill="currentColor">Play Now</Label>}
+                ? <><Ban size={13} strokeWidth={2.5} />Server full</>
+                : <><Play size={11} fill="currentColor" />Play Now</>}
             </Button>
             <span className="hero-viewers">
               <strong>{active.players}</strong>{active.max ? ` / ${active.max}` : ''} online
