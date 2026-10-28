@@ -31,6 +31,7 @@ html.is-faded { pointer-events: none; }
 
 * { cursor: auto; }
 button, a, label, input { cursor: pointer; }
+button *, a *, label *, .gcard * { cursor: inherit; }
 input[type="text"] { cursor: text; }
 
 .play-badge {
