@@ -3,6 +3,7 @@ import { Star, TrendingUp } from 'lucide-react';
 import { Badge } from '@ui/badge';
 import { Empty } from '../../empty/index.jsx';
 import { useMasterlist, emptyText } from '../../../data/index.jsx';
+import { ConnectionBar } from '../../connectionbar/index.jsx';
 import { LocalServers } from '../../localserver/index.jsx';
 import { News } from '../../news/index.jsx';
 import { Featured } from '../../featured/index.jsx';
@@ -18,6 +19,8 @@ export function ViewPlay({ visible, favs, onToggleFav }) {
 
   return (
     <div className="view view-play">
+      <ConnectionBar />
+
       <div className="play-top">
         <section className="play-section play-section--featured">
           <Badge className="play-badge">Featured</Badge>

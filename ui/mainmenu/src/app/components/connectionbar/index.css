@@ -1,0 +1,94 @@
+.connbars { flex-shrink: 0; }
+.connbar-list { display: flex; flex-direction: column; gap: 8px; }
+
+.connbar {
+  --accent: var(--blue);
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+  padding: 10px 12px;
+  border-radius: 4px;
+  background: var(--w04);
+  animation: fadeUp .25s ease;
+}
+.connbar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 2px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 50%, transparent), color-mix(in srgb, var(--accent) 50%, transparent) 40%, transparent 70%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.connbar > * {
+  position: relative;
+  z-index: 2;
+}
+
+.connbar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  color: var(--accent);
+  background: var(--bg3);
+}
+.connbar-spin { animation: connbarSpin 1s linear infinite; }
+
+.connbar-info { display: flex; flex-direction: column; min-width: 0; margin-right: auto; }
+.connbar-status {
+  font-family: var(--font-geist), sans-serif;
+  font-size: .6rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.connbar-name {
+  margin: 2px 0 3px;
+  font-family: var(--font-display);
+  font-size: .98rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.connbar-meta {
+  font-family: var(--font-geist), sans-serif;
+  font-size: .72rem;
+  line-height: 1.4;
+  color: var(--text-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.connbar.is-connected .connbar-icon { background: var(--b15); }
+.connbar.is-connecting { --accent: var(--amber); }
+.connbar.is-connecting .connbar-icon { background: color-mix(in srgb, var(--amber) 15%, var(--bg3)); }
+
+.connbar--alert { --accent: var(--red-100); }
+.connbar--alert .connbar-icon { background: var(--r25); }
+.connbar--alert .connbar-meta { color: var(--red-light); }
+.connbar-close { flex-shrink: 0; color: var(--red-soft); opacity: .7; transition: opacity .15s ease; }
+.connbar-close:hover { opacity: 1; }
+
+.ui-btn.connbar-btn { display: inline-flex; align-items: center; gap: 7px; padding: 7px 18px; font-size: .8rem; }
+
+
+/* ── @keyframes ── */
+@keyframes connbarSpin {
+  to { transform: rotate(360deg); }
+}

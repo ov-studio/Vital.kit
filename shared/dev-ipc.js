@@ -89,6 +89,25 @@ export async function install_dev_ipc_stub() {
             setTimeout(() => dispatch_dev_message({ action: 'masterlist', ok: mode !== 'error', servers: mode === 'empty' || mode === 'error' ? [] : rows }), 200);
           }
 
+          // Dev only: simulate the connection lifecycle. Add ?drop=kicked|lost|failed to see the error notices.
+          if (msg.action === 'connect') {
+            const drop = new URLSearchParams(location.search).get('drop');
+            const target = { ip: msg.ip, port: msg.port };
+            clearTimeout(window.__dev_conn);
+            dispatch_dev_message({ action: 'connection', state: 'connecting', ...target });
+            window.__dev_conn = setTimeout(() => {
+              if (drop === 'failed') return dispatch_dev_message({ action: 'connection', state: 'idle', event: 'failed', reason: 'Connection timed out', ...target });
+              dispatch_dev_message({ action: 'connection', state: 'connected', ...target });
+              if (drop) window.__dev_conn = setTimeout(() => dispatch_dev_message({
+                action: 'connection', state: 'idle', event: drop, reason: drop === 'kicked' ? 'Kicked by an admin: AFK too long' : '', ...target
+              }), 3000);
+            }, 1200);
+          }
+          if (msg.action === 'disconnect') {
+            clearTimeout(window.__dev_conn);
+            dispatch_dev_message({ action: 'connection', state: 'idle' });
+          }
+
           // Dev only: the host's init push (component versions for Settings > About).
           if (msg.action === 'ready') dispatch_dev_message({ action: 'init', bind: 'Escape', masterlist_refresh: 15 * 1000, versions: [
             { label: 'Vital.sandbox', value: 'v0.0.0-dev' }, 
