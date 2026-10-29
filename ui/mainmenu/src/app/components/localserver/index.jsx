@@ -26,7 +26,7 @@ function ServerRow({ info, connection }) {
         <span className="ls-name">{info.name}</span>
         {info.description ? <span className="ls-desc">{info.description}</span> : null}
       </div>
-      <span className="ls-meta">{[players, `${HOST}:${info.port}`].filter(Boolean).join('  ·  ')}</span>
+      {players ? <span className="ls-meta">{players}</span> : null}
       {here ? (
         <Button variant="action" danger className="ls-join" disabled={busy} onClick={events.disconnect}>
           <Unplug size={13} />
