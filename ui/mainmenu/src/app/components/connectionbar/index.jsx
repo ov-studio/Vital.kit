@@ -23,14 +23,14 @@ function Status({ connection }) {
 
   return (
     <section className={`connbar is-${connection.state}`} aria-live="polite">
-      <div className="connbar-icon"><Icon size={20} strokeWidth={2} className={spin ? 'connbar-spin' : undefined} /></div>
+      <div className="connbar-icon"><Icon size={20} strokeWidth={2} className={spin ? 'connbar-spin' : undefined}/></div>
       <div className="connbar-info">
         <span className="connbar-status">{label}</span>
         <span className="connbar-name">{connection.name || address}</span>
         {connection.name ? <span className="connbar-meta">{address}</span> : null}
       </div>
       <Button variant="action" danger className="connbar-btn" onClick={events.disconnect}>
-        <Unplug size={13} />
+        <Unplug size={13}/>
         {action}
       </Button>
     </section>
@@ -43,7 +43,7 @@ function Notice({ notice }) {
 
   return (
     <section className="connbar connbar--alert" role="alert">
-      <div className="connbar-icon"><Icon size={20} strokeWidth={2} /></div>
+      <div className="connbar-icon"><Icon size={20} strokeWidth={2}/></div>
       <div className="connbar-info">
         <span className="connbar-status">{title}</span>
         <span className="connbar-name">{where || 'Server'}</span>
@@ -70,8 +70,8 @@ export function ConnectionBar() {
     <section className="play-section connbars">
       <Badge className="play-badge">Connection</Badge>
       <div className="connbar-list">
-        {active ? <Status connection={connection} /> : null}
-        {notice ? <Notice notice={notice} /> : null}
+        {active ? <Status connection={connection}/> : null}
+        {notice ? <Notice notice={notice}/> : null}
       </div>
     </section>
   );

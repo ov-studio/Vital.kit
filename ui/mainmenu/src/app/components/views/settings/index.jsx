@@ -77,40 +77,40 @@ export function ViewSettings() {
         <Badge className="play-badge">Display</Badge>
         <Panel>
           <SettingRow name="Resolution" desc="Sets the size of the game window, up to your monitor's resolution.">
-            <Select value={values.resolution} onChange={(v) => set({ resolution: v })} options={res_options} aria-label="Resolution" />
+            <Select value={values.resolution} onChange={(v) => set({ resolution: v })} options={res_options} aria-label="Resolution"/>
           </SettingRow>
           <SettingRow name="Window Mode" desc="Choose between a borderless window and exclusive fullscreen.">
-            <Select value={values.window_mode} onChange={(v) => set({ window_mode: v })} options={config.WINDOW_MODES} aria-label="Window mode" />
+            <Select value={values.window_mode} onChange={(v) => set({ window_mode: v })} options={config.WINDOW_MODES} aria-label="Window mode"/>
           </SettingRow>
           <SettingRow name="VSync" desc="Matches the frame rate to your display's refresh rate to prevent screen tearing.">
-            <Select value={values.vsync ? 'enabled' : 'disabled'} onChange={(v) => set({ vsync: v === 'enabled' })} options={config.VSYNC_MODES} aria-label="VSync" />
+            <Select value={values.vsync ? 'enabled' : 'disabled'} onChange={(v) => set({ vsync: v === 'enabled' })} options={config.VSYNC_MODES} aria-label="VSync"/>
           </SettingRow>
         </Panel>
 
         <Badge className="play-badge">Graphics</Badge>
         <Panel>
           <SettingRow name="Draw Distance" desc="Adjusts how far the world is rendered. Lower values improve performance.">
-            <RangeSlider label="Draw distance" {...percent('draw_distance')} />
+            <RangeSlider label="Draw distance" {...percent('draw_distance')}/>
           </SettingRow>
           <SettingRow name="Particle Distance" desc="Adjusts how far particle effects are rendered. Lower values improve performance.">
-            <RangeSlider label="Particle distance" {...percent('particle_distance')} />
+            <RangeSlider label="Particle distance" {...percent('particle_distance')}/>
           </SettingRow>
         </Panel>
 
         <Badge className="play-badge">Controls</Badge>
         <Panel>
           <SettingRow name="Horizontal Mouse Sensitivity" desc="Adjusts how quickly the camera turns left and right.">
-            <RangeSlider label="Horizontal mouse sensitivity" {...percent('mouse_horizontal_senstivity')} min={1} max={200} />
+            <RangeSlider label="Horizontal mouse sensitivity" {...percent('mouse_horizontal_senstivity')} min={1} max={200}/>
           </SettingRow>
           <SettingRow name="Vertical Mouse Sensitivity" desc="Adjusts how quickly the camera turns up and down.">
-            <RangeSlider label="Vertical mouse sensitivity" {...percent('mouse_vertical_senstivity')} min={1} max={200} />
+            <RangeSlider label="Vertical mouse sensitivity" {...percent('mouse_vertical_senstivity')} min={1} max={200}/>
           </SettingRow>
         </Panel>
 
         <Badge className="play-badge">Audio</Badge>
         <Panel>
           <SettingRow name="Master Volume" desc="Controls the overall volume of the game.">
-            <RangeSlider label="Master volume" {...percent('volume')} />
+            <RangeSlider label="Master volume" {...percent('volume')}/>
           </SettingRow>
         </Panel>
       </div>

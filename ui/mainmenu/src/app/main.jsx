@@ -37,4 +37,4 @@ window.addEventListener('webview:visible', (e) => {
 events.ready();
 
 const root = react.createRoot(document.getElementById('root'));
-root.render(<app_mainmenu.MainMenu />);
+root.render(<app_mainmenu.MainMenu/>);

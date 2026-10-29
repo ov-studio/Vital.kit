@@ -15,7 +15,7 @@ export function About() {
         aria-label="About"
         onClick={toggle}
       >
-        <Info size={15} strokeWidth={2.2} />
+        <Info size={15} strokeWidth={2.2}/>
       </button>
 
       {open && (

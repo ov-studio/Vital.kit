@@ -23,7 +23,7 @@ function UpdateItem({ u }) {
 
       {state === 'downloading' && (
         <>
-          <div className="notif-bar"><div className="notif-bar-fill" style={{ width: `${percent(u)}%` }} /></div>
+          <div className="notif-bar"><div className="notif-bar-fill" style={{ width: `${percent(u)}%` }}/></div>
           <div className="notif-item-meta">
             {u.message || (u.total > 0 ? `${mb(u.received)} / ${mb(u.total)} MB · ${percent(u)}%` : `${mb(u.received)} MB`)}
           </div>
@@ -32,24 +32,24 @@ function UpdateItem({ u }) {
       {state === 'installing' && <div className="notif-item-meta">{u.message || 'Installing…'}</div>}
       {state === 'ready' && <div className="notif-item-meta is-ok">{u.message || 'Ready to install'}</div>}
       {state === 'error' && (
-        <div className="notif-item-meta is-err"><TriangleAlert size={12} /> {u.message || 'Update failed'}</div>
+        <div className="notif-item-meta is-err"><TriangleAlert size={12}/> {u.message || 'Update failed'}</div>
       )}
 
       <div className="notif-item-actions">
         {(state === 'idle' || state === 'error') && (
           <Button variant="action" onClick={() => events.update_download(u.name)}>
-            <Download size={12} /> {state === 'error' ? 'Retry' : 'Download'}
+            <Download size={12}/> {state === 'error' ? 'Retry' : 'Download'}
           </Button>
         )}
         {state === 'ready' && (
           <Button variant="action" onClick={() => events.update_apply()}>
-            <RotateCw size={12} /> Restart &amp; Install
+            <RotateCw size={12}/> Restart &amp; Install
           </Button>
         )}
         {busy && <Button variant="action" disabled>{state === 'installing' ? 'Installing…' : 'Downloading…'}</Button>}
         {u.url && (
           <Button variant="secondary" onClick={() => events.open_url(u.url)}>
-            Release notes <ExternalLink size={11} />
+            Release notes <ExternalLink size={11}/>
           </Button>
         )}
       </div>
@@ -69,7 +69,7 @@ export function Notifications({ updates }) {
         aria-label={has ? 'Notifications: updates available' : 'Notifications'}
         onClick={toggle}
       >
-        <Bell size={15} strokeWidth={2.2} />
+        <Bell size={15} strokeWidth={2.2}/>
         {has && <span className="notif-badge">NEW</span>}
       </button>
 
@@ -83,7 +83,7 @@ export function Notifications({ updates }) {
           </div>
           {has ? (
             <ul className="notif-list">
-              {updates.map((u) => <UpdateItem key={u.name} u={u} />)}
+              {updates.map((u) => <UpdateItem key={u.name} u={u}/>)}
             </ul>
           ) : (
             <div className="notif-empty">You're all caught up.</div>

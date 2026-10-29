@@ -21,7 +21,7 @@ function ServerRow({ info, connection }) {
 
   return (
     <div className={`localserver${connected ? ' is-connected' : busy ? ' is-connecting' : ''}`}>
-      <div className="ls-thumb"><Server size={20} strokeWidth={2} /></div>
+      <div className="ls-thumb"><Server size={20} strokeWidth={2}/></div>
       <div className="ls-info">
         <span className="ls-status">{connected ? 'Connected' : busy ? 'Connecting' : 'Local'}</span>
         <span className="ls-name">{info.name}</span>
@@ -30,12 +30,12 @@ function ServerRow({ info, connection }) {
       {players ? <span className="ls-meta">{players}</span> : null}
       {here ? (
         <Button variant="action" danger className="ls-join" disabled={busy} onClick={events.disconnect}>
-          <Unplug size={13} />
+          <Unplug size={13}/>
           {busy ? 'Connecting…' : 'Disconnect'}
         </Button>
       ) : (
         <Button variant="action" className="ls-join" onClick={() => events.connect(HOST, info.port, info.http_port)}>
-          <Play size={12} strokeWidth={2.4} fill="currentColor" />
+          <Play size={12} strokeWidth={2.4} fill="currentColor"/>
           Connect
         </Button>
       )}
@@ -52,7 +52,7 @@ export function LocalServers({ active }) {
       <Badge className="play-badge">Local Servers</Badge>
       <div className="ls-list">
         {servers.map((info) => (
-          <ServerRow key={info.port} info={info} connection={connection} />
+          <ServerRow key={info.port} info={info} connection={connection}/>
         ))}
       </div>
     </section>

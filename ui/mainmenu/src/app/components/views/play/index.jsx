@@ -19,7 +19,7 @@ export function ViewPlay({ visible, favs, onToggleFav }) {
 
   return (
     <div className="view view-play">
-      <ConnectionBar />
+      <ConnectionBar/>
 
       <div className="play-top">
         <section className="play-section play-section--featured">
@@ -29,17 +29,17 @@ export function ViewPlay({ visible, favs, onToggleFav }) {
               {status === 'ok' ? 'Featured servers will appear here once someone is online.' : emptyText(status, false)}
             </Empty>
           ) : (
-            <Featured visible={visible} servers={servers.slice(0, FEATURED_COUNT)} />
+            <Featured visible={visible} servers={servers.slice(0, FEATURED_COUNT)}/>
           )}
         </section>
 
         <section className="play-section play-section--news">
           <Badge className="play-badge">News</Badge>
-          <News active={visible} />
+          <News active={visible}/>
         </section>
       </div>
 
-      <LocalServers active={visible} />
+      <LocalServers active={visible}/>
 
       <section className="play-section play-section--grow">
         <Badge className="play-badge">Trending</Badge>

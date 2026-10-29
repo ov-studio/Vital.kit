@@ -24,7 +24,7 @@ export function News({ active }) {
     <div className="news">
       {posts.slice(0, NEWS_SLOTS).map((p) => (
         <button key={p.slug} className="news-item" onClick={() => events.open_url(p.url)}>
-          <Pic src={p.cover} className="news-cover"><Newspaper size={16} /></Pic>
+          <Pic src={p.cover} className="news-cover"><Newspaper size={16}/></Pic>
           <span className="news-info">
             <span className="news-title">{p.title}</span>
             <span className="news-meta">{[p.tags[0] && `#${p.tags[0]}`, p.date].filter(Boolean).join('  ·  ')}</span>
@@ -34,7 +34,7 @@ export function News({ active }) {
       ))}
       {Array.from({ length: Math.max(0, NEWS_SLOTS - posts.length) }, (_, i) => (
         <div key={`open-${i}`} className="news-item news-item--open">
-          <Newspaper size={16} strokeWidth={2} />
+          <Newspaper size={16} strokeWidth={2}/>
           <span>No more news</span>
         </div>
       ))}

@@ -15,7 +15,7 @@ export function ViewFavs({ favs, onToggleFav }) {
             No favourites yet. Click the star icon on any game card to save it here. Favourites that are offline won't show until they're back.
           </Empty>
         ) : (
-          <CardGrid servers={favServers} favs={favs} onToggleFav={onToggleFav} />
+          <CardGrid servers={favServers} favs={favs} onToggleFav={onToggleFav}/>
         )}
       </section>
     </div>

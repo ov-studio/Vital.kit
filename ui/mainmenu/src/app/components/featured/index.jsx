@@ -24,7 +24,7 @@ export function Featured({ visible, servers }) {
     <div className="hero-row">
       <div className="hero">
         {servers.map((f, i) => (
-          <Pic key={f.id} src={f.banner} className={`hero-img${i === current ? ' on' : ''}`} />
+          <Pic key={f.id} src={f.banner} className={`hero-img${i === current ? ' on' : ''}`}/>
         ))}
         <div className="hero-content" key={active.id}>
           {active.tags[0] && <Badge className="hero-badge">{String(active.tags[0]).toUpperCase()}</Badge>}
@@ -37,8 +37,8 @@ export function Featured({ visible, servers }) {
               onClick={() => events.connect(active.ip, active.port, active.http_port)}
             >
               {active.full
-                ? <><Ban size={14} strokeWidth={2.4} />Server full</>
-                : <><Play size={12} strokeWidth={2.4} fill="currentColor" />Play Now</>}
+                ? <><Ban size={14} strokeWidth={2.4}/>Server full</>
+                : <><Play size={12} strokeWidth={2.4} fill="currentColor"/>Play Now</>}
             </Button>
             <span className="hero-viewers">
               <strong>{active.players}</strong>{active.max ? ` / ${active.max}` : ''} online

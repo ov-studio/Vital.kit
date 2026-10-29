@@ -28,22 +28,22 @@ export function ViewMasterlist({ favs, onToggleFav }) {
     <div className="view">
       <section className="app-section">
         <div className="mlist-filters">
-          <Filter tags={tags} active={activeTag} onChange={setChosen} />
+          <Filter tags={tags} active={activeTag} onChange={setChosen}/>
           <Search
             value={search}
             onChange={setSearch}
             placeholder="Search servers…"
-            icon={<SearchIcon size={14} strokeWidth={2.5} />}
+            icon={<SearchIcon size={14} strokeWidth={2.5}/>}
           />
         </div>
-        <Divider />
+        <Divider/>
 
         {results.length === 0 ? (
           <Empty icon={SearchIcon} className="app-empty--fill">
             {emptyText(status, search.trim() !== '' || activeTag !== null)}
           </Empty>
         ) : (
-          <CardGrid servers={results} favs={favs} onToggleFav={onToggleFav} />
+          <CardGrid servers={results} favs={favs} onToggleFav={onToggleFav}/>
         )}
       </section>
     </div>

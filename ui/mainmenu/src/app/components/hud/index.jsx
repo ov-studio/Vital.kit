@@ -27,18 +27,18 @@ export function Hud() {
   return (
     <header className="hud" onMouseDown={on_bar_mouse_down}>
       <div className="hud-logo" data-no-drag>
-        <Brand size="xs" variant="logo-only" />
+        <Brand size="xs" variant="logo-only"/>
       </div>
       <div className="hud-greet">Greetings, <strong>{username}</strong></div>
       <nav className="hud-links" data-no-drag>
         {config.LINKS.map(({ label, url }) => (
           <Button key={label} variant="action" size="lg" onClick={() => events.open_url(url)}>
-            {label} <ExternalLink size={11} />
+            {label} <ExternalLink size={11}/>
           </Button>
         ))}
       </nav>
-      <Notifications updates={updates} />
-      <About />
+      <Notifications updates={updates}/>
+      <About/>
       <IconButton
         data-no-drag
         icon={Minus}

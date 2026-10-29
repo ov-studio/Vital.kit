@@ -31,16 +31,16 @@ export function MainMenu() {
   };
 
   const views = {
-    play:       <ViewPlay visible={activeView === 'play'} favs={favs} onToggleFav={toggleFav} />,
-    masterlist: <ViewMasterlist favs={favs} onToggleFav={toggleFav} />,
-    favs:       <ViewFavs favs={favs} onToggleFav={toggleFav} />,
-    settings:   <ViewSettings />,
+    play:       <ViewPlay visible={activeView === 'play'} favs={favs} onToggleFav={toggleFav}/>,
+    masterlist: <ViewMasterlist favs={favs} onToggleFav={toggleFav}/>,
+    favs:       <ViewFavs favs={favs} onToggleFav={toggleFav}/>,
+    settings:   <ViewSettings/>,
   };
 
   return (
     <>
-      <Sidebar active={activeView} onChange={setActiveView} />
-      <Hud />
+      <Sidebar active={activeView} onChange={setActiveView}/>
+      <Hud/>
       <main className="center-panel">
         {Object.entries(views).map(([id, el]) => (
           <div key={id} className="view-slot" hidden={activeView !== id}>{el}</div>
