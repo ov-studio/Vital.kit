@@ -20,9 +20,10 @@ function ServerRow({ info, connection }) {
   const players   = Number.isInteger(info.players) ? `${info.players}${info.max_peers ? ` / ${info.max_peers}` : ''} online` : null;
 
   return (
-    <div className={`localserver${connected ? ' is-connected' : ''}`}>
+    <div className={`localserver${connected ? ' is-connected' : busy ? ' is-connecting' : ''}`}>
       <div className="ls-thumb"><Server size={20} strokeWidth={2} /></div>
       <div className="ls-info">
+        <span className="ls-status">{connected ? 'Connected' : busy ? 'Connecting' : 'Local'}</span>
         <span className="ls-name">{info.name}</span>
         {info.description ? <span className="ls-desc">{info.description}</span> : null}
       </div>

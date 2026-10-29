@@ -51,8 +51,22 @@
 .localserver.is-connected .ls-thumb { color: var(--blue); background: var(--b15); }
 
 .ls-info { display: flex; flex-direction: column; min-width: 0; margin-right: auto; }
+.ls-status {
+  font-family: var(--font-geist), sans-serif;
+  font-size: .6rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color .2s ease;
+}
+.localserver.is-connected .ls-status { color: var(--blue); }
+.localserver.is-connecting .ls-status { color: var(--amber); }
+.localserver.is-connecting .ls-thumb { color: var(--amber); background: color-mix(in srgb, var(--amber) 15%, var(--bg3)); }
+
 .ls-name {
-  margin-bottom: 4px;
+  margin: 2px 0 3px;
   font-family: var(--font-display);
   font-size: 0.98rem;
   font-weight: 700;
