@@ -88,7 +88,7 @@ const incoming = {
     connection  = { state, ip, port, name: text(d.name) || server_name(ip, port) };
 
     if (state === 'idle') {
-      if (prev.state !== 'idle') set_notice(drop_notice(prev, d));
+      if (prev.state !== 'idle' || text(d.event)) set_notice(drop_notice(prev, d));
       manual_drop = false;
     }
     else {
