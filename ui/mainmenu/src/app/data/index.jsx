@@ -7,59 +7,41 @@ const text = v => (typeof v === 'string' ? v.trim() : '');
 const link = v => (/^https?:\/\//i.test(text(v)) ? text(v) : null);
 const image = v => (/^https:\/\//i.test(text(v)) ? text(v) : null);
 
-function tag_list(v) {
-  return Array.isArray(v) ? [...new Set(v.filter(t => typeof t === 'string').map(t => t.trim().toLowerCase()).filter(Boolean))].slice(0, 6) : [];
+const count = v => (Number.isFinite(v) ? Math.max(0, v) : 0);
+const tag_list = v => (Array.isArray(v) ? [...new Set(v.filter(t => typeof t === 'string').map(t => t.trim().toLowerCase()).filter(Boolean))].slice(0, 6) : []);
+
+function build(row, id, name, ip) {
+  const players = count(row.players);
+  const max     = count(row.max_players ?? row.max_peers);
+  return {
+    id,
+    name,
+    desc: text(row.description),
+    players,
+    max,
+    full: max > 0 && players >= max,
+    discord: link(row.discord),
+    site: link(row.website),
+    logo: image(row.logo),
+    banner: image(row.banner),
+    ip,
+    port: row.port,
+    http_port: Number.isInteger(row.http_port) ? row.http_port : -1,
+    version: text(row.version),
+    tags: tag_list(row.tags),
+  };
 }
 
 function normalize(row) {
   if (!row || typeof row !== 'object' || typeof row.id !== 'string') return null;
   const name = text(row.name);
   if (!name || typeof row.ip !== 'string' || !Number.isInteger(row.port)) return null;
-  const players = Number.isFinite(row.players) ? Math.max(0, row.players) : 0;
-  const max     = Number.isFinite(row.max_players) ? Math.max(0, row.max_players) : 0;
-  return {
-    id: row.id,
-    name,
-    desc: text(row.description),
-    players,
-    max,
-    full: max > 0 && players >= max,
-    discord: link(row.discord),
-    site: link(row.website),
-    logo: image(row.logo),
-    banner: image(row.banner),
-    ip: row.ip,
-    port: row.port,
-    http_port: Number.isInteger(row.http_port) ? row.http_port : -1,
-    version: text(row.version),
-    tags: tag_list(row.tags),
-  };
+  return build(row, row.id, name, row.ip);
 }
 
 function normalize_local(row) {
   if (!row || typeof row !== 'object' || !Number.isInteger(row.port)) return null;
-  const name = text(row.name) || `Local server :${row.port}`;
-  const players = Number.isFinite(row.players) ? Math.max(0, row.players) : 0;
-  const max = Number.isFinite(row.max_players) ? Math.max(0, row.max_players)
-            : Number.isFinite(row.max_peers) ? Math.max(0, row.max_peers) : 0;
-  return {
-    id: `local:${row.port}`,
-    local: true,
-    name,
-    desc: text(row.description),
-    players,
-    max,
-    full: max > 0 && players >= max,
-    discord: link(row.discord),
-    site: link(row.website),
-    logo: image(row.logo),
-    banner: image(row.banner),
-    ip: config.LOCAL_HOST,
-    port: row.port,
-    http_port: Number.isInteger(row.http_port) ? row.http_port : -1,
-    version: text(row.version),
-    tags: tag_list(row.tags),
-  };
+  return { ...build(row, `local:${row.port}`, text(row.name) || `Local server :${row.port}`, config.LOCAL_HOST), local: true };
 }
 
 export function useLocalServers(active) {
