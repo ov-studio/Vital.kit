@@ -1,11 +1,11 @@
-import * as shared from '../../../../shared/config.js';
+import * as shared_config from '../../../../shared/config.js';
 
-export const SITE_URL = shared.SITE;
-export const NEWS_URL = shared.NEWS;
+export const SITE_URL = shared_config.SITE;
+export const NEWS_URL = shared_config.NEWS;
 export const LINKS = [
-  { label: 'Documentations', url: shared.DOCS    },
-  { label: 'Community',      url: shared.DISCORD },
-  { label: 'Donate',         url: shared.DONATE  }
+  { label: 'Documentations', url: shared_config.DOCS    },
+  { label: 'Community',      url: shared_config.DISCORD },
+  { label: 'Donate',         url: shared_config.DONATE  }
 ];
 
 export const FADE_MS             = 220;       // menu fade before the host hides the webview
