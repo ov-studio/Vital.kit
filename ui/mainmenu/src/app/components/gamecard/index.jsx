@@ -12,10 +12,9 @@ import './index.css';
 export function GameCard({ server, isFav, onToggleFav, style }) {
   const [bad, setBad] = react.useState(false);
   const connection = app_hooks.useEventState('mainmenu:connection', app_events.get_connection);
-  const here = connection.state !== 'idle' && connection.port === server.port
-    && (connection.ip === server.ip || (server.local && app_events.is_loopback(connection.ip)));
+  const here = connection.state !== 'idle' && connection.port === server.port && (connection.ip === server.ip || (server.local && app_events.is_loopback(connection.ip)));
   const busy = here && connection.state === 'connecting';
-  const players = here && !busy ? Math.max(1, server.players) : server.players; // we are inside, so at least one
+  const players = here && !busy ? Math.max(1, server.players) : server.players;
   const action = here ? { icon: <lucide.Unplug size={11} strokeWidth={2.4}/>, label: busy ? 'Connecting…' : 'Leave' }
                : server.full ? { icon: <lucide.Ban size={11} strokeWidth={2.4}/>, label: 'Full' }
                : { icon: <lucide.Play size={10} strokeWidth={2.4} fill="currentColor"/>, label: server.local ? 'Connect' : 'Play' };
