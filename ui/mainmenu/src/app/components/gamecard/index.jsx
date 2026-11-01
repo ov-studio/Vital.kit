@@ -1,38 +1,39 @@
-import { useState, useEffect } from 'react';
-import { Star, Globe, Play, Ban, MessageCircle, Unplug, Server } from 'lucide-react';
-import { Badge }      from '@ui/badge';
-import { Button }     from '@ui/button';
-import { Card }       from '@ui/card';
-import { IconButton } from '@ui/iconbutton';
-import { Pic }         from '../pic/index.jsx';
-import * as events     from '../../events.js';
-import { useEventState } from '../../hooks.js';
+import * as react                from 'react';
+import * as lucide               from 'lucide-react';
+import * as shared_ui_badge      from '@ui/badge';
+import * as shared_ui_button     from '@ui/button';
+import * as shared_ui_card       from '@ui/card';
+import * as shared_ui_iconbutton from '@ui/iconbutton';
+import * as app_pic              from '../pic/index.jsx';
+import * as app_events           from '../../events.js';
+import * as app_hooks            from '../../hooks.js';
 import './index.css';
 
 export function GameCard({ server, isFav, onToggleFav, style }) {
-  const [bad, setBad] = useState(false);
-  const connection = useEventState('mainmenu:connection', events.get_connection);
-  const here = connection.state !== 'idle' && connection.port === server.port && (connection.ip === server.ip || (server.local && events.is_loopback(connection.ip)));
+  const [bad, setBad] = react.useState(false);
+  const connection = app_hooks.useEventState('mainmenu:connection', app_events.get_connection);
+  const here = connection.state !== 'idle' && connection.port === server.port
+    && (connection.ip === server.ip || (server.local && app_events.is_loopback(connection.ip)));
   const busy = here && connection.state === 'connecting';
   const players = here && !busy ? Math.max(1, server.players) : server.players; // we are inside, so at least one
-  const action = here ? { icon: <Unplug size={11} strokeWidth={2.4}/>, label: busy ? 'Connecting…' : 'Leave' }
-               : server.full ? { icon: <Ban size={11} strokeWidth={2.4}/>, label: 'Full' }
-               : { icon: <Play size={10} strokeWidth={2.4} fill="currentColor"/>, label: server.local ? 'Connect' : 'Play' };
-  useEffect(() => setBad(false), [server.banner]);
+  const action = here ? { icon: <lucide.Unplug size={11} strokeWidth={2.4}/>, label: busy ? 'Connecting…' : 'Leave' }
+               : server.full ? { icon: <lucide.Ban size={11} strokeWidth={2.4}/>, label: 'Full' }
+               : { icon: <lucide.Play size={10} strokeWidth={2.4} fill="currentColor"/>, label: server.local ? 'Connect' : 'Play' };
+  react.useEffect(() => setBad(false), [server.banner]);
 
   return (
-    <Card
+    <shared_ui_card.Card
       className={`gcard${server.local ? ' gcard--local' : ''}${here ? ' is-connected' : ''}`}
       style={style}
       cover={bad ? undefined : server.banner ?? undefined}
       onCoverError={() => setBad(true)}
       coverPlaceholder={<div className="gc-art" />}
       topRight={server.local ? (
-        <Badge className="gc-badge"><Server size={11} strokeWidth={2.2}/>{here ? (busy ? 'Connecting' : 'Connected') : 'Localserver'}</Badge>
+        <shared_ui_badge.Badge className="gc-badge"><lucide.Server size={11} strokeWidth={2.2}/>{here ? (busy ? 'Connecting' : 'Connected') : 'Localserver'}</shared_ui_badge.Badge>
       ) : (
-        <IconButton
+        <shared_ui_iconbutton.IconButton
           className={`gc-btn gc-fav${isFav ? ' on' : ''}`}
-          icon={Star}
+          icon={lucide.Star}
           iconProps={{ size: 13, strokeWidth: 1.6 }}
           title="Favourite"
           onClick={() => onToggleFav(server.id)}
@@ -40,7 +41,7 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
       )}
       title={
         <span className="gc-title-stack">
-          <Pic src={server.logo} className="gc-logo">{server.name.charAt(0).toUpperCase()}</Pic>
+          <app_pic.Pic src={server.logo} className="gc-logo">{server.name.charAt(0).toUpperCase()}</app_pic.Pic>
           <span className="gc-title-text">{server.name}</span>
         </span>
       }
@@ -52,32 +53,32 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
           </span>
           <div className="gc-links">
             {server.discord && (
-              <IconButton
+              <shared_ui_iconbutton.IconButton
                 className="gc-btn"
-                icon={MessageCircle}
+                icon={lucide.MessageCircle}
                 iconProps={{ size: 12, strokeWidth: 1.6 }}
                 title="Discord"
-                onClick={() => events.open_url(server.discord)}
+                onClick={() => app_events.open_url(server.discord)}
               />
             )}
             {server.site && (
-              <IconButton
+              <shared_ui_iconbutton.IconButton
                 className="gc-btn"
-                icon={Globe}
+                icon={lucide.Globe}
                 iconProps={{ size: 12, strokeWidth: 1.6 }}
                 title="Site"
-                onClick={() => events.open_url(server.site)}
+                onClick={() => app_events.open_url(server.site)}
               />
             )}
-            <Button
+            <shared_ui_button.Button
               variant="action"
               className="gjoin"
               danger={here}
               disabled={here ? busy : server.full}
-              onClick={() => here ? events.disconnect() : events.connect(server.ip, server.port, server.http_port)}
+              onClick={() => here ? app_events.disconnect() : app_events.connect(server.ip, server.port, server.http_port)}
             >
               {action.icon}{action.label}
-            </Button>
+            </shared_ui_button.Button>
           </div>
         </>
       }

@@ -1,11 +1,11 @@
-import { Info } from 'lucide-react';
-import * as events from '../../events.js';
-import { useEventState, usePopover } from '../../hooks.js';
+import * as lucide     from 'lucide-react';
+import * as app_events from '../../events.js';
+import * as app_hooks  from '../../hooks.js';
 import './index.css';
 
 export function About() {
-  const { open, toggle, root } = usePopover();
-  const versions = useEventState('mainmenu:init', events.get_versions);
+  const { open, toggle, root } = app_hooks.usePopover();
+  const versions = app_hooks.useEventState('mainmenu:init', app_events.get_versions);
 
   return (
     <div className="about" ref={root} data-no-drag>
@@ -15,7 +15,7 @@ export function About() {
         aria-label="About"
         onClick={toggle}
       >
-        <Info size={15} strokeWidth={2.2}/>
+        <lucide.Info size={15} strokeWidth={2.2}/>
       </button>
 
       {open && (

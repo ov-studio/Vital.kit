@@ -1,7 +1,7 @@
-import { useMemo } from 'react';
-import * as events from '../events.js';
-import * as config from '../config.js';
-import { useEventState, usePolling } from '../hooks.js';
+import * as react      from 'react';
+import * as app_events from '../events.js';
+import * as app_config from '../config.js';
+import * as app_hooks  from '../hooks.js';
 
 const text = v => (typeof v === 'string' ? v.trim() : '');
 const link = v => (/^https?:\/\//i.test(text(v)) ? text(v) : null);
@@ -10,6 +10,7 @@ const image = v => (/^https:\/\//i.test(text(v)) ? text(v) : null);
 const count = v => (Number.isFinite(v) ? Math.max(0, v) : 0);
 const tag_list = v => (Array.isArray(v) ? [...new Set(v.filter(t => typeof t === 'string').map(t => t.trim().toLowerCase()).filter(Boolean))].slice(0, 6) : []);
 
+// One card shape for masterlist rows and local servers alike.
 function build(row, id, name, ip) {
   const players = count(row.players);
   const max     = count(row.max_players ?? row.max_peers);
@@ -41,21 +42,21 @@ function normalize(row) {
 
 function normalize_local(row) {
   if (!row || typeof row !== 'object' || !Number.isInteger(row.port)) return null;
-  return { ...build(row, `local:${row.port}`, text(row.name) || `Local server :${row.port}`, config.LOCAL_HOST), local: true };
+  return { ...build(row, `local:${row.port}`, text(row.name) || `Local server :${row.port}`, app_config.LOCAL_HOST), local: true };
 }
 
 export function useLocalServers(active) {
-  const rows = useEventState('mainmenu:localservers', events.get_localservers);
-  usePolling(events.scan_local_servers, config.LOCAL_SCAN_INTERVAL, active);
-  return useMemo(
+  const rows = app_hooks.useEventState('mainmenu:localservers', app_events.get_localservers);
+  app_hooks.usePolling(app_events.scan_local_servers, app_config.LOCAL_SCAN_INTERVAL, active);
+  return react.useMemo(
     () => rows.map(normalize_local).filter(Boolean).sort((a, b) => a.port - b.port),
     [rows]
   );
 }
 
 export function useMasterlist() {
-  const state = useEventState('mainmenu:masterlist', events.get_masterlist);
-  const servers = useMemo(
+  const state = app_hooks.useEventState('mainmenu:masterlist', app_events.get_masterlist);
+  const servers = react.useMemo(
     () => state.servers.map(normalize).filter(Boolean).sort((a, b) => b.players - a.players),
     [state.servers]
   );
@@ -63,8 +64,8 @@ export function useMasterlist() {
 }
 
 export function useMasterlistPolling() {
-  const refresh = useEventState('mainmenu:init', events.get_masterlist_refresh);
-  usePolling(events.fetch_masterlist, refresh);
+  const refresh = app_hooks.useEventState('mainmenu:init', app_events.get_masterlist_refresh);
+  app_hooks.usePolling(app_events.fetch_masterlist, refresh);
 }
 
 export function emptyText(status, filtered) {
@@ -98,13 +99,13 @@ function normalize_post(row) {
     time: Number.isNaN(time) ? 0 : time,
     date: Number.isNaN(time) ? '' : new Date(time).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }),
     tags: Array.isArray(row.tags) ? row.tags.filter(t => typeof t === 'string' && t.trim()).slice(0, 3) : [],
-    url: `${config.SITE_URL}/news/${slug.split('/').map(encodeURIComponent).join('/')}`,
+    url: `${app_config.SITE_URL}/news/${slug.split('/').map(encodeURIComponent).join('/')}`,
   };
 }
 
 export function useNews(active) {
-  const state = useEventState('mainmenu:news', events.get_news);
-  usePolling(events.fetch_news, config.NEWS_REFRESH, active);
+  const state = app_hooks.useEventState('mainmenu:news', app_events.get_news);
+  app_hooks.usePolling(app_events.fetch_news, app_config.NEWS_REFRESH, active);
   const posts = state.posts.map(normalize_post).filter(Boolean).sort((a, b) => b.time - a.time);
   return { status: state.status, posts };
 }

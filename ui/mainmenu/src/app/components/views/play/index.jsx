@@ -1,52 +1,52 @@
-import { useRef } from 'react';
-import { Star, TrendingUp } from 'lucide-react';
-import { Badge } from '@ui/badge';
-import { Empty } from '../../empty/index.jsx';
-import { useMasterlist, emptyText } from '../../../data/index.jsx';
-import { ConnectionBar } from '../../connectionbar/index.jsx';
-import { News } from '../../news/index.jsx';
-import { Featured } from '../../featured/index.jsx';
-import { CardGrid, useFitCount } from '../../cardgrid/index.jsx';
-import { FEATURED_COUNT } from '../../../config.js';
+import * as react             from 'react';
+import * as lucide            from 'lucide-react';
+import * as shared_ui_badge   from '@ui/badge';
+import * as app_empty         from '../../empty/index.jsx';
+import * as app_data          from '../../../data/index.jsx';
+import * as app_connectionbar from '../../connectionbar/index.jsx';
+import * as app_news          from '../../news/index.jsx';
+import * as app_featured      from '../../featured/index.jsx';
+import * as app_cardgrid      from '../../cardgrid/index.jsx';
+import * as app_config        from '../../../config.js';
 import './index.css';
 
 export function ViewPlay({ visible, favs, onToggleFav }) {
-  const { status, servers } = useMasterlist();
-  const gridRef = useRef(null);
-  const fitCount = useFitCount(gridRef);
+  const { status, servers } = app_data.useMasterlist();
+  const gridRef = react.useRef(null);
+  const fitCount = app_cardgrid.useFitCount(gridRef);
   const none = servers.length === 0;
 
   return (
     <div className="view view-play">
-      <ConnectionBar/>
+      <app_connectionbar.ConnectionBar/>
 
       <div className="play-top">
         <section className="play-section play-section--featured">
-          <Badge className="play-badge">Featured</Badge>
+          <shared_ui_badge.Badge className="play-badge">Featured</shared_ui_badge.Badge>
           {none ? (
-            <Empty icon={Star} className="play-ghost-hero app-empty--boxed">
-              {status === 'ok' ? 'Featured servers will appear here once someone is online.' : emptyText(status, false)}
-            </Empty>
+            <app_empty.Empty icon={lucide.Star} className="play-ghost-hero app-empty--boxed">
+              {status === 'ok' ? 'Featured servers will appear here once someone is online.' : app_data.emptyText(status, false)}
+            </app_empty.Empty>
           ) : (
-            <Featured visible={visible} servers={servers.slice(0, FEATURED_COUNT)}/>
+            <app_featured.Featured visible={visible} servers={servers.slice(0, app_config.FEATURED_COUNT)}/>
           )}
         </section>
 
         <section className="play-section play-section--news">
-          <Badge className="play-badge">News</Badge>
-          <News active={visible}/>
+          <shared_ui_badge.Badge className="play-badge">News</shared_ui_badge.Badge>
+          <app_news.News active={visible}/>
         </section>
       </div>
 
       <section className="play-section play-section--grow">
-        <Badge className="play-badge">Trending</Badge>
-        <CardGrid
+        <shared_ui_badge.Badge className="play-badge">Trending</shared_ui_badge.Badge>
+        <app_cardgrid.CardGrid
           fit
           gridRef={gridRef}
           servers={fitCount == null ? servers : servers.slice(0, fitCount)}
           favs={favs}
           onToggleFav={onToggleFav}
-          empty={{ icon: TrendingUp, text: emptyText(status, false) }}
+          empty={{ icon: lucide.TrendingUp, text: app_data.emptyText(status, false) }}
         />
       </section>
     </div>

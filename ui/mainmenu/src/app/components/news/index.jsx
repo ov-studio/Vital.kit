@@ -1,9 +1,9 @@
-import { Newspaper, ArrowUpRight } from 'lucide-react';
-import { Empty } from '../empty/index.jsx';
-import { Pic } from '../pic/index.jsx';
-import { useNews } from '../../data/index.jsx';
-import * as events from '../../events.js';
-import { NEWS_SLOTS } from '../../config.js';
+import * as lucide     from 'lucide-react';
+import * as app_empty  from '../empty/index.jsx';
+import * as app_pic    from '../pic/index.jsx';
+import * as app_data   from '../../data/index.jsx';
+import * as app_events from '../../events.js';
+import * as app_config from '../../config.js';
 import './index.css';
 
 function newsEmptyText(status) {
@@ -13,28 +13,28 @@ function newsEmptyText(status) {
 }
 
 export function News({ active }) {
-  const { status, posts } = useNews(active);
+  const { status, posts } = app_data.useNews(active);
   if (!posts.length) {
     return (
-      <Empty icon={Newspaper} className="news app-empty--boxed">{newsEmptyText(status)}</Empty>
+      <app_empty.Empty icon={lucide.Newspaper} className="news app-empty--boxed">{newsEmptyText(status)}</app_empty.Empty>
     );
   }
 
   return (
     <div className="news">
-      {posts.slice(0, NEWS_SLOTS).map((p) => (
-        <button key={p.slug} className="news-item" onClick={() => events.open_url(p.url)}>
-          <Pic src={p.cover} className="news-cover"><Newspaper size={16}/></Pic>
+      {posts.slice(0, app_config.NEWS_SLOTS).map((p) => (
+        <button key={p.slug} className="news-item" onClick={() => app_events.open_url(p.url)}>
+          <app_pic.Pic src={p.cover} className="news-cover"><lucide.Newspaper size={16}/></app_pic.Pic>
           <span className="news-info">
             <span className="news-title">{p.title}</span>
             <span className="news-meta">{[p.tags[0] && `#${p.tags[0]}`, p.date].filter(Boolean).join('  ·  ')}</span>
           </span>
-          <ArrowUpRight className="news-go" size={14} strokeWidth={2.2}/>
+          <lucide.ArrowUpRight className="news-go" size={14} strokeWidth={2.2}/>
         </button>
       ))}
-      {Array.from({ length: Math.max(0, NEWS_SLOTS - posts.length) }, (_, i) => (
+      {Array.from({ length: Math.max(0, app_config.NEWS_SLOTS - posts.length) }, (_, i) => (
         <div key={`open-${i}`} className="news-item news-item--open">
-          <Newspaper size={16} strokeWidth={2}/>
+          <lucide.Newspaper size={16} strokeWidth={2}/>
           <span>No more news</span>
         </div>
       ))}

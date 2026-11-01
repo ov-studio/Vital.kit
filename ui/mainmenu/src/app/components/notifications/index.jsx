@@ -1,7 +1,7 @@
-import { Bell, Download, RotateCw, ExternalLink, TriangleAlert } from 'lucide-react';
-import { Button } from '@ui/button';
-import * as events from '../../events.js';
-import { usePopover } from '../../hooks.js';
+import * as lucide           from 'lucide-react';
+import * as shared_ui_button from '@ui/button';
+import * as app_events       from '../../events.js';
+import * as app_hooks        from '../../hooks.js';
 import './index.css';
 
 const mb = (n) => (n / 1048576).toFixed(1);
@@ -32,25 +32,25 @@ function UpdateItem({ u }) {
       {state === 'installing' && <div className="notif-item-meta">{u.message || 'Installing…'}</div>}
       {state === 'ready' && <div className="notif-item-meta is-ok">{u.message || 'Ready to install'}</div>}
       {state === 'error' && (
-        <div className="notif-item-meta is-err"><TriangleAlert size={12}/> {u.message || 'Update failed'}</div>
+        <div className="notif-item-meta is-err"><lucide.TriangleAlert size={12}/> {u.message || 'Update failed'}</div>
       )}
 
       <div className="notif-item-actions">
         {(state === 'idle' || state === 'error') && (
-          <Button variant="action" onClick={() => events.update_download(u.name)}>
-            <Download size={12}/> {state === 'error' ? 'Retry' : 'Download'}
-          </Button>
+          <shared_ui_button.Button variant="action" onClick={() => app_events.update_download(u.name)}>
+            <lucide.Download size={12}/> {state === 'error' ? 'Retry' : 'Download'}
+          </shared_ui_button.Button>
         )}
         {state === 'ready' && (
-          <Button variant="action" onClick={() => events.update_apply()}>
-            <RotateCw size={12}/> Restart &amp; Install
-          </Button>
+          <shared_ui_button.Button variant="action" onClick={() => app_events.update_apply()}>
+            <lucide.RotateCw size={12}/> Restart &amp; Install
+          </shared_ui_button.Button>
         )}
-        {busy && <Button variant="action" disabled>{state === 'installing' ? 'Installing…' : 'Downloading…'}</Button>}
+        {busy && <shared_ui_button.Button variant="action" disabled>{state === 'installing' ? 'Installing…' : 'Downloading…'}</shared_ui_button.Button>}
         {u.url && (
-          <Button variant="secondary" onClick={() => events.open_url(u.url)}>
-            Release notes <ExternalLink size={11}/>
-          </Button>
+          <shared_ui_button.Button variant="secondary" onClick={() => app_events.open_url(u.url)}>
+            Release notes <lucide.ExternalLink size={11}/>
+          </shared_ui_button.Button>
         )}
       </div>
     </li>
@@ -58,7 +58,7 @@ function UpdateItem({ u }) {
 }
 
 export function Notifications({ updates }) {
-  const { open, toggle, root } = usePopover();
+  const { open, toggle, root } = app_hooks.usePopover();
   const has = updates.length > 0;
 
   return (
@@ -69,7 +69,7 @@ export function Notifications({ updates }) {
         aria-label={has ? 'Notifications: updates available' : 'Notifications'}
         onClick={toggle}
       >
-        <Bell size={15} strokeWidth={2.2}/>
+        <lucide.Bell size={15} strokeWidth={2.2}/>
         {has && <span className="notif-badge">NEW</span>}
       </button>
 

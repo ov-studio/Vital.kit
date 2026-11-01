@@ -1,21 +1,21 @@
-import { Star } from 'lucide-react';
-import { Empty } from '../../empty/index.jsx';
-import { useMasterlist } from '../../../data/index.jsx';
-import { CardGrid }   from '../../cardgrid/index.jsx';
+import * as lucide       from 'lucide-react';
+import * as app_empty    from '../../empty/index.jsx';
+import * as app_data     from '../../../data/index.jsx';
+import * as app_cardgrid from '../../cardgrid/index.jsx';
 
 export function ViewFavs({ favs, onToggleFav }) {
-  const { servers } = useMasterlist();
+  const { servers } = app_data.useMasterlist();
   const favServers = servers.filter(s => favs.has(s.id));
 
   return (
     <div className="view">
       <section className="app-section">
         {favServers.length === 0 ? (
-          <Empty icon={Star} className="app-empty--fill">
+          <app_empty.Empty icon={lucide.Star} className="app-empty--fill">
             No favourites yet. Click the star icon on any game card to save it here. Favourites that are offline won't show until they're back.
-          </Empty>
+          </app_empty.Empty>
         ) : (
-          <CardGrid servers={favServers} favs={favs} onToggleFav={onToggleFav}/>
+          <app_cardgrid.CardGrid servers={favServers} favs={favs} onToggleFav={onToggleFav}/>
         )}
       </section>
     </div>

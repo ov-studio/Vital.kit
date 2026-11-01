@@ -1,20 +1,20 @@
-import { Wifi, WifiOff, LoaderCircle, Unplug, Ban, TriangleAlert, X } from 'lucide-react';
-import { Badge }      from '@ui/badge';
-import { Button }     from '@ui/button';
-import { IconButton } from '@ui/iconbutton';
-import * as events    from '../../events.js';
-import { useEventState } from '../../hooks.js';
+import * as lucide               from 'lucide-react';
+import * as shared_ui_badge      from '@ui/badge';
+import * as shared_ui_button     from '@ui/button';
+import * as shared_ui_iconbutton from '@ui/iconbutton';
+import * as app_events           from '../../events.js';
+import * as app_hooks            from '../../hooks.js';
 import './index.css';
 
 const STATUS = {
-  connecting: { icon: LoaderCircle, label: 'Connecting', action: 'Cancel',     spin: true },
-  connected:  { icon: Wifi,         label: 'Connected',  action: 'Disconnect', spin: false },
+  connecting: { icon: lucide.LoaderCircle, label: 'Connecting', action: 'Cancel',     spin: true },
+  connected:  { icon: lucide.Wifi,         label: 'Connected',  action: 'Disconnect', spin: false },
 };
 
 const NOTICE = {
-  kicked: { icon: Ban,           title: 'Kicked from server',     fallback: 'You were removed from the server.' },
-  lost:   { icon: WifiOff,       title: 'Connection lost',        fallback: 'The connection to the server was interrupted.' },
-  failed: { icon: TriangleAlert, title: 'Could not connect',      fallback: 'The server did not respond.' },
+  kicked: { icon: lucide.Ban,           title: 'Kicked from server',     fallback: 'You were removed from the server.' },
+  lost:   { icon: lucide.WifiOff,       title: 'Connection lost',        fallback: 'The connection to the server was interrupted.' },
+  failed: { icon: lucide.TriangleAlert, title: 'Could not connect',      fallback: 'The server did not respond.' },
 };
 
 function Status({ connection }) {
@@ -29,10 +29,10 @@ function Status({ connection }) {
         <span className="connbar-name">{connection.name || address}</span>
         {connection.name ? <span className="connbar-meta">{address}</span> : null}
       </div>
-      <Button variant="action" danger className="connbar-btn" onClick={events.disconnect}>
-        <Unplug size={13}/>
+      <shared_ui_button.Button variant="action" danger className="connbar-btn" onClick={app_events.disconnect}>
+        <lucide.Unplug size={13}/>
         {action}
-      </Button>
+      </shared_ui_button.Button>
     </section>
   );
 }
@@ -49,26 +49,26 @@ function Notice({ notice }) {
         <span className="connbar-name">{where || 'Server'}</span>
         <span className="connbar-meta">{notice.reason || fallback}</span>
       </div>
-      <IconButton
+      <shared_ui_iconbutton.IconButton
         className="connbar-close"
-        icon={X}
+        icon={lucide.X}
         iconProps={{ size: 14, strokeWidth: 2.5 }}
         title="Dismiss"
-        onClick={events.dismiss_notice}
+        onClick={app_events.dismiss_notice}
       />
     </section>
   );
 }
 
 export function ConnectionBar() {
-  const connection = useEventState('mainmenu:connection', events.get_connection);
-  const notice     = useEventState('mainmenu:notice', events.get_notice);
+  const connection = app_hooks.useEventState('mainmenu:connection', app_events.get_connection);
+  const notice     = app_hooks.useEventState('mainmenu:notice', app_events.get_notice);
   const active     = connection.state in STATUS;
   if (!active && !notice) return null;
 
   return (
     <section className="play-section connbars">
-      <Badge className="play-badge">Connection</Badge>
+      <shared_ui_badge.Badge className="play-badge">Connection</shared_ui_badge.Badge>
       <div className="connbar-list">
         {active ? <Status connection={connection}/> : null}
         {notice ? <Notice notice={notice}/> : null}

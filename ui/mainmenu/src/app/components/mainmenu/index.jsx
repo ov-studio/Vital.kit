@@ -1,23 +1,23 @@
-import { useState, useEffect } from 'react';
-import * as events        from '../../events.js';
-import { useMasterlistPolling } from '../../data/index.jsx';
-import { Hud }            from '../hud/index.jsx';
-import { Sidebar }        from '../sidebar/index.jsx';
-import { ViewPlay }       from '../views/play/index.jsx';
-import { ViewMasterlist } from '../views/masterlist/index.jsx';
-import { ViewFavs }       from '../views/favs/index.jsx';
-import { ViewSettings }   from '../views/settings/index.jsx';
+import * as react                from 'react';
+import * as app_events           from '../../events.js';
+import * as app_data             from '../../data/index.jsx';
+import * as app_hud              from '../hud/index.jsx';
+import * as app_sidebar          from '../sidebar/index.jsx';
+import * as app_views_play       from '../views/play/index.jsx';
+import * as app_views_masterlist from '../views/masterlist/index.jsx';
+import * as app_views_favs       from '../views/favs/index.jsx';
+import * as app_views_settings   from '../views/settings/index.jsx';
 import './index.css';
 
 const favs_from = (settings) => new Set(Array.isArray(settings?.favorites) ? settings.favorites.filter(id => typeof id === 'string' || typeof id === 'number') : []);
 
 export function MainMenu() {
-  const [activeView, setActiveView] = useState('play');
-  const [favs, setFavs]             = useState(() => favs_from(events.get_settings()));
+  const [activeView, setActiveView] = react.useState('play');
+  const [favs, setFavs]             = react.useState(() => favs_from(app_events.get_settings()));
 
-  useMasterlistPolling();
+  app_data.useMasterlistPolling();
 
-  useEffect(() => {
+  react.useEffect(() => {
     const on_loaded = (e) => setFavs(favs_from(e.detail));
     window.addEventListener('mainmenu:settings_loaded', on_loaded);
     return () => window.removeEventListener('mainmenu:settings_loaded', on_loaded);
@@ -27,20 +27,20 @@ export function MainMenu() {
     const next = new Set(favs);
     next.has(id) ? next.delete(id) : next.add(id);
     setFavs(next);
-    events.settings_update({ favorites: [...next] });
+    app_events.settings_update({ favorites: [...next] });
   };
 
   const views = {
-    play:       <ViewPlay visible={activeView === 'play'} favs={favs} onToggleFav={toggleFav}/>,
-    masterlist: <ViewMasterlist visible={activeView === 'masterlist'} favs={favs} onToggleFav={toggleFav}/>,
-    favs:       <ViewFavs favs={favs} onToggleFav={toggleFav}/>,
-    settings:   <ViewSettings/>,
+    play:       <app_views_play.ViewPlay visible={activeView === 'play'} favs={favs} onToggleFav={toggleFav}/>,
+    masterlist: <app_views_masterlist.ViewMasterlist visible={activeView === 'masterlist'} favs={favs} onToggleFav={toggleFav}/>,
+    favs:       <app_views_favs.ViewFavs favs={favs} onToggleFav={toggleFav}/>,
+    settings:   <app_views_settings.ViewSettings/>,
   };
 
   return (
     <>
-      <Sidebar active={activeView} onChange={setActiveView}/>
-      <Hud/>
+      <app_sidebar.Sidebar active={activeView} onChange={setActiveView}/>
+      <app_hud.Hud/>
       <main className="center-panel">
         {Object.entries(views).map(([id, el]) => (
           <div key={id} className="view-slot" hidden={activeView !== id}>{el}</div>

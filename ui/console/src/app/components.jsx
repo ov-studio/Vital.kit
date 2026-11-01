@@ -1,4 +1,4 @@
-import { Fragment }              from 'react';
+import * as react                from 'react';
 import * as app_util             from './util';
 import * as shared_ui_iconbutton from '../../../../shared/ui/iconbutton/index.jsx';
 
@@ -31,7 +31,7 @@ export const LogText = ({ text, color }) => {
   const lightened = color ? rgb_lighten(color, 0.4) : null;
   const code_style = app_util.color_style(lightened, { bg_alpha: 0.025, border_alpha: 0.3 });
   return segments.map((seg, i) => {
-    if (!seg.is_code) return <Fragment key={i}>{seg.text}</Fragment>;
+    if (!seg.is_code) return <react.Fragment key={i}>{seg.text}</react.Fragment>;
     const is_multiline = seg.text.includes('\n');
     return is_multiline
       ? <pre key={i} className="code-pill log-code-block" style={code_style}>{seg.text}</pre>
