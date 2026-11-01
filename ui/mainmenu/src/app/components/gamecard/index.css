@@ -163,18 +163,9 @@
 }
 
 .gcard--local { border-color: color-mix(in srgb, var(--blue) 45%, var(--rule12)); }
-.gc-local-badge {
+.gc-badge.ui-badge {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-family: var(--font-geist), sans-serif;
-  font-size: .6rem;
-  font-weight: 600;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--blue);
   background: color-mix(in srgb, var(--bg) 78%, transparent);
-  border: 1px solid color-mix(in srgb, var(--blue) 45%, transparent);
 }
