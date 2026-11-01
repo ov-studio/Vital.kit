@@ -34,17 +34,21 @@ button, a, label, input { cursor: pointer; }
 button *, a *, label *, .gcard * { cursor: inherit; }
 input[type="text"] { cursor: text; }
 
+.play-badge,
+.hero-badge.ui-badge,
+.gc-badge.ui-badge {
+  font-family: var(--font-geist), sans-serif;
+  font-size: .6rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
 .play-badge {
   align-self: flex-start;
   flex-shrink: 0;
   margin-bottom: 10px;
   padding: 3px 9px;
-  font-family: var(--font-geist), sans-serif;
-  font-size: .6rem;
   font-weight: 600;
   line-height: 1.2;
-  letter-spacing: .08em;
-  text-transform: uppercase;
 }
 
 .cgrid-wrap::-webkit-scrollbar,
