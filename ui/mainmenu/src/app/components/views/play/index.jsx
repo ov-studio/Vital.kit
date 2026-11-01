@@ -4,7 +4,6 @@ import { Badge } from '@ui/badge';
 import { Empty } from '../../empty/index.jsx';
 import { useMasterlist, emptyText } from '../../../data/index.jsx';
 import { ConnectionBar } from '../../connectionbar/index.jsx';
-import { LocalServers } from '../../localserver/index.jsx';
 import { News } from '../../news/index.jsx';
 import { Featured } from '../../featured/index.jsx';
 import { CardGrid, useFitCount } from '../../cardgrid/index.jsx';
@@ -38,8 +37,6 @@ export function ViewPlay({ visible, favs, onToggleFav }) {
           <News active={visible}/>
         </section>
       </div>
-
-      <LocalServers active={visible}/>
 
       <section className="play-section play-section--grow">
         <Badge className="play-badge">Trending</Badge>

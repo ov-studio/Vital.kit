@@ -48,12 +48,10 @@ input[type="text"] { cursor: text; }
 }
 
 .cgrid-wrap::-webkit-scrollbar,
-.ls-list::-webkit-scrollbar,
 .news::-webkit-scrollbar,
 .view-body::-webkit-scrollbar { width: 2px; }
 
 .cgrid-wrap::-webkit-scrollbar-thumb,
-.ls-list::-webkit-scrollbar-thumb,
 .news::-webkit-scrollbar-thumb,
 .view-body::-webkit-scrollbar-thumb { background: var(--rule); }
 
