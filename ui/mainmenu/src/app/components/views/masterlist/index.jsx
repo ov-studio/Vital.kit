@@ -20,11 +20,11 @@ export function ViewMasterlist({ visible, favs, onToggleFav }) {
 
   const results = useMemo(() => {
     const q = search.trim().toLowerCase();
-    return servers
+    const by_name = [...listed].sort((a, b) => a.name.localeCompare(b.name));
+    return [...local, ...by_name]
       .filter(s => matches_tag(s, activeTag))
-      .filter(s => !q || s.name.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q))
-      .sort((a, b) => (b.local === true) - (a.local === true) || a.name.localeCompare(b.name));
-  }, [search, activeTag, servers]);
+      .filter(s => !q || s.name.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q));
+  }, [search, activeTag, local, listed]);
 
   return (
     <div className="view">
