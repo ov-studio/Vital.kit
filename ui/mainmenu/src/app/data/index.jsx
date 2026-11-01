@@ -32,7 +32,7 @@ function normalize(row) {
     port: row.port,
     http_port: Number.isInteger(row.http_port) ? row.http_port : -1,
     version: text(row.version),
-    tags: Array.isArray(row.tags) ? [...new Set(row.tags.filter(t => typeof t === 'string').map(t => t.trim().toLowerCase()).filter(Boolean))].slice(0, 6) : [],
+    tags: tag_list(row.tags),
   };
 }
 
