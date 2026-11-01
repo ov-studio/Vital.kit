@@ -11,7 +11,7 @@ Built with Vite and React. The result is a single `build/index.html` loaded by G
 
 ## Local server
 
-If a Vital.server is running on your machine, the Browse view shows a "Local server" bar with a Connect button.
+If a Vital.server is running on your machine, the Masterlist view lists it first as a "Local · Preview" card (cover, logo, description, tags), so the owner can check how it will look before it is published. Connect and Leave work from the card.
 
 ## Usage
 
