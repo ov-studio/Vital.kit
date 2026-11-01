@@ -26,7 +26,7 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
       onCoverError={() => setBad(true)}
       coverPlaceholder={<div className="gc-art" />}
       topRight={server.local ? (
-        <span className="gc-local-badge"><Server size={11} strokeWidth={2.2}/>{here ? (busy ? 'Connecting' : 'Connected') : 'Local · Preview'}</span>
+        <span className="gc-local-badge"><Server size={11} strokeWidth={2.2}/>{here ? (busy ? 'Connecting' : 'Connected') : 'Localserver'}</span>
       ) : (
         <IconButton
           className={`gc-btn gc-fav${isFav ? ' on' : ''}`}
