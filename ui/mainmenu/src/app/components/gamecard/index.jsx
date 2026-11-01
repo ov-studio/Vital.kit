@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Star, Globe, Play, Ban, MessageCircle, Unplug, Server } from 'lucide-react';
+import { Badge }      from '@ui/badge';
 import { Button }     from '@ui/button';
 import { Card }       from '@ui/card';
 import { IconButton } from '@ui/iconbutton';
@@ -11,11 +12,12 @@ import './index.css';
 export function GameCard({ server, isFav, onToggleFav, style }) {
   const [bad, setBad] = useState(false);
   const connection = useEventState('mainmenu:connection', events.get_connection);
-  const loopback = (ip) => ip === '127.0.0.1' || ip === 'localhost';
-  const here = connection.state !== 'idle' && connection.port === server.port && (connection.ip === server.ip || (server.local && loopback(connection.ip)));
+  const here = connection.state !== 'idle' && connection.port === server.port && (connection.ip === server.ip || (server.local && events.is_loopback(connection.ip)));
   const busy = here && connection.state === 'connecting';
-  const connected = here && connection.state === 'connected';
-  const players = connected ? Math.max(1, server.players) : server.players;
+  const players = here && !busy ? Math.max(1, server.players) : server.players; // we are inside, so at least one
+  const action = here ? { icon: <Unplug size={11} strokeWidth={2.4}/>, label: busy ? 'Connecting…' : 'Leave' }
+               : server.full ? { icon: <Ban size={11} strokeWidth={2.4}/>, label: 'Full' }
+               : { icon: <Play size={10} strokeWidth={2.4} fill="currentColor"/>, label: server.local ? 'Connect' : 'Play' };
   useEffect(() => setBad(false), [server.banner]);
 
   return (
@@ -26,7 +28,7 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
       onCoverError={() => setBad(true)}
       coverPlaceholder={<div className="gc-art" />}
       topRight={server.local ? (
-        <span className="gc-local-badge"><Server size={11} strokeWidth={2.2}/>{here ? (busy ? 'Connecting' : 'Connected') : 'Localserver'}</span>
+        <Badge className="gc-badge"><Server size={11} strokeWidth={2.2}/>{here ? (busy ? 'Connecting' : 'Connected') : 'Localserver'}</Badge>
       ) : (
         <IconButton
           className={`gc-btn gc-fav${isFav ? ' on' : ''}`}
@@ -74,7 +76,7 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
               disabled={here ? busy : server.full}
               onClick={() => here ? events.disconnect() : events.connect(server.ip, server.port, server.http_port)}
             >
-              {here ? <><Unplug size={11} strokeWidth={2.4}/>{busy ? 'Connecting…' : 'Leave'}</> : server.full ? <><Ban size={11} strokeWidth={2.4}/>Full</> : <><Play size={10} strokeWidth={2.4} fill="currentColor"/>{server.local ? 'Connect' : 'Play'}</>}
+              {action.icon}{action.label}
             </Button>
           </div>
         </>
