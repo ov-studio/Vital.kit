@@ -1,24 +1,33 @@
 import { useState, useEffect } from 'react';
-import { Star, Globe, Play, Ban, MessageCircle } from 'lucide-react';
+import { Star, Globe, Play, Ban, MessageCircle, Unplug, Server } from 'lucide-react';
 import { Button }     from '@ui/button';
 import { Card }       from '@ui/card';
 import { IconButton } from '@ui/iconbutton';
 import { Pic }         from '../pic/index.jsx';
 import * as events     from '../../events.js';
+import { useEventState } from '../../hooks.js';
 import './index.css';
 
 export function GameCard({ server, isFav, onToggleFav, style }) {
   const [bad, setBad] = useState(false);
+  const connection = useEventState('mainmenu:connection', events.get_connection);
+  const here = server.local && connection.state !== 'idle' && connection.port === server.port;
+  const busy = here && connection.state === 'connecting';
+  const connected = here && connection.state === 'connected';
+  // The scan can lag; if we are inside, there is at least one player.
+  const players = connected ? Math.max(1, server.players) : server.players;
   useEffect(() => setBad(false), [server.banner]);
 
   return (
     <Card
-      className="gcard"
+      className={`gcard${server.local ? ' gcard--local' : ''}${here ? ' is-connected' : ''}`}
       style={style}
       cover={bad ? undefined : server.banner ?? undefined}
       onCoverError={() => setBad(true)}
       coverPlaceholder={<div className="gc-art" />}
-      topRight={
+      topRight={server.local ? (
+        <span className="gc-local-badge"><Server size={11} strokeWidth={2.2}/>{here ? (busy ? 'Connecting' : 'Connected') : 'Local · Preview'}</span>
+      ) : (
         <IconButton
           className={`gc-btn gc-fav${isFav ? ' on' : ''}`}
           icon={Star}
@@ -26,7 +35,7 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
           title="Favourite"
           onClick={() => onToggleFav(server.id)}
         />
-      }
+      )}
       title={
         <span className="gc-title-stack">
           <Pic src={server.logo} className="gc-logo">{server.name.charAt(0).toUpperCase()}</Pic>
@@ -37,7 +46,7 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
       footer={
         <>
           <span className="gc-stat">
-            <strong>{server.players}</strong>{server.max ? `/${server.max}` : ''}
+            <strong>{players}</strong>{server.max ? `/${server.max}` : ''}
           </span>
           <div className="gc-links">
             {server.discord && (
@@ -61,10 +70,11 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
             <Button
               variant="action"
               className="gjoin"
-              disabled={server.full}
-              onClick={() => events.connect(server.ip, server.port, server.http_port)}
+              danger={here}
+              disabled={here ? busy : server.full}
+              onClick={() => here ? events.disconnect() : events.connect(server.ip, server.port, server.http_port)}
             >
-              {server.full ? <><Ban size={11} strokeWidth={2.4}/>Full</> : <><Play size={10} strokeWidth={2.4} fill="currentColor"/>Play</>}
+              {here ? <><Unplug size={11} strokeWidth={2.4}/>{busy ? 'Connecting…' : 'Leave'}</> : server.full ? <><Ban size={11} strokeWidth={2.4}/>Full</> : <><Play size={10} strokeWidth={2.4} fill="currentColor"/>{server.local ? 'Connect' : 'Play'}</>}
             </Button>
           </div>
         </>
