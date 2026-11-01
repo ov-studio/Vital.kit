@@ -9,7 +9,8 @@
   transition: border-color .2s;
 }
 .gcard:hover,
-.gcard:focus-within { border-color: var(--blue); }
+.gcard:focus-within,
+.gcard.is-connected { border-color: var(--blue); }
 
 .gcard .ui-card-cover { background: var(--bg3); }
 .gcard .ui-card-cover img {
