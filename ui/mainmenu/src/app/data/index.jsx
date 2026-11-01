@@ -10,7 +10,6 @@ const image = v => (/^https:\/\//i.test(text(v)) ? text(v) : null);
 const count = v => (Number.isFinite(v) ? Math.max(0, v) : 0);
 const tag_list = v => (Array.isArray(v) ? [...new Set(v.filter(t => typeof t === 'string').map(t => t.trim().toLowerCase()).filter(Boolean))].slice(0, 6) : []);
 
-// One card shape for masterlist rows and local servers alike.
 function build(row, id, name, ip) {
   const players = count(row.players);
   const max     = count(row.max_players ?? row.max_peers);
