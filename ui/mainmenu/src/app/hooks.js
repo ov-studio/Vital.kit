@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import * as react from 'react';
 
 const is_faded = () => document.documentElement.classList.contains('is-faded');
 
 export function useEventState(event, get) {
-  const [value, setValue] = useState(get);
-  useEffect(() => {
+  const [value, setValue] = react.useState(get);
+  react.useEffect(() => {
     const on = (e) => setValue(e.detail ?? get());
     window.addEventListener(event, on);
     setValue(get());
@@ -14,7 +14,7 @@ export function useEventState(event, get) {
 }
 
 export function usePolling(fn, ms, active = true) {
-  useEffect(() => {
+  react.useEffect(() => {
     if (!active) return;
     const on_visible = (e) => { if (e.detail?.visible) fn(); };
     const timer = setInterval(() => { if (!is_faded()) fn(); }, ms);
@@ -28,11 +28,11 @@ export function usePolling(fn, ms, active = true) {
 }
 
 export function usePopover() {
-  const [open, setOpen] = useState(false);
-  const root = useRef(null);
-  const toggle = useCallback(() => setOpen((v) => !v), []);
+  const [open, setOpen] = react.useState(false);
+  const root = react.useRef(null);
+  const toggle = react.useCallback(() => setOpen((v) => !v), []);
 
-  useEffect(() => {
+  react.useEffect(() => {
     if (!open) return;
     const on_down = (e) => { if (root.current && !root.current.contains(e.target)) setOpen(false); };
     const on_key  = (e) => { if (e.key === 'Escape') setOpen(false); };
