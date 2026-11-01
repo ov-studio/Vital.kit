@@ -12,8 +12,7 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
   const [bad, setBad] = useState(false);
   const connection = useEventState('mainmenu:connection', events.get_connection);
   const loopback = (ip) => ip === '127.0.0.1' || ip === 'localhost';
-  const here = connection.state !== 'idle' && connection.port === server.port
-    && (connection.ip === server.ip || (server.local && loopback(connection.ip)));
+  const here = connection.state !== 'idle' && connection.port === server.port && (connection.ip === server.ip || (server.local && loopback(connection.ip)));
   const busy = here && connection.state === 'connecting';
   const connected = here && connection.state === 'connected';
   const players = connected ? Math.max(1, server.players) : server.players;
