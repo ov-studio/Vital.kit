@@ -1,4 +1,4 @@
-import { NEWS_URL, MASTERLIST_REFRESH } from './config.js';
+import * as app_config from './config.js';
 
 let settings      = null;
 let username      = null;
@@ -7,7 +7,7 @@ let bind          = null;
 let versions      = [];
 let updates       = [];
 let localservers  = [];
-let masterlist_ms = MASTERLIST_REFRESH;
+let masterlist_ms = app_config.MASTERLIST_REFRESH;
 let masterlist    = { status: 'loading', servers: [] };
 let news          = { status: 'loading', posts: [] };
 let connection    = { state: 'idle', ip: '', port: 0, name: '' };
@@ -161,7 +161,7 @@ export const update_apply = () => post({ action: 'update_apply' });
 export async function fetch_news() {
   post({ action: 'news' });
   try {
-    const res = await fetch(NEWS_URL, { cache: 'no-store' });
+    const res = await fetch(app_config.NEWS_URL, { cache: 'no-store' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
     set_news(Array.isArray(json?.posts) ? json.posts : null);
