@@ -26,11 +26,12 @@ function set_news(posts) {
   emit('mainmenu:news', news);
 }
 
+export const is_loopback = (ip) => ip === '127.0.0.1' || ip === 'localhost';
+
 function server_name(ip, port) {
   const listed = masterlist.servers.find(s => s?.ip === ip && s?.port === port);
   if (text(listed?.name)) return text(listed.name);
-  const loopback = ip === '127.0.0.1' || ip === 'localhost';
-  const local = loopback ? localservers.find(s => s?.port === port) : null;
+  const local = is_loopback(ip) ? localservers.find(s => s?.port === port) : null;
   return text(local?.name);
 }
 
