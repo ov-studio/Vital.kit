@@ -7,6 +7,10 @@ const text = v => (typeof v === 'string' ? v.trim() : '');
 const link = v => (/^https?:\/\//i.test(text(v)) ? text(v) : null);
 const image = v => (/^https:\/\//i.test(text(v)) ? text(v) : null);
 
+function tag_list(v) {
+  return Array.isArray(v) ? [...new Set(v.filter(t => typeof t === 'string').map(t => t.trim().toLowerCase()).filter(Boolean))].slice(0, 6) : [];
+}
+
 function normalize(row) {
   if (!row || typeof row !== 'object' || typeof row.id !== 'string') return null;
   const name = text(row.name);
