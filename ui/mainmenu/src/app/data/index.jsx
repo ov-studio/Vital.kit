@@ -36,6 +36,41 @@ function normalize(row) {
   };
 }
 
+function normalize_local(row) {
+  if (!row || typeof row !== 'object' || !Number.isInteger(row.port)) return null;
+  const name = text(row.name) || `Local server :${row.port}`;
+  const players = Number.isFinite(row.players) ? Math.max(0, row.players) : 0;
+  const max = Number.isFinite(row.max_players) ? Math.max(0, row.max_players)
+            : Number.isFinite(row.max_peers) ? Math.max(0, row.max_peers) : 0;
+  return {
+    id: `local:${row.port}`,
+    local: true,
+    name,
+    desc: text(row.description),
+    players,
+    max,
+    full: max > 0 && players >= max,
+    discord: link(row.discord),
+    site: link(row.website),
+    logo: image(row.logo),
+    banner: image(row.banner),
+    ip: config.LOCAL_HOST,
+    port: row.port,
+    http_port: Number.isInteger(row.http_port) ? row.http_port : -1,
+    version: text(row.version),
+    tags: tag_list(row.tags),
+  };
+}
+
+export function useLocalServers(active) {
+  const rows = useEventState('mainmenu:localservers', events.get_localservers);
+  usePolling(events.scan_local_servers, config.LOCAL_SCAN_INTERVAL, active);
+  return useMemo(
+    () => rows.map(normalize_local).filter(Boolean).sort((a, b) => a.port - b.port),
+    [rows]
+  );
+}
+
 export function useMasterlist() {
   const state = useEventState('mainmenu:masterlist', events.get_masterlist);
   const servers = useMemo(
