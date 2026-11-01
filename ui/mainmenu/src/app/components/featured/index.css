@@ -62,10 +62,6 @@ div.hero-img { filter: none; background: var(--bg3); }
 }
 .hero-badge.ui-badge {
   margin-bottom: 12px;
-  font-family: var(--font-geist), sans-serif;
-  font-size: .6rem;
-  letter-spacing: .08em;
-  text-transform: uppercase;
 }
 
 .hero-title {
