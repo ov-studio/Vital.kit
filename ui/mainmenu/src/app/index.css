@@ -3,8 +3,17 @@
   --font-rajdhani: 'Rajdhani';
   --font-display: var(--font-rajdhani);
   --hud: calc(var(--nav-h) * 1.2);
-  --mm-chrome: var(--bg6);
-  --mm-panel: linear-gradient(var(--b30), var(--b30)), var(--bg12);
+  --mm-chrome:       var(--bg4);
+  --mm-panel:        var(--b20);
+  --mm-section:      linear-gradient(var(--b05), var(--b05)), var(--bg8);
+  --mm-item:         linear-gradient(var(--b07), var(--b07)), var(--bg10);
+  --mm-item-hover:   linear-gradient(var(--b15), var(--b15)), var(--bg10);
+  --mm-item-on:      linear-gradient(var(--b20), var(--b20)), var(--bg10);
+  --mm-line:         var(--b20);
+  --mm-line-soft:    var(--b10);
+  --mm-line-strong:  var(--b40);
+  --mm-glow:         0 0 18px -6px var(--brand-neon-glow);
+  --mm-scan:         repeating-linear-gradient(to bottom, hsla(220, 95%, 76%, .022) 0 1px, transparent 1px 3px);
 }
 
 html, body {
