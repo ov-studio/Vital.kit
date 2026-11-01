@@ -32,7 +32,7 @@ export function MainMenu() {
 
   const views = {
     play:       <ViewPlay visible={activeView === 'play'} favs={favs} onToggleFav={toggleFav}/>,
-    masterlist: <ViewMasterlist favs={favs} onToggleFav={toggleFav}/>,
+    masterlist: <ViewMasterlist visible={activeView === 'masterlist'} favs={favs} onToggleFav={toggleFav}/>,
     favs:       <ViewFavs favs={favs} onToggleFav={toggleFav}/>,
     settings:   <ViewSettings/>,
   };
