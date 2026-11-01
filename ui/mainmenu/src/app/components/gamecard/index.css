@@ -167,5 +167,4 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  background: color-mix(in srgb, var(--bg) 78%, transparent);
 }
