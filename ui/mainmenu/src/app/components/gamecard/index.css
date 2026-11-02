@@ -141,7 +141,6 @@
   width: 24px;
   height: 24px;
   flex-shrink: 0;
-  border: 1px solid var(--mm-line-soft);
   border-radius: 50%;
   color: var(--dim);
   background: var(--rule);
