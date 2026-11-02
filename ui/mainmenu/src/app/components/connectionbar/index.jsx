@@ -7,8 +7,8 @@ import * as app_hooks            from '../../hooks.js';
 import './index.css';
 
 const STATUS = {
-  connecting: { icon: lucide.LoaderCircle, label: 'Connecting', action: 'Cancel',     spin: true },
-  connected:  { icon: lucide.Wifi,         label: 'Connected',  action: 'Disconnect', spin: false },
+  connecting: { icon: lucide.LoaderCircle, action: 'Cancel',     spin: true },
+  connected:  { icon: lucide.Wifi,         action: 'Disconnect', spin: false },
 };
 
 const NOTICE = {
@@ -18,14 +18,13 @@ const NOTICE = {
 };
 
 function Status({ connection }) {
-  const { icon: Icon, label, action, spin } = STATUS[connection.state];
+  const { icon: Icon, action, spin } = STATUS[connection.state];
   const address = `${connection.ip}:${connection.port}`;
 
   return (
     <section className={`connbar is-${connection.state}`} aria-live="polite">
       <div className="connbar-icon"><Icon size={20} strokeWidth={2} className={spin ? 'connbar-spin' : undefined}/></div>
       <div className="connbar-info">
-        <span className="connbar-status">{label}</span>
         <span className="connbar-name">{connection.name || address}</span>
         {connection.name ? <span className="connbar-meta">{address}</span> : null}
       </div>
