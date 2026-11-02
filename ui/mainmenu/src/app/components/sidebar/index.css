@@ -15,26 +15,27 @@
   position: relative;
   width: 50px;
   height: 50px;
-  border-radius: 6px;
+  border: 1px solid transparent;
+  border-radius: 4px;
   color: var(--dark);
-  transition: background .15s, color .15s;
+  transition: background .15s, color .15s, border-color .15s, box-shadow .15s;
 }
-.nav-btn:hover { background: var(--w06); color: var(--white); }
-.nav-btn.on { background: var(--selection-bg); color: var(--white); }
+.nav-btn:hover { background: var(--b07); border-color: var(--mm-line-soft); color: var(--white); }
+.nav-btn.on { background: var(--selection-bg); border-color: transparent; color: var(--white); }
 
 .nav-btn::before {
   content: '';
   position: absolute;
   left: -14px;
   top: 50%;
-  width: 4px;
+  width: 3px;
   height: 0;
   transform: translateY(-50%);
   background: var(--selection-bg);
   border-radius: 12px;
   transition: height .15s;
 }
-.nav-btn.on::before { height: 14px; }
+.nav-btn.on::before { height: 22px; }
 
 .nav-btn::after {
   content: attr(aria-label);
@@ -48,7 +49,8 @@
   font-weight: 600;
   white-space: nowrap;
   color: var(--white);
-  background: var(--bg7);
+  background: var(--bg8);
+  border: 1px solid var(--mm-line);
   border-radius: 4px;
   opacity: 0;
   pointer-events: none;

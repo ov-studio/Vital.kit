@@ -62,11 +62,12 @@
 .hud-links .ui-btn {
   font-size: 0.86rem;
   color: var(--text-soft);
-  background: var(--w04);
+  background: var(--b05);
+  transition: color .15s, background .15s;
 }
 .hud .hud-links .ui-btn:hover {
   color: var(--white);
-  background: var(--w08);
+  background: var(--b15);
 }
 .hud .ui-btn svg { opacity: .55; }
 .hud .ui-btn:hover svg { opacity: 1; }
@@ -106,10 +107,9 @@
   right: 0;
   z-index: 11;
   padding: 8px;
-  background: linear-gradient(var(--b18), var(--b18)), var(--bg8);
+  background: linear-gradient(var(--b10), var(--b10)), var(--bg11);
   border-radius: 4px;
-  box-shadow: 0 0px 8px var(--k45);
-  background: linear-gradient(var(--b18), var(--b18)), var(--bg12);
+  box-shadow: 0 0 8px var(--k45);
   transform-origin: top right;
   opacity: 0;
   animation: mm-menu-in .22s cubic-bezier(.22, 1, .36, 1) forwards;
@@ -120,7 +120,7 @@
 .notif-meta {
   padding: 8px 10px 12px;
   margin-bottom: 6px;
-  border-bottom: 1px solid var(--b10);
+  border-bottom: 1px solid var(--b20);
 }
 .about-heading,
 .notif-heading { font-size: .85rem; font-weight: 600; color: var(--blue); }

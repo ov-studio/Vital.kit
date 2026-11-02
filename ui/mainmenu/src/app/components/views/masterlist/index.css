@@ -4,10 +4,16 @@
 .mlist-filters .ui-filter .ui-filter-btn,
 .mlist-filters .ui-filter .ui-filter-btn.active,
 .mlist-filters .ui-search input {
-  background: linear-gradient(var(--b10), var(--b10)), var(--bg6);
+  background: var(--mm-item);
+  border: 1px solid var(--mm-line-soft);
+}
+.mlist-filters .ui-filter .ui-filter-btn.active,
+.mlist-filters .ui-search input:focus {
+  background: var(--mm-item-on);
+  border-color: var(--mm-line-strong);
 }
 
-.ui-divider { border-width: 2px; }
+.ui-divider { border-width: 1px; border-color: var(--mm-line); }
 
 
 /* ── @media ── */

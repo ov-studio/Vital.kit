@@ -10,7 +10,7 @@
   flex-shrink: 0;
   padding: 10px 12px;
   border-radius: 4px;
-  background: var(--w04);
+  background: var(--mm-item);
   animation: fadeUp .25s ease;
 }
 .connbar::before {
@@ -18,9 +18,9 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  padding: 2px;
+  padding: 1px;
   border-radius: 4px;
-  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 50%, transparent), color-mix(in srgb, var(--accent) 50%, transparent) 40%, transparent 70%);
+  background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 50%, transparent) 40%, transparent 75%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -40,7 +40,7 @@
   flex-shrink: 0;
   border-radius: 4px;
   color: var(--accent);
-  background: var(--bg3);
+  background: var(--bg6);
 }
 .connbar-spin { animation: connbarSpin 1s linear infinite; }
 
@@ -75,12 +75,9 @@
   text-overflow: ellipsis;
 }
 
-.connbar.is-connected .connbar-icon { background: var(--b15); }
 .connbar.is-connecting { --accent: var(--amber); }
-.connbar.is-connecting .connbar-icon { background: color-mix(in srgb, var(--amber) 15%, var(--bg3)); }
 
 .connbar--alert { --accent: var(--red-100); }
-.connbar--alert .connbar-icon { background: var(--r25); }
 .connbar--alert .connbar-meta { color: var(--red-light); }
 .connbar-close { flex-shrink: 0; color: var(--red-soft); opacity: .7; transition: opacity .15s ease; }
 .connbar-close:hover { opacity: 1; }

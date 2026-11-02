@@ -1,16 +1,16 @@
 .gcard {
   aspect-ratio: var(--card-ratio);
-  background: var(--bg3);
-  border: 2px solid var(--rule12);
-  border-radius: 6px;
+  background: var(--bg4);
+  border: 1px solid var(--mm-line);
+  border-radius: 4px;
   cursor: pointer;
   opacity: 0;
   animation: fadeUp .3s ease forwards;
-  transition: border-color .2s;
+  transition: border-color .2s, box-shadow .2s;
 }
 .gcard:hover,
 .gcard:focus-within,
-.gcard.is-connected { border-color: var(--blue); }
+.gcard.is-connected { border-color: var(--blue); box-shadow: var(--mm-glow); }
 
 .gcard .ui-card-cover { background: var(--bg3); }
 .gcard .ui-card-cover img {
@@ -131,9 +131,10 @@
   width: 24px;
   height: 24px;
   flex-shrink: 0;
+  border: 1px solid var(--mm-line-soft);
   border-radius: 50%;
   color: var(--dim);
-  background: var(--rule7);
+  background: color-mix(in srgb, var(--bg) 60%, transparent);
   transition: color .14s, background .14s, border-color .14s;
 }
 .gc-btn:hover { color: var(--white); }
@@ -143,7 +144,7 @@
 .gc-fav:not(.on):hover { color: var(--brand-neon-mid); }
 .gc-fav.on { color: var(--brand-neon-mid); }
 
-.gc-art { width: 100%; height: 100%; background: var(--selection-bg); }
+.gc-art { width: 100%; height: 100%; background: linear-gradient(135deg, var(--b20), var(--b05)), var(--bg6); }
 
 .gc-logo {
   width: 28px;
