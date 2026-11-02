@@ -97,14 +97,14 @@ input[type="text"] { cursor: text; }
   z-index: 2;
   pointer-events: none;
   background:
-    linear-gradient(var(--blue), var(--blue)) 0 0       / var(--bk) 1px no-repeat,
-    linear-gradient(var(--blue), var(--blue)) 0 0       / 1px var(--bk) no-repeat,
-    linear-gradient(var(--blue), var(--blue)) 100% 0    / var(--bk) 1px no-repeat,
-    linear-gradient(var(--blue), var(--blue)) 100% 0    / 1px var(--bk) no-repeat,
-    linear-gradient(var(--blue), var(--blue)) 0 100%    / var(--bk) 1px no-repeat,
-    linear-gradient(var(--blue), var(--blue)) 0 100%    / 1px var(--bk) no-repeat,
-    linear-gradient(var(--blue), var(--blue)) 100% 100% / var(--bk) 1px no-repeat,
-    linear-gradient(var(--blue), var(--blue)) 100% 100% / 1px var(--bk) no-repeat;
+    linear-gradient(var(--blue), var(--blue)) 0 0       / var(--bk) 2px no-repeat,
+    linear-gradient(var(--blue), var(--blue)) 0 0       / 2px var(--bk) no-repeat,
+    linear-gradient(var(--blue), var(--blue)) 100% 0    / var(--bk) 2px no-repeat,
+    linear-gradient(var(--blue), var(--blue)) 100% 0    / 2px var(--bk) no-repeat,
+    linear-gradient(var(--blue), var(--blue)) 0 100%    / var(--bk) 2px no-repeat,
+    linear-gradient(var(--blue), var(--blue)) 0 100%    / 2px var(--bk) no-repeat,
+    linear-gradient(var(--blue), var(--blue)) 100% 100% / var(--bk) 2px no-repeat,
+    linear-gradient(var(--blue), var(--blue)) 100% 100% / 2px var(--bk) no-repeat;
 }
 .center-panel::after { --bk: 22px; opacity: .85; }
 .play-section::before,
