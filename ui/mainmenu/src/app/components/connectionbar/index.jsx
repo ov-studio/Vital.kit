@@ -7,7 +7,7 @@ import * as app_hooks            from '../../hooks.js';
 import './index.css';
 
 const STATUS = {
-  connecting: { icon: lucide.LoaderCircle, action: 'Cancel',     spin: true },
+  connecting: { icon: lucide.LoaderCircle, action: 'Connecting…', spin: true },
   connected:  { icon: lucide.Wifi,         action: 'Disconnect', spin: false },
 };
 
