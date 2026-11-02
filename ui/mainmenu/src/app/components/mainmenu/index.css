@@ -13,6 +13,7 @@
     radial-gradient(ellipse 90% 60% at 8% -15%, var(--b15), transparent 55%),
     radial-gradient(ellipse 50% 40% at 100% 100%, var(--b10), transparent 50%),
     var(--mm-panel);
+  background-origin: border-box;
 }
 
 .view-slot { display: contents; }
