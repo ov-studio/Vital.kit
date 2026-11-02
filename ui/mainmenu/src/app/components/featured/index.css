@@ -176,9 +176,9 @@ div.hero-img { filter: none; background: var(--bg3); }
   font-family: var(--font-geist), sans-serif;
   font-size: .78rem;
   font-weight: 500;
-  color: var(--text-muted);
+  color: color-mix(in srgb, var(--text-desc) 50%, transparent);
 }
-.feat-item--open svg { flex-shrink: 0; opacity: .7; }
+.feat-item--open svg { flex-shrink: 0; }
 .feat-thumb {
   width: 46px;
   height: 46px;

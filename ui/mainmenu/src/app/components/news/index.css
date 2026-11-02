@@ -33,9 +33,9 @@
   font-family: var(--font-geist), sans-serif;
   font-size: .78rem;
   font-weight: 500;
-  color: var(--text-muted);
+  color: color-mix(in srgb, var(--text-desc) 50%, transparent);
 }
-.news-item--open svg { flex-shrink: 0; opacity: .7; }
+.news-item--open svg { flex-shrink: 0; }
 
 .news-cover {
   display: flex;

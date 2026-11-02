@@ -122,11 +122,12 @@ input[type="text"] { cursor: text; }
   font-family: var(--font-geist), sans-serif;
   font-size: .82rem;
   font-weight: 500;
-  color: var(--text-muted);
+  color: var(--text-desc);
+  opacity: .5;
 }
-.app-empty svg { flex-shrink: 0; opacity: .7; }
+.app-empty svg { flex-shrink: 0; }
 .app-empty--fill  { flex: 1; height: 100%; min-height: 120px; }
-.app-empty--boxed { border: 1px solid var(--mm-line-soft); background: var(--mm-item); }
+.app-empty--boxed { border: 1px solid var(--mm-line-soft); background: var(--b05); }
 
 
 /* ── @keyframes ── */
