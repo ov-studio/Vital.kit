@@ -18,7 +18,7 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  padding: 1px;
+  padding: 2px;
   border-radius: 4px;
   background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 50%, transparent) 40%, transparent 75%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
