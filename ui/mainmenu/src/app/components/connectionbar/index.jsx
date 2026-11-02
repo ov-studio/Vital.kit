@@ -2,6 +2,8 @@ import * as lucide               from 'lucide-react';
 import * as shared_ui_badge      from '@ui/badge';
 import * as shared_ui_button     from '@ui/button';
 import * as shared_ui_iconbutton from '@ui/iconbutton';
+import * as app_pic              from '../pic/index.jsx';
+import * as app_data             from '../../data/index.jsx';
 import * as app_events           from '../../events.js';
 import * as app_hooks            from '../../hooks.js';
 import './index.css';
@@ -20,10 +22,15 @@ const NOTICE = {
 function Status({ connection }) {
   const { icon: Icon, action, spin } = STATUS[connection.state];
   const address = `${connection.ip}:${connection.port}`;
+  const server  = app_data.useConnectedServer(connection);
 
   return (
     <section className={`connbar is-${connection.state}`} aria-live="polite">
-      <div className="connbar-icon"><Icon size={20} strokeWidth={2} className={spin ? 'connbar-spin' : undefined}/></div>
+      <div className="connbar-icon">
+        <app_pic.Pic src={server?.logo} className="connbar-logo">
+          <Icon size={20} strokeWidth={2} className={spin ? 'connbar-spin' : undefined}/>
+        </app_pic.Pic>
+      </div>
       <div className="connbar-info">
         <span className="connbar-name">{connection.name || address}</span>
         {connection.name ? <span className="connbar-meta">{address}</span> : null}

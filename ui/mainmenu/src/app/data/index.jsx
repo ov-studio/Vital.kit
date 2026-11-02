@@ -44,6 +44,10 @@ function normalize_local(row) {
   return { ...build(row, `local:${row.port}`, text(row.name) || `Local server :${row.port}`, app_config.LOCAL_HOST), local: true };
 }
 
+export const is_connected_to = (connection, server) => connection.state !== 'idle'
+  && connection.port === server.port
+  && (connection.ip === server.ip || (server.local && app_events.is_loopback(connection.ip)));
+
 export function useLocalServers(active) {
   const rows = app_hooks.useEventState('mainmenu:localservers', app_events.get_localservers);
   app_hooks.usePolling(app_events.scan_local_servers, app_config.LOCAL_SCAN_INTERVAL, active);
@@ -60,6 +64,12 @@ export function useMasterlist() {
     [state.servers]
   );
   return { status: state.status, servers };
+}
+
+export function useConnectedServer(connection) {
+  const { servers } = useMasterlist();
+  const local = useLocalServers(false);
+  return react.useMemo(() => [...local, ...servers].find(s => is_connected_to(connection, s)), [local, servers, connection]);
 }
 
 export function useMasterlistPolling() {

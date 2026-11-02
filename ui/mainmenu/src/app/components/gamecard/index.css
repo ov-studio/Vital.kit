@@ -1,16 +1,30 @@
 .gcard {
   aspect-ratio: var(--card-ratio);
   background: var(--bg4);
-  border: 1px solid var(--mm-line);
   border-radius: 4px;
   cursor: pointer;
   opacity: 0;
   animation: fadeUp .3s ease forwards;
-  transition: border-color .2s, box-shadow .2s;
+  transition: box-shadow .2s;
 }
 .gcard:hover,
 .gcard:focus-within,
-.gcard.is-connected { border-color: var(--blue); box-shadow: var(--mm-glow); }
+.gcard.is-connected { box-shadow: var(--mm-glow); }
+
+.gcard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  border: 1px solid color-mix(in srgb, var(--blue) 20%, var(--bg4));
+  border-radius: inherit;
+  pointer-events: none;
+  transition: border-color .2s;
+}
+.gcard--local::after { border-color: color-mix(in srgb, var(--blue) 45%, var(--bg4)); }
+.gcard:hover::after,
+.gcard:focus-within::after,
+.gcard.is-connected::after { border-color: var(--blue); }
 
 .gcard .ui-card-cover { background: var(--bg3); }
 .gcard .ui-card-cover img {
@@ -26,7 +40,7 @@
   background: linear-gradient(to bottom,
     transparent 34%,
     color-mix(in srgb, var(--bg) 55%, transparent) 62%,
-    color-mix(in srgb, var(--bg) 96%, transparent) 100%);
+    var(--bg) 100%);
 }
 
 .gcard .ui-card-top { padding: 10px; }
@@ -163,7 +177,6 @@
   border: 1px solid var(--b10);
 }
 
-.gcard--local { border-color: color-mix(in srgb, var(--blue) 45%, var(--rule12)); }
 .gc-badge.ui-badge {
   display: inline-flex;
   align-items: center;

@@ -38,9 +38,18 @@
   width: 46px;
   height: 46px;
   flex-shrink: 0;
+  overflow: hidden;
   border-radius: 4px;
   color: var(--accent);
   background: var(--bg6);
+}
+.connbar-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .connbar-spin { animation: connbarSpin 1s linear infinite; }
 
