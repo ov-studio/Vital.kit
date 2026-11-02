@@ -77,7 +77,7 @@ input[type="text"] { cursor: text; }
   flex-direction: column;
   min-width: 0;
   padding: 14px 14px 16px;
-  border: 1px solid var(--mm-line-soft);
+  border: 2px solid var(--mm-line-soft);
   border-radius: 4px;
   background: var(--mm-section);
 }
