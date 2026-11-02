@@ -12,7 +12,7 @@
   position: absolute;
   inset: 0;
   z-index: 6;
-  border: 1px solid color-mix(in srgb, var(--blue) 20%, var(--bg4));
+  border: 2px solid color-mix(in srgb, var(--blue) 20%, var(--bg4));
   border-radius: inherit;
   pointer-events: none;
   transition: border-color .2s;
