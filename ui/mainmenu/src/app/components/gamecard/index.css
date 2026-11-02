@@ -144,7 +144,7 @@
   border: 1px solid var(--mm-line-soft);
   border-radius: 50%;
   color: var(--dim);
-  background: color-mix(in srgb, var(--bg) 60%, transparent);
+  background: var(--rule);
   transition: color .14s, background .14s, border-color .14s;
 }
 .gc-btn:hover { color: var(--white); }
