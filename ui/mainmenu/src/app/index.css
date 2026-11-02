@@ -93,7 +93,7 @@ input[type="text"] { cursor: text; }
 .app-section::before {
   content: '';
   position: absolute;
-  inset: -1px;
+  inset: -2px;
   z-index: 2;
   pointer-events: none;
   background:
