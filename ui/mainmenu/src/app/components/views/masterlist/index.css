@@ -5,7 +5,7 @@
 .mlist-filters .ui-filter .ui-filter-btn.active,
 .mlist-filters .ui-search input {
   background: var(--mm-item);
-  border: 1px solid var(--mm-line-soft);
+  border: 2px solid var(--mm-line-soft);
 }
 .mlist-filters .ui-filter .ui-filter-btn.active,
 .mlist-filters .ui-search input:focus {
