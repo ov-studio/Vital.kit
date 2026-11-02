@@ -27,7 +27,7 @@ function Status({ connection }) {
   return (
     <section className={`connbar is-${connection.state}`} aria-live="polite">
       <div className="connbar-icon">
-        <app_pic.Pic src={server?.logo} className="connbar-logo">
+        <app_pic.Pic src={spin ? null : server?.logo} className="connbar-logo">
           <Icon size={20} strokeWidth={2} className={spin ? 'connbar-spin' : undefined}/>
         </app_pic.Pic>
       </div>
