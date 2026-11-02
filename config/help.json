@@ -8,7 +8,7 @@
     "server": {
         "info":        { "syntax": "",                   "desc": "Displays server info and current stats" },
         "players":     { "syntax": "",                   "desc": "Lists all connected players" },
-        "kick":        { "syntax": "<peer_id> [reason]", "desc": "Kicks the specified connected player, the optional reason is shown to them" },
+        "kick":        { "syntax": "<peer_id> [reason]", "desc": "Kicks the specified player, with an optional reason" },
         "refresh":     { "syntax": "",                   "desc": "Rescans and reloads all resources" },
         "start":       { "syntax": "<resource_name>",    "desc": "Starts the specified loaded resource" },
         "stop":        { "syntax": "<resource_name>",    "desc": "Stops the specified running resource" },
@@ -16,7 +16,7 @@
         "start_all":   { "syntax": "",                   "desc": "Starts all loaded resources" },
         "stop_all":    { "syntax": "",                   "desc": "Stops all running resources" },
         "restart_all": { "syntax": "",                   "desc": "Restarts all running resources" },
-        "update":      { "syntax": "",                   "desc": "Installs the latest Vital.sandbox release and restarts the server" },
+        "update":      { "syntax": "",                   "desc": "Updates to the latest version and restarts the server" },
         "shutdown":    { "syntax": "",                   "desc": "Gracefully shuts down the server" }
     },
     
