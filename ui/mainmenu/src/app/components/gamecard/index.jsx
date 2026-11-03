@@ -1,5 +1,6 @@
 import * as react                from 'react';
 import * as lucide               from 'lucide-react';
+import * as fa                   from 'react-icons/fa6';
 import * as shared_ui_badge      from '@ui/badge';
 import * as shared_ui_button     from '@ui/button';
 import * as shared_ui_card       from '@ui/card';
@@ -56,8 +57,8 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
               {server.discord && (
                 <shared_ui_iconbutton.IconButton
                   className="gc-btn"
-                  icon={lucide.MessageCircle}
-                  iconProps={{ size: 12, strokeWidth: 1.6 }}
+                  icon={fa.FaDiscord}
+                  iconProps={{ size: 13 }}
                   title="Discord"
                   onClick={() => app_events.open_url(server.discord)}
                 />
@@ -65,8 +66,8 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
               {server.site && (
                 <shared_ui_iconbutton.IconButton
                   className="gc-btn"
-                  icon={lucide.Globe}
-                  iconProps={{ size: 12, strokeWidth: 1.6 }}
+                  icon={fa.FaGlobe}
+                  iconProps={{ size: 12 }}
                   title="Site"
                   onClick={() => app_events.open_url(server.site)}
                 />

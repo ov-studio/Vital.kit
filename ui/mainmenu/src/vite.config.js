@@ -8,8 +8,8 @@ import { fileURLToPath }      from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // shared/ui sits outside this project, so bare imports made from inside it
-// (react, lucide-react) would never reach our node_modules. Pin them here.
-const shared_deps = ['react', 'react-dom', 'lucide-react'];
+// (react, lucide-react, react-icons) would never reach our node_modules. Pin them here.
+const shared_deps = ['react', 'react-dom', 'lucide-react', 'react-icons'];
 
 export default vite.defineConfig({
   plugins: [
