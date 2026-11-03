@@ -86,14 +86,26 @@
   color: var(--white);
   background: color-mix(in srgb, var(--blue) 42%, transparent);
 }
+.hud .ui-icon-btn.hud-min {
+  color: var(--white);
+  background: color-mix(in srgb, var(--blue) 42%, transparent);
+  transition: color .15s, background .15s, opacity .15s;
+}
+.hud .ui-icon-btn.hud-min:hover,
+.hud .ui-icon-btn.hud-min.is-open {
+  color: var(--white);
+  background: color-mix(in srgb, var(--blue) 42%, transparent);
+  opacity: .75;
+}
 .hud .ui-icon-btn.hud-exit {
-  color: var(--red-light, var(--red, #e5484d));
-  background: color-mix(in srgb, var(--red, #e5484d) 20%, transparent);
-  transition: color .15s, background .15s, transform .15s;
+  color: var(--white);
+  background: color-mix(in srgb, var(--red, #e5484d) 50%, transparent);
+  transition: color .15s, background .15s, opacity .15s, transform .15s;
 }
 .hud .ui-icon-btn.hud-exit:hover {
   color: var(--white);
   background: color-mix(in srgb, var(--red, #e5484d) 50%, transparent);
+  opacity: .75;
 }
 .hud .ui-icon-btn.hud-exit:active { transform: scale(.94); }
 
