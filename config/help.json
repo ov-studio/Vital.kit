@@ -2,7 +2,8 @@
     "shared": {
         "help":    { "syntax": "", "desc": "Shows this list of available commands" },
         "version": { "syntax": "", "desc": "Displays the current build version" },
-        "clear":   { "syntax": "", "desc": "Clears the console output" }
+        "clear":   { "syntax": "", "desc": "Clears the console output" },
+        "update":  { "syntax": "", "desc": "Updates to the latest build version and restarts" }
     },
     
     "server": {
@@ -16,7 +17,6 @@
         "start_all":   { "syntax": "",                   "desc": "Starts all loaded resources" },
         "stop_all":    { "syntax": "",                   "desc": "Stops all running resources" },
         "restart_all": { "syntax": "",                   "desc": "Restarts all running resources" },
-        "update":      { "syntax": "",                   "desc": "Updates to the latest version and restarts the server" },
         "shutdown":    { "syntax": "",                   "desc": "Gracefully shuts down the server" }
     },
     
