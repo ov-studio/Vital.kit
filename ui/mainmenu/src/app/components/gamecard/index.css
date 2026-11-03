@@ -110,7 +110,6 @@
 
 .gc-links {
   display: flex;
-  gap: 5px;
   margin-left: auto;
   flex-shrink: 0;
   max-width: 0;
@@ -120,6 +119,16 @@
 }
 .gcard:hover .gc-links,
 .gcard:focus-within .gc-links { max-width: 160px; opacity: 1; }
+.gc-social {
+  display: flex;
+  gap: 5px;
+  margin-right: 5px;
+  max-width: 160px;
+  overflow: hidden;
+  transition: max-width .25s ease, margin .25s ease, opacity .2s ease;
+}
+.gc-social:empty { display: none; }
+.gcard.is-busy .gc-social { max-width: 0; margin-right: 0; opacity: 0; pointer-events: none; }
 .ui-btn.gjoin { gap: 5px; font-size: .72rem; font-weight: 700; }
 .gcard .ui-btn.gjoin {
   opacity: 1;

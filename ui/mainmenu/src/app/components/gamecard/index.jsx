@@ -23,7 +23,7 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
 
   return (
     <shared_ui_card.Card
-      className={`gcard${server.local ? ' gcard--local' : ''}${here ? ' is-connected' : ''}`}
+      className={`gcard${server.local ? ' gcard--local' : ''}${here ? ' is-connected' : ''}${busy ? ' is-busy' : ''}`}
       style={style}
       cover={bad ? undefined : server.banner ?? undefined}
       onCoverError={() => setBad(true)}
@@ -52,24 +52,26 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
             <strong>{players}</strong>{server.max ? `/${server.max}` : ''}
           </span>
           <div className="gc-links">
-            {server.discord && (
-              <shared_ui_iconbutton.IconButton
-                className="gc-btn"
-                icon={lucide.MessageCircle}
-                iconProps={{ size: 12, strokeWidth: 1.6 }}
-                title="Discord"
-                onClick={() => app_events.open_url(server.discord)}
-              />
-            )}
-            {server.site && (
-              <shared_ui_iconbutton.IconButton
-                className="gc-btn"
-                icon={lucide.Globe}
-                iconProps={{ size: 12, strokeWidth: 1.6 }}
-                title="Site"
-                onClick={() => app_events.open_url(server.site)}
-              />
-            )}
+            <span className="gc-social">
+              {server.discord && (
+                <shared_ui_iconbutton.IconButton
+                  className="gc-btn"
+                  icon={lucide.MessageCircle}
+                  iconProps={{ size: 12, strokeWidth: 1.6 }}
+                  title="Discord"
+                  onClick={() => app_events.open_url(server.discord)}
+                />
+              )}
+              {server.site && (
+                <shared_ui_iconbutton.IconButton
+                  className="gc-btn"
+                  icon={lucide.Globe}
+                  iconProps={{ size: 12, strokeWidth: 1.6 }}
+                  title="Site"
+                  onClick={() => app_events.open_url(server.site)}
+                />
+              )}
+            </span>
             <shared_ui_button.Button
               variant="action"
               className="gjoin"
