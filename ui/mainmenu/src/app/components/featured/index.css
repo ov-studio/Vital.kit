@@ -72,7 +72,6 @@ div.hero-img { filter: none; background: var(--bg3); }
   font-weight: 700;
   line-height: .98;
   color: var(--brand-neon-core);
-  text-shadow: 0 0 22px var(--brand-neon-glow), 0 2px 18px var(--k45);
 }
 .hero-desc {
   display: -webkit-box;
@@ -165,7 +164,6 @@ div.hero-img { filter: none; background: var(--bg3); }
   margin-left: auto;
   border-radius: 2px;
   background: var(--blue);
-  box-shadow: 0 0 8px var(--brand-neon-glow);
 }
 .feat-item--open {
   justify-content: center;
