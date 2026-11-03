@@ -119,7 +119,9 @@
   right: 0;
   z-index: 11;
   padding: 8px;
-  background: linear-gradient(var(--b10), var(--b10)), var(--bg11);
+  background:
+    linear-gradient(color-mix(in srgb, var(--blue) 30%, transparent), color-mix(in srgb, var(--blue) 30%, transparent)),
+    var(--mm-chrome);
   border-radius: 4px;
   box-shadow: 0 0 8px var(--k45);
   transform-origin: top right;
@@ -135,9 +137,9 @@
   border-bottom: 1px solid var(--b20);
 }
 .about-heading,
-.notif-heading { font-size: .85rem; font-weight: 600; color: var(--blue); }
+.notif-heading { font-size: .85rem; font-weight: 600; color: var(--brand-neon-core); }
 .about-sub,
-.notif-sub { font-size: .7rem; font-weight: 600; color: var(--text-soft); }
+.notif-sub { font-size: .7rem; font-weight: 600; color: var(--dim); }
 
 .about-list,
 .notif-list {
