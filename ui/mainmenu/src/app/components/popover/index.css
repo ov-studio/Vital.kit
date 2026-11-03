@@ -1,0 +1,51 @@
+.pop { position: relative; }
+.pop .ui-icon-btn { position: relative; }
+
+.pop-badge {
+  position: absolute;
+  top: -5px;
+  right: -6px;
+  padding: 1px 5px;
+  font-family: var(--font-geist), sans-serif;
+  font-size: .56rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  line-height: 1.4;
+  color: var(--bg);
+  background: var(--blue);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.pop-panel {
+  position: absolute;
+  top: calc(100% + 14px);
+  right: 0;
+  z-index: 11;
+  padding: 8px;
+  background:
+    linear-gradient(color-mix(in srgb, var(--blue) 30%, transparent), color-mix(in srgb, var(--blue) 30%, transparent)),
+    var(--mm-chrome);
+  border-radius: 4px;
+  box-shadow: 0 0 8px var(--k45);
+  transform-origin: top right;
+  opacity: 0;
+  animation: mm-menu-in .22s cubic-bezier(.22, 1, .36, 1) forwards;
+  cursor: default;
+}
+
+.pop-meta {
+  padding: 8px 10px 12px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--b20);
+}
+.pop-heading { font-size: .85rem; font-weight: 600; color: var(--brand-neon-core); }
+.pop-sub { margin-top: 4px; font-size: .7rem; font-weight: 600; color: var(--dim); }
+
+.pop-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

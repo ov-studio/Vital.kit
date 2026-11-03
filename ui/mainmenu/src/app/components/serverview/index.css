@@ -1,0 +1,29 @@
+.slist-filters { display: flex; align-items: flex-end; gap: 2px; }
+.slist-filters .ui-filter { flex: 1; min-width: 0; }
+
+.slist-filters .ui-filter .ui-filter-btn,
+.slist-filters .ui-filter .ui-filter-btn.active {
+  background: var(--mm-item);
+  border: 2px solid var(--mm-line-soft);
+}
+.slist-filters .ui-search input {
+  background: var(--mm-line-soft);
+}
+
+.slist-filters .ui-filter .ui-filter-btn.active,
+.slist-filters .ui-search input:focus {
+  background: var(--mm-item-on);
+  border-color: var(--mm-line-strong);
+}
+
+
+.ui-divider { border-width: 1px; border-color: var(--mm-line); }
+
+
+/* ── @media ── */
+@media (max-width: 720px) {
+  .slist-filters { flex-direction: column; align-items: stretch; }
+  .slist-filters .ui-search { order: 2; width: 100%; margin-top: 12px; }
+  .slist-filters .ui-search input,
+  .slist-filters .ui-search input:focus { width: 100%; }
+}

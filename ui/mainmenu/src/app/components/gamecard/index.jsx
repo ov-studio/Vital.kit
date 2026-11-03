@@ -8,12 +8,11 @@ import * as shared_ui_iconbutton from '@ui/iconbutton';
 import * as app_pic              from '../pic/index.jsx';
 import * as app_data             from '../../data/index.jsx';
 import * as app_events           from '../../events.js';
-import * as app_hooks            from '../../hooks.js';
 import './index.css';
 
 export function GameCard({ server, isFav, onToggleFav, style }) {
   const [bad, setBad] = react.useState(false);
-  const connection = app_hooks.useEventState('mainmenu:connection', app_events.get_connection);
+  const connection = app_data.useConnection();
   const here = app_data.is_connected_to(connection, server);
   const busy = here && connection.state === 'connecting';
   const players = here && !busy ? Math.max(1, server.players) : server.players;

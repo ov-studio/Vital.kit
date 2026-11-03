@@ -73,7 +73,7 @@
   transition: filter .3s ease;
 }
 .news-item:hover .news-cover { filter: saturate(1.2) brightness(1.25); }
-div.news-cover { padding-right: 44px; } /* keep the placeholder icon clear of the fade */
+div.news-cover { padding-right: 44px; }
 
 .news-info { display: flex; flex-direction: column; gap: 3px; min-width: 0; margin-right: auto; padding: 10px 0; }
 .news-title {

@@ -4,6 +4,7 @@ import * as app_pic    from '../pic/index.jsx';
 import * as app_data   from '../../data/index.jsx';
 import * as app_events from '../../events.js';
 import * as app_config from '../../config.js';
+import * as app_util   from '../../util.js';
 import './index.css';
 
 function newsEmptyText(status) {
@@ -15,9 +16,7 @@ function newsEmptyText(status) {
 export function News({ active }) {
   const { status, posts } = app_data.useNews(active);
   if (!posts.length) {
-    return (
-      <app_empty.Empty icon={lucide.Newspaper} className="news app-empty--boxed">{newsEmptyText(status)}</app_empty.Empty>
-    );
+    return <app_empty.Empty icon={lucide.Newspaper} className="news app-empty--boxed">{newsEmptyText(status)}</app_empty.Empty>;
   }
 
   return (
@@ -32,7 +31,7 @@ export function News({ active }) {
           <lucide.ArrowUpRight className="news-go" size={14} strokeWidth={2.2}/>
         </button>
       ))}
-      {Array.from({ length: Math.max(0, app_config.NEWS_SLOTS - posts.length) }, (_, i) => (
+      {app_util.slots(app_config.NEWS_SLOTS, posts.length).map((i) => (
         <div key={`open-${i}`} className="news-item news-item--open">
           <lucide.Newspaper size={16} strokeWidth={2}/>
           <span>No more news</span>

@@ -87,7 +87,6 @@ input[type="text"] { cursor: text; }
   min-height: 0;
 }
 
-/* HUD corner brackets */
 .center-panel::after,
 .play-section::before,
 .app-section::before {

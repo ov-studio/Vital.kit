@@ -5,7 +5,10 @@ import * as shared_ui_badge  from '@ui/badge';
 import * as app_pic          from '../pic/index.jsx';
 import * as app_events       from '../../events.js';
 import * as app_config       from '../../config.js';
+import * as app_util         from '../../util.js';
 import './index.css';
+
+const Online = ({ server }) => <><strong>{server.players}</strong>{server.max ? ` / ${server.max}` : ''} online</>;
 
 export function Featured({ visible, servers }) {
   const [idx, setIdx] = react.useState(0);
@@ -40,9 +43,7 @@ export function Featured({ visible, servers }) {
                 ? <><lucide.Ban size={14} strokeWidth={2.4}/>Server full</>
                 : <><lucide.Play size={12} strokeWidth={2.4} fill="currentColor"/>Play Now</>}
             </shared_ui_button.Button>
-            <span className="hero-viewers">
-              <strong>{active.players}</strong>{active.max ? ` / ${active.max}` : ''} online
-            </span>
+            <span className="hero-viewers"><Online server={active}/></span>
           </div>
         </div>
         {servers.length > 1 && (
@@ -65,15 +66,13 @@ export function Featured({ visible, servers }) {
             <app_pic.Pic src={f.logo} className="feat-thumb">{f.name.charAt(0).toUpperCase()}</app_pic.Pic>
             <span className="feat-info">
               <span className="feat-name">{f.name}</span>
-              <span className="feat-meta">
-                <strong>{f.players}</strong>{f.max ? ` / ${f.max}` : ''} online
-              </span>
+              <span className="feat-meta"><Online server={f}/></span>
             </span>
           </button>
         ))}
-        {Array.from({ length: Math.max(0, app_config.FEATURED_COUNT - servers.length) }, (_, i) => (
+        {app_util.slots(app_config.FEATURED_COUNT, servers.length).map((i) => (
           <div key={`open-${i}`} className="feat-item feat-item--open">
-            <lucide.Star size={16} strokeWidth={2} />
+            <lucide.Star size={16} strokeWidth={2}/>
             <span>Open featured slot</span>
           </div>
         ))}

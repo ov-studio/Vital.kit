@@ -67,7 +67,7 @@ function Notice({ notice }) {
 }
 
 export function ConnectionBar() {
-  const connection = app_hooks.useEventState('mainmenu:connection', app_events.get_connection);
+  const connection = app_data.useConnection();
   const notice     = app_hooks.useEventState('mainmenu:notice', app_events.get_notice);
   const active     = connection.state in STATUS;
   if (!active && !notice) return null;

@@ -1,4 +1,7 @@
 import * as app_config from './config.js';
+import * as app_util   from './util.js';
+
+const { text, link } = app_util;
 
 let settings      = null;
 let username      = null;
@@ -16,7 +19,7 @@ let manual_drop   = false;
 
 const emit = (name, detail) => window.dispatchEvent(new CustomEvent(name, { detail }));
 const post = (payload) => window.ipc?.postMessage(JSON.stringify(payload));
-const text = (v) => (typeof v === 'string' ? v.trim() : '');
+const send = (action) => () => post({ action });
 const merge = (prev, key, rows) => rows
   ? { status: 'ok', [key]: rows }
   : { status: prev[key].length ? 'ok' : 'error', [key]: prev[key] };
@@ -122,19 +125,20 @@ document.addEventListener('message', (e) => {
   catch {}
 });
 
-export const ready              = () => post({ action: 'ready' });
-export const drag               = () => post({ action: 'drag' });
-export const minimize           = () => post({ action: 'minimize' });
-export const exit               = () => post({ action: 'exit' });
-export const escape             = () => post({ action: 'escape' });
-export const hide               = () => post({ action: 'hide' });
-export const fetch_masterlist   = () => post({ action: 'masterlist' });
-export const scan_local_servers = () => post({ action: 'localservers' });
+export const ready              = send('ready');
+export const drag               = send('drag');
+export const minimize           = send('minimize');
+export const exit               = send('exit');
+export const escape             = send('escape');
+export const hide               = send('hide');
+export const fetch_masterlist   = send('masterlist');
+export const scan_local_servers = send('localservers');
+export const update_apply       = send('update_apply');
 export function disconnect() {
   manual_drop = true;
   post({ action: 'disconnect' });
 }
-export const dismiss_notice     = () => set_notice(null);
+export const dismiss_notice = () => set_notice(null);
 export function settings_update(values) {
   post({ action: 'settings_update', settings: values ?? {} });
   if (typeof values?.nickname === 'string') {
@@ -144,7 +148,8 @@ export function settings_update(values) {
 }
 
 export function open_url(url) {
-  if (/^https?:\/\//i.test(String(url ?? ''))) post({ action: 'open_url', url });
+  const href = link(url);
+  if (href) post({ action: 'open_url', url: href });
 }
 
 export function connect(ip, port, http_port) {
@@ -155,8 +160,6 @@ export function connect(ip, port, http_port) {
 export function update_download(name) {
   if (name) post({ action: 'update_download', name: String(name) });
 }
-
-export const update_apply = () => post({ action: 'update_apply' });
 
 export async function fetch_news() {
   post({ action: 'news' });

@@ -10,17 +10,14 @@ import * as app_config            from '../../../config.js';
 import * as app_hooks             from '../../../hooks.js';
 import './index.css';
 
-const SAVED = [
-  'nickname', 
-  'resolution', 
-  'window_mode', 
-  'vsync', 
-  'draw_distance', 
-  'particle_distance', 
-  'volume', 
-  'mouse_horizontal_senstivity', 
-  'mouse_vertical_senstivity'
-];
+const SAVED = Object.keys(app_config.SETTING_DEFAULTS).filter(key => !key.startsWith('max_'));
+
+const Group = ({ title, children }) => (
+  <>
+    <shared_ui_badge.Badge className="play-badge">{title}</shared_ui_badge.Badge>
+    <shared_ui_panel.Panel>{children}</shared_ui_panel.Panel>
+  </>
+);
 
 function filter_resolutions(max_w, max_h) {
   const list = app_config.RESOLUTIONS.filter(o => o.w <= max_w && o.h <= max_h);
@@ -61,8 +58,7 @@ export function ViewSettings() {
     <div className="view">
       <section className="app-section">
         <div className="view-body">
-          <shared_ui_badge.Badge className="play-badge">Profile</shared_ui_badge.Badge>
-          <shared_ui_panel.Panel>
+          <Group title="Profile">
             <app_settingrow.SettingRow name="Nickname" desc="The name shown in the menu. Leave empty to use your system username.">
               <shared_ui_editbox.EditBox
                 value={values.nickname}
@@ -73,10 +69,9 @@ export function ViewSettings() {
                 aria-label="Nickname"
               />
             </app_settingrow.SettingRow>
-          </shared_ui_panel.Panel>
+          </Group>
 
-          <shared_ui_badge.Badge className="play-badge">Display</shared_ui_badge.Badge>
-          <shared_ui_panel.Panel>
+          <Group title="Display">
             <app_settingrow.SettingRow name="Resolution" desc="Sets the size of the game window, up to your monitor's resolution.">
               <shared_ui_select.Select value={values.resolution} onChange={(v) => set({ resolution: v })} options={res_options} aria-label="Resolution"/>
             </app_settingrow.SettingRow>
@@ -86,34 +81,31 @@ export function ViewSettings() {
             <app_settingrow.SettingRow name="VSync" desc="Matches the frame rate to your display's refresh rate to prevent screen tearing.">
               <shared_ui_select.Select value={values.vsync ? 'enabled' : 'disabled'} onChange={(v) => set({ vsync: v === 'enabled' })} options={app_config.VSYNC_MODES} aria-label="VSync"/>
             </app_settingrow.SettingRow>
-          </shared_ui_panel.Panel>
+          </Group>
 
-          <shared_ui_badge.Badge className="play-badge">Graphics</shared_ui_badge.Badge>
-          <shared_ui_panel.Panel>
+          <Group title="Graphics">
             <app_settingrow.SettingRow name="Draw Distance" desc="Adjusts how far the world is rendered. Lower values improve performance.">
               <shared_ui_rangeslider.RangeSlider label="Draw distance" {...percent('draw_distance')}/>
             </app_settingrow.SettingRow>
             <app_settingrow.SettingRow name="Particle Distance" desc="Adjusts how far particle effects are rendered. Lower values improve performance.">
               <shared_ui_rangeslider.RangeSlider label="Particle distance" {...percent('particle_distance')}/>
             </app_settingrow.SettingRow>
-          </shared_ui_panel.Panel>
+          </Group>
 
-          <shared_ui_badge.Badge className="play-badge">Controls</shared_ui_badge.Badge>
-          <shared_ui_panel.Panel>
+          <Group title="Controls">
             <app_settingrow.SettingRow name="Horizontal Mouse Sensitivity" desc="Adjusts how quickly the camera turns left and right.">
               <shared_ui_rangeslider.RangeSlider label="Horizontal mouse sensitivity" {...percent('mouse_horizontal_senstivity')} min={1} max={200}/>
             </app_settingrow.SettingRow>
             <app_settingrow.SettingRow name="Vertical Mouse Sensitivity" desc="Adjusts how quickly the camera turns up and down.">
               <shared_ui_rangeslider.RangeSlider label="Vertical mouse sensitivity" {...percent('mouse_vertical_senstivity')} min={1} max={200}/>
             </app_settingrow.SettingRow>
-          </shared_ui_panel.Panel>
+          </Group>
 
-          <shared_ui_badge.Badge className="play-badge">Audio</shared_ui_badge.Badge>
-          <shared_ui_panel.Panel>
+          <Group title="Audio">
             <app_settingrow.SettingRow name="Master Volume" desc="Controls the overall volume of the game.">
               <shared_ui_rangeslider.RangeSlider label="Master volume" {...percent('volume')}/>
             </app_settingrow.SettingRow>
-          </shared_ui_panel.Panel>
+          </Group>
         </div>
       </section>
     </div>

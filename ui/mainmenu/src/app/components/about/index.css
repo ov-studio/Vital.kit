@@ -1,6 +1,4 @@
-.about-panel { min-width: 260px; }
-
-.about-sub { margin-top: 4px; }
+.about .pop-panel { min-width: 260px; }
 
 .about-row {
   display: flex;

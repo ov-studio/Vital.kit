@@ -86,66 +86,13 @@
   color: var(--white);
   background: color-mix(in srgb, var(--blue) 42%, transparent);
 }
-.hud .ui-icon-btn.hud-min {
-  color: var(--white);
-  background: color-mix(in srgb, var(--blue) 42%, transparent);
-  transition: color .15s, background .15s, opacity .15s;
-}
-.hud .ui-icon-btn.hud-min:hover,
-.hud .ui-icon-btn.hud-min.is-open {
-  color: var(--white);
-  background: color-mix(in srgb, var(--blue) 42%, transparent);
-  opacity: .75;
-}
+.hud .ui-icon-btn.hud-min,
 .hud .ui-icon-btn.hud-exit {
   color: var(--white);
-  background: color-mix(in srgb, var(--red, #e5484d) 50%, transparent);
   transition: color .15s, background .15s, opacity .15s, transform .15s;
 }
-.hud .ui-icon-btn.hud-exit:hover {
-  color: var(--white);
-  background: color-mix(in srgb, var(--red, #e5484d) 50%, transparent);
-  opacity: .75;
-}
+.hud .ui-icon-btn.hud-min  { background: color-mix(in srgb, var(--blue) 42%, transparent); }
+.hud .ui-icon-btn.hud-exit { background: color-mix(in srgb, var(--red, #e5484d) 50%, transparent); }
+.hud .ui-icon-btn.hud-min:hover,
+.hud .ui-icon-btn.hud-exit:hover { opacity: .75; }
 .hud .ui-icon-btn.hud-exit:active { transform: scale(.94); }
-
-.about,
-.notif { position: relative; }
-
-.about-panel,
-.notif-panel {
-  position: absolute;
-  top: calc(100% + 14px);
-  right: 0;
-  z-index: 11;
-  padding: 8px;
-  background:
-    linear-gradient(color-mix(in srgb, var(--blue) 30%, transparent), color-mix(in srgb, var(--blue) 30%, transparent)),
-    var(--mm-chrome);
-  border-radius: 4px;
-  box-shadow: 0 0 8px var(--k45);
-  transform-origin: top right;
-  opacity: 0;
-  animation: mm-menu-in .22s cubic-bezier(.22, 1, .36, 1) forwards;
-  cursor: default;
-}
-
-.about-meta,
-.notif-meta {
-  padding: 8px 10px 12px;
-  margin-bottom: 6px;
-  border-bottom: 1px solid var(--b20);
-}
-.about-heading,
-.notif-heading { font-size: .85rem; font-weight: 600; color: var(--brand-neon-core); }
-.about-sub,
-.notif-sub { font-size: .7rem; font-weight: 600; color: var(--dim); }
-
-.about-list,
-.notif-list {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}

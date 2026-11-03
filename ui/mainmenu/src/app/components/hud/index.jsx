@@ -9,13 +9,8 @@ import * as app_config           from '../../config.js';
 import * as app_hooks            from '../../hooks.js';
 import './index.css';
 
-function is_interactive(target) {
-  return Boolean(target.closest('button, a, input, textarea, select, [data-no-drag]'));
-}
-
 function on_bar_mouse_down(e) {
-  if (e.button !== 0) return;
-  if (is_interactive(e.target)) return;
+  if (e.button !== 0 || e.target.closest('button, a, input, textarea, select, [data-no-drag]')) return;
   e.preventDefault();
   app_events.drag();
 }
@@ -45,7 +40,7 @@ export function Hud() {
         icon={lucide.Minus}
         iconProps={{ size: 15, strokeWidth: 2.2 }}
         title="Minimize"
-        onClick={() => app_events.minimize()}
+        onClick={app_events.minimize}
       />
       <shared_ui_iconbutton.IconButton
         data-no-drag
@@ -53,7 +48,7 @@ export function Hud() {
         icon={lucide.X}
         iconProps={{ size: 15, strokeWidth: 2.2 }}
         title="Exit Game"
-        onClick={() => app_events.exit()}
+        onClick={app_events.exit}
       />
     </header>
   );

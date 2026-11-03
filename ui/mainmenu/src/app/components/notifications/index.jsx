@@ -1,7 +1,7 @@
 import * as lucide           from 'lucide-react';
 import * as shared_ui_button from '@ui/button';
+import * as app_popover      from '../popover/index.jsx';
 import * as app_events       from '../../events.js';
-import * as app_hooks        from '../../hooks.js';
 import './index.css';
 
 const mb = (n) => (n / 1048576).toFixed(1);
@@ -58,38 +58,24 @@ function UpdateItem({ u }) {
 }
 
 export function Notifications({ updates }) {
-  const { open, toggle, root } = app_hooks.usePopover();
   const has = updates.length > 0;
 
   return (
-    <div className="notif" ref={root} data-no-drag>
-      <button
-        type="button"
-        className={`ui-icon-btn notif-btn${open ? ' is-open' : ''}`}
-        aria-label={has ? 'Notifications: updates available' : 'Notifications'}
-        onClick={toggle}
-      >
-        <lucide.Bell size={15} strokeWidth={2.2}/>
-        {has && <span className="notif-badge">NEW</span>}
-      </button>
-
-      {open && (
-        <div className="notif-panel" role="dialog" aria-label="Notifications">
-          <div className="notif-meta">
-            <div className="notif-heading">Notifications</div>
-            <div className="notif-sub">
-              {has ? `${updates.length} update${updates.length > 1 ? 's' : ''} available` : 'Nothing new'}
-            </div>
-          </div>
-          {has ? (
-            <ul className="notif-list">
-              {updates.map((u) => <UpdateItem key={u.name} u={u}/>)}
-            </ul>
-          ) : (
-            <div className="notif-empty">You're all caught up.</div>
-          )}
-        </div>
+    <app_popover.Popover
+      className="notif"
+      icon={lucide.Bell}
+      title="Notifications"
+      label={has ? 'Notifications: updates available' : 'Notifications'}
+      badge={has ? 'NEW' : null}
+      sub={has ? `${updates.length} update${updates.length > 1 ? 's' : ''} available` : 'Nothing new'}
+    >
+      {has ? (
+        <ul className="pop-list">
+          {updates.map((u) => <UpdateItem key={u.name} u={u}/>)}
+        </ul>
+      ) : (
+        <div className="notif-empty">You're all caught up.</div>
       )}
-    </div>
+    </app_popover.Popover>
   );
 }

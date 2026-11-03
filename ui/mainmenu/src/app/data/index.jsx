@@ -2,11 +2,9 @@ import * as react      from 'react';
 import * as app_events from '../events.js';
 import * as app_config from '../config.js';
 import * as app_hooks  from '../hooks.js';
+import * as app_util   from '../util.js';
 
-const text = v => (typeof v === 'string' ? v.trim() : '');
-const link = v => (/^https?:\/\//i.test(text(v)) ? text(v) : null);
-const image = v => (/^https:\/\//i.test(text(v)) ? text(v) : null);
-
+const { text, link, image } = app_util;
 const count = v => (Number.isFinite(v) ? Math.max(0, v) : 0);
 const tag_list = v => (Array.isArray(v) ? [...new Set(v.filter(t => typeof t === 'string').map(t => t.trim().toLowerCase()).filter(Boolean))].slice(0, 6) : []);
 
@@ -47,6 +45,8 @@ function normalize_local(row) {
 export const is_connected_to = (connection, server) => connection.state !== 'idle'
   && connection.port === server.port
   && (connection.ip === server.ip || (server.local && app_events.is_loopback(connection.ip)));
+
+export const useConnection = () => app_hooks.useEventState('mainmenu:connection', app_events.get_connection);
 
 export function useLocalServers(active) {
   const rows = app_hooks.useEventState('mainmenu:localservers', app_events.get_localservers);
