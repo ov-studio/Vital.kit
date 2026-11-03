@@ -23,7 +23,7 @@
 }
 
 .notif-sub { margin-top: 4px; }
-.notif-empty { padding: 14px 10px; font-size: .8rem; font-weight: 500; color: var(--dim); }
+.notif-empty { padding: 14px 10px; font-size: .8rem; font-weight: 500; color: var(--text-soft); }
 
 .notif-item { padding: 10px; border-radius: 4px; }
 .notif-item + .notif-item { border-top: 1px solid var(--b10); }
