@@ -8,13 +8,14 @@ export const LINKS = [
   { label: 'Donate',         url: shared_config.DONATE  }
 ];
 
-export const FADE_MS             = 220;       // menu fade before the host hides the webview
-export const NEWS_REFRESH        = 5 * 60e3;  // news poll
-export const MASTERLIST_REFRESH  = 15e3;      // masterlist poll until the host sends its own (config/masterlist.json)
-export const LOCAL_SCAN_INTERVAL = 3e3;       // local server scan while the Play view is visible
-export const FEATURED_INTERVAL   = 5e3;       // featured hero rotation
+export const FADE_MS             = 220;      // menu fade before the host hides the webview
+export const NEWS_REFRESH        = 5 * 60e3;
+export const MASTERLIST_REFRESH  = 15e3;     // until the host sends its own (config/masterlist.json)
+export const LOCAL_SCAN_INTERVAL = 3e3;      // while the Masterlist view is visible
+export const FEATURED_INTERVAL   = 5e3;
 export const LOCAL_HOST          = '127.0.0.1';
-export const NEWS_SLOTS          = 3;     // fixed number of news rows; missing ones show as open slots
+export const NICKNAME_MAX        = 24;
+export const NEWS_SLOTS          = 3;        // fixed rows; missing posts show as open slots
 export const FEATURED_COUNT      = 3;
 export const CARD                = { minWidth: 210, gap: 14, ratio: 3 / 4 };
 
@@ -37,18 +38,16 @@ export const VSYNC_MODES = [
   { value: 'disabled', label: 'Disabled' }
 ];
 
-export const NICKNAME_MAX = 24;
-
 export const SETTING_DEFAULTS = {
-  nickname:               '',
-  resolution:             '1600x900',
-  window_mode:            'borderless',
-  vsync:                  true,
+  nickname:                    '',
+  resolution:                  '1600x900',
+  window_mode:                 'borderless',
+  vsync:                       true,
   draw_distance:               1,
   particle_distance:           1,
   volume:                      1,
   mouse_horizontal_senstivity: 1,
   mouse_vertical_senstivity:   1,
-  max_width:              1920,
-  max_height:             1080
+  max_width:                   1920,
+  max_height:                  1080
 };
