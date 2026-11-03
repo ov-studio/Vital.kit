@@ -2,16 +2,20 @@
 .mlist-filters .ui-filter { flex: 1; min-width: 0; }
 
 .mlist-filters .ui-filter .ui-filter-btn,
-.mlist-filters .ui-filter .ui-filter-btn.active,
-.mlist-filters .ui-search input {
+.mlist-filters .ui-filter .ui-filter-btn.active {
   background: var(--mm-item);
   border: 2px solid var(--mm-line-soft);
 }
+.mlist-filters .ui-search input {
+  background: var(--mm-line-soft);
+}
+
 .mlist-filters .ui-filter .ui-filter-btn.active,
 .mlist-filters .ui-search input:focus {
   background: var(--mm-item-on);
   border-color: var(--mm-line-strong);
 }
+
 
 .ui-divider { border-width: 1px; border-color: var(--mm-line); }
 
