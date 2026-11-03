@@ -41,6 +41,23 @@
 .news-item--open svg { flex-shrink: 0; }
 
 .news-cover {
+  --fade: linear-gradient(to right,
+    rgba(0, 0, 0, 1)    0%,
+    rgba(0, 0, 0, .987) 8.1%,
+    rgba(0, 0, 0, .951) 15.5%,
+    rgba(0, 0, 0, .896) 22.5%,
+    rgba(0, 0, 0, .825) 29%,
+    rgba(0, 0, 0, .741) 35.3%,
+    rgba(0, 0, 0, .648) 41.2%,
+    rgba(0, 0, 0, .55)  47.1%,
+    rgba(0, 0, 0, .45)  52.9%,
+    rgba(0, 0, 0, .352) 58.8%,
+    rgba(0, 0, 0, .259) 64.7%,
+    rgba(0, 0, 0, .175) 70.6%,
+    rgba(0, 0, 0, .104) 77.5%,
+    rgba(0, 0, 0, .049) 84.5%,
+    rgba(0, 0, 0, .013) 91.9%,
+    rgba(0, 0, 0, 0)    100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,8 +68,8 @@
   background: linear-gradient(135deg, var(--b15), var(--b05)), var(--bg3);
   color: var(--text-muted);
   filter: saturate(1.05) brightness(1);
-  -webkit-mask-image: linear-gradient(to right, #000 -5%, transparent);
-  mask-image: linear-gradient(to right, #000 -5%, transparent);
+  -webkit-mask-image: var(--fade);
+  mask-image: var(--fade);
   transition: filter .3s ease;
 }
 .news-item:hover .news-cover { filter: saturate(1.2) brightness(1.25); }
