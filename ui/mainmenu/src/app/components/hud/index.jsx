@@ -41,6 +41,7 @@ export function Hud() {
       <app_about.About/>
       <shared_ui_iconbutton.IconButton
         data-no-drag
+        className="hud-min"
         icon={lucide.Minus}
         iconProps={{ size: 15, strokeWidth: 2.2 }}
         title="Minimize"
