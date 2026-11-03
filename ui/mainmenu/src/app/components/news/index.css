@@ -24,7 +24,7 @@
   font: inherit;
   transition: background .3s;
 }
-.news-item:hover { background: linear-gradient(var(--b20), var(--b20)), var(--bg12); }
+.news-item:hover { background: linear-gradient(var(--b30), var(--b30)), var(--bg8); }
 
 .news-item--open,
 .news-item--open:hover {
