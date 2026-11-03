@@ -4,8 +4,8 @@
 .view-body > .ui-panel:last-child { margin-bottom: 0; }
 
 .view-body .ui-panel {
-  border: none;
+  border: 2px solid var(--mm-line-soft);
   border-radius: 6px;
   overflow: hidden;
-  background: var(--bg7);
+  background: var(--mm-item);
 }
