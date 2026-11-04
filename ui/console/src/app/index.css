@@ -332,7 +332,8 @@ body,
 .console-cmd input {
   width: 100%;
   flex: 1;
-  padding: 7px 12px 7px 30px;
+  height: 34px;
+  padding: 0 12px 0 30px;
   font-weight: 400;
   color: var(--white);
   border: none;
