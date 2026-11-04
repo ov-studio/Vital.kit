@@ -113,12 +113,12 @@ body,
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  height: 24px;
-  padding: 0 9px;
+  height: 27px;
+  padding: 0 11px;
   font-family: 'Geist', sans-serif;
-  font-size: .62rem;
+  font-size: .66rem;
   font-weight: 700;
-  letter-spacing: .06em;
+  letter-spacing: .05em;
   text-transform: uppercase;
   border: none;
   border-radius: 4px;
@@ -132,7 +132,7 @@ body,
 
 .filter-count {
   opacity: 0.45;
-  font-size: .6rem;
+  font-size: .62rem;
   font-weight: 600;
 }
 
@@ -147,8 +147,8 @@ body,
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 26px;
+  width: 27px;
+  height: 27px;
   padding: 0;
   border: none;
   border-radius: 4px;
