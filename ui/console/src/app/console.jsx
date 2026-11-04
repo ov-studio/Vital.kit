@@ -152,7 +152,6 @@ export const Console = () => {
   const handle_key_down = react.useCallback((e) => {
     if (bind_key && e.key === to_key(bind_key)) {
       e.preventDefault();
-      post('toggle');
       return;
     }
     if (document.activeElement !== input_ref.current) return;

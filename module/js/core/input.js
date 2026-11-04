@@ -49,11 +49,17 @@ window.to_key = (key) => {
 
 // Godot input forwarding.
 //
-// vsdk_forward_input is set/cleared exclusively by the C++ Webview wrapper
-// via eval(). Only one webview owns input at a time — the C++ input_forwarder
-// is the single source of truth. All listeners are always registered so that
-// the flag can be toggled without re-injecting scripts.
+// The flags below are set/cleared exclusively by the C++ Webview wrapper via eval(), which is the single
+// source of truth. All listeners are always registered so the flags can be toggled without re-injecting.
+//
+// - vsdk_forward_input: keyboard + mouse (webview marked forward_input by Lua; only one webview at a time).
+// - vsdk_forward_keys:  keyboard only, for the top fullscreen UI (main menu, console, or a Lua webview without forward_input) so engine binds such as the console key still work while it has focus.
+// - vsdk_forward_binds: bind names (e.g. ["F8", "Escape"]) or null. Windowed webviews only forward keydowns of these, so the console / main menu can still be toggled over them.
 window.vsdk_forward_input = false;
+window.vsdk_forward_keys = false;
+window.vsdk_forward_binds = null;
+const forward_keys = () => window.vsdk_forward_input || window.vsdk_forward_keys;
+const forward_bind = (e) => Array.isArray(window.vsdk_forward_binds) && window.vsdk_forward_binds.some((bind) => e.key === window.to_key(bind));
 
 window.addEventListener('mousemove', (e) => {
     if (!window.vsdk_forward_input) return;
@@ -103,7 +109,8 @@ window.addEventListener('wheel', (e) => {
 });
 
 window.addEventListener('keydown', (e) => {
-    if (!window.vsdk_forward_input) return;
+    if (!forward_keys() && !forward_bind(e)) return;
+    if (e.repeat) return;
     const modifier = ["Alt", "Shift", "Control", "Meta"].includes(e.key);
     window.ipc.postMessage(JSON.stringify({
         type: '_key_down',
@@ -118,7 +125,7 @@ window.addEventListener('keydown', (e) => {
 });
 
 window.addEventListener('keyup', (e) => {
-    if (!window.vsdk_forward_input) return;
+    if (!forward_keys()) return;
     const modifier = ["Alt", "Shift", "Control", "Meta"].includes(e.key);
     window.ipc.postMessage(JSON.stringify({
         type: '_key_up',
