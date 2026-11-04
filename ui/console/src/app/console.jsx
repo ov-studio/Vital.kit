@@ -3,6 +3,7 @@ import * as lucide               from 'lucide-react';
 import * as app_config           from './config';
 import * as app_util             from './util';
 import * as app_components       from './components';
+import * as shared_ui_badge      from '../../../../shared/ui/badge/index.jsx';
 import * as shared_ui_iconbutton from '../../../../shared/ui/iconbutton/index.jsx';
 
 const post = (action, extra) => ipc.postMessage(JSON.stringify({ action, ...extra }));
@@ -248,7 +249,7 @@ export const Console = () => {
     <div ref={console_ref} className="console" style={{ left: `${position.x}px`, top: `${position.y}px`, width: size.width, height: size.height }}>
       <div className={`header ${is_dragging ? 'dragging' : ''}`} onMouseDown={handle_mouse_down}>
         <div className="header-top">
-          <span className="slabel">Console</span>
+          <shared_ui_badge.Badge className="console-badge">Console</shared_ui_badge.Badge>
           <span className="count">#{total_count}</span>
         </div>
         <div className="header-bottom">
@@ -280,27 +281,29 @@ export const Console = () => {
         </div>
       </div>
 
-      <div ref={log_body_ref} className="log-body" onScroll={handle_scroll} onMouseDown={handle_log_mousedown}>
-        {logs.length === 0 ? (
-          <div className="log-empty">
-            <span className="slabel">No logs yet</span>
-            <span>Messages from the runtime will appear here</span>
-          </div>
-        ) : logs.map(log => {
-          const meta = seed_meta[log.type] ?? {};
-          return (
-            <app_components.LogRow
-              key={log.id}
-              type={log.type}
-              badge={meta.badge}
-              color={meta.color}
-              timestamp={log.timestamp}
-              message={log.message}
-              repeat_count={log.repeat_count}
-              is_hidden={!active_filters.has(log.type)}
-            />
-          );
-        })}
+      <div className="log-section">
+        <div ref={log_body_ref} className="log-body" onScroll={handle_scroll} onMouseDown={handle_log_mousedown}>
+          {logs.length === 0 ? (
+            <div className="log-empty">
+              <span className="slabel">No logs yet</span>
+              <span>Messages from the runtime will appear here</span>
+            </div>
+          ) : logs.map(log => {
+            const meta = seed_meta[log.type] ?? {};
+            return (
+              <app_components.LogRow
+                key={log.id}
+                type={log.type}
+                badge={meta.badge}
+                color={meta.color}
+                timestamp={log.timestamp}
+                message={log.message}
+                repeat_count={log.repeat_count}
+                is_hidden={!active_filters.has(log.type)}
+              />
+            );
+          })}
+        </div>
       </div>
 
       <div className="input-bar">
@@ -328,7 +331,7 @@ export const Console = () => {
         />
       </div>
 
-      <div className="resize-handle" onMouseDown={handle_resize_start}><span></span></div>
+      <div className="resize-handle" onMouseDown={handle_resize_start}/>
     </div>
   );
 };
