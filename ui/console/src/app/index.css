@@ -159,8 +159,7 @@ body,
 .ui-icon-btn.action-btn *,
 .ui-icon-btn.input-send-btn * { pointer-events: none; }
 
-.log-section,
-.input-bar {
+.log-section {
   border: 2px solid var(--mm-line-soft);
   background: var(--mm-section);
 }
@@ -304,7 +303,7 @@ body,
 .input-bar {
   display: flex;
   align-items: center;
-  padding: 8px;
+  padding: 0;
   gap: 8px;
   flex-shrink: 0;
 }
