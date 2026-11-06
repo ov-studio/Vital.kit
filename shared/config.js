@@ -1,9 +1,12 @@
 // Vital domains and URLs: the ONE place they are defined.
 // Used by the mainmenu app, the dev/build tooling (kit-plugin, sync-ui) and the
 // {{site}} / {{cdn}} tokens in every index.html. Change DOMAIN here and it changes everywhere.
-// Plain ESM with no imports, so it loads in both the browser bundle and Node.
+// The domain itself lives in config/site.json, which the game also reads, so it is defined once for both.
+// Only imports that single JSON file, so it loads in both the browser bundle and Node (20.19+/22.12+, as Vite 8 needs).
 
-export const DOMAIN = 'vital-sandbox.com';
+import site from '../config/site.json' with { type: 'json' };
+
+export const DOMAIN = site.domain;
 
 const origin = (subdomain) => `https://${subdomain ? `${subdomain}.` : ''}${DOMAIN}`;
 
