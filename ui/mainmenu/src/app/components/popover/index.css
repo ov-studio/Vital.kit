@@ -1,7 +1,7 @@
 .pop { position: relative; }
 .pop .ui-icon-btn { position: relative; }
 
-.pop-badge {
+.pop-badge.ui-badge {
   position: absolute;
   top: -5px;
   right: -6px;
@@ -11,9 +11,7 @@
   font-weight: 700;
   letter-spacing: .06em;
   line-height: 1.4;
-  color: var(--bg);
-  background: var(--blue);
-  border-radius: 4px;
+  text-transform: uppercase;
   pointer-events: none;
 }
 
