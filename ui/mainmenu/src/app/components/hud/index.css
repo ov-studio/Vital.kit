@@ -95,4 +95,5 @@
 .hud .ui-icon-btn.hud-exit { background: color-mix(in srgb, var(--red, #e5484d) 50%, transparent); }
 .hud .ui-icon-btn.hud-min:hover,
 .hud .ui-icon-btn.hud-exit:hover { opacity: .75; }
+.hud .ui-icon-btn.hud-min:active,
 .hud .ui-icon-btn.hud-exit:active { transform: scale(.94); }
