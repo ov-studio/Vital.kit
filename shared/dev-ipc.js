@@ -116,11 +116,37 @@ export async function install_dev_ipc_stub() {
             { label: 'Vital.godot', value: '4.7.2-stable' }
           ] });
 
-          // Dev only: open the page with ?update to simulate an outdated build.
+          // Dev only: open the page with ?update to simulate outdated components (?update=error makes every download fail).
           if (msg.action === 'ready' && new URLSearchParams(location.search).has('update')) {
-            dispatch_dev_message({ action: 'update', updates: [
-              { name: 'Vital.sandbox', current: 'v1.0.0', latest: 'v1.1.0', url: 'https://github.com/ov-studio/Vital.sandbox/releases' }
-            ] });
+            window.__dev_updates = [
+              { name: 'Vital.sandbox', current: 'v1.0.0', latest: 'v1.1.0', url: 'https://github.com/ov-studio/Vital.sandbox/releases' },
+              { name: 'Vital.kit',     current: 'v0.8.7', latest: 'v0.8.8', url: 'https://github.com/ov-studio/Vital.kit/releases' }
+            ];
+            dispatch_dev_message({ action: 'update', updates: window.__dev_updates });
+          }
+
+          // Dev only: simulate the update flow (Download -> progress -> Restart & Install).
+          if (msg.action === 'update_download' || msg.action === 'update_apply') {
+            const patch = (match, fields) => {
+              window.__dev_updates = window.__dev_updates.map((u) => match(u) ? { ...u, ...fields } : u);
+              dispatch_dev_message({ action: 'update', updates: window.__dev_updates });
+            };
+            if (msg.action === 'update_apply') patch((u) => u.state === 'ready', { state: 'installing', message: 'Installing…' });
+            else {
+              const fail = new URLSearchParams(location.search).get('update') === 'error';
+              const total = 48 * 1048576;
+              let received = 0;
+              const timer = setInterval(() => {
+                received = Math.min(total, received + total / 30);
+                if (fail && received > total / 2) {
+                  clearInterval(timer);
+                  patch((u) => u.name === msg.name, { state: 'error', message: 'Download failed' });
+                } else if (received >= total) {
+                  clearInterval(timer);
+                  patch((u) => u.name === msg.name, { state: 'ready', message: 'Ready to install' });
+                } else patch((u) => u.name === msg.name, { state: 'downloading', received, total, message: '' });
+              }, 100);
+            }
           }
         }
       };
