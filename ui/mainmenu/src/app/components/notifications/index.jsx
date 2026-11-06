@@ -18,7 +18,7 @@ function UpdateItem({ u }) {
     <li className="notif-item">
       <div className="notif-item-head">
         <span className="notif-item-name">{u.name}</span>
-        <span className="notif-item-ver">{u.current} → <strong>{u.latest}</strong></span>
+        <span className="notif-item-ver">{u.latest}</span>
       </div>
 
       {state === 'downloading' && (
