@@ -6,12 +6,8 @@
   top: -5px;
   right: -6px;
   padding: 1px 5px;
-  font-family: var(--font-geist), sans-serif;
   font-size: .56rem;
-  font-weight: 700;
   letter-spacing: .06em;
-  line-height: 1.4;
-  text-transform: uppercase;
   pointer-events: none;
 }
 
