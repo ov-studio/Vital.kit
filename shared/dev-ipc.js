@@ -116,8 +116,8 @@ export async function install_dev_ipc_stub() {
             { label: 'Vital.godot', value: '4.7.2-stable' }
           ] });
 
-          // Dev only: open the page with ?update to simulate outdated components (?update=error makes every download fail).
-          if (msg.action === 'ready' && new URLSearchParams(location.search).has('update')) {
+          // Dev only: outdated components are simulated by default (?update=none hides them, ?update=error makes every download fail).
+          if (msg.action === 'ready' && new URLSearchParams(location.search).get('update') !== 'none') {
             window.__dev_updates = [
               { name: 'Vital.sandbox', current: 'v1.0.0', latest: 'v1.1.0', url: 'https://github.com/ov-studio/Vital.sandbox/releases' },
               { name: 'Vital.kit',     current: 'v0.8.7', latest: 'v0.8.8', url: 'https://github.com/ov-studio/Vital.kit/releases' }
