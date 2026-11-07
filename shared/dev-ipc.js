@@ -14,6 +14,18 @@ export async function install_dev_ipc_stub() {
   if (import.meta.env.DEV) {
     new Function(await (await fetch('/kit')).text())();
 
+    // Dev only: fire a connection notice from the console at any time, from any view.
+    //   __dev_notice('failed' | 'lost' | 'kicked' | 'mismatch', 'optional reason')
+    //   __dev_notice(null) clears it.
+    const MISMATCH_REASON = 'Version mismatch: the server runs v0.9.12-internal and this client is v0.0.0-dev. Update so both are on the same major version.';
+    window.__dev_notice = (kind = 'failed', reason) => {
+      const target = { ip: '127.0.0.1', port: 7777 };
+      if (kind === null) return dispatch_dev_message({ action: 'connection', state: 'idle' });
+      const event = kind === 'mismatch' ? 'failed' : kind;
+      const text = reason ?? (kind === 'mismatch' ? MISMATCH_REASON : kind === 'kicked' ? 'Kicked by an admin: AFK too long' : kind === 'failed' ? 'Connection timed out' : '');
+      dispatch_dev_message({ action: 'connection', state: 'idle', event, reason: text, ...target });
+    };
+
     if (!window.ipc) {
       window.ipc = {
         postMessage(json) {
@@ -89,19 +101,24 @@ export async function install_dev_ipc_stub() {
             setTimeout(() => dispatch_dev_message({ action: 'masterlist', ok: mode !== 'error', servers: mode === 'empty' || mode === 'error' ? [] : rows }), 200);
           }
 
-          // Dev only: simulate the connection lifecycle. Add ?drop=kicked|lost|failed to see the error notices.
+          // Dev only: simulate the connection lifecycle. Add ?drop=kicked|lost|failed|mismatch to see the error notices
+          // (?delay=<ms> postpones them, e.g. ?drop=mismatch&delay=6000 leaves time to switch to another view and check the overlay).
           if (msg.action === 'connect') {
-            const drop = new URLSearchParams(location.search).get('drop');
+            const params = new URLSearchParams(location.search);
+            const drop = params.get('drop');
+            const delay = Math.max(0, Number(params.get('delay')) || 0);
             const target = { ip: msg.ip, port: msg.port };
             clearTimeout(window.__dev_conn);
             dispatch_dev_message({ action: 'connection', state: 'connecting', ...target });
             window.__dev_conn = setTimeout(() => {
-              if (drop === 'failed') return dispatch_dev_message({ action: 'connection', state: 'idle', event: 'failed', reason: 'Connection timed out', ...target });
+              if (drop === 'failed' || drop === 'mismatch') return dispatch_dev_message({
+                action: 'connection', state: 'idle', event: 'failed', reason: drop === 'mismatch' ? MISMATCH_REASON : 'Connection timed out', ...target
+              });
               dispatch_dev_message({ action: 'connection', state: 'connected', ...target });
               if (drop) window.__dev_conn = setTimeout(() => dispatch_dev_message({
                 action: 'connection', state: 'idle', event: drop, reason: drop === 'kicked' ? 'Kicked by an admin: AFK too long' : '', ...target
               }), 3000);
-            }, 1200);
+            }, 1200 + delay);
           }
           if (msg.action === 'disconnect') {
             clearTimeout(window.__dev_conn);
