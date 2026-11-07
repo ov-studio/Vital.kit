@@ -3,6 +3,7 @@ import * as app_events           from '../../events.js';
 import * as app_data             from '../../data/index.jsx';
 import * as app_hud              from '../hud/index.jsx';
 import * as app_sidebar          from '../sidebar/index.jsx';
+import * as app_connectionbar    from '../connectionbar/index.jsx';
 import * as app_views_play       from '../views/play/index.jsx';
 import * as app_views_masterlist from '../views/masterlist/index.jsx';
 import * as app_views_favs       from '../views/favs/index.jsx';
@@ -46,6 +47,7 @@ export function MainMenu() {
           <div key={id} className="view-slot" hidden={activeView !== id}>{el}</div>
         ))}
       </main>
+      <app_connectionbar.ConnectionOverlay visible={activeView !== 'play'}/>
     </>
   );
 }

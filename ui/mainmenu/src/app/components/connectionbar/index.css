@@ -93,8 +93,24 @@
 
 .ui-btn.connbar-btn { display: inline-flex; align-items: center; gap: 7px; padding: 7px 18px; font-size: .8rem; }
 
+.connbar-overlay {
+  position: fixed;
+  top: calc(var(--hud) + 14px);
+  right: 28px;
+  z-index: 70;
+  width: min(440px, calc(100vw - var(--hud) - 56px));
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, .55));
+}
+.connbar-overlay .connbar { animation: connbarSlideIn .25s ease; }
+.connbar-overlay .connbar-meta { white-space: normal; }
+
 
 /* ── @keyframes ── */
+@keyframes connbarSlideIn {
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
 @keyframes connbarSpin {
   to { transform: rotate(360deg); }
 }

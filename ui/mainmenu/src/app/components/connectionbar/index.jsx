@@ -82,3 +82,14 @@ export function ConnectionBar() {
     </section>
   );
 }
+
+export function ConnectionOverlay({ visible }) {
+  const notice = app_hooks.useEventState('mainmenu:notice', app_events.get_notice);
+  if (!visible || !notice) return null;
+
+  return (
+    <div className="connbar-overlay">
+      <Notice notice={notice}/>
+    </div>
+  );
+}
