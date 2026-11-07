@@ -41,14 +41,15 @@ function server_name(ip, port) {
 // Decides whether going back to idle was an error worth telling the user about.
 // The host may say so itself (d.event = 'kicked' | 'lost' | 'failed', d.reason);
 // otherwise it is inferred from the state we were in when the link dropped.
-function drop_notice(prev, d) {
+function drop_notice(prev, next, d) {
   if (manual_drop) return null;
   const event = text(d.event).toLowerCase();
   const kind = d.kicked === true || event === 'kicked' || event === 'kick' ? 'kicked'
              : event === 'failed' || event === 'lost' ? event
              : prev.state === 'connecting' ? 'failed'
              : 'lost';
-  return { kind, name: prev.name, ip: prev.ip, port: prev.port, reason: text(d.reason ?? d.message) };
+  const target = prev.state !== 'idle' ? prev : next;
+  return { kind, name: target.name, ip: target.ip, port: target.port, reason: text(d.reason ?? d.message) };
 }
 
 function set_notice(next) {
@@ -92,7 +93,7 @@ const incoming = {
     connection  = { state, ip, port, name: text(d.name) || server_name(ip, port) };
 
     if (state !== 'idle') set_notice(null);
-    else if (prev.state !== 'idle' || text(d.event)) set_notice(drop_notice(prev, d));
+    else if (prev.state !== 'idle' || text(d.event)) set_notice(drop_notice(prev, connection, d));
     manual_drop = false;
     emit('mainmenu:connection', connection);
   },
