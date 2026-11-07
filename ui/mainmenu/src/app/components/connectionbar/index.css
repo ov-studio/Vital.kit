@@ -99,7 +99,7 @@
   right: 28px;
   z-index: 70;
   width: min(440px, calc(100vw - var(--hud) - 56px));
-  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, .55));
+  box-shadow: 0 0 8px var(--k45);
 }
 .connbar-overlay .connbar { animation: connbarSlideIn .25s ease; }
 .connbar-overlay .connbar-meta { white-space: normal; }
