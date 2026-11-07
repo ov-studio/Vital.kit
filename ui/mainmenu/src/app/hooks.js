@@ -13,6 +13,16 @@ export function useEventState(event, get) {
   return value;
 }
 
+export function useEventHandler(event, on) {
+  const latest = react.useRef(on);
+  latest.current = on;
+  react.useEffect(() => {
+    const handler = (e) => latest.current(e);
+    window.addEventListener(event, handler);
+    return () => window.removeEventListener(event, handler);
+  }, [event]);
+}
+
 export function usePolling(fn, ms, active = true) {
   react.useEffect(() => {
     if (!active) return;

@@ -41,7 +41,7 @@ export function GameCard({ server, isFav, onToggleFav, style }) {
       )}
       title={
         <span className="gc-title-stack">
-          <app_pic.Pic src={server.logo} className="gc-logo">{server.name.charAt(0).toUpperCase()}</app_pic.Pic>
+          <app_pic.Pic src={server.logo} className="gc-logo">{server.initial}</app_pic.Pic>
           <span className="gc-title-text">{server.name}</span>
         </span>
       }

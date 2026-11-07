@@ -1,8 +1,8 @@
 // Disables native dragging everywhere (image ghosts, links, selected text) and
 // stops files dropped onto the webview from navigating away from the page.
 // Imported once per app entry, covers every element including ones added later.
-const stop = (e) => e.preventDefault();
 
+const stop = (e) => e.preventDefault();
 document.addEventListener('dragstart', stop, true);
 document.addEventListener('dragover', stop, true);
 document.addEventListener('drop', stop, true);

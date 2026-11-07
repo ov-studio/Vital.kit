@@ -2,6 +2,7 @@ import * as react          from 'react-dom/client';
 import * as app_console    from './console.jsx';
 import * as shared_dev_ipc from '../../../../shared/dev-ipc.js';
 import '../../../../shared/no-drag.js';
+import '../../../../shared/no-tab.js';
 import './index.css';
 
 
@@ -52,15 +53,6 @@ if (import.meta.env.DEV) {
     }, 2900);
   });
 }
-
-
-// Globally disable Tab-driven focus traversal across the entire console.
-// Capture phase (the `true` third arg) means this fires before React or
-// any element's own handlers see the event, so Tab is suppressed no
-// matter what gets added to the component tree later.
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Tab') e.preventDefault();
-}, true);
 
 
 const root = react.createRoot(document.getElementById('root'));

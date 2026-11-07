@@ -63,7 +63,7 @@ export function Featured({ visible, servers }) {
       <div className="featured-list">
         {servers.map((f, i) => (
           <button key={f.id} className={`feat-item${i === current ? ' on' : ''}`} onClick={() => setIdx(i)}>
-            <app_pic.Pic src={f.logo} className="feat-thumb">{f.name.charAt(0).toUpperCase()}</app_pic.Pic>
+            <app_pic.Pic src={f.logo} className="feat-thumb">{f.initial}</app_pic.Pic>
             <span className="feat-info">
               <span className="feat-name">{f.name}</span>
               <span className="feat-meta"><Online server={f}/></span>

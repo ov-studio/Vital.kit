@@ -29,7 +29,7 @@ function set_news(posts) {
   emit('mainmenu:news', news);
 }
 
-export const is_loopback = (ip) => ip === '127.0.0.1' || ip === 'localhost';
+export const is_loopback = (ip) => ip === app_config.LOCAL_HOST || ip === 'localhost';
 
 function server_name(ip, port) {
   const listed = masterlist.servers.find(s => s?.ip === ip && s?.port === port);
@@ -91,14 +91,9 @@ const incoming = {
     const port  = d.port ?? 0;
     connection  = { state, ip, port, name: text(d.name) || server_name(ip, port) };
 
-    if (state === 'idle') {
-      if (prev.state !== 'idle' || text(d.event)) set_notice(drop_notice(prev, d));
-      manual_drop = false;
-    }
-    else {
-      manual_drop = false;
-      set_notice(null);
-    }
+    if (state !== 'idle') set_notice(null);
+    else if (prev.state !== 'idle' || text(d.event)) set_notice(drop_notice(prev, d));
+    manual_drop = false;
     emit('mainmenu:connection', connection);
   },
 

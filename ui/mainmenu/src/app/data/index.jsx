@@ -14,6 +14,7 @@ function build(row, id, name, ip) {
   return {
     id,
     name,
+    initial: name.charAt(0).toUpperCase(),
     desc: text(row.description),
     players,
     max,

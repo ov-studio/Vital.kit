@@ -15,9 +15,9 @@ function UpdateItem({ u }) {
   const busy = state === 'downloading' || state === 'installing';
 
   return (
-    <li className="notif-item">
+    <li className="pop-row notif-item">
       <div className="notif-item-head">
-        <span className="notif-item-name">{u.name}</span>
+        <span className="pop-label">{u.name}</span>
         <span className="notif-item-ver">{u.latest}</span>
       </div>
 

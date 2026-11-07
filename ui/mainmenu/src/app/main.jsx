@@ -4,13 +4,10 @@ import * as app_events       from './events.js';
 import * as app_config       from './config.js';
 import * as shared_dev_ipc   from '../../../../shared/dev-ipc.js';
 import '../../../../shared/no-drag.js';
+import '../../../../shared/no-tab.js';
 import './index.css';
 
 await shared_dev_ipc.install_dev_ipc_stub();
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Tab') e.preventDefault();
-}, true);
 
 document.addEventListener('keydown', (e) => {
   const bind = app_events.get_bind();

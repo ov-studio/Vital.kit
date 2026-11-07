@@ -1,4 +1,3 @@
-import * as fs                from 'fs';
 import * as path              from 'path';
 import * as vite              from 'vite';
 import * as react             from '@vitejs/plugin-react';
@@ -25,7 +24,6 @@ export default vite.defineConfig({
 
   build: {
     outDir: '../build',
-    assetsInlineLimit: 100000000,
     target: 'es2022'
   }
 });

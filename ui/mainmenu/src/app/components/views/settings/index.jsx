@@ -37,11 +37,7 @@ export function ViewSettings() {
   const os_name = app_hooks.useEventState('mainmenu:username', app_events.get_os_username) || 'Player';
   const res_options = react.useMemo(() => filter_resolutions(values.max_width, values.max_height), [values.max_width, values.max_height]);
 
-  react.useEffect(() => {
-    const on_loaded = (e) => setValues(from_engine(e.detail));
-    window.addEventListener('mainmenu:settings_loaded', on_loaded);
-    return () => window.removeEventListener('mainmenu:settings_loaded', on_loaded);
-  }, []);
+  app_hooks.useEventHandler('mainmenu:settings_loaded', (e) => setValues(from_engine(e.detail)));
 
   const set = (patch) => {
     const next = { ...values, ...patch };

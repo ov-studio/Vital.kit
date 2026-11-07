@@ -5,18 +5,4 @@
   align-items: baseline;
   justify-content: space-between;
   gap: 16px;
-  padding: 9px 10px;
-  border-radius: 4px;
-  font-size: .8rem;
-  font-weight: 500;
-  color: var(--dim);
-  transition: color .25s;
-}
-.about-row:hover { color: var(--white); }
-.about-label {
-  font-size: .68rem;
-  font-weight: 600;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: var(--b90);
 }

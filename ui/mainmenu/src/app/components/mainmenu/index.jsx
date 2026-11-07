@@ -1,6 +1,7 @@
 import * as react                from 'react';
 import * as app_events           from '../../events.js';
 import * as app_data             from '../../data/index.jsx';
+import * as app_hooks            from '../../hooks.js';
 import * as app_hud              from '../hud/index.jsx';
 import * as app_sidebar          from '../sidebar/index.jsx';
 import * as app_connectionbar    from '../connectionbar/index.jsx';
@@ -18,11 +19,7 @@ export function MainMenu() {
 
   app_data.useMasterlistPolling();
 
-  react.useEffect(() => {
-    const on_loaded = (e) => setFavs(favs_from(e.detail));
-    window.addEventListener('mainmenu:settings_loaded', on_loaded);
-    return () => window.removeEventListener('mainmenu:settings_loaded', on_loaded);
-  }, []);
+  app_hooks.useEventHandler('mainmenu:settings_loaded', (e) => setFavs(favs_from(e.detail)));
 
   const toggleFav = id => {
     const next = new Set(favs);

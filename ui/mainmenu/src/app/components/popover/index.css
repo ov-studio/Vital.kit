@@ -36,6 +36,23 @@
 .pop-heading { font-size: .85rem; font-weight: 600; color: var(--brand-neon-core); }
 .pop-sub { margin-top: 4px; font-size: .7rem; font-weight: 600; color: var(--dim); }
 
+.pop-row {
+  padding: 9px 10px;
+  border-radius: 4px;
+  font-size: .8rem;
+  font-weight: 500;
+  color: var(--dim);
+  transition: color .25s;
+}
+.pop-row:hover { color: var(--white); }
+.pop-label {
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--b90);
+}
+
 .pop-list {
   display: flex;
   flex-direction: column;

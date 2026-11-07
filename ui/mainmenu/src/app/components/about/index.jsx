@@ -11,8 +11,8 @@ export function About() {
     <app_popover.Popover className="about" icon={lucide.Info} title="About" sub="Component versions">
       <ul className="pop-list">
         {versions.map((v) => (
-          <li key={v.label} className="about-row">
-            <span className="about-label">{v.label}</span>
+          <li key={v.label} className="pop-row about-row">
+            <span className="pop-label">{v.label}</span>
             <span className="about-value">{v.value}</span>
           </li>
         ))}
