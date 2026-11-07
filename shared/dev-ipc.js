@@ -14,9 +14,8 @@ export async function install_dev_ipc_stub() {
   if (import.meta.env.DEV) {
     new Function(await (await fetch('/kit')).text())();
 
-    // Dev only: fire a connection notice from the console at any time, from any view.
-    //   __dev_notice('failed' | 'lost' | 'kicked' | 'mismatch', 'optional reason')
-    //   __dev_notice(null) clears it.
+    // Dev only: show a connection notice from the console, e.g. __dev_notice('mismatch').
+    // Kinds: failed, lost, kicked, mismatch. __dev_notice(null) clears it.
     const MISMATCH_REASON = 'Version mismatch: the server runs v0.9.12-internal and this client is v0.0.0-dev. Update so both are on the same major version.';
     window.__dev_notice = (kind = 'failed', reason) => {
       const target = { ip: '127.0.0.1', port: 7777 };
@@ -101,8 +100,8 @@ export async function install_dev_ipc_stub() {
             setTimeout(() => dispatch_dev_message({ action: 'masterlist', ok: mode !== 'error', servers: mode === 'empty' || mode === 'error' ? [] : rows }), 200);
           }
 
-          // Dev only: simulate the connection lifecycle. Add ?drop=kicked|lost|failed|mismatch to see the error notices
-          // (?delay=<ms> postpones them, e.g. ?drop=mismatch&delay=6000 leaves time to switch to another view and check the overlay).
+          // Dev only: simulate a connection. Add ?drop=kicked|lost|failed|mismatch to see an error notice.
+          // Add ?delay=<ms> to show it later, so you can switch views first.
           if (msg.action === 'connect') {
             const params = new URLSearchParams(location.search);
             const drop = params.get('drop');
