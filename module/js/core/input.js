@@ -114,6 +114,7 @@ window.addEventListener('keydown', (e) => {
     const modifier = ["Alt", "Shift", "Control", "Meta"].includes(e.key);
     window.ipc.postMessage(JSON.stringify({
         type: '_key_down',
+        input: !!window.vsdk_forward_input,
         key: e.key,
         code: e.code,
         keyCode: e.keyCode,
@@ -129,6 +130,7 @@ window.addEventListener('keyup', (e) => {
     const modifier = ["Alt", "Shift", "Control", "Meta"].includes(e.key);
     window.ipc.postMessage(JSON.stringify({
         type: '_key_up',
+        input: !!window.vsdk_forward_input,
         key: e.key,
         code: e.code,
         keyCode: e.keyCode,
