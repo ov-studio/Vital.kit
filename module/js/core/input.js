@@ -39,9 +39,14 @@ window.vsdk_forward_binds = null;
 const forward_keys = () => window.vsdk_forward_input || window.vsdk_forward_keys;
 const forward_bind = (e) => Array.isArray(window.vsdk_forward_binds) && window.vsdk_forward_binds.some((bind) => e.key === window.to_key(bind));
 
+// Focus reporting: lets the engine know whether this page really holds the focus (also when the user clicked into it),
+// so hiding a webview that was never focused doesn't pull the focus away from another one.
 window.addEventListener('focus', () => window.ipc.postMessage(JSON.stringify({ type: '_focus', state: true })));
 window.addEventListener('blur', () => window.ipc.postMessage(JSON.stringify({ type: '_focus', state: false })));
 window.ipc.postMessage(JSON.stringify({ type: '_focus', state: document.hasFocus() }));
+
+// TEMP debug: reports every keydown the page receives, with the forwarding flags (remove after the F8 test)
+window.addEventListener('keydown', (e) => window.ipc.postMessage(JSON.stringify({ type: '_debug', key: e.key, input: window.vsdk_forward_input, keys: window.vsdk_forward_keys, focus: document.hasFocus() })), true);
 
 window.addEventListener('mousemove', (e) => {
     if (!window.vsdk_forward_input) return;
