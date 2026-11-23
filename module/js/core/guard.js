@@ -14,7 +14,6 @@
 
 // Accelerator blocking: prevents browser-native actions (reload, devtools,
 // print, find, view-source) from firing when the webview is focused.
-/*
 window.addEventListener('keydown', (e) => {
     const blocked_keys = new Set(['F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12']);
     if (blocked_keys.has(e.key)) { e.preventDefault(); }
@@ -57,4 +56,3 @@ try {
         try { history.pushState({ vsdk: 1 }, ''); } catch (_) {}
     });
 } catch (_) {}
-*/
