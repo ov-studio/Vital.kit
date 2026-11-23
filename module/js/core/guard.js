@@ -23,7 +23,6 @@ window.addEventListener('keydown', (e) => {
         if (blocked_combos.has(e.code)) { e.preventDefault(); }
     }
 }, true);
-*/
 
 
 // Disables the browser's native right-click context menu to prevent
@@ -58,3 +57,4 @@ try {
         try { history.pushState({ vsdk: 1 }, ''); } catch (_) {}
     });
 } catch (_) {}
+*/
