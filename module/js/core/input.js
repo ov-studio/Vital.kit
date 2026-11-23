@@ -46,7 +46,7 @@ window.addEventListener('blur', () => window.ipc.postMessage(JSON.stringify({ ty
 window.ipc.postMessage(JSON.stringify({ type: '_focus', state: document.hasFocus() }));
 
 // TEMP debug: reports every keydown the page receives, with the forwarding flags (remove after the F8 test)
-window.addEventListener('keydown', (e) => window.ipc.postMessage(JSON.stringify({ type: '_debug', key: e.key, input: window.vsdk_forward_input, keys: window.vsdk_forward_keys, focus: document.hasFocus() })), true);
+window.addEventListener('keydown', (e) => window.ipc.postMessage(JSON.stringify({ type: '_debug', key: e.key, input: window.vsdk_forward_input, keys: window.vsdk_forward_keys, focus: document.hasFocus(), repeat: e.repeat })), true);
 
 window.addEventListener('mousemove', (e) => {
     if (!window.vsdk_forward_input) return;
