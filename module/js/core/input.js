@@ -39,6 +39,10 @@ window.vsdk_forward_binds = null;
 const forward_keys = () => window.vsdk_forward_input || window.vsdk_forward_keys;
 const forward_bind = (e) => Array.isArray(window.vsdk_forward_binds) && window.vsdk_forward_binds.some((bind) => e.key === window.to_key(bind));
 
+window.addEventListener('focus', () => window.ipc.postMessage(JSON.stringify({ type: '_focus', state: true })));
+window.addEventListener('blur', () => window.ipc.postMessage(JSON.stringify({ type: '_focus', state: false })));
+window.ipc.postMessage(JSON.stringify({ type: '_focus', state: document.hasFocus() }));
+
 window.addEventListener('mousemove', (e) => {
     if (!window.vsdk_forward_input) return;
     window.ipc.postMessage(JSON.stringify({
